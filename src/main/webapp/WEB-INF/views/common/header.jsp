@@ -24,7 +24,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="" class="nav-a">포인트상점</a>
+                        <a href="${path}/store"  class="nav-a">포인트상점</a>
                     </li>
                     <li>
                         <a href="" class="nav-a">플레이</a>
