@@ -10,58 +10,181 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="navBgColor" value=""/>
 </jsp:include>
-    <section >
+    <section>
         <div class="mainpage">
             <img class="banner-img" src="${path}/resources/images/mainpage/LeagueofLegends_LCK_Spring2023_Playoffs_Teams_Players.jpg">
         </div>
-        <div class="center-1280 background-img mainpage mainHeight">
-            <div class="width-1280 page-margin">
+        <div class="center-1280 background-img bgImgMatch mainpage mainHeight centerSort">
+            <div class="width-1280 mainMargin">
                 <div>
-                    <p class="subTitle fs-20">TODAY'S MATCH</p>
-                    <p class="mainTitle fs-35">오늘의 경기</p>
+                    <p class="subTitle fs-20 centerSort">TODAY'S MATCH UP</p>
+                    <p class="mainTitle fs-55 centerSort" style="margin-bottom: 50px;">오늘의 경기</p>
                 </div>
-                <div class="" style="height: 85%; background-color: blue;">
-                    <div>
-                        <p class="content">2023.07.23</p>
+                <div class="todayMatchAllDiv">
+                    <div class="totayMatchDiv">
+                        <div class="totayMatch">
+                            <div class="homeTeamDiv centerSort">
+                                <img src="${path}/resources/images/logo/brion_logo_big2.png">
+                                <p class="title fs-55">BRO</p>
+                            </div>
+                            <div class="timeVsDiv">
+                                <p class="time fs-20">15:00</p>
+                                <p class="content fs-70 fw-bold">VS</p>
+                            </div>
+                            <div class="awayTeamDiv centerSort">
+                                <p class="title fs-55">BRO</p>
+                                <img src="${path}/resources/images/logo/dplus_logo_white.png">
+                            </div>
+                        </div>
                     </div>
-                    <div>
-
+                    <div class="totayMatchDiv">
+                        <div class="totayMatch">
+                            <div class="homeTeamDiv centerSort">
+                                <img src="${path}/resources/images/logo/freecs_logo_big.png">
+                                <p class="title fs-55">BRO</p>
+                            </div>
+                            <div class="timeVsDiv">
+                                <p class="time fs-20">15:00</p>
+                                <p class="content fs-70 fw-bold">VS</p>
+                            </div>
+                            <div class="awayTeamDiv centerSort">
+                                <p class="title fs-55">BRO</p>
+                                <img src="${path}/resources/images/logo/t1_logo_big.png">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="center-1280 background-img mainpage mainHeight">
-            <div class="width-1280 page-margin">
+        <div class="center-1280 background-img bgImgRank mainpage mainHeight centerSort">
+            <div class="width-1280 mainMargin">
                 <div>
-                    <p class="subTitle fs-20">TEAM STANDINGS</p>
-                    <p class="mainTitle fs-35">팀 순위</p>
+                    <p class="subTitle fs-20 centerSort">TEAM STANDINGS</p>
+                    <p class="mainTitle fs-55 centerSort" style="margin-bottom: 50px;">팀 순위</p>
                 </div>
-                <div class="" style="height: 85%; background-color: blue;">
-                    <div>
-                        <p class="content">2023.07.23</p>
+                <div class="rankAllDiv">
+                    <!-- 1~5등 팀 -->
+                    <div class="rankDiv">
+                        <div class="rankInfoDiv">
+                            <div class="rankOneDiv">
+                                <div class="rank centerSort">
+                                    <p class="title fs-55">1</p>
+                                </div>
+                                <div class="rankTeam centerSort">
+                                    <p class="title fs-55">T1</p>
+                                </div>
+                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/t1_logo_big.png"></div>
+                            </div>
+                        </div>
+                        <div class="rankInfoDiv">
+                            <div class="rankOneDiv">
+                                <div class="rank centerSort">
+                                    <p class="title fs-55">1</p>
+                                </div>
+                                <div class="rankTeam centerSort">
+                                    <p class="title fs-55">T1</p>
+                                </div>
+                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/drx_logo_big2.png"></div>
+                            </div>
+                        </div>
+                        <div class="rankInfoDiv">
+                            <div class="rankOneDiv">
+                                <div class="rank centerSort">
+                                    <p class="title fs-55">1</p>
+                                </div>
+                                <div class="rankTeam centerSort">
+                                    <p class="title fs-55">T1</p>
+                                </div>
+                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/freecs_logo_big.png"></div>
+                            </div>
+                        </div>
+                        <div class="rankInfoDiv">
+                            <div class="rankOneDiv">
+                                <div class="rank centerSort">
+                                    <p class="title fs-55">1</p>
+                                </div>
+                                <div class="rankTeam centerSort">
+                                    <p class="title fs-55">T1</p>
+                                </div>
+                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/geng_logo_big2.png"></div>
+                            </div>
+                        </div>
+                        <div class="rankInfoDiv">
+                            <div class="rankOneDiv">
+                                <div class="rank centerSort">
+                                    <p class="title fs-55">1</p>
+                                </div>
+                                <div class="rankTeam centerSort">
+                                    <p class="title fs-55">T1</p>
+                                </div>
+                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/hanwha_logo_big2.png"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-
+                    <!-- 6~10등 팀 -->
+                    <div class="rankDiv">
+                        <div class="rankInfoDiv">
+                            <div class="rankOneDiv">
+                                <div class="rank centerSort">
+                                    <p class="title fs-55">1</p>
+                                </div>
+                                <div class="rankTeam centerSort">
+                                    <p class="title fs-55">T1</p>
+                                </div>
+                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/kt_logo_big2.png"></div>
+                            </div>
+                        </div>
+                        <div class="rankInfoDiv">
+                            <div class="rankOneDiv">
+                                <div class="rank centerSort">
+                                    <p class="title fs-55">1</p>
+                                </div>
+                                <div class="rankTeam centerSort">
+                                    <p class="title fs-55">T1</p>
+                                </div>
+                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/redforce_logo_big.png"></div>
+                            </div>
+                        </div>
+                        <div class="rankInfoDiv">
+                            <div class="rankOneDiv">
+                                <div class="rank centerSort">
+                                    <p class="title fs-55">1</p>
+                                </div>
+                                <div class="rankTeam centerSort">
+                                    <p class="title fs-55">T1</p>
+                                </div>
+                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/sandbox_logo_big.png"></div>
+                            </div>
+                        </div>
+                        <div class="rankInfoDiv">
+                            <div class="rankOneDiv">
+                                <div class="rank centerSort">
+                                    <p class="title fs-55">1</p>
+                                </div>
+                                <div class="rankTeam centerSort">
+                                    <p class="title fs-55">T1</p>
+                                </div>
+                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/brion_logo_big2.png"></div>
+                            </div>
+                        </div>
+                        <div class="rankInfoDiv">
+                            <div class="rankOneDiv">
+                                <div class="rank centerSort">
+                                    <p class="title fs-55">1</p>
+                                </div>
+                                <div class="rankTeam centerSort">
+                                    <p class="title fs-55">T1</p>
+                                </div>
+                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/dplus_logo_white.png"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="center-1280 background-img mainpage mainHeight">
-            <div class="width-1280 page-margin">
-                <div>
-                    <p class="subTitle fs-20">TEAM STANDINGS</p>
-                    <p class="mainTitle fs-35">영상</p>
-                </div>
-                <div class="" style="height: 85%; background-color: blue;">
-                    <div>
-                        <p class="content">2023.07.23</p>
-                    </div>
-                    <div>
 
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- 영상 -->
+
     </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
