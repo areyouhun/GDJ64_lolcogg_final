@@ -11,9 +11,155 @@
 .background-img {
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
+}
+
+.bgImgMatch{
+    background-image: linear-gradient(rgba(15, 15, 15, 0.87),
+    rgba(15, 15, 15, 0.87)) ,url(/resources/images/mainpage/main1.webp);
+}
+
+.bgImgRank{
+    background-image: linear-gradient(rgba(15, 15, 15, 0.85),
+    rgba(15, 15, 15, 0.87)) ,url(/resources/images/mainpage/main2.jpg);
 }
 
 /* 스크롤 페이지 높이 조절 */
 .mainHeight {
     height: 100vh;
+}
+
+/* 중앙정렬 */
+.centerSort {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 폰트크기 */
+.fs-40 {
+    font-size: 40px;
+}
+
+.fs-55{
+    font-size: 55px;
+}
+
+.fs-70{
+    font-size: 70px;
+}
+
+/* 마진 */
+.mainMargin{
+    margin: 100px 0px;
+}
+
+/* ==== 오늘의 경기 ==== */
+.todayMatchAllDiv{
+    height: 85%;
+    width: 1280px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.totayMatchDiv {
+    background-color: var(--lol-black);
+    border: 4px solid var(--khy-bg-gray);
+    border-radius: 20px;
+    height: 40%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.totayMatch{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.homeTeamDiv img {
+    max-width: 200px;
+    max-height: 160px;
+    margin-right: 35px;
+}
+
+.awayTeamDiv img {
+    max-width: 200px;
+    max-height: 160px;
+    margin-left: 35px;
+}
+
+.timeVsDiv{
+    text-align: center;
+    margin: 80px;
+}
+
+.time{
+    color: var(--lol-mainblue);
+    font-family: 'SUIT';
+}
+
+/* ==== 팀 순위 ==== */
+.rankAllDiv{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rankInfoDiv{
+    /* height: 18%; */
+    /* width: 49.5%; */
+
+    background-color: var(--lol-black);
+    border: 4px solid var(--khy-bg-gray);
+    border-radius: 20px;
+
+    margin-bottom: 7px;
+}
+
+.rankDiv{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 49.8%;
+}
+
+.rankOneDiv{
+    margin: 30px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rankOneDiv img{
+    max-width: 110px;
+    max-height: 70px;
+}
+
+.rank p{
+    text-align: center;
+}
+
+.rank{
+    width: 10%;
+}
+
+.rankTeam{
+    width: 60%;
+    display: flex;
+    justify-content: end;
+    margin-right: 20px;
+}
+
+.rankLogo{
+    width: 25%;
+}
+
+.rankTeam p{
+    text-align: right;
 }
