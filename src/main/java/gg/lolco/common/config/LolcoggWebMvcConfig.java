@@ -29,7 +29,6 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("index");
 		registry.addViewController("/template").setViewName("template");
-		registry.addViewController("/store").setViewName("store/storeMain");
 	}
 	
 	@Override

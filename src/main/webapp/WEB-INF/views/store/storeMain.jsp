@@ -39,6 +39,7 @@
 	    width: 1.2rem;
 	    height: 1.2rem;
         z-index: 1;
+        
 	}
 	#storeSearch{
 	    background-color: var(--lol-black);
@@ -77,6 +78,7 @@
     	height: 16rem;
 	    background-color: var(--bg-gray);
 	    border: 1px solid var(--lol-mainblue);
+	    cursor: pointer;
 	}
 	.item{
 		color: var(--lol-white);
@@ -132,7 +134,7 @@
 	}
 	#modalItemDetail{
 		display: flex;
-		width: 100%;
+		width: 90%;
 	}
 	#modalContent>p{
 		font-family: EF_MACHO;
@@ -233,7 +235,7 @@
                 <div>
                 	<div class="storeTheme">
                 		<h3 id="hotItem">LCK 랜덤선수팩</h3>
-	                    <a href="">전체보기></a>
+	                    <a href="${path}/store/playerPack">전체보기></a>
                 	</div>
                 	<div class="itemArray">
                 		<div class="item">
@@ -271,46 +273,50 @@
                 	</div>
                 </div>
                 <hr class="storeLine">
-                <div>
-                	<div class="storeTheme">
-                		<h3 id="hotItem">이모티콘 랜덤팩</h3>
-	                    <a href="">전체보기></a>
-                	</div>
-                	<div class="itemArray">
-                		<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                	</div>
-                </div>
+                <c:if test="${not empty items}">
+            		<c:forEach var="i" items="${items }">
+		                <div>
+		                	<div class="storeTheme">
+		                		<h3 id="hotItem">이모티콘 랜덤팩</h3>
+			                    <a href="">전체보기></a>
+		                	</div>
+		                	<div class="itemArray">
+		                		<div class="item">
+			                        <img class="checkBuyItem" src="${path}/resources/images/emoticon/${i.itemFilename}">
+			                        <h4>${i.itemName }</h4>
+			                        <div>
+			                            <img src="${path}/resources/images/store/pointImg.png">
+			                            <h5>${i.itemPrice }</h5>
+			                        </div>
+		                    	</div>
+		                    	<div class="item">
+			                        <img src="${path}/resources/images/store/PRM_10.png">
+			                        <h4>프리미엄 선수팩 10장</h4>
+			                        <div>
+			                            <img src="${path}/resources/images/store/pointImg.png">
+			                            <h5>975</h5>
+			                        </div>
+		                    	</div>
+		                    	<div class="item">
+			                        <img src="${path}/resources/images/store/PRM_10.png">
+			                        <h4>프리미엄 선수팩 10장</h4>
+			                        <div>
+			                            <img src="${path}/resources/images/store/pointImg.png">
+			                            <h5>975</h5>
+			                        </div>
+		                    	</div>
+		                    	<div class="item">
+			                        <img src="${path}/resources/images/store/PRM_10.png">
+			                        <h4>프리미엄 선수팩 10장</h4>
+			                        <div>
+			                            <img src="${path}/resources/images/store/pointImg.png">
+			                            <h5>975</h5>
+			                        </div>
+		                    	</div>
+		                	</div>
+		                </div>
+	                </c:forEach>
+	            </c:if>
                 <hr class="storeLine">
                 <div>
                 	<div class="storeTheme">
@@ -379,7 +385,7 @@
 				</div>
 				<div id="moadlButton">
 					<button id="modalClose">취소</button>
-					<button>확인</button>
+					<button id="modalPurchase">확인</button>
 				</div>
 			</div>
  		</div>
@@ -430,6 +436,9 @@
 			$('#modalImg').attr("src","")
 			$('#mask').hide();
 			$('.storeModal').hide();
+		})
+		$('#modalPurchase').click(function(e){
+			location.href='${path}/store/purchase'
 		})
 	});
 

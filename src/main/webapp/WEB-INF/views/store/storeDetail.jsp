@@ -13,21 +13,26 @@
 	.page-margin {
 	    margin: 0px;
 	}
-	#storeMainName{
+	.storeChoice{
+		display: flex;
+		justify-content: center;
+	}
+	.storeChoice>a{
 	    color: var(--lol-white);
 	    font-family: EF_MACHO;
-	    font-size: 40px;
-	    text-align: center;
+	    font-size: 30px;
+	    margin: 1rem;
 	}
 	.storeLine{
 	    width: 1280px;
 	    margin-top: 1rem;
 	    margin-bottom: 2rem;
 	}
-	#hotItem{
+	.arrayPoint>a{
 		color: var(--lol-white);
 	    font-family: EF_MACHO;
-	    font-size: 25px;
+	    font-size: 17px;
+	    margin: 0.5rem;
 	}
 	.storeTheme{
 		display:flex;
@@ -68,23 +73,31 @@
 	}
 	.itemArray{
 		display: flex;
-		justify-content: space-evenly;
+		justify-content: flex-start;
 	    margin-top: 2rem;
     	margin-bottom: 3rem;
+    	flex-wrap: wrap;
 	}
 	.item>img{
-	    width: 16rem;
-    	height: 16rem;
+	    width: 17rem;
+    	height: 17rem;
 	    background-color: var(--bg-gray);
 	    border: 1px solid var(--lol-mainblue);
 	}
 	.item{
 		color: var(--lol-white);
     	font-family: "SUIT-Regular";
+    	margin-bottom: 3rem;
+    	width: 25%;
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
 	}
 	.item>div{
 		display:flex;
 		align-items: center;
+	    width: 100%;
+    	margin-left: 3rem;
 	}
 	.item>div>img{
 		margin-right: 1rem;
@@ -92,6 +105,10 @@
 	.item>h4{
 		margin-top: 0.5rem;
 		margin-bottom: 0.5rem;
+		display: flex;
+	    width: 100%;
+	    margin-left: 3rem;
+	    justify-content: flex-start;
 	}
 	.item>div>h5{
 		font-size: 18px;
@@ -116,11 +133,19 @@
                <div>
                     <img id="storeMainImg" src="${path}/resources/images/store/storeMainImage.jpg">
                 </div>
-                <p id="storeMainName">포인트 상점</p>
+                <div class="storeChoice">
+                    <a href="">선수 랜덤팩</a>
+                    <a href="">이모티콘 랜덤팩</a>
+                    <a href="">잡화</a>
+                </div>
                 <hr class="storeLine">
                 <div>
                 	<div class="storeTheme">
-                		<h3 id="hotItem">인기상품</h3>
+                		<div class="arrayPoint">
+	                        <a href="">높은 포인트순</a>
+	                        <a href="">낮은 포인트순</a>
+	                        <a href="">이름순</a>
+	                    </div>
 	                    <div id="storeSearchMain">
 	                        <img id="searchImg" src="${path}/resources/images/store/searchImg.png">
 	                        <input id="storeSearch"type="text" placeholder="통합 검색">
@@ -129,6 +154,46 @@
                 	</div>
                 	<div class="itemArray">
                 		<div class="item">
+	                        <img src="${path}/resources/images/store/PRM_10.png">
+	                        <h4>프리미엄 선수팩 10장</h4>
+	                        <div>
+	                            <img src="${path}/resources/images/store/pointImg.png">
+	                            <h5>975</h5>
+	                        </div>
+                    	</div>
+                    	<div class="item">
+	                        <img src="${path}/resources/images/store/PRM_10.png">
+	                        <h4>프리미엄 선수팩 10장</h4>
+	                        <div>
+	                            <img src="${path}/resources/images/store/pointImg.png">
+	                            <h5>975</h5>
+	                        </div>
+                    	</div>
+                    	<div class="item">
+	                        <img src="${path}/resources/images/store/PRM_10.png">
+	                        <h4>프리미엄 선수팩 10장</h4>
+	                        <div>
+	                            <img src="${path}/resources/images/store/pointImg.png">
+	                            <h5>975</h5>
+	                        </div>
+                    	</div>
+                    	<div class="item">
+	                        <img src="${path}/resources/images/store/PRM_10.png">
+	                        <h4>프리미엄 선수팩 10장</h4>
+	                        <div>
+	                            <img src="${path}/resources/images/store/pointImg.png">
+	                            <h5>975</h5>
+	                        </div>
+                    	</div>
+                    	<div class="item">
+	                        <img src="${path}/resources/images/store/PRM_10.png">
+	                        <h4>프리미엄 선수팩 10장</h4>
+	                        <div>
+	                            <img src="${path}/resources/images/store/pointImg.png">
+	                            <h5>975</h5>
+	                        </div>
+                    	</div>
+                    	<div class="item">
 	                        <img src="${path}/resources/images/store/PRM_10.png">
 	                        <h4>프리미엄 선수팩 10장</h4>
 	                        <div>
