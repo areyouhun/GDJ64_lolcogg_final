@@ -3,6 +3,10 @@ img {
     width: 100%;
 }
 
+.animated-smooth {
+	transition: 0.4s ease-out;
+}
+
 .teams {
     margin: 0 auto 60px auto;
     width: 1260px;
@@ -19,6 +23,7 @@ img {
     border-radius: 10px;
     color: var(--lol-white);
     font-size: 1.2rem;
+    position: relative;
 }
 
 .teams input[type="button"]:nth-child(5n) {
@@ -26,7 +31,6 @@ img {
 }
 
 .btn-img {
-    background-image: url("/resources/images/logo/t1_logo_small.png");
     background-color: var(--kjh-gray-darker);
     background-repeat: no-repeat;
     background-size: 40px;
@@ -67,26 +71,26 @@ img {
     margin-bottom: 10px;
 }
 
-.match-content {
+.match-container {
     width: 950px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
 }
 
-.match-content-btn {
+.match-btn {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.match-content-btn>p {
+.match-btn>p {
     font-size: 3rem;
     margin-bottom: 10px;
 }
 
-.match-content-btn>input[type="button"] {
+.match-btn>input[type="button"] {
     padding: 5px 20px;
     background-color: transparent;
     border: 2px solid var(--lol-white);
@@ -94,7 +98,7 @@ img {
     cursor: pointer;
 }
 
-.match-content-btn>input[type="button"]:hover {
+.match-btn>input[type="button"]:hover {
     background-color: var(--lol-white);
     color: var(--lol-black);
 }
@@ -110,23 +114,30 @@ img {
     width: 220px;
 }
 
-.team-btn_up {
+.team-btn_up_left, .team-btn_up_right {
     background-image: url("/resources/images/common/team_btn_up.svg");
 }
 
-.team-btn_down {
+.team-btn_down_left, .team-btn_down_right {
     background-image: url("/resources/images/common/team_btn_down.svg");
 }
 
-.reservation-calendar-lineup {
+.match-content_wrapper {
+    overflow-y: hidden;
+    height: 198px;
+}
+
+.match-content_lineup {
+    height: 198px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
-.reservation-calendar-lineup>p {
+.match-content_lineup>p {
     margin: 20px 0;
 }
 

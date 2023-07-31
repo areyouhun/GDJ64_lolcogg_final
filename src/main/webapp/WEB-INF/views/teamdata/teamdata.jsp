@@ -19,18 +19,17 @@
                     <p class="subTitle fs-20">TEAM DATA</p>
                     <p class="mainTitle fs-35 mainTitleMargin">팀 데이터</p>
                 </div>
-                <!--------------------------------- Code below --------------------------------->
                 <div class="teams">
-                    <input type="button" class="btn-img fw-bolder" value="T1">
-                    <input type="button" class="btn-img fw-bolder" value="T1">
-                    <input type="button" class="btn-img fw-bolder" value="T1">
-                    <input type="button" class="btn-img fw-bolder" value="T1">
-                    <input type="button" class="btn-img fw-bolder" value="T1">
-                    <input type="button" class="btn-img fw-bolder" value="T1">
-                    <input type="button" class="btn-img fw-bolder" value="T1">
-                    <input type="button" class="btn-img fw-bolder" value="T1">
-                    <input type="button" class="btn-img fw-bolder" value="T1">
-                    <input type="button" class="btn-img fw-bolder" value="T1">
+                    <input type="button" class="btn-img fw-bolder">
+                    <input type="button" class="btn-img fw-bolder">
+                    <input type="button" class="btn-img fw-bolder">
+                    <input type="button" class="btn-img fw-bolder">
+                    <input type="button" class="btn-img fw-bolder">
+                    <input type="button" class="btn-img fw-bolder">
+                    <input type="button" class="btn-img fw-bolder">
+                    <input type="button" class="btn-img fw-bolder">
+                    <input type="button" class="btn-img fw-bolder">
+                    <input type="button" class="btn-img fw-bolder">
                 </div>
 
                 <div class="match">
@@ -38,38 +37,41 @@
                         <h3 class="fw-bold">MATCH RECORDS</h3>
                         <p>두 팀의 전력을 비교해보세요!</p>
                     </div>
-                    <div class="match-content">
-                        <div>
-                            <input type="button" class="team-btn team-btn_up" value="">
-                            <div class="reservation-calendar-wrapper">
-                                <div class="reservation-calendar-lineup animated-smooth">
-                                    <div class="match-content_team">
-                                        <img src="${path}/resources/images/logo/brion_logo_white.png">
+                    <div class="match-container">
+                        <div class="match-content">
+                            <input type="button" class="team-btn team-btn_up_left" value="">
+                            <div class="match-content_wrapper">
+                                <div class="match-team-container">
+                                    <div class="match-content_lineup animated-smooth">
+                                        <div class="match-content_team">
+                                            <img src="">
+                                        </div>
+                                        <p class="title"></p>
                                     </div>
-                                    <p class="title">BRO</p>
                                 </div>
                             </div>
-                            <input type="button" class="team-btn team-btn_down" value="">
+                            <input type="button" class="team-btn team-btn_down_left" value="">
                         </div>
-                        <div class="match-content-btn">
+                        <div class="match-btn">
                             <p class="title">VS</p>
-                            <input type="button" class="title" value="전력 비교">
+                            <input type="button" class="title" value="전력 비교" onclick="showMatchRecords(this);">
                         </div>
-                        <div>
-                            <input type="button" class="team-btn team-btn_up">
-                            <div class="reservation-calendar-wrapper">
-                                <div class="reservation-calendar-lineup animated-smooth">
-                                    <div class="match-content_team">
-                                        <img src="${path}/resources/images/logo/t1_logo_white.png">
+                        <div class="match-content">
+                            <input type="button" class="team-btn team-btn_up_right">
+                            <div class="match-content_wrapper">
+                                <div class="match-team-container">
+                                    <div class="match-content_lineup animated-smooth">
+                                        <div class="match-content_team">
+                                            <img src="">
+                                        </div>
+                                        <p class="title"></p>
                                     </div>
-                                    <p class="title">T1</p>
                                 </div>
                             </div>
-                            <input type="button" class="team-btn team-btn_down" value="">
+                            <input type="button" class="team-btn team-btn_down_right" value="">
                         </div>
                     </div>
                 </div>
-        		<!------------------------------------------------------------------------------>
             </div>
         </div>
     </section>
@@ -77,7 +79,7 @@
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
-
+<script src="${path}/resources/js/teamdata/script_teamdata.js"></script>
 <!-------------------------------------------->
 </body>
 </html>
