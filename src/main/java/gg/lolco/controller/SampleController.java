@@ -19,8 +19,8 @@ public class SampleController {
 		model.addAttribute("sample", service.selectAll());
 		return "sample/sampleList";
 	}
-//	@GetMapping("/index.do")
-//	public String index() {
-//		return "index";
-//	}
+	@GetMapping("/index.do")
+	public String index() {
+		return "index";
+	}
 }
