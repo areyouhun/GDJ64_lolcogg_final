@@ -5,7 +5,7 @@
 <header>
     <div class="nav nav-default <c:out value='${param.navBgColor}'/>">
         <div class="header-sort">
-            <a href="${path }/index.do" class="img-aTag"><img src="${path}/resources/images/common/header_logo.png" style="height: 40px;"></a>
+            <a href="${path}/" class="img-aTag"><img src="${path}/resources/images/common/header_logo.png" style="height: 40px;"></a>
             <nav>
                 <ul class="nav-ul">
                     <li>
