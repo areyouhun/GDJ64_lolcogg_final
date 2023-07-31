@@ -48,3 +48,22 @@ $("nav").mouseleave(e=>{
     $("nav").css("height", "60px");
     }
 )
+
+/*프로필 호버*/
+$(".myProfileLogo").mouseenter(e=>{
+    const myProfileLogo = $("div.myProfileLogo");
+    $(myProfileLogo).addClass("nav-hover");
+    $(myProfileLogo).removeClass("nav-default");
+    $(".myProfileBox").css("display","block");
+    $(".myProfileLogo").css("height", "550px");
+    }
+)
+
+$(".myProfileLogo").mouseleave(e=>{
+    const myProfileLogo = $("div.myProfileLogo");
+    $(myProfileLogo).removeClass("nav-hover");
+    $(myProfileLogo).addClass("nav-default");
+    $(".myProfileBox").css("display","none");
+    $(".myProfileLogo").css("height", "60px");
+    }
+)

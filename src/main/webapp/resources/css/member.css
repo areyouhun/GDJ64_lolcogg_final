@@ -1,0 +1,51 @@
+/* ***** 로그인 css ***** */
+.fs-10 { font-size: 10px;}
+.fs-15 { font-size: 15px;}
+.fs-25 { font-size: 25px;}
+.fs-30 { font-size: 30px;}
+.ff-suit{ font-family: "SUIT-Regular";}
+.ff-macho{ font-family: "EF_MACHO";}
+.loginTitle{ display: flex; justify-content: center; margin-top: 10%; margin-bottom: 2.5%;}
+.loginBox{ display: flex; flex-direction: column; /* 수직 정렬을 위해 column 설정 */ padding: 0 30em 0 30em;}
+.loginBox input{ color: var(--lol-white); background-color: var(--bg-gray); border:none; border:0 0 0 0;  border-radius: 5px; padding: 0.7em 2em 0.7em 2em; margin: 0.5em 1em 0.5em 1em;}
+.autoLoginBox{ display: flex; justify-content: center; padding: 0.2em 13em 1em 0.5em;}
+.autoLoginBox>input{ cursor: pointer;}
+.loginButton{ display: flex; justify-content: center;}
+.loginButton>input{ color: var(--lol-white); background-color: var(--lol-black); border:solid 0.5px #EEEEEE; border:0 0 0 0;  border-radius: 5px; padding: 0.8em 9.5em 0.8em 9.5em; margin: 0.5em 0em 0.5em 0em; cursor: pointer;}
+.memberCheckBox{ display: flex; justify-content: center; margin: 1rem 0 0 0 ;}
+.socialLoginBox{ display: flex; justify-content: center; margin: 1rem 0 0 0 ;}
+.socialLoginBox img{width: 45px; height: 45px; }
+
+/* 회원가입 css */
+.enrollTitle{display: flex; justify-content: center; margin-bottom: 2.5%;}
+.enrollBox{ 
+    display: flex; 
+    flex-direction: column; /* 수직 정렬을 위해 column 설정 */ 
+}
+.enrollBox input{ 
+    color: var(--lol-white); 
+    background-color: var(--bg-gray); 
+    border:none; border:0 0 0 0;  
+    border-radius: 5px; 
+    padding: 0.7em 12em 0.7em 2em; 
+    margin: 0.5em 1em 0.5em 1em;
+}
+.divFlex{
+    display: flex;
+    justify-content: center;
+}
+.line{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+.duplicationCheck{
+    color: var(--lol-white); 
+    background-color: var(--lol-black); 
+    border:solid 0.5px #EEEEEE; 
+    border:0 0 0 0;  
+    border-radius: 5px; 
+    padding: 0.8em 1em 0.8em 1em; 
+    margin: 0.5em 0em 0.5em 0em; 
+    cursor: pointer;
+}
