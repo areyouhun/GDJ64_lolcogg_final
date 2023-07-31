@@ -19,4 +19,5 @@ public class SampleController {
 		model.addAttribute("sample", service.selectAll());
 		return "sample/sampleList";
 	}
+
 }

@@ -5,7 +5,7 @@
 <header>
     <div class="nav nav-default <c:out value='${param.navBgColor}'/>">
         <div class="header-sort">
-            <a href="" class="img-aTag"><img src="${path}/resources/images/common/header_logo.png" style="height: 40px;"></a>
+            <a href="${path}/" class="img-aTag"><img src="${path}/resources/images/common/header_logo.png" style="height: 40px;"></a>
             <nav>
                 <ul class="nav-ul">
                     <li>
@@ -37,8 +37,46 @@
                     </li>
                 </ul>
             </nav>
-            <a href="" class="img-aTag"><img src="${path}/resources/images/common/icon_profile.png"
-                    style="width: 40px; height: 40px;"></a>
+			<!-- script_common.js - /*프로필 호버*/ 참조 -->
+			<c:if test="${loginMember!=null }">
+				<div class="myProfileLogo">
+					<span>	
+						<a href="${path }/member/mypage.do?email=${loginMember.email}" class="img-aTag">
+							<img src="${path}/resources/images/common/${loginMember.profile}"
+		                    	style="width: 40px; height: 40px;">
+		            	</a>
+					</span>
+					
+					<div class="myProfileBox color-white center-1280" style="display: none;">
+                    	<div class="ff-macho fs-25" >
+	                    	<c:out value="${loginMember.nickname }" />
+	                    	<img src="${path}/resources/images/common/favicon-32.png"
+		                    	style="width: 25px; height: 25px;">
+                    	</div>
+						<a href="${path }/member/mypage.do?email=${loginMember.email}" >
+							내 정보
+		            	</a>
+						<a href="${path }/member/myCard.do?email=${loginMember.email}" >
+							내 카드관리
+		            	</a>
+						<a href="${path }/member/logout.do">
+								로그아웃
+						</a>
+						<hr style="border: none; height: 1px;  background-color: #EEEEEE">
+						<h3>알림</h3>
+						<p>알림1</p>
+						<p>알림2</p>
+					</div>
+				</div>
+			</c:if>
+			<c:if test="${loginMember==null }">
+	            <a href="${path }/member/loginPage" class="img-aTag">
+	            	<img src="${path}/resources/images/common/icon_profile.png"
+	                    style="width: 40px; height: 40px;">
+	            </a>
+			</c:if>
         </div>
     </div>
 </header>
+
+
