@@ -163,3 +163,15 @@
 .rankTeam p{
     text-align: right;
 }
+
+.homeTeamDiv{
+    width: 425px;
+    display: flex;
+    justify-content: start;
+}
+
+.awayTeamDiv{
+    width: 425px;
+    display: flex;
+    justify-content: end;
+}
