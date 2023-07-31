@@ -1,0 +1,140 @@
+img {
+    display: block;
+    width: 100%;
+}
+
+.teams {
+    margin: 0 auto 60px auto;
+    width: 1260px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.teams input[type="button"] {
+    width: 220px;
+    height: 60px;
+    margin: 0 30px 30px 0;
+    text-align: left;
+    border-radius: 10px;
+    color: var(--lol-white);
+    font-size: 1.2rem;
+}
+
+.teams input[type="button"]:nth-child(5n) {
+    margin-right: 0px;
+}
+
+.btn-img {
+    background-image: url("/resources/images/logo/t1_logo_small.png");
+    background-color: var(--kjh-gray-darker);
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position: 160px center;
+    border: none;
+    cursor: pointer;
+    padding-left: 20px; 
+}
+
+.match {
+    color: var(--lol-white);
+    width: 1260px;
+    height: 460px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.match-banner {
+    width: 100%;
+    height: 130px;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url("/resources/images/common/img_banner.png");
+    background-color:transparent;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    filter: grayscale(100%);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.match-banner>h3 {
+    margin-bottom: 10px;
+}
+
+.match-content {
+    width: 950px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.match-content-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.match-content-btn>p {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.match-content-btn>input[type="button"] {
+    padding: 5px 20px;
+    background-color: transparent;
+    border: 2px solid var(--lol-white);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.match-content-btn>input[type="button"]:hover {
+    background-color: var(--lol-white);
+    color: var(--lol-black);
+}
+
+.team-btn {
+    background-color:transparent;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    display: block;
+    width: 220px;
+}
+
+.team-btn_up {
+    background-image: url("/resources/images/common/team_btn_up.svg");
+}
+
+.team-btn_down {
+    background-image: url("/resources/images/common/team_btn_down.svg");
+}
+
+.reservation-calendar-lineup {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.reservation-calendar-lineup>p {
+    margin: 20px 0;
+}
+
+.match-content_team {
+    width: 120px;
+    height: 100px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
