@@ -51,8 +51,8 @@
 					<div class="myProfileBox color-white center-1280" style="display: none;">
                     	<div class="ff-macho fs-25" >
 	                    	<c:out value="${loginMember.nickname }" />
-	                    	<img src="${path}/resources/images/common/favicon-32.png"
-		                    	style="width: 25px; height: 25px;">
+	                    	<img src="${path}/resources/images/tier/${loginMember.tier.tierRulesNo.tierRulesImage}"
+		                    	style="width: 35px; height: 25px; margin-left:0.5em">
                     	</div>
 						<a href="${path }/member/mypage.do?email=${loginMember.email}" >
 							내 정보
@@ -79,4 +79,7 @@
         </div>
     </div>
 </header>
+<script>
+	console.log('${loginMember.tier.tierRulesNo.tierRulesImage}');
+</script>
 
