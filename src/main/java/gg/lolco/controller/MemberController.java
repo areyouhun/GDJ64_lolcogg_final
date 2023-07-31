@@ -33,19 +33,6 @@ public class MemberController {
 //		return "sample/sampleList";
 //	}
 	
-	//페이지 이동========================
-	//메인페이지 -> 로그인 페이지
-	@GetMapping("/loginPage")
-	public String loginPage() {
-		return "member/login";
-	}
-	//로그인페이지 -> 회원가입 페이지
-	@GetMapping("/enrollMember.do")
-	public String enrollMember() {
-		return "member/enrollMember";
-	}
-	//================================
-	
 	//로그인
 	@PostMapping("/loginCheck")
 	public String loginCheck(@RequestParam Map param, Model model, HttpSession session) {
