@@ -13,4 +13,9 @@ public class TeamDaoImpl implements TeamDataDao {
 		return session.selectOne("teamdata.selectTeamByAbbr", abbr);
 	}
 
+	@Override
+	public Map<String, Object> selectPlayerByNickname(SqlSession session, String nickname) {
+		return session.selectOne("teamdata.selectPlayerByNickname", nickname);
+	}
+
 }

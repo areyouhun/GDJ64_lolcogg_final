@@ -21,4 +21,10 @@ public class TeamDataContorller {
 		model.addAttribute("team", service.selectTeamByAbbr(abbr));
 		return "teamdata/team";
 	}
+	
+	@GetMapping("/player")
+	public String player(String nickname, Model model) {
+		model.addAttribute("player", service.selectPlayerByNickname(nickname.toLowerCase()));
+		return "teamdata/player";
+	}
 }

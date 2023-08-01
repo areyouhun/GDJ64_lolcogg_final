@@ -197,7 +197,9 @@
             });
         });
 
-
+        $(document).on("click", ".name-list input[type=button]", event => {
+            location.assign("${path}/teamdata/player?nickname=" + $(event.target).val());
+        });
 </script>
 </body>
 </html>

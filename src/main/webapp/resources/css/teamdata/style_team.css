@@ -81,7 +81,7 @@ img {
 }
 
 .bar-layout>hr {
-    height: 2px;
+    height: 5px;
     background-color: var(--lol-white);
 }
 

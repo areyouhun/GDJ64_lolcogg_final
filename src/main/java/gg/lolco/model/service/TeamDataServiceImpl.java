@@ -22,4 +22,9 @@ public class TeamDataServiceImpl implements TeamDataService {
 		return dao.selectTeamByAbbr(session, abbr);
 	}
 
+	@Override
+	public Map<String, Object> selectPlayerByNickname(String nickname) {
+		return dao.selectPlayerByNickname(session, nickname);
+	}
+
 }
