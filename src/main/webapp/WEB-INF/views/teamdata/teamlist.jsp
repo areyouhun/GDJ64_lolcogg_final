@@ -3,23 +3,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
-<!-- Your own style tag or CSS file -->
-<link rel="stylesheet" href="${path}/resources/css/teamdata/teamdata_page.css">
-<!------------------------------------>
-<title>SAMPLE</title>
+<link rel="stylesheet" href="${path}/resources/css/teamdata/style_teamlist.css">
+<title>팀 데이터</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="navBgColor" value="nav-black"/>
 </jsp:include>
-    <section>
+    <section class="teamlist">
         <div class="center-1280 background-img mainpage mainHeight">
             <div class="width-1280 page-margin">
                 <div>
                     <p class="subTitle fs-20">TEAM DATA</p>
                     <p class="mainTitle fs-35 mainTitleMargin">팀 데이터</p>
                 </div>
-                <div class="teams">
+                <article class="teams">
                     <input type="button" class="btn-img fw-bolder">
                     <input type="button" class="btn-img fw-bolder">
                     <input type="button" class="btn-img fw-bolder">
@@ -30,9 +28,9 @@
                     <input type="button" class="btn-img fw-bolder">
                     <input type="button" class="btn-img fw-bolder">
                     <input type="button" class="btn-img fw-bolder">
-                </div>
+                </article>
 
-                <div class="match">
+                <article class="match">
                     <div class="match-banner">
                         <h3 class="fw-bold">MATCH RECORDS</h3>
                         <p>두 팀의 전력을 비교해보세요!</p>
@@ -71,15 +69,13 @@
                             <input type="button" class="team-btn team-btn_down_right" value="">
                         </div>
                     </div>
-                </div>
+                </article>
             </div>
         </div>
     </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
-<!-- Your own script tag or JavaScript file -->
-<script src="${path}/resources/js/teamdata/script_teamdata.js"></script>
-<!-------------------------------------------->
+<script src="${path}/resources/js/teamdata/script_teamlist.js"></script>
 </body>
 </html>
