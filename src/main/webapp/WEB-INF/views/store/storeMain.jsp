@@ -6,7 +6,7 @@
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path}/resources/css/store/store_main.css">
 <!------------------------------------>
-<title>포인트 상점</title>
+<title>롤코지지-포인트 상점</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp">

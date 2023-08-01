@@ -16,4 +16,9 @@ public class GameController {
 	public String storeMain(Model m) {
 		return "game/choicGame";
 	}
+	@GetMapping("/worldcup")
+	public String worldcupMain(Model m,String gameName) {
+		m.addAttribute("gameName",gameName);
+		return "game/worldCup";
+	}
 }

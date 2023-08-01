@@ -9,40 +9,6 @@
 		overflow: hidden;
 	}
 	
-	/* .load{
-		width:100%;
-		height:100%;
-		background-color:var(--lol-black);
-		animation-duration: 3s;
- 		animation-name: slidein;
- 		z-index:10000;
- 		position: absolute;
- 		display: flex;
- 		align-items: center;
-    	justify-content: center;
-    	animation-fill-mode: forwards;
-	}
-	@keyframes slidein {
-		0%{
-		    margin-left: -100%;
-			width: 100%;
-			opacity: 0;
-	 	}
-	
-		50%{
-		    margin-left: 0%;
-		    width: 100%;
-		    opacity:1;
-		}
-		100%{
-		    margin-left: 100%;
-			width: 100%;
-			opacity: 0;
-			display:none;
-	 	}
-
-	} */
-	
 	a {
 				color: #8ff;
 			}
@@ -131,16 +97,13 @@
 	
 </style>
 <!------------------------------------>
-<title>포인트 상점</title>
+<title>롤코지지</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="navBgColor" value="nav-black"/>
 </jsp:include>
     <section>
-    <%-- <div class="load">
-    	<img src="${path}/resources/images/common/header_logo.png" >
-    </div> --%>
 
 	    <div id="container"></div>
 		<div id="menu">
