@@ -38,13 +38,13 @@
 		                            <tr>
 		                                <td class="color-white content fs-20">${qna.qaNo }</td>
 		                                <td class="color-white content fs-20 tableTitle">
-		                                    <a href="">${qna.qaTitle }</a>
+		                                    <a href="${path }/qna/qnaView?no=${qna.qaNo}">${qna.qaTitle }</a>
 		                                    <img src="${path }/resources/images/qna/lock.png" style="width: 15px; height: 15px;">
 		                                </td>
 		                                <td class="color-white content fs-20">${qna.qaWriter.email==null ? "탈퇴한 회원" : qna.qaWriter.nickname }</td>
 		                                <td class="color-white content fs-20">${qna.qaDate }</td>
 		                                <td class="color-white content fs-20">
-		                                	<button class="qnaBtn ${qna.qaComment.qaCommentNo == 0 ? '' : 'comBtn'}" disabled>${qna.qaComment.qaCommentNo == 0 ? '답변대기' : '답변완료' }</button>
+		                                	<button class="qnaBtn ${not empty qna.qaComment ? 'comBtn' : ''}" disabled>${not empty qna.qaComment ? '답변완료' : '답변대기' }</button>
 		                                </td>
 		                            </tr>
 	                            </c:forEach>

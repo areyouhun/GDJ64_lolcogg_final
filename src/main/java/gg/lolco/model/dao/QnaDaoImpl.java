@@ -25,4 +25,14 @@ public class QnaDaoImpl implements QnaDao {
 		return session.selectOne("qna.selectQnaListCount");
 	}
 
+	@Override
+	public QaBoard qnaView(SqlSessionTemplate session, int qaNo) {
+		return session.selectOne("qna.qnaView", qaNo);
+	}
+
+	@Override
+	public int insertBoard(SqlSessionTemplate session, QaBoard qb) {
+		return session.insert("qna.insertBoard", qb);
+	}
+
 }

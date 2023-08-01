@@ -30,4 +30,14 @@ public class QnaServiceImpl implements QnaService {
 		return dao.selectQnaListCount(session);
 	}
 
+	@Override
+	public QaBoard qnaView(int qaNo) {
+		return dao.qnaView(session, qaNo);
+	}
+
+	@Override
+	public int insertBoard(QaBoard qb) {
+		return dao.insertBoard(session, qb);
+	}
+
 }

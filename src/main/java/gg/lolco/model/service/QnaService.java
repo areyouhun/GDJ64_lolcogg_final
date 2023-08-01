@@ -11,4 +11,7 @@ public interface QnaService {
 	
 	int selectQnaListCount();
 	
+	QaBoard qnaView(int qaNo);
+	
+	int insertBoard(QaBoard qb);
 }

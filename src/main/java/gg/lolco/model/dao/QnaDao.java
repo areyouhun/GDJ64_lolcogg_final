@@ -13,4 +13,7 @@ public interface QnaDao {
 	
 	int selectQnaListCount(SqlSessionTemplate session);
 	
+	QaBoard qnaView(SqlSessionTemplate session, int qaNo);
+	
+	int insertBoard(SqlSessionTemplate session, QaBoard qb);
 }

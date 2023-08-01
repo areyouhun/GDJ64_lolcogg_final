@@ -1,6 +1,8 @@
 package gg.lolco.model.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,5 +19,7 @@ public class QaBoard {
 	private String qaTitle;
 	private String qaContent;
 	private Date qaDate;
-	private QaBoardComment qaComment;
+	private String qaPwd;
+	private List<QaBoardComment> qaComment = new ArrayList();
+	private List<QaBoardFile> qaFile = new ArrayList();
 }
