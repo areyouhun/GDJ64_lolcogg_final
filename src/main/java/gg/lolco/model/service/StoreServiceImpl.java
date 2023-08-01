@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import gg.lolco.model.dao.StoreDao;
+import gg.lolco.model.vo.Emoticon;
 import gg.lolco.model.vo.PointItem;
 
 @Service
@@ -21,6 +22,11 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public List<PointItem> selectItem() {
 		return dao.selectItem(session);
+	}
+	
+	@Override
+	public List<Emoticon> itemPurchase(String name) {
+		return dao.itemPurchase(session,name);
 	}
 
 }

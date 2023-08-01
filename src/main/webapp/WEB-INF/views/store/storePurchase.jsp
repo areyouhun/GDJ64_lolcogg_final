@@ -58,7 +58,7 @@
 				width: 210px;
 				height: 320px;
 				box-shadow: 0px 0px 12px rgba(0,255,255,0.5);
-				border: 1px solid rgba(127,255,255,0.25);
+				border: 1px solid var(--lol-mainblue);
 				font-family: Helvetica, sans-serif;
 				text-align: center;
 				line-height: normal;
@@ -69,10 +69,10 @@
 
 			.element:hover {
 				box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
-				border: 1px solid rgba(127,255,255,0.75);
+				border: 1px solid var(--lol-teamblue);
 			}
 
-				.element .number {
+				/* .element .number {
 					position: absolute;
 					top: 20px;
 					right: 20px;
@@ -98,7 +98,7 @@
 					right: 0px;
 					font-size: 12px;
 					color: rgba(127,255,255,0.75);
-				}
+				} */
 
 			button {
 				color: rgba(127,255,255,0.75);
@@ -145,7 +145,7 @@
 	    <div id="container"></div>
 		<div id="menu">
 			<button id="table">TABLE</button>
-			<button id="reset">reset</button>
+			<button id="reset">위치 초기화</button>
 		</div>
     </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
@@ -173,16 +173,12 @@
 			import { CSS3DRenderer, CSS3DObject } from 'three/addons/CSS3DRenderer.js';
 
 			const table = [
-				'Bee_Happy_Emote', 1, 1,
-				'oner_unique', 3, 1,
-				'oner_unique', 5, 1,
-				'oner_unique', 7, 1,
-				'oner_unique', 9, 1,
-				'oner_unique', 1, 4,
-				'oner_unique', 3, 4,
-				'oner_unique', 5, 4,
-				'oner_unique', 7, 4,
-				'oner_unique', 9, 4,
+			<c:if test="${not empty pack}">
+				<c:forEach var="p" items="${pack }">
+				<c:set var="i" value="${i+1}"/>
+					'${p.emoName}',${i}, 1,
+				</c:forEach>
+			</c:if>
 			];
 
 			let camera, scene, renderer;
@@ -210,7 +206,7 @@
 
 
 					const img = document.createElement( 'img' );
-					img.setAttribute("src", "${path}/resources/images/store/"+table[ i ]+".png");
+					img.setAttribute("src", "${path}/resources/images/emoticon/"+table[ i ]+".png");
 					img.setAttribute("width", "200");
 					img.setAttribute("height", "318");
 					element.appendChild( img );
@@ -226,8 +222,8 @@
 
 
 					const object = new THREE.Object3D();
-					object.position.x = ( table[ i + 1 ] * 140 ) - 770;
-					object.position.y = - ( table[ i + 2 ] * 180 ) + 490;
+					object.position.x = ( table[ i + 1 ] * 240 ) - 1320;
+					object.position.y = - ( table[ i + 2 ] * 180 ) + 190;
 
 					targets.table.push( object );
 				}
@@ -330,7 +326,7 @@
 
 			
 
-		</script>
+</script>
 
 <!-------------------------------------------->
 </body>

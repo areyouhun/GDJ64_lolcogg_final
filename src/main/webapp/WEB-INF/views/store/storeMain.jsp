@@ -69,7 +69,7 @@
 	}
 	.itemArray{
 		display: flex;
-		justify-content: space-evenly;
+	    justify-content: flex-start;
 	    margin-top: 2rem;
     	margin-bottom: 3rem;
 	}
@@ -83,6 +83,10 @@
 	.item{
 		color: var(--lol-white);
     	font-family: "SUIT-Regular";
+   	    display: flex;
+    	width: 256px;
+   	    flex-direction: column;
+ 	    margin: 0rem 2rem 0rem 2rem;
 	}
 	.item>div{
 		display:flex;
@@ -145,11 +149,6 @@
 	#modalItemDetail>div>table>tbody>tr:first-child {
 		height:3rem;
 	}
-	#modalItemDetail>div>table>tbody>tr:nth-child(2) {
-		display:flex;
-		
-		height:10rem;
-	}
 	#moadlButton{
 		width:100%;
 	    display: flex;
@@ -170,6 +169,9 @@
 	#moadlButton>button:last-child {
 		background-color: var(--lol-teamblue);
 		margin-left: 1rem;
+	}
+	#modalTable>tbody>tr>td:first-child{
+		width:5rem;
 	}
 </style>
 <!------------------------------------>
@@ -273,50 +275,28 @@
                 	</div>
                 </div>
                 <hr class="storeLine">
-                <c:if test="${not empty items}">
-            		<c:forEach var="i" items="${items }">
-		                <div>
-		                	<div class="storeTheme">
-		                		<h3 id="hotItem">이모티콘 랜덤팩</h3>
-			                    <a href="">전체보기></a>
-		                	</div>
-		                	<div class="itemArray">
-		                		<div class="item">
-			                        <img class="checkBuyItem" src="${path}/resources/images/emoticon/${i.itemFilename}">
-			                        <h4>${i.itemName }</h4>
-			                        <div>
-			                            <img src="${path}/resources/images/store/pointImg.png">
-			                            <h5>${i.itemPrice }</h5>
-			                        </div>
-		                    	</div>
-		                    	<div class="item">
-			                        <img src="${path}/resources/images/store/PRM_10.png">
-			                        <h4>프리미엄 선수팩 10장</h4>
-			                        <div>
-			                            <img src="${path}/resources/images/store/pointImg.png">
-			                            <h5>975</h5>
-			                        </div>
-		                    	</div>
-		                    	<div class="item">
-			                        <img src="${path}/resources/images/store/PRM_10.png">
-			                        <h4>프리미엄 선수팩 10장</h4>
-			                        <div>
-			                            <img src="${path}/resources/images/store/pointImg.png">
-			                            <h5>975</h5>
-			                        </div>
-		                    	</div>
-		                    	<div class="item">
-			                        <img src="${path}/resources/images/store/PRM_10.png">
-			                        <h4>프리미엄 선수팩 10장</h4>
-			                        <div>
-			                            <img src="${path}/resources/images/store/pointImg.png">
-			                            <h5>975</h5>
-			                        </div>
-		                    	</div>
-		                	</div>
-		                </div>
-	                </c:forEach>
-	            </c:if>
+	                <div>
+	                	<div class="storeTheme">
+	                		<h3 id="hotItem">이모티콘 랜덤팩</h3>
+		                    <a href="">전체보기></a>
+	                	</div>
+	                	<div class="itemArray">
+				            <c:if test="${not empty items}">
+				          		<c:forEach var="i" items="${items }">
+				                		<div class="item">
+					                        <img class="checkBuyItem" src="${path}/resources/images/store/${i.itemFilename}">
+					                        <h4>${i.itemName }</h4>
+					                        <p style="display:none">${i.itemExp }</p>
+					                        <div>
+					                            <img src="${path}/resources/images/store/pointImg.png">
+					                            <h5>${i.itemPrice }</h5>
+					                        </div>
+				                    	</div>
+				           		</c:forEach>
+					        </c:if>
+
+	                	</div>
+	                </div>
                 <hr class="storeLine">
                 <div>
                 	<div class="storeTheme">
@@ -367,14 +347,14 @@
 				<div id="modalItemDetail">
 					<img id="modalImg">
 					<div>
-						<table>
+						<table id="modalTable">
 							<tr>
 								<td>상품명</td>
 								<td id="modaltemName"></td>
 							</tr>
 							<tr>
 								<td>상세 설명</td>
-								<td></td>
+								<td id="modalExplain"></td>
 							</tr>
 						</table>
 					</div>
@@ -424,9 +404,10 @@
 	/*버튼 클릭시 위 함수 콜*/
 	$(function () {
 		$('.checkBuyItem').click(function(e) {
-			console.log($(e.target).next('h4').text());
+			console.log($(e.target).next().next().text());
 			$('#modalImg').attr("src",$(e.target).attr("src"));
 			$('#modaltemName').text($(e.target).next('h4').text());
+			$('#modalExplain').text($(e.target).next().next().text());
 			document.body.style.overflow = 'hidden';
 			e.preventDefault();
 			wrapWindowByMask();
@@ -438,7 +419,8 @@
 			$('.storeModal').hide();
 		})
 		$('#modalPurchase').click(function(e){
-			location.href='${path}/store/purchase'
+			console.log($(e.target).parent().parent().find('#modaltemName').text())
+			location.href='${path}/store/purchase?name='+$(e.target).parent().parent().find('#modaltemName').text();
 		})
 	});
 
