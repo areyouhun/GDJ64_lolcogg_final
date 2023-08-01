@@ -1,0 +1,151 @@
+img {
+    display: block;
+    width: 100%;
+}
+
+.animated-smooth {
+	transition: 0.4s ease-out;
+}
+
+.teams {
+    margin: 0 auto 60px auto;
+    width: 1260px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.teams input[type="button"] {
+    width: 220px;
+    height: 60px;
+    margin: 0 30px 30px 0;
+    text-align: left;
+    border-radius: 10px;
+    color: var(--lol-white);
+    font-size: 1.2rem;
+    position: relative;
+}
+
+.teams input[type="button"]:nth-child(5n) {
+    margin-right: 0px;
+}
+
+.btn-img {
+    background-color: var(--kjh-gray-darker);
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position: 160px center;
+    border: none;
+    cursor: pointer;
+    padding-left: 20px; 
+}
+
+.match {
+    color: var(--lol-white);
+    width: 1260px;
+    height: 460px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.match-banner {
+    width: 100%;
+    height: 130px;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url("/resources/images/common/img_banner.png");
+    background-color:transparent;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    filter: grayscale(100%);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.match-banner>h3 {
+    margin-bottom: 10px;
+}
+
+.match-container {
+    width: 950px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.match-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.match-btn>p {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.match-btn>input[type="button"] {
+    padding: 5px 20px;
+    background-color: transparent;
+    border: 2px solid var(--lol-white);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.match-btn>input[type="button"]:hover {
+    background-color: var(--lol-white);
+    color: var(--lol-black);
+}
+
+.team-btn {
+    background-color:transparent;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    display: block;
+    width: 220px;
+}
+
+.team-btn_up_left, .team-btn_up_right {
+    background-image: url("/resources/images/common/team_btn_up.svg");
+}
+
+.team-btn_down_left, .team-btn_down_right {
+    background-image: url("/resources/images/common/team_btn_down.svg");
+}
+
+.match-content_wrapper {
+    overflow-y: hidden;
+    height: 198px;
+}
+
+.match-content_lineup {
+    height: 198px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.match-content_lineup>p {
+    margin: 20px 0;
+}
+
+.match-content_team {
+    width: 120px;
+    height: 100px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

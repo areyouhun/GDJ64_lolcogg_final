@@ -1,0 +1,210 @@
+* {
+    color: var(--lol-white);
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+.animated-smooth {
+	transition: 0.4s ease-out;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.team-title {
+    width: 100%;
+    margin: 0 auto 20px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.team-title_upper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team-title_upper>h2 {
+    font-size: 8rem;
+}
+
+.team-title_upper>div {
+    width: 150px;
+}
+
+.team-title_lower {
+    margin-top: 20px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+}
+
+.team-title_lower>p {
+    font-size: 1.2rem;
+    margin: 0 10px;
+}
+
+.team-stats {
+    width: 100%;
+    padding: 0 10px;
+    display: flex;
+}
+
+.team-stats-element {
+    width: 200px;
+    font-size: 1.2rem;
+}
+
+.team-stats-element h3 {
+    font-weight: 900;
+    font-size: 2.5rem;
+}
+
+.stats-element_sb {
+    display: flex;
+    align-items: baseline;
+}
+
+.stats-element_sb>h3 {
+    margin-right: 10px;
+}
+
+.bar-layout {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bar-layout>hr {
+    height: 5px;
+    background-color: var(--lol-white);
+}
+
+.bar-layout>p {
+    width: 150px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.team-players {
+    width: 100%;
+    padding: 10px;
+    position: relative;
+}
+
+.team-players-info {
+    width: 100%;
+    height: 80px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.team-players-info>div {
+    width: 420px;
+}
+
+.team-players-info>div:nth-child(2)>img {
+    width: 15%;
+    margin: 0 auto;
+}
+
+.players-name p {
+    color: var(--lol-mainblue);
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.team-players-card {
+    position: absolute;
+    top: 91px;
+    right: 9px;
+    width: 250px;
+    height: 480px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: all 1s;
+    transform-style: preserve-3d;
+}
+
+.card-back {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1;
+    backface-visibility: hidden;
+}
+
+.card-back>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-back img {
+    width: 50%;
+}
+
+.card-front {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    position: absolute;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.card-front>h3 {
+    font-weight: 900;
+    background-color: var(--lol-black);
+    padding: 5px 15px;
+    border-radius: 15px;
+}
+
+.name-list {
+    display: flex;
+}
+
+.name-list span {
+    display: inline-block;
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0 20px;
+}
+
+.name-list input[type="button"] {
+    background-color: transparent;
+    border: none;
+    font-size: 3rem;
+    color: var(--lol-white);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.name-list input[type="button"]:hover {
+    text-shadow: 0 0 5px var(--lol-white), 
+                0 0 0px var(--lol-white), 
+                0 0 0px var(--lol-white), 
+                0 0 0px var(--lol-white), 
+                0 0 0px var(--lol-white), 
+                0 0 5px var(--lol-white), 
+                0 0 5px var(--lol-white);
+}
