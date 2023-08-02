@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import gg.lolco.model.vo.QaBoard;
+import gg.lolco.model.vo.QaBoardComment;
 
 public interface QnaService {
 	
@@ -13,5 +14,11 @@ public interface QnaService {
 	
 	QaBoard qnaView(int qaNo);
 	
-	int insertBoard(QaBoard qb);
+	int insertBoard(Map param);
+	
+	int deleteQna(int qaNo);
+	
+	int insertComment(Map param);
+	
+	List<QaBoardComment> selectCommentAll(int qaNo);
 }

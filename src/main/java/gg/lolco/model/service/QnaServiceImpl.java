@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import gg.lolco.model.dao.QnaDao;
 import gg.lolco.model.vo.QaBoard;
+import gg.lolco.model.vo.QaBoardComment;
 
 @Service
 public class QnaServiceImpl implements QnaService {
@@ -36,8 +37,24 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public int insertBoard(QaBoard qb) {
-		return dao.insertBoard(session, qb);
+	public int insertBoard(Map param) {
+		return dao.insertBoard(session, param);
 	}
 
+	@Override
+	public int deleteQna(int qaNo) {
+		return dao.deleteQna(session, qaNo);
+	}
+
+	@Override
+	public int insertComment(Map param) {
+		return dao.insertComment(session, param);
+	}
+
+	@Override
+	public List<QaBoardComment> selectCommentAll(int qaNo) {
+		return dao.selectCommentAll(session, qaNo);
+	}
+	
+	
 }

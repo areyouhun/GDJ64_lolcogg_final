@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import gg.lolco.model.vo.QaBoard;
+import gg.lolco.model.vo.QaBoardComment;
 
 @Repository
 public class QnaDaoImpl implements QnaDao {
@@ -31,8 +32,24 @@ public class QnaDaoImpl implements QnaDao {
 	}
 
 	@Override
-	public int insertBoard(SqlSessionTemplate session, QaBoard qb) {
-		return session.insert("qna.insertBoard", qb);
+	public int insertBoard(SqlSessionTemplate session, Map param) {
+		return session.insert("qna.insertBoard", param);
 	}
 
+	@Override
+	public int deleteQna(SqlSessionTemplate session, int qaNo) {
+		return session.delete("qna.deleteQna", qaNo);
+	}
+
+	@Override
+	public int insertComment(SqlSessionTemplate session, Map param) {
+		return session.insert("qna.insertComment", param);
+	}
+
+	@Override
+	public List<QaBoardComment> selectCommentAll(SqlSessionTemplate session, int qaNo) {
+		return session.selectList("qna.selectCommentAll", qaNo);
+	}
+	
+	
 }

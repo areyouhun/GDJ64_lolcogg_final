@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import gg.lolco.model.vo.QaBoard;
+import gg.lolco.model.vo.QaBoardComment;
 
 public interface QnaDao {
 	
@@ -15,5 +16,11 @@ public interface QnaDao {
 	
 	QaBoard qnaView(SqlSessionTemplate session, int qaNo);
 	
-	int insertBoard(SqlSessionTemplate session, QaBoard qb);
+	int insertBoard(SqlSessionTemplate session, Map param);
+	
+	int deleteQna(SqlSessionTemplate session, int qaNo);
+	
+	int insertComment(SqlSessionTemplate session, Map param);
+	
+	List<QaBoardComment> selectCommentAll(SqlSessionTemplate session, int qaNo);
 }
