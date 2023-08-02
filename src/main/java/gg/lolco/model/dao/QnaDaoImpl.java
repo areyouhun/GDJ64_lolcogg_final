@@ -56,5 +56,4 @@ public class QnaDaoImpl implements QnaDao {
 		return session.selectList("qna.selectCommentAll", qaNo);
 	}
 	
-	
 }
