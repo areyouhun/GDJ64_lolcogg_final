@@ -104,6 +104,10 @@
                         <tbody></tbody>
                     </table>
                 </div>
+
+                <div class="player-stats-date">
+                    <p class="fw-bold" style="color: #5F5F5F;">*<fmt:formatDate value="${player.UPDATE_DATE}" type="date" dateStyle="long"/> 기준 (본 통계는 2023 LCK SPRING과 SUMMER에 치뤄진 경기 데이터를 기반으로 도출한 결과입니다.)</p>
+                </div>
             </div>
         </div>
     </section>

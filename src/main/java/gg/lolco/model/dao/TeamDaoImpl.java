@@ -13,10 +13,15 @@ public class TeamDaoImpl implements TeamDataDao {
 	public Map<String, Object> selectTeamByAbbr(SqlSession session, String abbr) {
 		return session.selectOne("teamdata.selectTeamByAbbr", abbr);
 	}
+	
+	@Override
+	public List<Map<String, Object>> selectMatchScheduleByAbbr(SqlSession session, String abbr) {
+		return session.selectList("teamdata.selectMatchScheduleByAbbr", abbr);
+	}
 
 	@Override
-	public List<Map<String, Object>> selectMatchByAbbr(SqlSession session, String abbr) {
-		return session.selectList("teamdata.selectMatchByAbbr", abbr);
+	public List<Map<String, Object>> selectMatchHistoryByAbbr(SqlSession session, String abbr) {
+		return session.selectList("teamdata.selectMatchHistoryByAbbr", abbr);
 	}
 
 	@Override

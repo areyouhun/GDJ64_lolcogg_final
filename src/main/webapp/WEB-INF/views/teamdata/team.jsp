@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="team" value="${requestScope.team}"/>
+<c:set var="matches" value="${requestScope.matches}"/>
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <link rel="stylesheet" href="${path}/resources/css/teamdata/style_team.css">
 <title>팀 - <c:out value="${team.TEAM_ABBR}"/></title>
@@ -58,7 +59,7 @@
                     </div>
                 </div>
                 <div class="team-stats-date">
-                    <p style="color: #5F5F5F;">*<fmt:formatDate value="${team.UPDATE_DATE}" type="date" dateStyle="long"/> 기준</p>
+                    <p class="fw-bold" style="color: #5F5F5F;">*<fmt:formatDate value="${team.UPDATE_DATE}" type="date" dateStyle="long"/> 기준</p>
                 </div>
 
                 <div class="team-players">
@@ -146,7 +147,40 @@
                         <hr class="flex-grow">
                     </div>
                     <table class="match-table">
-                        <tbody></tbody>
+                        <tbody>
+                        	<c:if test="${matchSchedule ne null}">
+                        		<c:forEach var="match" items="${matchSchedule}" varStatus="status">
+                        			<c:if test="${status.index < 5}">
+                        				<tr>
+                                        	<td><h3><fmt:formatDate value="${match.MS_DATE}" type="both" pattern="MM.dd (E) HH:mm"/></h3></td>
+                                        	<td>
+                                        		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_HOME}"/></h3>
+                                        	</td>
+                                        	<td>
+                                        		<div>
+                                        			<img src="${path}/resources/images/logo/${match.MS_HOME}_small.png">
+                                        		</div>
+                                        	</td>
+                                        	<td><h3 class="title">VS</h3></td>
+                                        	<td>
+                                        		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_AWAY}"/></h3>
+                                        	</td>
+                                        	<td>
+                                        		<div>
+                                        			<img src="${path}/resources/images/logo/${match.MS_AWAY}_small.png">
+                                        		</div>
+                                        	</td>
+                                        	<td>
+                                        		<div class="match-table_option">
+                                        			<input type="button" class="match-alarm"/>
+                                        			<input type="button" class="match-btn" value="승부 예측"/>
+                                        		</div>
+                                        	</td>
+                        				</tr>
+                        			</c:if>
+                        		</c:forEach>
+                        	</c:if>
+                        </tbody>
                     </table>
                 </div>
 
@@ -157,7 +191,39 @@
                         <hr class="flex-grow">
                     </div>
                     <table class="match-table">
-                        <tbody></tbody>
+                    	<tbody>
+                        	<c:if test="${matchHistory ne null}">
+                        		<c:forEach var="match" items="${matchHistory}" varStatus="status">
+                        			<c:if test="${status.index < 5}">
+                        				<tr>
+                                        	<td><h3><fmt:formatDate value="${match.MS_DATE}" type="both" pattern="MM.dd (E) HH:mm"/></h3></td>
+                                        	<td>
+                                        		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_HOME}"/></h3>
+                                        	</td>
+                                        	<td>
+                                        		<div>
+                                        			<img src="${path}/resources/images/logo/${match.MS_HOME}_small.png">
+                                        		</div>
+                                        	</td>
+                                        	<td><h3 class="title"><c:out value="${match.MS_HOME_SCORE} : ${match.MS_AWAY_SCORE}"/></h3></td>
+                                        	<td>
+                                        		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_AWAY}"/></h3>
+                                        	</td>
+                                        	<td>
+                                        		<div>
+                                        			<img src="${path}/resources/images/logo/${match.MS_AWAY}_small.png">
+                                        		</div>
+                                        	</td>
+                                        	<td>
+                                        		<div class="match-table_option">
+                                        			<input type="button" class="match-btn" value="상세 보기"/>
+                                        		</div>
+                                        	</td>
+                        				</tr>
+                        			</c:if>
+                        		</c:forEach>
+                        	</c:if>
+                        </tbody>
                     </table>
                 </div>
 

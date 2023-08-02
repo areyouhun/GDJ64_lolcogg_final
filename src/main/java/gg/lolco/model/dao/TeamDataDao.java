@@ -9,7 +9,9 @@ public interface TeamDataDao {
 
 	Map<String, Object> selectTeamByAbbr(SqlSession session, String abbr);
 	
-	List<Map<String, Object>> selectMatchByAbbr(SqlSession session, String abbr);
+	List<Map<String, Object>> selectMatchScheduleByAbbr(SqlSession session, String abbr);
+	
+	List<Map<String, Object>> selectMatchHistoryByAbbr(SqlSession session, String abbr);
 	
 	Map<String, Object> selectPlayerByNickname(SqlSession session, String nickname);
 }

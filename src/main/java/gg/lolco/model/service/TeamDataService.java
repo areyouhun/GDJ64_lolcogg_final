@@ -7,7 +7,9 @@ public interface TeamDataService {
 
 	Map<String, Object> selectTeamByAbbr(String abbr);
 	
-	List<Map<String, Object>> selectMatchByAbbr(String abbr);
+	List<Map<String, Object>> selectMatchScheduleByAbbr(String abbr);
+	
+	List<Map<String, Object>> selectMatchHistoryByAbbr(String abbr);
 	
 	Map<String, Object> selectPlayerByNickname(String nickname);
 }

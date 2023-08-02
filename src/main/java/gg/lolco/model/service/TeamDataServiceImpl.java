@@ -22,10 +22,15 @@ public class TeamDataServiceImpl implements TeamDataService {
 	public Map<String, Object> selectTeamByAbbr(String abbr) {
 		return dao.selectTeamByAbbr(session, abbr);
 	}
+	
+	@Override
+	public List<Map<String, Object>> selectMatchScheduleByAbbr(String abbr) {
+		return dao.selectMatchScheduleByAbbr(session, abbr);
+	}
 
 	@Override
-	public List<Map<String, Object>> selectMatchByAbbr(String abbr) {
-		return dao.selectMatchByAbbr(session, abbr);
+	public List<Map<String, Object>> selectMatchHistoryByAbbr(String abbr) {
+		return dao.selectMatchHistoryByAbbr(session, abbr);
 	}
 
 	@Override
