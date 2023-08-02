@@ -69,8 +69,10 @@
                   </c:if>
                     <hr class="hr-3">
                     <div class="insertBtnDiv">
-                        <button type="submit" class="insertBtn insertBtnOk content">수정</button>
-                        <button type="reset" class="insertBtn insertBtnNo content">삭제</button>
+                    <%-- <c:if test="${loginMember.email.equals(qb.qaWriter.email) }"> --%>
+                        <button id="updateQna" type="submit" class="insertBtn insertBtnOk content">수정</button>
+                        <button id="deleteQna" type="reset" class="insertBtn insertBtnNo content">삭제</button>
+					<%-- </c:if> --%>
                     </div>
 
                 <!-- 댓글 -->
@@ -78,17 +80,17 @@
                     <div class="qnaCommentDivSize">
                         <p class="title qnaCommentTitle fs-20">댓글</p>
                         <!-- 댓글 작성 -->
-                        <form id="commentForm" method="post">
+                        <form id="commentForm" method="post" onsubmit="return fn_insertComment();">
                             <div class="insertCommentDiv">
                                 <textarea type="text" class="insertComment content fs-20"
                                     style="resize: none;"></textarea>
                                 <div class="countBtnDiv">
                                     <div class="countBtn">
-                                        <span class="content fs-20">0/150</span>
+                                        <span id="letterSpan" class="content fs-20">0/150</span>
                                     </div>
                                     <div class="iconBtn">
                                         <ion-icon name="happy-outline"></ion-icon>
-                                        <button class="commentBtn content" onclick="fn_insertComment();">등록</button>
+                                        <button class="commentBtn content">등록</button>
                                     </div>
                                 </div>
                             </div>
@@ -96,42 +98,49 @@
                         <!-- 댓글 목록 -->
                         <div class="qnaCommentListDiv">
                             <hr class="hr-1 hr-op">
-                            <c:if test="${not empty qb.qaComment }">
-	                            <c:forEach var="c" items="${qb.qaComment }">
-		                            <div class="commentList">
-		                                <div class="">
-		                                <!-- 탈퇴한 회원 분기처리 필요 -->
-		                                    <img src="${path }/resources/upload/"
-		                                        style="width: 70px; height: 70px; border-radius: 70px;">
-		                                </div>
-		
-		                                <div class="commentDetail">
-		                                    <div class="commentInfo">
-		                                        <p class="content fs-20 nickname">${c.qaCommentWriter != null ? c.qaCommentWriter.nickname : '탈퇴한 회원' }</p>
-		                                    </div>
-		                                    <div>
-		                                        <p class="content commentContent">${c.qaCommentContent }</p>
-		                                        <span class="dateSpan content">${c.qaCommentDate }</span>
-		                                    </div>
-		                                </div>
-		
-		                                <div class="optionDiv">
-		                                    <button class="moreIconBtn">
-		                                        <ion-icon class="moreIcon" name="ellipsis-horizontal"
-		                                            style="font-size: 28px;"></ion-icon>
-		                                    </button>
-		                                    <ul class="optionUl">
-		                                        <li>
-		                                            <button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-		                                            <hr class="hr-op">
-		                                            <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
-		                                        </li>
-		                                    </ul>
-		                                </div>
-		                            </div>
+		                    <c:if test="${not empty qbc }">
+		                    	<c:forEach var="c" items="${qbc }">
+		                    <div class="commentListDiv">
+		                    	<div class="commentList">
+                                <div class="">
+                                    <img src="${path}/resources/upload/profile/${c.qaCommentWriter.profile}"
+                                        style="width: 70px; height: 70px; border-radius: 70px; border:1px solid var(--lol-white)">
+                                </div>
+
+                                <div class="commentDetail">
+                                    <div class="commentInfo">
+                                        <p class="content fs-20 nickname">${c.qaCommentWriter.nickname}</p>
+                                    </div>
+                                    <div>
+                                        <p class="content fs-20 commentContent">${c.qaCommentContent}</p>
+                                        <span class="dateSpan content">${c.qaCommentDate}</span>
+                                    </div>
+                                </div>
+
+                                <div class="optionDiv">
+                                    <button class="moreIconBtn">
+                                        <ion-icon class="moreIcon" name="ellipsis-horizontal"
+                                            style="font-size: 28px;"></ion-icon>
+                                    </button>
+                                    <ul id="${c.qaCommentNo }" class="optionUl">
+                                        <li>
+                                       		 <label class="cUpBtn">
+                                            <button><ion-icon class="optionIcon"
+                                                    name="create-outline"></ion-icon>수정</button>
+                                                    </label>
+                                         <hr class="hr-op">
+                                         <label class="cDelBtn">
+                                            <button><ion-icon class="optionIcon"
+                                                    name="trash-bin-outline"></ion-icon>삭제</button>
+                                         </label>          
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             <hr class="hr-1 hr-op">
-                            	</c:forEach>
-                            </c:if>
+                                </c:forEach>
+                               </c:if>
+		                    </div>
                         </div>
                     </div>
                 </div>
@@ -146,60 +155,156 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script>
+/* 댓글 글자 수 제한 */
+$(".insertComment").keyup(e=>{
+	let content = $(e.target).val();
+    
+    // 글자수 세기
+    if (content.length == 0 || content == '') {
+    	$('#letterSpan').text('0/150');
+    } else {
+    	$('#letterSpan').text(content.length + '/150');
+    }
+    
+    // 글자수 제한
+    if (content.length > 150) {
+        $(e.target).val($(e.target).val().substring(0, 150));
+        alert('댓글은 150자 이하로 작성해주세요.');
+    };
+});
+
+/* 댓글 권한 */
+$(".insertComment").focus(e=>{
+	if('${loginMember.authority}' != '관리자'){
+		alert("문의하기 댓글은 관리자만 작성할 수 있습니다.");
+		$(".insertComment").blur();
+	}
+});
+
+/* 댓글 등록 ajax */
+const fn_insertComment=()=>{
+	const auth = '${loginMember.authority}'; // 로그인 회원 권한
+	const qaNo = '${qb.qaNo}'; // 문의글 번호
+	
+    if (auth != '관리자') {
+      alert( '문의하기 댓글은 관리자만 작성할 수 있습니다.' );
+      return false;
+    } else {
+    	const writer = '${loginMember.email}';
+    	const content = $(".insertComment").val();
+    	
+    	$.ajax({
+    		type: "POST",
+    		url: "/qna/insertComment",
+    		data:{
+    			"qaCommentWriter": writer,
+    			"qaCommentContent": content,
+    			"qaNo": qaNo
+    		},
+    		dataType: "json",
+    		success : function(data){
+    			const commentList = $(".commentListDiv");
+    			commentList.html('');
+    			$("#letterSpan").text('0/150');
+    			let html = '';
+    			data.forEach(function(item) {
+    				html += "<div class='commentList'>";
+    				html += "<div class='profileImg'>";
+    				html += "<img src='" + "${path}/resources/upload/profile/" + item.qaCommentWriter.profile
+    						+ "' style='width: 70px; height: 70px; border-radius: 70px; border: 1px solid var(--lol-white);'>";
+    				html += "</div>";
+    				
+    				html += "<div class='commentDetail'>";
+    				html += "<div class='commentInfo'>";
+    				html += "<p class='content fs-20 nickname'>";
+    				html += (item.qaCommentWriter.nickname != null) ? item.qaCommentWriter.nickname : "탈퇴한 회원";
+    				html += "</p>";
+    				html += "</div>";
+    				html += "<div>";
+    				html += "<p class='content commentContent'>" + item.qaCommentContent + "</p>";
+                    html += "<span class='dateSpan content'>" + item.qaCommentDate + "</span>";
+                    html += "</div></div>";
+                    
+    				html += "<div class='optionDiv'>";
+    				html += "<button class='moreIconBtn'>";
+    				html += "<ion-icon class='moreIcon' name='ellipsis-horizontal' style='font-size: 28px;'></ion-icon>";
+    				html += "</button>";
+    				
+    				html += "<ul id='${c.qaCommentNo }' class='optionUl'><li>";
+    				html += "<label class='cUpBtn'><button id='${c.qaCommentNo}' class='cUpBtn'><ion-icon class='optionIcon' name='create-outline'></ion-icon>수정</button></label>";
+    				html += "<hr class='hr-op'>";
+    				html += "<label class='cDelBtn'><button id='${c.qaCommentNo}' class='cDelBtn'><ion-icon class='optionIcon cDelBtn' name='trash-bin-outline'></ion-icon>삭제</button></label>";
+    				html += "</li></ul></div></div>";
+    				html += "<hr class='hr-1 hr-op'>";
+    			});
+    			commentList.append(html);
+    			$(".insertComment").val('');
+    		},
+    		error: function(err){
+    			console.log("요청 실패", err);
+    		}
+    	});
+    	return false;
+    }
+}
+
+/* 문의글 삭제 */
+$("#deleteQna").click(e=>{
+	if(confirm("정말 삭제하시겠습니까?")) { 
+		location.replace('${path}/qna/deleteQna?no=${qb.qaNo}');
+	}
+})
+
 /* 댓글 - 수정, 삭제 버튼 토글 */
-$(".moreIconBtn").click(e => {
+/* 동적 태그에 이벤트 위임해줘야 함 */
+$(document).on("click", ".moreIconBtn", function(e) {
     const optionUl = $(e.target).closest(".optionDiv").find(".optionUl");
     optionUl.toggle();
 });
 
-/* 댓글 - 등록 */
-const fn_insertComment=()=>{
-	$.ajax({
-		type: 'POST',
-		url: ${path} + '/qna/insertComment',
-		dataType: "json"
-		data: $("#commentForm").serialize(),
-		success: data => {
-			if(data == "success"){
-				getCommentList();
-				$(".insertComment").val("");
-			}
-		},
-		error: alert("댓글 등록 실패");
-	})
-}
-
-/* 페이지 로딩 시 댓글 불러오기 */
-$(function(){ 
-    getCommentList();
+/* 댓글 수정 */
+$(document).on("click", ".cUpBtn", function(e) {
+	const qaNo = $(e.target).attr('id');
+	console.log($(e.target).closest("ul").attr('id'));
 });
 
-function getCommentList(){
+
+
+
+
+
+
+
+
+
+
+
+// 페이지 로딩 시 댓글 조회
+/* window.onload = () => {
+    findAllComment();
+} */
+
+// 전체 댓글 조회
+/* function findAllComment() {
+	
 	$.ajax({
-		type: 'GET',
-		url: ${path} + '/qna/selectCommentAll',
-		dataType: "json"
-		data: $("#commentForm").serialize(),
-		contentType: "application/json; charset=UTF-8",
-		success: data => {
-			
-			let html = "";
-			let commentCount = data.length;
-			
-			if(commentCount > 0){
-				
-				for(i=0; i<commentCount; i++){
-					
-				}
-				
-			} else {
-				html += "<p class='content'>등록된 댓글이 없습니다.<p>";
-				html += "<hr class='hr-1 hr-op'>";
-			}
-		},
-		error: alert("댓글 등록 실패");
-	})
-}
+	    url : '${path}/qna/qnaView?no=${qb.qaNo}',
+	    type : 'get',
+	    async : false,
+	    success : (data)=> {
+	        console.log(data.length);
+	    },
+	    error : function (request, status, error) {
+	        console.log("에러났다!");
+	    }
+	}) 
+	
+	    window.onload = () => {
+        findAllComment();
+    } 
+} */
+
+
 </script>
 <!-------------------------------------------->
 </body>
