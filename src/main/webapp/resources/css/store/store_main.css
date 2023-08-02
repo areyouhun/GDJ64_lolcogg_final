@@ -1,0 +1,199 @@
+@charset "UTF-8";
+
+#storeMainImg {
+	width: 1280px;
+	height: 420px;
+	margin-bottom: 1rem;
+}
+
+.page-margin {
+	margin: 0px;
+}
+
+#storeMainName {
+	color: var(--lol-white);
+	font-family: EF_MACHO;
+	font-size: 40px;
+	text-align: center;
+}
+
+.storeLine {
+	width: 1280px;
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+}
+
+#hotItem {
+	color: var(--lol-white);
+	font-family: EF_MACHO;
+	font-size: 25px;
+}
+
+.storeTheme {
+	display: flex;
+	justify-content: space-between;
+}
+
+#searchImg {
+	position: absolute;
+	margin-left: 7px;
+	width: 1.2rem;
+	height: 1.2rem;
+	z-index: 1;
+
+}
+
+#storeSearch {
+	background-color: var(--lol-black);
+	border: 1px solid var(--lol-mainblue);
+	height: 2rem;
+	width: 20rem;
+	text-indent: 2.4rem;
+	color: white;
+	font-size: 18px;
+}
+
+#storeSearch:focus {
+	outline: var(--lol-mainblue);
+}
+
+#storeSearchMain {
+	display: flex;
+	align-items: center;
+}
+
+#storeSearchButton {
+	background-color: var(--lol-mainblue);
+	border: none;
+	height: 2rem;
+	width: 4rem;
+	margin-left: 1.5rem;
+	cursor: pointer;
+	color: var(--lol-white);
+	font-size: 16px;
+}
+
+.itemArray {
+	display: flex;
+	justify-content: flex-start;
+	margin-top: 2rem;
+	margin-bottom: 3rem;
+}
+
+.item>img {
+	width: 16rem;
+	height: 16rem;
+	background-color: var(--bg-gray);
+	border: 1px solid var(--lol-mainblue);
+	cursor: pointer;
+}
+
+.item {
+	color: var(--lol-white);
+	font-family: "SUIT-Regular";
+	display: flex;
+	width: 256px;
+	flex-direction: column;
+	margin: 0rem 2rem 0rem 2rem;
+}
+
+.item>div {
+	display: flex;
+	align-items: center;
+}
+
+.item>div>img {
+	margin-right: 1rem;
+}
+
+.item>h4 {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.item>div>h5 {
+	font-size: 18px;
+}
+
+.storeTheme>a {
+	color: var(--lol-mainblue);
+	text-decoration: underline;
+	font-size: 18px;
+}
+
+#mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 9999;
+	background-color: #000;
+	display: none;
+}
+
+.storeModal {
+	border: 2px solid var(--lol-mainblue);
+	width: 600px;
+	height: 400px;
+	display: none;
+	position: absolute;
+	z-index: 10000;
+	background-color: var(--lol-black);
+	font-family: "SUIT-Regular";
+	color: var(--lol-white);
+}
+
+#modalContent {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#modalImg {
+	width: 14rem;
+	height: 14rem;
+}
+
+#modalItemDetail {
+	display: flex;
+	width: 90%;
+}
+
+#modalContent>p {
+	font-family: EF_MACHO;
+	font-size: 20px;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+#modalItemDetail>div>table>tbody>tr:first-child {
+	height: 3rem;
+}
+
+#moadlButton {
+	width: 100%;
+	display: flex;
+	margin-top: 2rem;
+	justify-content: center;
+}
+
+#moadlButton>button {
+	width: 6rem;
+	height: 2rem;
+	border: none;
+	color: var(--lol-black);
+	font-size: 16px;
+}
+
+#moadlButton>button:first-child {
+	background-color: var(--lol-white);
+	margin-right: 1rem;
+}
+
+#moadlButton>button:last-child {
+	background-color: var(--lol-teamblue);
+	margin-left: 1rem;
+}
+
+#modalTable>tbody>tr>td:first-child {
+	width: 5rem;
+}
