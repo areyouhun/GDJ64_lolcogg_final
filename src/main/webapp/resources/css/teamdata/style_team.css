@@ -73,8 +73,13 @@ img {
     margin-right: 10px;
 }
 
+.team-stats-date {
+    margin: 10px 10px 0 0;
+    text-align: right;
+}
+
 .bar-layout {
-    margin-top: 40px;
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -122,8 +127,8 @@ img {
 
 .team-players-card {
     position: absolute;
-    top: 91px;
-    right: 9px;
+    top: 60px;
+    right: 10px;
     width: 250px;
     height: 480px;
 }
@@ -207,4 +212,25 @@ img {
                 0 0 0px var(--lol-white), 
                 0 0 5px var(--lol-white), 
                 0 0 5px var(--lol-white);
+}
+
+.match-table {
+    width: 100%;
+}
+
+.match-table td {
+    width: 110px;
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.match-table-column {
+    display: inline-block;
+    width: 90px;
+    padding: 3px 5px;
+    border-radius: 12px;
+    background-color: var(--lol-white);
+    color: var(--lol-black);
+    font-size: 0.9rem;
+    font-weight: 700;
 }

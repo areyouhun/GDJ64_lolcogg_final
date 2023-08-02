@@ -1,5 +1,6 @@
 package gg.lolco.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +12,11 @@ public class TeamDaoImpl implements TeamDataDao {
 	@Override
 	public Map<String, Object> selectTeamByAbbr(SqlSession session, String abbr) {
 		return session.selectOne("teamdata.selectTeamByAbbr", abbr);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMatchByAbbr(SqlSession session, String abbr) {
+		return session.selectList("teamdata.selectMatchByAbbr", abbr);
 	}
 
 	@Override

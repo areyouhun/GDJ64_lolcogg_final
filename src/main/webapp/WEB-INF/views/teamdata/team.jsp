@@ -57,6 +57,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="team-stats-date">
+                    <p style="color: #5F5F5F;">*<fmt:formatDate value="${team.UPDATE_DATE}" type="date" dateStyle="long"/> 기준</p>
+                </div>
 
                 <div class="team-players">
                     <div class="bar-layout">
@@ -134,6 +137,28 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="team-match_scheduled">
+                    <div class="bar-layout">
+                        <hr class="flex-grow">
+                        <p class="fw-bold">예정 경기</p>
+                        <hr class="flex-grow">
+                    </div>
+                    <table class="match-table">
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <div class="team-match_history">
+                    <div class="bar-layout">
+                        <hr class="flex-grow">
+                        <p class="fw-bold">종료 경기</p>
+                        <hr class="flex-grow">
+                    </div>
+                    <table class="match-table">
+                        <tbody></tbody>
+                    </table>
                 </div>
 
             </div>

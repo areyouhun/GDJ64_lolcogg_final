@@ -19,6 +19,7 @@ public class TeamDataContorller {
 	@GetMapping("/team")
 	public String team(String abbr, Model model) {
 		model.addAttribute("team", service.selectTeamByAbbr(abbr));
+		model.addAttribute("matches", service.selectMatchByAbbr(abbr));
 		return "teamdata/team";
 	}
 	

@@ -135,7 +135,7 @@
                         $(".players-img>img").width("50%").attr("src", "${path}/resources/images/player/" + person.image[1]);
 
                         $.ajax({
-                            url: "${path}/resources/csv/matchLCK_Player_${player.PLAYER_NICKNAME}"+ ".csv" ,
+                            url: "${path}/resources/csv/player/${player.PLAYER_NICKNAME}"+ ".csv" ,
                             dataType: "text",
                             success: data => {
                                 const rows = data.split(/\r?\n|\r/);
@@ -157,16 +157,16 @@
                                     } else {
                                         const $tr = $("<tr>");
 
-                                        $tr.append($("<td>").append(generateChamp(row[0].replace("'", ""))))
+                                        $tr.append($("<td>").append(generateChamp(row[0])))
                                             .append($("<td>").append($("<h2>").text(row[1]).addClass("fw-bold")))
                                             .append($("<td>").append($("<h2>").text(row[2] + "승 " + row[3] + "패").addClass("fw-bold")))
+                                            .append($("<td>").append($("<h2>").text(row[4]).addClass("fw-bold")))
                                             .append($("<td>").append($("<h2>").text(row[5]).addClass("fw-bold")))
                                             .append($("<td>").append($("<h2>").text(row[6]).addClass("fw-bold")))
                                             .append($("<td>").append($("<h2>").text(row[7]).addClass("fw-bold")))
                                             .append($("<td>").append($("<h2>").text(row[8]).addClass("fw-bold")))
                                             .append($("<td>").append($("<h2>").text(row[9]).addClass("fw-bold")))
-                                            .append($("<td>").append($("<h2>").text(row[10]).addClass("fw-bold")))
-                                            .append($("<td>").append($("<h2>").text(row[11]).addClass("fw-bold")));
+                                            .append($("<td>").append($("<h2>").text(row[10]).addClass("fw-bold")));
                                             
 
                                         $(".champions-table>tbody").append($tr);
