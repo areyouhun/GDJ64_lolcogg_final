@@ -1,6 +1,7 @@
 package gg.lolco.common.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -39,7 +40,6 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("index");
 		registry.addViewController("/template").setViewName("template");
 		// member ==================================================================
 		registry.addViewController("/member/loginPage").setViewName("member/login");
@@ -62,6 +62,11 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 //		registry.addHandler(chattingServer, "");
+	}
+	
+	@GetMapping({"", "/"})
+	public String index() {
+		return "redirect:/mainPage";
 	}
 
 }
