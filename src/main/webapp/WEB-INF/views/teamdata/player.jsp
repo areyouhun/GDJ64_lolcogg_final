@@ -198,7 +198,7 @@
             "marginBottom": "5px"    
         });
         const $img = $("<img>").attr("src", "https://ddragon.leagueoflegends.com/cdn/13.14.1/img/champion/" + name + ".png").css({
-            "border": "2px solid var(--lol-white)",
+            "border": "3px solid var(--lol-white)",
             "borderRadius": "50%"
         });
         const $p = $("<p>").text(name);

@@ -152,8 +152,8 @@
                         		<c:forEach var="match" items="${matchSchedule}" varStatus="status">
                         			<c:if test="${status.index < 5}">
                         				<tr>
-                                        	<td><h3><fmt:formatDate value="${match.MS_DATE}" type="both" pattern="MM.dd (E) HH:mm"/></h3></td>
-                                        	<td>
+                                        	<td class="match_date"><h3><fmt:formatDate value="${match.MS_DATE}" type="both" pattern="MM.dd (E) HH:mm"/></h3></td>
+                                        	<td class="home">
                                         		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_HOME}"/></h3>
                                         	</td>
                                         	<td>
@@ -162,7 +162,7 @@
                                         		</div>
                                         	</td>
                                         	<td><h3 class="title">VS</h3></td>
-                                        	<td>
+                                        	<td class="away">
                                         		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_AWAY}"/></h3>
                                         	</td>
                                         	<td>
@@ -173,7 +173,7 @@
                                         	<td>
                                         		<div class="match-table_option">
                                         			<input type="button" class="match-alarm"/>
-                                        			<input type="button" class="match-btn" value="승부 예측"/>
+                                        			<input type="button" class="match-btn" value="전력 비교"/>
                                         		</div>
                                         	</td>
                         				</tr>
@@ -196,8 +196,8 @@
                         		<c:forEach var="match" items="${matchHistory}" varStatus="status">
                         			<c:if test="${status.index < 5}">
                         				<tr>
-                                        	<td><h3><fmt:formatDate value="${match.MS_DATE}" type="both" pattern="MM.dd (E) HH:mm"/></h3></td>
-                                        	<td>
+                                        	<td class="match_date"><h3><fmt:formatDate value="${match.MS_DATE}" type="both" pattern="MM.dd (E) HH:mm"/></h3></td>
+                                        	<td class="home">
                                         		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_HOME}"/></h3>
                                         	</td>
                                         	<td>
@@ -206,7 +206,7 @@
                                         		</div>
                                         	</td>
                                         	<td><h3 class="title"><c:out value="${match.MS_HOME_SCORE} : ${match.MS_AWAY_SCORE}"/></h3></td>
-                                        	<td>
+                                        	<td class="away">
                                         		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_AWAY}"/></h3>
                                         	</td>
                                         	<td>
@@ -290,6 +290,14 @@
 
         $(document).on("click", ".name-list input[type=button]", event => {
             location.assign("${path}/teamdata/player?nickname=" + $(event.target).val());
+        });
+
+        $(document).on("click", ".match-btn", event => {
+            const matchDate = "23-" + $(event.target).parent().parent().siblings(".match_date").find("h3").text().split(" ")[0].replace(".", "-");
+            const home = $(event.target).parent().parent().siblings(".home").find("h3").text();
+            const away = $(event.target).parent().parent().siblings(".away").find("h3").text();
+
+            location.assign("${path}/teamdata/matchResult?matchDate=" + matchDate + "&home=" + home + "&away=" + away);
         });
 </script>
 </body>

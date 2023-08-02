@@ -38,4 +38,9 @@ public class TeamDataServiceImpl implements TeamDataService {
 		return dao.selectPlayerByNickname(session, nickname);
 	}
 
+	@Override
+	public Map<String, Object> selectMatchResultByKeyword(Map<String, String> keyword) {
+		return dao.selectMatchResultByKeyword(session, keyword);
+	}
+
 }

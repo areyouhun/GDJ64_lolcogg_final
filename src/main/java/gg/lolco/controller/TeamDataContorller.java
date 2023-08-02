@@ -1,9 +1,12 @@
 package gg.lolco.controller;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import gg.lolco.model.service.TeamDataService;
 
@@ -28,5 +31,11 @@ public class TeamDataContorller {
 	public String player(String nickname, Model model) {
 		model.addAttribute("player", service.selectPlayerByNickname(nickname.toLowerCase()));
 		return "teamdata/player";
+	}
+	
+	@GetMapping("/matchResult")
+	public String matchResult(@RequestParam Map<String, String> keyword, Model model) {
+		model.addAttribute("matchResult", service.selectMatchResultByKeyword(keyword));
+		return "teamdata/matchResult";
 	}
 }

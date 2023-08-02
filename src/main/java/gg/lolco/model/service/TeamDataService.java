@@ -12,4 +12,6 @@ public interface TeamDataService {
 	List<Map<String, Object>> selectMatchHistoryByAbbr(String abbr);
 	
 	Map<String, Object> selectPlayerByNickname(String nickname);
+	
+	Map<String, Object> selectMatchResultByKeyword(Map<String, String> keyword);
 }

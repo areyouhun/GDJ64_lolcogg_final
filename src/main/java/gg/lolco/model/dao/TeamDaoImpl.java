@@ -29,4 +29,9 @@ public class TeamDaoImpl implements TeamDataDao {
 		return session.selectOne("teamdata.selectPlayerByNickname", nickname);
 	}
 
+	@Override
+	public Map<String, Object> selectMatchResultByKeyword(SqlSession session, Map<String, String> keyword) {
+		return session.selectOne("teamdata.selectMatchResultByKeyword", keyword);
+	}
+
 }

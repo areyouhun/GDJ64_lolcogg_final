@@ -14,4 +14,6 @@ public interface TeamDataDao {
 	List<Map<String, Object>> selectMatchHistoryByAbbr(SqlSession session, String abbr);
 	
 	Map<String, Object> selectPlayerByNickname(SqlSession session, String nickname);
+	
+	Map<String, Object> selectMatchResultByKeyword(SqlSession session, Map<String, String> keyword);
 }
