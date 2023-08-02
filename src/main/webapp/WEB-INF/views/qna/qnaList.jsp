@@ -41,10 +41,23 @@
 		                                    <a href="${path }/qna/qnaView?no=${qna.qaNo}">${qna.qaTitle }</a>
 		                                    <img src="${path }/resources/images/qna/lock.png" style="width: 15px; height: 15px;">
 		                                </td>
-		                                <td class="color-white content fs-20">${qna.qaWriter.email==null ? "탈퇴한 회원" : qna.qaWriter.nickname }</td>
+		                                <td class="color-white content fs-20">${qna.qaWriter==null ? "탈퇴한 회원" : qna.qaWriter.nickname }</td>
 		                                <td class="color-white content fs-20">${qna.qaDate }</td>
 		                                <td class="color-white content fs-20">
-		                                	<button class="qnaBtn ${not empty qna.qaComment ? 'comBtn' : ''}" disabled>${not empty qna.qaComment ? '답변완료' : '답변대기' }</button>
+		                               <%--  <p class='content'>${qna.qaComment}</p> --%>
+		                               <c:set var="doneLoop" value="false" />
+		                                	<c:forEach var="c" items="${qna.qaComment}" varStatus="status">
+		                                		<%-- <p class='content'>${c.qaNo }</p> --%>
+		                                		<c:if test="${not doneLoop}"> 
+													<c:if test="${c.qaCommentNo != 0 }"> 
+														<c:set var="doneLoop" value="true"/> 
+				                                		<button class="qnaBtn comBtn" disabled>답변완료</button>
+													</c:if> 
+												</c:if> 
+		                                		<c:if test="${c.qaCommentNo == 0 }">
+		                                			<button class="qnaBtn" disabled>답변대기</button>
+		                                		</c:if>
+		                                	</c:forEach>
 		                                </td>
 		                            </tr>
 	                            </c:forEach>
@@ -64,19 +77,6 @@
         </div>
         <!-- 페이지바 -->
         <c:out value="${pageBar }" escapeXml="false"/>
-        <!-- <div class="pageBar">
-            <div class="pageAll">
-                <ul class="page">
-                    <li><a href="#">&lt;</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#" class="nowPage">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&gt;</a></li>
-                </ul>
-            </div>
-        </div> -->
     </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
