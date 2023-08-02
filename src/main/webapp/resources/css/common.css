@@ -280,3 +280,46 @@ a:-webkit-any-link {
 	/*미완성*/
 }
 
+/* ***** 페이지바 ***** */
+.pageBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page {
+    padding: 0;
+    margin: 0;
+    align-items: center;
+}
+
+.page li {
+    width: 10px;
+    height: 10px;
+    display: inline;
+}
+
+.page li a , .page li span{
+    color: var(--lol-white);
+    margin: 5px;
+    padding: 8px 15px;
+    text-decoration: none;
+    font-size: 20px;
+
+
+    font-family: "SUIT-Regular";
+}
+
+.page li a:hover:not(.nowPage) {
+    font-weight: bold;
+    color: var(--khy-bg-gray);
+}
+
+.nowPage {
+    background-color: var(--khy-bg-gray);
+    border-radius: 10px;
+    color: var(--lol-white);
+    font-weight: bold;
+    padding: 8px 15px;
+}
+
