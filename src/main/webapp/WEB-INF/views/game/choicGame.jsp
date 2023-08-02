@@ -37,8 +37,8 @@
     border-radius: 10px 10px 10px 10px;
     flex-direction: column;
     align-items: center;
-    width: 69%;
     height: 100%;
+    width: 660px;
 }
 .choiceTheme>div:first-child{
 	display:flex;
@@ -243,7 +243,7 @@
 								</div>
 							</div>
 							<div>
-								<h3>LOL 월드컵</h3>
+								<h3 class="gameName">LOL 월드컵</h3>
 	                            <div class="startworld">
 	                                <div class="start cursor goGame" >
 	                                    <img src="${path}/resources/images/game/cupstart.png">
@@ -271,7 +271,7 @@
 								</div>
 							</div>
 							<div>
-								<h3>LOL 월드컵</h3>
+								<h3 class="gameName">LOL 월드컵</h3>
 	                            <div class="startworld">
 	                                <div class="start cursor goGame">
 	                                    <img src="${path}/resources/images/game/cupstart.png">
@@ -301,7 +301,7 @@
 								</div>
 							</div>
 							<div>
-								<h3>LCK 롤 프로게이머 월드컵</h3>
+								<h3 class="gameName">LCK 롤 프로게이머 월드컵</h3>
 	                            <div class="startworld">
 	                                <div class="start cursor goGame">
 	                                    <img src="${path}/resources/images/game/cupstart.png">
@@ -329,7 +329,7 @@
 								</div>
 							</div>
 							<div>
-								<h3>LOL 월드컵</h3>
+								<h3 class="gameName">LOL 월드컵</h3>
 	                            <div class="startworld">
 	                                <div class="start cursor goGame">
 	                                    <img src="${path}/resources/images/game/cupstart.png">
@@ -400,9 +400,14 @@ $(function () {
 	})
 	
 	$(".goGame").click(function(e){
-		window.open("${path}/game/worldcup?gameName="+$(e.target).parent().parent().prev().text())
-		console.log($(e.target).parent().parent().prev().text());
-	})
+		const name=$(e.target).parent().parent().parent().find('.gameName').text();
+		let num=0;
+		switch(name){
+			case "LCK 롤 프로게이머 월드컵" : num=1;break;
+		}
+		window.open("${path}/game/worldcup?gameName="+name+"&no="+num) 
+	});
+	
 });
 
 
