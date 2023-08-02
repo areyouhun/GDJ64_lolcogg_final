@@ -18,6 +18,8 @@ public interface QnaDao {
 	
 	int insertBoard(SqlSessionTemplate session, Map param);
 	
+	int insertFile(SqlSessionTemplate session, Map param);
+	
 	int deleteQna(SqlSessionTemplate session, int qaNo);
 	
 	int insertComment(SqlSessionTemplate session, Map param);

@@ -37,6 +37,11 @@ public class QnaDaoImpl implements QnaDao {
 	}
 
 	@Override
+	public int insertFile(SqlSessionTemplate session, Map param) {
+		return session.insert("qna.insertFile", param);
+	}
+
+	@Override
 	public int deleteQna(SqlSessionTemplate session, int qaNo) {
 		return session.delete("qna.deleteQna", qaNo);
 	}

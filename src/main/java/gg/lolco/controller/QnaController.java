@@ -62,6 +62,51 @@ public class QnaController {
 		return "qna/qnaView";
 	}
 	
+//	qna 등록 -> 구현 x
+	@PostMapping("/insertQnaEnd")
+	public String insertQna(@RequestParam Map param , Model m, MultipartFile[] qaFile, HttpSession session) {
+		
+		// 절대경로
+		String path = session.getServletContext().getRealPath("/resources/upload/qna/");
+		List<QaBoardFile> files=new ArrayList<>();
+		if(qaFile != null) {
+			for(MultipartFile mf : qaFile) {
+				if(!mf.isEmpty()) {
+					// 파일 등록
+					String oriName = mf.getOriginalFilename();
+					String ext = oriName.substring(oriName.lastIndexOf(".")); // 확장자명
+					Date today = new Date(System.currentTimeMillis());
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+					int rdn = (int)(Math.random()*10000) + 1; // 랜덤값 부여
+					String rename = sdf.format(today) + "_" + rdn + ext; // rename명
+					
+					try {
+						mf.transferTo(new File(path + rename));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					QaBoardFile file = QaBoardFile.builder()
+							.qaOriFilename(oriName)
+							.qaRnmFilename(rename)
+							.build();
+					
+					files.add(file);
+				}
+			}
+			param.put("qaFile", files);
+		}
+		
+		try {
+			service.insertBoard(param);
+		} catch(RuntimeException e) {
+			// 등록 실패
+		}
+		
+		return "redirect:/qna/qnaList";
+	}
+	
+	
 //	qna 삭제
 	@RequestMapping("/deleteQna")
 	public String deleteQna(int no, Model m) {
