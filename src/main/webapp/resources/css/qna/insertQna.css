@@ -270,16 +270,17 @@ ion-icon{
     background-color: var(--khy-off-gray);
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .insertComment{
     border: none;
     background-color: var(--khy-off-gray);
     width: 85%;
-    height: 110px;
+    height: 115px;
     color: var(--lol-white);
-    padding: 13px 20px;
-    overflow: hidden;
+    padding: 0px 20px;
+    /*overflow: hidden;*/
     border-radius: 10px;
 }
 
@@ -298,7 +299,7 @@ ion-icon{
 }
 
 .countBtn{
-    margin: 20px 25px;
+    margin: 20px 30px;
     display: flex;
     justify-content: end;
 }
@@ -419,6 +420,10 @@ ion-icon{
     color: var(--khy-bg-gray);
     font-size: 23px;
     padding-right: 4px;
+}
+
+.cDelBtn button, .cUpBtn button{
+	cursor: pointer;
 }
 
 .fs-23{

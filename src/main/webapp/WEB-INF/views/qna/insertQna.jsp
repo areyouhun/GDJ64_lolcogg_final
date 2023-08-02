@@ -25,12 +25,12 @@
                         <div class="insertqna">
                             <p class="color-white content fs-20 tableTitle">제목</p>
                             <input type="text" name="qaTitle" class="qnaInput inputFont" placeholder="최대 30자">
-                            <input type="hidden" name="qaWriter" value="">
+                            <input type="hidden" name="qaWriter" value="${loginMember.email }">
                         </div>
                         <hr class="hr-1">
                         <div class="insertqna">
                             <p class="color-white content fs-20 tableTitle">문의내용</p>
-                            <textarea name="qnaContent" cols="30" rows="40" value="qaContent" style="resize: none;"
+                            <textarea name="qaContent" cols="30" rows="40" value="qaContent" style="resize: none;"
                                 class="qnaInput inputFont" placeholder="최대 1000자"></textarea>
                         </div>
                         <hr class="hr-1">
@@ -39,7 +39,7 @@
                             <div class="addFile">
 	                            <label for="qnaFile" class="inputFont fileBtn">파일 추가하기</label>
 	                            <input type="file" id="qnaFile" name="qaFile" accept="image/*" onchange="addFile();" multiple>
-	                            <p class="content fileName"></p>
+	                            <!-- <p class="content fileName"></p> --><div class="fileBox"></div>
                             </div>
                         </div>
                         <div>
@@ -76,6 +76,26 @@ $(()=>{
 		$(e.target).next(".fileName").text(fileName);
 	})
 })
+
+
+$("[name=qaFile]").change(e=>{
+	$(".fileBox").html('');
+	const files = e.target.files;
+	
+	$.each(files,(i,f)=>{
+		const reader = new FileReader();
+	reader.onload=e=>{
+		const img = $("<img>").attr({
+			src: e.target.result, "width" : "80px", "height" : "80px"
+		}).css({
+			"margin-right":"10px", "border" : "1px solid white"
+		});
+		$(".fileBox").append(img);
+	}	
+	reader.readAsDataURL(f);
+	})
+})
+
 
 /* const addFile=()=>{
 	let maxFile = 5; // 첨부파일 최대 개수
