@@ -1,6 +1,13 @@
 package gg.lolco.controller;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,8 +41,24 @@ public class TeamDataContorller {
 	}
 	
 	@GetMapping("/matchResult")
-	public String matchResult(@RequestParam Map<String, String> keyword, Model model) {
-		model.addAttribute("matchResult", service.selectMatchResultByKeyword(keyword));
+	public String matchResult(@RequestParam Map<String, String> keyword, 
+											Model model, HttpSession session) 
+	{
+		final String path = session.getServletContext().getRealPath("/resources/csv/");
+		final Map<String, Object> matchResult = service.selectMatchResultByKeyword(keyword);
+		
+		try (InputStream is = new FileInputStream(path + matchResult.get("MS_FILE_NAME"));
+			InputStreamReader isr = new InputStreamReader(is);
+				BufferedReader br = new BufferedReader(isr);) {
+			String data;
+			while ((data = br.readLine()) != null) {
+				System.out.println(data);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("matchResult", matchResult);
 		return "teamdata/matchResult";
 	}
 }
