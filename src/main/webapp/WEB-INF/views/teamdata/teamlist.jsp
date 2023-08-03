@@ -18,16 +18,16 @@
                     <p class="mainTitle fs-35 mainTitleMargin">팀 데이터</p>
                 </div>
                 <article class="teams">
-                    <input type="button" class="btn-img fw-bolder">
-                    <input type="button" class="btn-img fw-bolder">
-                    <input type="button" class="btn-img fw-bolder">
-                    <input type="button" class="btn-img fw-bolder">
-                    <input type="button" class="btn-img fw-bolder">
-                    <input type="button" class="btn-img fw-bolder">
-                    <input type="button" class="btn-img fw-bolder">
-                    <input type="button" class="btn-img fw-bolder">
-                    <input type="button" class="btn-img fw-bolder">
-                    <input type="button" class="btn-img fw-bolder">
+                    <button class="btn-img fw-bolder slide-btn"></button>
+                    <button class="btn-img fw-bolder slide-btn"></button>
+                    <button class="btn-img fw-bolder slide-btn"></button>
+                    <button class="btn-img fw-bolder slide-btn"></button>
+                    <button class="btn-img fw-bolder slide-btn"></button>
+                    <button class="btn-img fw-bolder slide-btn"></button>
+                    <button class="btn-img fw-bolder slide-btn"></button>
+                    <button class="btn-img fw-bolder slide-btn"></button>
+                    <button class="btn-img fw-bolder slide-btn"></button>
+                    <button class="btn-img fw-bolder slide-btn"></button>
                 </article>
 
                 <article class="match">

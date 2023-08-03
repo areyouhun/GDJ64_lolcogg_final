@@ -42,19 +42,18 @@ img {
 }
 
 .summary_content-team {
-    height: 180px;
+    height: 280px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
 }
 
 .summary_content-team>div {
-    height: 140px;
+    height: 230px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
 }
 
 .summary_content-team img {

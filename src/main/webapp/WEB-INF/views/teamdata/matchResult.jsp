@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <spring:eval var="champImgPath" expression="@environment.getProperty('lolcogg.datadragon.image.champion')" />
-${oingDaddy}
+<spring:eval var="champInfoPath" expression="@environment.getProperty('lolcogg.datadragon.info.champion')" />
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="matchResultSummary" value="${requestScope.matchResultSummary}"/>
 <c:set var="matchResultDetail" value="${requestScope.matchResultDetail}"/>
@@ -102,7 +102,7 @@ ${oingDaddy}
                                                                 <c:forEach var="bannedChampion" items="${set.blueSideBanned}">
                                                                     <div>
                                                                         <img src="${champImgPath}${bannedChampion}.png">
-                                                                        <p><c:out value="${bannedChampion}"/></p>
+                                                                        <p class="bannedName"><c:out value="${bannedChampion}"/></p>
                                                                     </div>
                                                                 </c:forEach>
                                                             </div>
@@ -113,7 +113,7 @@ ${oingDaddy}
                                                                 <c:forEach var="bannedChampion" items="${set.redSideBanned}">
                                                                     <div>
                                                                         <img src="${champImgPath}${bannedChampion}.png">
-                                                                        <p><c:out value="${bannedChampion}"/></p>
+                                                                        <p class="bannedName"><c:out value="${bannedChampion}"/></p>
                                                                     </div>
                                                                 </c:forEach>
                                                             </div>
@@ -148,6 +148,14 @@ ${oingDaddy}
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <script>
+    $.get("${champInfoPath}")
+    .then(data => {
+        $(".bannedName").each((index, pName) => {
+            $(pName).text(data.data[$(pName).text()].name);
+            }
+        );
+    });
+
     $(".top-victory_or_defeat>p").each((index, element) => {
         $(element).text() === "VICTORY" ? changeStyle(element, "var(--lol-white)", "#3D9B62") : changeStyle(element, "var(--lol-black)", "#929292");
     });
