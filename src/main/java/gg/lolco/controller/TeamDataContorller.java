@@ -2,9 +2,13 @@ package gg.lolco.controller;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +19,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+
+import gg.lolco.common.MatchHistoryFormatter;
 import gg.lolco.model.service.TeamDataService;
 
 @Controller
@@ -44,21 +52,36 @@ public class TeamDataContorller {
 	public String matchResult(@RequestParam Map<String, String> keyword, 
 											Model model, HttpSession session) 
 	{
-		final String path = session.getServletContext().getRealPath("/resources/csv/");
-		final Map<String, Object> matchResult = service.selectMatchResultByKeyword(keyword);
+		final String path = session.getServletContext().getRealPath("/resources/csv/match/");
+		final Map<String, Object> matchResultSummary = service.selectMatchResultByKeyword(keyword);
 		
-		try (InputStream is = new FileInputStream(path + matchResult.get("MS_FILE_NAME"));
-			InputStreamReader isr = new InputStreamReader(is);
-				BufferedReader br = new BufferedReader(isr);) {
-			String data;
-			while ((data = br.readLine()) != null) {
-				System.out.println(data);
+		final List<List<String[]>> setResults = csvParser(path + String.valueOf(matchResultSummary.get("MS_FILE_NAME")));
+		final List<Map<String, Object>> matchResultDetail = MatchHistoryFormatter.format(setResults, ",");
+		
+		model.addAttribute("matchResultSummary", matchResultSummary);
+		model.addAttribute("matchResultDetail", matchResultDetail);
+		return "teamdata/matchResult";
+	}
+	
+	private List<List<String[]>> csvParser(String fullPath) {
+		final List<List<String[]>> setResultsTotal = new ArrayList<>();
+		
+		try (CSVReader csvReader = new CSVReader(new FileReader(fullPath));) {
+			List<String[]> setResult = new ArrayList<>();
+			for (String[] line : csvReader.readAll()) {
+				if (Arrays.equals(line, new String[] {"|"})) {
+					setResultsTotal.add(setResult);
+					setResult = new ArrayList<>();
+					continue;
+				}
+				setResult.add(line);
 			}
+			setResultsTotal.add(setResult);
+		} catch (CsvException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		model.addAttribute("matchResult", matchResult);
-		return "teamdata/matchResult";
+		return setResultsTotal;
 	}
 }
