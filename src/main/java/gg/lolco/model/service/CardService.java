@@ -13,6 +13,10 @@ public interface CardService {
 	List<MemberCard> selectCategorie(Map<String,Object> param);
 	List<MemberCard> searchPlayer(Map<String,Object> param);
 	List<Card> selectCardName();
+	int insertLeaderCaed(String type);
+	int leaderclear();
+	MemberCard 	selectLeaderCard(String email);
+	
 	
 	
 }

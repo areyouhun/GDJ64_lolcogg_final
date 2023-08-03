@@ -55,4 +55,22 @@ public class CardDaoImpl implements CardDao {
 
 
 
+	@Override
+	public int insertLeaderCaed(SqlSession session, String type) {
+		return session.insert("card.insertLeaderCaed",type);
+	}
+	@Override
+	public int leaderclear(SqlSession session) {
+		return session.update("card.leaderclear");
+	}
+
+
+
+	@Override
+	public MemberCard selectLeaderCard(SqlSession session, String email) {
+		return session.selectOne("card.selectLeaderCard",email);
+	}
+
+
+
 }

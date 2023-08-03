@@ -45,6 +45,20 @@ public class CardServiceImpl implements CardService {
 		return dao.selectCardName(session);
 	}
 
+	@Override
+	public int insertLeaderCaed(String type) {
+		return dao.insertLeaderCaed(session,type);
+	}
+	@Override
+	public int leaderclear() {
+		return dao.leaderclear(session);
+	}
+
+	@Override
+	public MemberCard selectLeaderCard(String email) {
+		return dao.selectLeaderCard(session,email);
+	}
+
 	
 
 }

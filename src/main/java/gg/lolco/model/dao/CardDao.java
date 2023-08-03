@@ -14,5 +14,8 @@ public interface CardDao {
 	List<MemberCard> selectCategorie(SqlSession session,Map<String, Object> param);
 	List<MemberCard> searchPlayer(SqlSession session,Map<String, Object> param);
 	List<Card> selectCardName(SqlSession session);
-
+	int insertLeaderCaed(SqlSession session,String type);
+	int leaderclear(SqlSession session);
+	MemberCard selectLeaderCard(SqlSession session,String email);
+	
 }

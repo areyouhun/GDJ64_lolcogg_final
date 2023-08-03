@@ -914,6 +914,19 @@ select::-webkit-scrollbar-track {
     gap: 30px;
     opacity: 0.6;
 }
+.back-content_leader{
+	 position: absolute;
+    width: 99%;
+    height: 99%;
+    background-color:#151515 ;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
 
 
 
@@ -1075,14 +1088,14 @@ strong>img {
 
 .player_position_img {
     position: relative;
-    right: 50px;
+    right: 46px;
     bottom: 100px;
 }
 
 .player_position {
     position: relative;
     top: 30px;
-    left: 165px;
+    left: 145px;
     top: 176px;
     z-index: 1;
 }
@@ -1090,7 +1103,7 @@ strong>img {
 .player_season {
     position: relative;
     top: 190px;
-    left: 57px;
+    left: 30px;
     z-index: 1;
     font-size: 10px;
 }
@@ -1098,7 +1111,7 @@ strong>img {
 .player_name {
     position: relative;
     top: 183px;
-    left: 56px;
+    left: 30px;
     z-index: 1;
    font-size: 12px;
 }
@@ -1114,7 +1127,7 @@ strong>img {
 }
 
 .front_ability {
-    width: 135px;
+    width: 145px;
     margin-bottom: 30px;
     display: flex;
     position: relative;
@@ -1448,3 +1461,142 @@ strong>img {
     font-size: 15px;
     margin-right: 20px;
 }
+
+
+.leader_card_setting_div{
+	 border-radius: 10px;
+  border: 3px solid #2C2C2C;
+  background: rgba(30, 28, 28, 0.6);
+  width: 100%;
+   overflow: auto;
+  overflow-x: hidden;
+  
+}	
+.leader_card_setting_div::-webkit-scrollbar {
+  width: 3px;  /* 스크롤바의 너비 */
+}
+
+.leader_card_setting_div::-webkit-scrollbar-thumb {
+  height: 20%; /* 스크롤바의 길이 */
+  background: #515151; /* 스크롤바의 색상 */
+  
+  border-radius: 10px;
+}
+
+.leader_card_setting_div::-webkit-scrollbar-track {
+  background: var(--bg-gray);  /*스크롤바 뒷 배경 색상*/
+}	
+.leader_card-div_size{
+	height: 500px;
+   padding: 15px;
+
+}
+.leader_card_content{
+	margin-bottom: 15px;
+	  color: #FFF;
+  
+  font-weight: 800;
+}	
+.leader_card_setting input{
+	display: flex;
+	margin-top: 20px;
+}
+	
+.leader_card_setting_radio{
+	display: flex;
+	 color: #FFF;
+	
+}
+.leader_card_setting_radio input{
+	margin-right: 7px;
+	margin-left: 15px;
+	
+	
+}
+.leader_card_datail_div{
+	 margin-bottom: 15px;
+	 margin-top: 15px;
+	 border-radius: 10px;
+	 border: 3px solid #2C2C2C;
+	 background: rgba(30, 28, 28, 0.6);
+  	width: 100%;
+}
+.leader_card_submit_div{
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+.leader_card_submit{
+	width: 77.506px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: var(--lol-mainblue);
+  color: var(--lol-white, #EEE);
+  margin-right: 10px;
+ 
+  font-size: 15px;
+}
+.leader_card_close{
+	 margin-left: 10px;
+	 width: 77.506px;
+  height: 30px;
+  border-radius: 10px;
+   background: rgba(217, 217, 217, 0.60);
+  color: var(--lol-white, #EEE);
+  margin-right: 10px;
+ 
+  font-size: 15px;
+}
+.card_info_div{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	
+	
+}
+.card_info_div p{
+	
+margin-top: 5px;
+margin-left: 20px;
+
+	
+}
+.smail_achievement_card_content_div {
+    overflow: visible;
+    margin-top: 15px;
+    width: 90px;
+    height: 120px;
+    
+}
+.smail_achievement_player {
+    position: relative;
+    left: 5px;
+    bottom: 1px;
+
+}
+
+.team_div{
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.team_div img{
+	margin-left: 20px;
+	max-width: 50px;
+    max-height: 35px;
+}
+.smail_achievement_player_position_img {
+    position: relative;
+    left: 60px;
+    bottom: 45px;
+}
+
+.smail_achievement_player_position {
+    position: relative;
+    font-size: 8px;
+    top: 92px;
+    left: 32px;
+    z-index: 1;
+}
+
+
