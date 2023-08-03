@@ -1,0 +1,1602 @@
+@import url('common.css');
+
+
+/* 인풋스타일 */
+input {
+    border-style: none;
+    outline: none;
+}
+
+/* 라디오 컬러변경 */
+input[type=radio] {
+    accent-color: var(--lol-mainblue);
+
+
+}
+
+button {
+    border-style: none;
+    outline: none;
+    transition: ease-out 0.2s;
+    cursor: pointer;
+
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* hr 얇은선 */
+.hr-1 {
+    margin-top: 20px;
+    width: 730px;
+    height: 1px;
+    border: 0px;
+    background: rgba(217, 217, 217, 0.60);
+}
+
+.card_main_img {
+
+    width: 100%;
+}
+
+.card_main_size {
+
+    margin: auto;
+}
+
+.card_catalog {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    color: var(--lol-white, #EEE);
+    font-size: 17px;
+    font-weight: 500;
+
+}
+
+.card_catalog span {
+    padding: 15px;
+    cursor: pointer;
+}
+
+.card_catalog span:hover {
+    border-radius: 50px;
+    background: #2C2C2C;
+
+}
+
+.card_categorie_title {
+    margin-top: 40px;
+}
+
+.button {
+    width: 140px;
+    height: 40px;
+    padding: 5px 10px;
+    border-radius: 12px;
+    border: 1px solid #FFF;
+    background: var(--lol-black, #0F0F0F);
+    border-radius: 15px;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--lol-white, #EEE);
+
+}
+
+/* 버튼호버 */
+.button:hover {
+    background: #2C2C2C;
+
+}
+
+.mycard_leader_div {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.cardmainTitle {
+    color: var(--lol-white);
+    margin-bottom: 20px;
+    font-family: "EF_MACHO";
+}
+
+.leader_card {
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+.have_card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    
+    
+}
+
+.select_button_rating {
+    border: 1px solid #FFF;
+    border-radius: 12px;
+    width: 100px;
+    height: 30px;
+    background: var(--lol-black);
+    color: var(--lol-white, #EEE);
+    font-size: 13px;
+    font-weight: 800;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+.select_button_team {
+    border: 1px solid #FFF;
+    border-radius: 12px;
+    width: 70px;
+    height: 30px;
+    background: var(--lol-black);
+    color: var(--lol-white, #EEE);
+    font-size: 13px;
+    font-weight: 800;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+.select_button_player {
+    border: 1px solid #FFF;
+    border-radius: 12px;
+    width: 90px;
+    height: 30px;
+    background: var(--lol-black);
+    color: var(--lol-white, #EEE);
+    font-size: 13px;
+    font-weight: 800;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+.select_button_season {
+    border: 1px solid #FFF;
+    border-radius: 12px;
+    width: 120px;
+    height: 30px;
+    background: var(--lol-black);
+    color: var(--lol-white, #EEE);
+    font-size: 13px;
+    font-weight: 800;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+.select_button_position {
+    border: 1px solid #FFF;
+    border-radius: 12px;
+    width: 80px;
+    height: 30px;
+    background: var(--lol-black);
+    color: var(--lol-white, #EEE);
+    font-size: 13px;
+    font-weight: 800;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+
+select::-webkit-scrollbar {
+    width: 8px;
+    /* 스크롤바의 너비 */
+}
+
+select::-webkit-scrollbar-thumb {
+    height: 20%;
+    /* 스크롤바의 길이 */
+    background: #515151;
+    /* 스크롤바의 색상 */
+
+    border-radius: 10px;
+}
+
+select::-webkit-scrollbar-track {
+    background: var(--bg-gray);
+    /*스크롤바 뒷 배경 색상*/
+}
+
+.select_card {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+
+
+
+}
+
+.select_card select {
+    margin-right: 15px;
+}
+
+.select_card img {
+    cursor: pointer;
+    width: 20px;
+
+
+}
+
+.select_refresh_div {
+    display: flex;
+    align-items: center;
+}
+
+/* 검색 div */
+.board-search-div {
+    display: inline-flex;
+    position: relative;
+    justify-content: center;
+
+
+
+}
+
+/* 검색 인풋 */
+.board-search-div input {
+    width: 140px;
+    height: 26px;
+    background: var(--lol-black, #0F0F0F);
+    border: 1px solid #FFF;
+    border-radius: 10px;
+    color: #FFF;
+    padding-left: 10px;
+
+
+
+}
+
+/* 검색 돋보기 */
+.board-search-div img {
+    position: absolute;
+    width: 17px;
+    top: 5px;
+    right: 12px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.card_img {
+    margin-bottom: 20px;
+    display: inline-flex;
+    margin-left: 20px;
+
+}
+
+.card_img_div {
+    margin-top: 30px;
+    margin-left: 70px;
+
+
+}
+
+/* 대표카드 */
+/*works janky on mobile :<*/
+.container {
+    position: relative;
+    width: 250px;
+    height: 350px;
+    transition: 200ms;
+    margin-top: 44px;
+
+}
+
+#card {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    transition: 700ms;
+    margin-top: 47px;
+
+}
+
+.subtitle {
+    transform: translateY(160px);
+    color: rgb(134, 110, 221);
+    text-align: center;
+    width: 100%;
+}
+
+
+.tracker:hover~#card .title {
+    opacity: 1;
+}
+
+#prompt {
+    bottom: 8px;
+    left: 12px;
+    z-index: 20;
+    font-size: 20px;
+    font-weight: bold;
+    transition: 300ms ease-in-out-out;
+    position: absolute;
+    max-width: 110px;
+    color: rgb(255, 255, 255);
+}
+
+.tracker {
+    position: absolute;
+    z-index: 200;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+.tracker:hover~#card #prompt {
+    opacity: 0;
+}
+
+.tracker:hover~#card {
+    transition: 300ms;
+    filter: brightness(1.1);
+}
+
+.container:hover #card::before {
+    transition: 200ms;
+    content: '';
+    opacity: 80%;
+}
+
+.canvas {
+    perspective: 800px;
+    inset: 0;
+    z-index: 0;
+    position: absolute;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas: "tr-1 tr-2 tr-3 tr-4 tr-5"
+        "tr-6 tr-7 tr-8 tr-9 tr-10"
+        "tr-11 tr-12 tr-13 tr-14 tr-15"
+        "tr-16 tr-17 tr-18 tr-19 tr-20"
+        "tr-21 tr-22 tr-23 tr-24 tr-25";
+}
+
+#card::before {
+    content: '';
+    background: linear-gradient(43deg, rgb(65, 88, 208) 0%, rgb(200, 80, 192) 46%, rgb(255, 204, 112) 100%);
+    filter: blur(2rem);
+    opacity: 30%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    transition: 200ms;
+}
+
+.tr-1 {
+    grid-area: tr-1;
+}
+
+.tr-2 {
+    grid-area: tr-2;
+}
+
+.tr-3 {
+    grid-area: tr-3;
+}
+
+.tr-4 {
+    grid-area: tr-4;
+}
+
+.tr-5 {
+    grid-area: tr-5;
+}
+
+.tr-6 {
+    grid-area: tr-6;
+}
+
+.tr-7 {
+    grid-area: tr-7;
+}
+
+.tr-8 {
+    grid-area: tr-8;
+}
+
+.tr-9 {
+    grid-area: tr-9;
+}
+
+.tr-10 {
+    grid-area: tr-10;
+}
+
+.tr-11 {
+    grid-area: tr-11;
+}
+
+.tr-12 {
+    grid-area: tr-12;
+}
+
+.tr-13 {
+    grid-area: tr-13;
+}
+
+.tr-14 {
+    grid-area: tr-14;
+}
+
+.tr-15 {
+    grid-area: tr-15;
+}
+
+.tr-16 {
+    grid-area: tr-16;
+}
+
+.tr-17 {
+    grid-area: tr-17;
+}
+
+.tr-18 {
+    grid-area: tr-18;
+}
+
+.tr-19 {
+    grid-area: tr-19;
+}
+
+.tr-20 {
+    grid-area: tr-20;
+}
+
+.tr-21 {
+    grid-area: tr-21;
+}
+
+.tr-22 {
+    grid-area: tr-22;
+}
+
+.tr-23 {
+    grid-area: tr-23;
+}
+
+.tr-24 {
+    grid-area: tr-24;
+}
+
+.tr-25 {
+    grid-area: tr-25;
+}
+
+.tr-1:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(20deg) rotateY(-10deg) rotateZ(0deg);
+}
+
+.tr-2:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(20deg) rotateY(-5deg) rotateZ(0deg);
+}
+
+.tr-3:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(20deg) rotateY(0deg) rotateZ(0deg);
+}
+
+.tr-4:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(20deg) rotateY(5deg) rotateZ(0deg);
+}
+
+.tr-5:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(20deg) rotateY(10deg) rotateZ(0deg);
+}
+
+.tr-6:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(10deg) rotateY(-10deg) rotateZ(0deg);
+}
+
+.tr-7:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(10deg) rotateY(-5deg) rotateZ(0deg);
+}
+
+.tr-8:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(10deg) rotateY(0deg) rotateZ(0deg);
+}
+
+.tr-9:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(10deg) rotateY(5deg) rotateZ(0deg);
+}
+
+.tr-10:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(10deg) rotateY(10deg) rotateZ(0deg);
+}
+
+.tr-11:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(0deg) rotateY(-10deg) rotateZ(0deg);
+}
+
+.tr-12:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(0deg) rotateY(-5deg) rotateZ(0deg);
+}
+
+.tr-13:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+}
+
+.tr-14:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(0deg) rotateY(5deg) rotateZ(0deg);
+}
+
+.tr-15:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(0deg) rotateY(10deg) rotateZ(0deg);
+}
+
+.tr-16:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(-10deg) rotateY(-10deg) rotateZ(0deg);
+}
+
+.tr-17:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(-10deg) rotateY(-5deg) rotateZ(0deg);
+}
+
+.tr-18:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(-10deg) rotateY(0deg) rotateZ(0deg);
+}
+
+.tr-19:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(-10deg) rotateY(5deg) rotateZ(0deg);
+}
+
+.tr-20:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(-10deg) rotateY(10deg) rotateZ(0deg);
+}
+
+.tr-21:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(-20deg) rotateY(-10deg) rotateZ(0deg);
+}
+
+.tr-22:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(-20deg) rotateY(-5deg) rotateZ(0deg);
+}
+
+.tr-23:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(-20deg) rotateY(0deg) rotateZ(0deg);
+}
+
+.tr-24:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(-20deg) rotateY(5deg) rotateZ(0deg);
+}
+
+.tr-25:hover~#card {
+    transition: 125ms ease-in-out;
+    transform: rotateX(-20deg) rotateY(10deg) rotateZ(0deg);
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                      supported by Chrome, Edge, Opera and Firefox */
+}
+
+.leader_card_div {
+    display: flex;
+
+}
+
+.leader_card_on {
+    width: 22%;
+    height: 450px;
+    margin-right: 40px;
+
+
+}
+
+.card_info {
+    margin-top: 40px;
+    width: 100%;
+    text-align: center;
+}
+
+.card_info span {
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+.card_info hr {
+    margin-top: 20px;
+}
+
+.card_info_ability_div {
+    display: flex;
+    margin-top: 60px;
+    margin-left: 60px;
+    flex-direction: column;
+    width: 100%;
+
+
+
+}
+
+.rader_ability_div {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+
+
+}
+
+.ability_size {
+    position: relative;
+    left: 1px;
+}
+
+.card_info_ability {
+    display: flex;
+    text-align: center;
+    margin-bottom: 40px;
+    width: 100%;
+
+}
+
+.ability {
+    width: 60px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.graph {
+    background-color: #2c2c2c;
+    height: 20px;
+    border-radius: 40px;
+    width: 60%;
+    margin-left: 20px;
+
+
+}
+
+.graph span {
+    display: block;
+    height: 20px;
+    text-align: right;
+    background: var(--lol-mainblue);
+    border-radius: 40px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    color: #fff;
+    position: relative;
+    right: 18px;
+
+}
+
+.stack span {
+    animation: stack 1s 1;
+}
+
+.stack1 span {
+    animation: stack1 1s 1;
+}
+
+.stack2 span {
+    animation: stack2 1s 1;
+}
+
+.stack3 span {
+    animation: stack3 1s 1;
+}
+
+.stack4 span {
+    animation: stack4 1s 1;
+}
+
+
+.card_img_name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card_img_name span {
+    font-size: 23px;
+}
+
+@keyframes stack {
+    0% {
+        width: 0;
+        color: rgb(255, 255, 255, 0);
+    }
+
+    40% {
+        color: rgb(255, 255, 255, 1);
+    }
+
+    100% {
+        width: 75%;
+    }
+}
+
+@keyframes stack1 {
+    0% {
+        width: 0;
+        color: rgb(255, 255, 255, 0);
+    }
+
+    40% {
+        color: rgb(255, 255, 255, 1);
+    }
+
+    100% {
+        width: 35%;
+    }
+}
+
+@keyframes stack2 {
+    0% {
+        width: 0;
+        color: rgb(255, 255, 255, 0);
+    }
+
+    40% {
+        color: rgb(255, 255, 255, 1);
+    }
+
+    100% {
+        width: 85%;
+    }
+}
+
+@keyframes stack3 {
+    0% {
+        width: 0;
+        color: rgb(255, 255, 255, 0);
+    }
+
+    40% {
+        color: rgb(255, 255, 255, 1);
+    }
+
+    100% {
+        width: 15%;
+    }
+}
+
+@keyframes stack4 {
+    0% {
+        width: 0;
+        color: rgb(255, 255, 255, 0);
+    }
+
+    40% {
+        color: rgb(255, 255, 255, 1);
+    }
+
+    100% {
+        width: 35%;
+    }
+}
+
+.hr-margin {
+    margin-top: 20px;
+}
+
+.catalog_radid {
+    display: flex;
+    color: var(--lol-white, #EEE);
+    font-family: SUIT;
+    font-size: 21px;
+    font-weight: 800;
+    margin-bottom: 20px;
+
+}
+
+.catalog_radid span {
+    margin-right: 20px;
+
+
+}
+
+.card_content_div {
+    overflow: visible;
+    width: 210px;
+    height: 355px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+}
+
+.card_content {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 300ms;
+    box-shadow: 0px 0px 10px 1px #000000ee;
+    border-radius: 5px;
+}
+
+.front,
+.back {
+    background-color: #151515;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.back {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+}
+
+.back::before {
+    position: absolute;
+    content: ' ';
+    display: block;
+    width: 160px;
+    height: 160%;
+    background: linear-gradient(90deg, transparent, #ff9966, #ff9966, #ff9966, #ff9966, transparent);
+    animation: rotation_481 5000ms infinite linear;
+}
+
+
+.back-content {
+    position: absolute;
+    width: 99%;
+    height: 99%;
+    background-color:#151515 ;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+/* 업적 카드미보유 */
+.back-content_achievement {
+    position: absolute;
+    width: 99%;
+    height: 99%;
+    background-color:#151515 ;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    opacity: 0.6;
+}
+.back-content_leader{
+	 position: absolute;
+    width: 99%;
+    height: 99%;
+    background-color:#151515 ;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+
+
+/* 유니크 카드 배경 */
+.back.unique::before {
+    background: linear-gradient(90deg, transparent, #9154ed, #9154ed, #9154ed, #9154ed, transparent);
+}
+
+/* 커먼카드 배경*/
+.back.common::before {
+    background: linear-gradient(90deg, transparent, #276dce, #276dce, #276dce, #276dce, transparent);
+}
+
+/* 노멀카드 배경 normal */
+.back.normal::before {
+    background: linear-gradient(90deg, transparent, #9a95a1, #9a95a1, #9a95a1, #9a95a1, transparent);
+}
+
+.card_content_div:hover .card_content {
+    transform: rotateY(180deg);
+}
+
+@keyframes rotation_481 {
+    0% {
+        transform: rotateZ(0deg);
+    }
+
+    0% {
+        transform: rotateZ(360deg);
+    }
+}
+
+.front {
+    transform: rotateY(180deg);
+    color: white;
+}
+
+.front .front-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.front-content .badge {
+    background-color: #00000055;
+    padding: 2px 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(2px);
+    width: fit-content;
+}
+
+.description {
+    box-shadow: 0px 0px 10px 5px #00000088;
+    width: 100%;
+    padding: 10px;
+    background-color: #00000099;
+    backdrop-filter: blur(5px);
+    border-radius: 5px;
+}
+
+.title1 {
+    font-size: 11px;
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title1 p {
+    width: 50%;
+}
+
+.card-footer {
+    color: #ffffff88;
+    margin-top: 5px;
+    font-size: 8px;
+}
+
+.front .img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background-color: #ffbb66;
+    position: relative;
+    filter: blur(15px);
+    animation: floating 2600ms infinite linear;
+}
+
+#bottom {
+    background-color: #ff8866;
+    left: 50px;
+    top: 0px;
+    width: 150px;
+    height: 150px;
+    animation-delay: -800ms;
+}
+
+#right {
+    background-color: #ff2233;
+    left: 160px;
+    top: -80px;
+    width: 30px;
+    height: 30px;
+    animation-delay: -1800ms;
+}
+
+@keyframes floating {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+strong>img {
+    margin-bottom: 20px;
+}
+
+.card_info_div {
+    position: relative;
+}
+
+.card_player_info {
+    position: absolute;
+    bottom: 10px;
+}
+
+.player {
+    position: relative;
+    left: 46px;
+    bottom: 58px;
+
+}
+
+.player_team_logo {
+    position: relative;
+    bottom: 275px;
+    right: 120px;
+    max-width: 50px;
+    max-height:35px;
+}
+
+.player_position_img {
+    position: relative;
+    right: 46px;
+    bottom: 100px;
+}
+
+.player_position {
+    position: relative;
+    top: 30px;
+    left: 145px;
+    top: 176px;
+    z-index: 1;
+}
+
+.player_season {
+    position: relative;
+    top: 190px;
+    left: 30px;
+    z-index: 1;
+    font-size: 10px;
+}
+
+.player_name {
+    position: relative;
+    top: 183px;
+    left: 30px;
+    z-index: 1;
+   font-size: 12px;
+}
+
+.front_ability_total {
+    position: absolute;
+}
+
+.front_ability_div {
+    position: relative;
+    right: 27px;
+
+}
+
+.front_ability {
+    width: 145px;
+    margin-bottom: 30px;
+    display: flex;
+    position: relative;
+    bottom: 280px;
+    left: 55px;
+}
+
+.front_ability_size {
+    margin-left: 5px;
+}
+
+.graph1 {
+    background-color: #2c2c2c;
+    height: 15px;
+    border-radius: 40px;
+    width: 35%;
+    margin-left: 10px;
+
+
+}
+
+.graph1 span {
+    display: block;
+    height: 15px;
+    text-align: right;
+    background: var(--lol-mainblue);
+    border-radius: 40px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    color: #fff;
+
+}
+
+.front_stack span {
+    animation: stack 1s 1;
+}
+
+.front_stack1 span {
+    animation: stack1 1s 1;
+}
+
+.front_stack2 span {
+    animation: stack2 1s 1;
+}
+
+.front_stack3 span {
+    animation: stack3 1s 1;
+}
+
+.front_stack4 span {
+    animation: stack4 1s 1;
+}
+
+
+.card_img_name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card_img_name span {
+    font-size: 23px;
+}
+
+@keyframes stack {
+    0% {
+        width: 0;
+        color: rgb(255, 255, 255, 0);
+    }
+
+    40% {
+        color: rgb(255, 255, 255, 1);
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes stack1 {
+    0% {
+        width: 0;
+        color: rgb(255, 255, 255, 0);
+    }
+
+    40% {
+        color: rgb(255, 255, 255, 1);
+    }
+
+    100% {
+        width: 35%;
+    }
+}
+
+@keyframes stack2 {
+    0% {
+        width: 0;
+        color: rgb(255, 255, 255, 0);
+    }
+
+    40% {
+        color: rgb(255, 255, 255, 1);
+    }
+
+    100% {
+        width: 85%;
+    }
+}
+
+@keyframes stack3 {
+    0% {
+        width: 0;
+        color: rgb(255, 255, 255, 0);
+    }
+
+    40% {
+        color: rgb(255, 255, 255, 1);
+    }
+
+    100% {
+        width: 15%;
+    }
+}
+
+@keyframes stack4 {
+    0% {
+        width: 0;
+        color: rgb(255, 255, 255, 0);
+    }
+
+    40% {
+        color: rgb(255, 255, 255, 1);
+    }
+
+    100% {
+        width: 35%;
+    }
+}
+
+.front_ability img {
+    position: relative;
+    right: 4px;
+
+}
+
+.achievement_button {
+    display: flex;
+
+}
+
+.achievement_button button {
+    margin-top: 10px;
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
+.achievement_List_div {
+    display: flex;
+    margin-top: 20px;
+}
+
+.achievement_List_left {
+    width: 300px;
+    height: 153px;
+    border-radius: 10px;
+  /* background-color: #151515; */
+  background: #2C2C2C;
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+.achievement_List_right {
+    display: flex;
+    margin-left: 20px;
+    width: 964px;
+    height: 153px;
+    border-radius: 10px;
+    /* background-color: #151515; */
+    background: #2C2C2C;
+    
+}
+.achievement_List_right_completion {
+    display: flex;
+    margin-left: 20px;
+    width: 964px;
+    height: 153px;
+    border-radius: 10px;
+    background-color: #151515;
+   
+    
+}
+.achievement_title{
+    text-align: center;
+    width: 300px;
+    margin-top: 40px;
+    font-size: 20px;
+    font-weight: 400;
+    white-space: normal;
+    
+    
+}
+.achievement_graph {
+    background-color: #D9D9D9;
+    height: 15px;
+    border-radius: 40px;
+    width: 45%;
+    margin-left: 10px;
+
+
+}
+
+.achievement_graph span {
+    display: block;
+    height: 15px;
+    text-align: right;
+    background: var(--lol-mainblue);
+    border-radius: 40px;
+    padding: 0 5px;
+    box-sizing: border-box;
+    color: #fff;
+
+}
+
+.front_stack span {
+    animation: stack 1s 1;
+}
+
+.front_stack1 span {
+    animation: stack1 1s 1;
+}
+
+.front_stack2 span {
+    animation: stack2 1s 1;
+}
+
+.front_stack3 span {
+    animation: stack3 1s 1;
+}
+
+.front_stack4 span {
+    animation: stack4 1s 1;
+}
+.achievement_graph_div{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.achievement_graph_div img{
+    margin-right: 10px;
+}
+.achievement_card_content_div {
+    overflow: visible;
+    margin-top: 4px;
+    width: 110px;
+    height: 145px;
+    
+
+}
+.achievement_player {
+    position: relative;
+    left: 22px;
+    bottom: 25px;
+
+}
+
+.achievement_player_team_logo {
+    position: relative;
+    bottom: 118px;
+    right: 57px;
+    
+}
+
+.achievement_player_position_img {
+    position: relative;
+    right: 20px;
+    bottom: 55px;
+}
+
+.achievement_player_position {
+    position: relative;
+    font-size: 8px;
+    top: 63px;
+    left: 75px;
+    z-index: 1;
+}
+
+
+.achievement_player_name {
+    position: relative;
+    top: 70px;
+    left: 20px;
+    z-index: 1;
+    font-size: 8px;
+}
+.receipt_button_div{
+    display: flex;
+    align-items: center;
+    margin-left: 40px;
+    position: relative;
+    left: 230px;
+}
+.receipt_button {
+    width: 77.506px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: var(--lol-mainblue);
+    color: var(--lol-white, #EEE);
+    font-size: 15px;
+    margin-right: 20px;
+
+}
+.compensation_div{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    left: 250px;
+
+}
+.compensation_div p{
+    font-size: 15px;
+}
+.compensation_button{
+    width: 77.506px;
+    height: 30px;
+    border-radius: 10px;
+    background: #D9D9D9;
+    color: var(--lol-black);
+    font-size: 15px;
+    margin-right: 20px;
+}
+
+
+.leader_card_setting_div{
+	 border-radius: 10px;
+  border: 3px solid #2C2C2C;
+  background: rgba(30, 28, 28, 0.6);
+  width: 100%;
+   overflow: auto;
+  overflow-x: hidden;
+  
+}	
+.leader_card_setting_div::-webkit-scrollbar {
+  width: 3px;  /* 스크롤바의 너비 */
+}
+
+.leader_card_setting_div::-webkit-scrollbar-thumb {
+  height: 20%; /* 스크롤바의 길이 */
+  background: #515151; /* 스크롤바의 색상 */
+  
+  border-radius: 10px;
+}
+
+.leader_card_setting_div::-webkit-scrollbar-track {
+  background: var(--bg-gray);  /*스크롤바 뒷 배경 색상*/
+}	
+.leader_card-div_size{
+	height: 500px;
+   padding: 15px;
+
+}
+.leader_card_content{
+	margin-bottom: 15px;
+	  color: #FFF;
+  
+  font-weight: 800;
+}	
+.leader_card_setting input{
+	display: flex;
+	margin-top: 20px;
+}
+	
+.leader_card_setting_radio{
+	display: flex;
+	 color: #FFF;
+	
+}
+.leader_card_setting_radio input{
+	margin-right: 7px;
+	margin-left: 15px;
+	
+	
+}
+.leader_card_datail_div{
+	 margin-bottom: 15px;
+	 margin-top: 15px;
+	 border-radius: 10px;
+	 border: 3px solid #2C2C2C;
+	 background: rgba(30, 28, 28, 0.6);
+  	width: 100%;
+}
+.leader_card_submit_div{
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+.leader_card_submit{
+	width: 77.506px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: var(--lol-mainblue);
+  color: var(--lol-white, #EEE);
+  margin-right: 10px;
+ 
+  font-size: 15px;
+}
+.leader_card_close{
+	 margin-left: 10px;
+	 width: 77.506px;
+  height: 30px;
+  border-radius: 10px;
+   background: rgba(217, 217, 217, 0.60);
+  color: var(--lol-white, #EEE);
+  margin-right: 10px;
+ 
+  font-size: 15px;
+}
+.card_info_div{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	
+	
+}
+.card_info_div p{
+	
+margin-top: 5px;
+margin-left: 20px;
+
+	
+}
+.smail_achievement_card_content_div {
+    overflow: visible;
+    margin-top: 15px;
+    width: 90px;
+    height: 120px;
+    
+}
+.smail_achievement_player {
+    position: relative;
+    left: 5px;
+    bottom: 1px;
+
+}
+
+.team_div{
+	display: flex;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.team_div img{
+	margin-left: 20px;
+	max-width: 50px;
+    max-height: 35px;
+}
+.smail_achievement_player_position_img {
+    position: relative;
+    left: 60px;
+    bottom: 45px;
+}
+
+.smail_achievement_player_position {
+    position: relative;
+    font-size: 8px;
+    top: 92px;
+    left: 32px;
+    z-index: 1;
+}
+
+

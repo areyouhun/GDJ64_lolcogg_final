@@ -13,5 +13,5 @@ public class SampleDaoImpl implements SampleDao {
 	public List<Map<String, Object>> selectAll(SqlSession session) {
 		return session.selectList("sample.selectAll");
 	}
-	
+
 }

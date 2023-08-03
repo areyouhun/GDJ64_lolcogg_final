@@ -7,4 +7,5 @@ public interface SampleService {
 
 	List<Map<String, Object>> selectAll();
 	
+	
 }
