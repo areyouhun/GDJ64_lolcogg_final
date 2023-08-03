@@ -44,6 +44,7 @@ public class CrawlingScheduler {
 		try {
 			getPlayerData();
 			getMatchData();
+			getTeamRanking();
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -426,5 +427,29 @@ public class CrawlingScheduler {
 				}
 			}				
 		} service.updateMatchFile(matchData);
+	}
+	
+	private void getTeamRanking() throws IOException {
+		Document doc = Jsoup.connect("https://lol.fandom.com/wiki/LCK/2023_Season/Summer_Season").get();
+		
+		Elements table = doc.select(".standings .teamhighlighter");
+		
+		List<Map<String, String>> teamRankingList = new ArrayList<>();
+		
+		for(int i=0; i<table.size(); i++) {
+			Map<String, String> saveMap = new HashMap<>();
+
+			String matchs = table.get(i).select("td").get(2).text();
+			String games = table.get(i).select("td").get(4).text();
+			
+			saveMap.put("ranking", table.get(i).select("td").get(0).text());
+			saveMap.put("teamName", table.get(i).select(".teamname a").text());
+			saveMap.put("matchWins", matchs.substring(0, matchs.indexOf("-") - 1));
+			saveMap.put("matchDefeats", matchs.substring(matchs.indexOf("-") + 2));
+			saveMap.put("gameWins", games.substring(0, matchs.indexOf("-") - 1));
+			saveMap.put("gameDefeats", games.substring(matchs.indexOf("-") + 2));
+			
+			teamRankingList.add(saveMap);
+		} service.updateTeamRanking(teamRankingList);
 	}
 }

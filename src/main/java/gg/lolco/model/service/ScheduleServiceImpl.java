@@ -40,4 +40,14 @@ public class ScheduleServiceImpl implements SchedulerService {
 		} return result;
 	}
 	
+	@Transactional
+	@Override
+	public int updateTeamRanking(List<Map<String, String>> param) {
+		int result = 1;
+		
+		for(Map<String, String> data : param) {
+			result = dao.updateTeamRanking(session, data);
+		} return result;
+	}
+	
 }

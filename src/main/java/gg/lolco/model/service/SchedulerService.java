@@ -9,4 +9,6 @@ public interface SchedulerService {
 
 	int updateMatchFile(List<Map<String, String>> param);
 
+	int updateTeamRanking(List<Map<String, String>> param);
+	
 }

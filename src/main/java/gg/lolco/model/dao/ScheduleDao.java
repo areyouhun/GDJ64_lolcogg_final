@@ -10,4 +10,6 @@ public interface ScheduleDao {
 	
 	int updateMatchFile(SqlSession session, Map<String, String> param);
 	
+	int updateTeamRanking(SqlSession session,Map<String, String> param);
+	
 }

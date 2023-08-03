@@ -18,4 +18,9 @@ public class ScheduleDaoImpl implements ScheduleDao {
 		return session.update("schedule.updateMatchFile", param);
 	}
 	
+	@Override
+	public int updateTeamRanking(SqlSession session, Map<String, String> param) {
+		return session.update("schedule.updateTeamRanking", param);
+	}
+
 }
