@@ -12,7 +12,7 @@
                         <a href="" class="nav-a">LCK</a>
                         <ul class="nav-ul-ul">
                             <li><a href="">일정</a></li>
-                            <li><a href="${path}/teamdata">팀 데이터</a></li>
+                            <li><a href="">팀 데이터</a></li>
                             <li><a href="">승부예측</a></li>
                         </ul>
                     </li>
@@ -30,7 +30,7 @@
                     <li>
                         <a href="" class="nav-a">플레이</a>
                         <ul class="nav-ul-ul">
-                            <li><a href="">카드</a></li>
+                            <li><a href="${path}/card/selectCardById">카드</a></li>
                             <li><a href="">챔피언 예측</a></li>
                             <li><a href="">롤 퀴즈</a></li>
                             <li><a href="${path }/game/choice">밸런스/이상형</a></li>
