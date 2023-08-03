@@ -1,0 +1,12 @@
+package gg.lolco.model.service;
+
+import java.util.List;
+import java.util.Map;
+
+public interface SchedulerService {
+	
+	int updatePlayerFile(List<Map<String, String>> param);
+
+	int updateMatchFile(List<Map<String, String>> param);
+
+}
