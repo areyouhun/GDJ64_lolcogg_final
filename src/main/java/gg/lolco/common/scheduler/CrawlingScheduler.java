@@ -39,7 +39,7 @@ public class CrawlingScheduler {
 		this.context = context;
 	}
 	
-	@Scheduled(fixedDelay=5000)
+	@Scheduled(fixedDelay=50000)
 	public void catchExceptionMethod() {
 		try {
 			getPlayerData();
