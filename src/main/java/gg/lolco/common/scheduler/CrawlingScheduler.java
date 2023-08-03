@@ -333,10 +333,10 @@ public class CrawlingScheduler {
 							for(int k=0; k<5; k++) {
 								if(line.equals(".blue")) {
 									bw.append(banpickList.get(k).substring(0, 1).toUpperCase() + banpickList.get(k).substring(1));
-									bw.append(k < 4 ? "," : "\n");
+									bw.append(k < 4 ? ",\n" : "\n");
 								}else {
 									bw.append(banpickList.get(k + 5).substring(0, 1).toUpperCase() + banpickList.get(k).substring(1));
-									bw.append(k < 4 ? "," : "\n");
+									bw.append(k < 4 ? ",\n" : "\n");
 								}
 							}
 						}
@@ -390,7 +390,7 @@ public class CrawlingScheduler {
 							}
 							
 							bw.append(killArr[k] + "/" + deathArr[k] + "/" + assistArr[k] + "," + avg + "," + csArr[k]
-									+ "," + cpmArr[k] + "," + goldArr[k] + "k," + damageArr[k]);
+									+ "," + cpmArr[k] + "," + goldArr[k] + "k," + damageArr[k] + "\n");
 							
 							if(!(j == totalGameSetNum - 1) && k == 9) {
 								bw.append("\n|\n");
