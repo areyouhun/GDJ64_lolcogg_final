@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 
@@ -53,6 +54,7 @@ public class CrawlingScheduler {
     			getPlayerData();
     			getMatchData();
     			getTeamRanking();
+    			getRegionalMatch();
     		}catch(IOException e) {
     			e.printStackTrace();
     		}
@@ -463,5 +465,31 @@ public class CrawlingScheduler {
 			
 			teamRankingList.add(saveMap);
 		} service.updateTeamRanking(teamRankingList);
+	}
+	
+	private void getRegionalMatch() throws IOException {
+		Document doc = Jsoup.connect("https://lol.fandom.com/wiki/LCK/2023_Season/Regional_Finals").get();
+		
+		Elements table = doc.select(".matchlist");
+		
+		List<Map<String, String>> regionalMatchMap = new ArrayList<>();
+		
+		List<String> matchList = table.select("[data-date]").eachAttr("data-date").stream().collect(Collectors.toList());
+		
+		for(String match : matchList) {
+			Map<String, String> saveMap = new HashMap<>();
+			
+			String homeTeamName = table.select("tr[data-date=" + match + "] .matchlist-team1 .teamname").text();
+			String awayTeamName = table.select("tr[data-date=" + match + "] .matchlist-team2 .teamname").text();
+			
+			if(!(homeTeamName.equals("TBD") && awayTeamName.equals("TBD"))) {
+				saveMap.put("homeTeamName", homeTeamName);
+				saveMap.put("awayTeamName", awayTeamName);
+				regionalMatchMap.add(saveMap);
+			}else {
+//				System.out.println("아직 선발전 팀이 정해지지 않았습니다.");
+				return;
+			}
+		} service.updateRegionalMatch(regionalMatchMap);
 	}
 }
