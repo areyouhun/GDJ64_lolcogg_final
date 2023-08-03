@@ -1,0 +1,431 @@
+@charset "UTF-8";
+
+@import url('common.css');
+
+/* 문의등록 테이블 */
+.qnaTable {
+    width: 100%;
+    border-top: 3px solid var(--lol-white);
+    border-collapse: collapse;
+}
+
+.qnaTable th, td {
+    border-bottom: 1px solid var(--lol-white);
+    padding: 16px 0px;
+    text-align: center;
+}
+
+.tableTitle {
+    text-align: left;
+    display: block;
+    justify-content: center;
+}
+
+.qnaPwdMargin{
+    margin-left: 130px;
+    margin-bottom: 5px;
+}
+
+.qnaBtn{
+    width: 80px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: var(--lol-black);
+    border: 1px solid var(--lol-white);
+    color: var(--lol-white);
+}
+
+.comBtn{
+    background-color: var(--lol-white);
+    color: var(--lol-black);
+}
+
+.tableContainer{
+    min-height: 350px;
+}
+
+.qnaInput{
+    background-color: var(--lol-black);
+    border: 2px solid var(--lol-white);
+    border-radius: 10px;
+    width: 88%;
+    height: 45px;
+    outline: none;
+}
+
+.qnaInput:hover{
+    border: 2px solid var(--lol-mainblue);
+}
+
+.qnaInput:focus{
+    border: 2px solid var(--lol-mainblue);
+}
+
+.qnaInputPwdDiv{
+    width: 88%;
+}
+
+ .qnaInputPwd{
+    background-color: var(--lol-black);
+    border: 2px solid var(--lol-white);
+    border-radius: 10px;
+    width: 15%;
+    height: 45px;
+    align-items: left;
+    outline: none;
+} 
+
+.qnaInputPwd:hover{
+    border: 2px solid var(--lol-mainblue);
+}
+
+.qnaInputPwd:focus{
+    border: 2px solid var(--lol-mainblue);
+}
+
+.tableTitle textarea{
+    background-color: var(--lol-black);
+    border: 2px solid var(--lol-white);
+    border-radius: 10px;
+    width: 88%;
+    height: 380px;
+    padding-top: 10px;
+}
+
+.inputFont{
+    padding-left: 20px;
+    font-size: 18px;
+    font-family: "SUIT-regular";
+    color: var(--lol-white);
+}
+
+.insertqna{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+/* input file 커스텀 */
+.tableTitle input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+.tableTitle .uploadName {
+    /* display: inline-block; */
+    height: 42px;
+    color: var(--lol-white);
+    background-color: transparent;
+}
+
+.tableTitle label {
+    display: inline-block;
+    padding: 10px 20px;
+    color: var(--lol-white);
+    vertical-align: middle;
+    background-color: var(--khy-off-gray);
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    
+    margin-bottom: 10px;
+}
+
+.fileName{
+	margin-bottom: 3px;
+	font-size: 18px;
+}
+
+.tableTitle label:hover {
+    background-color: var(--lol-mainblue);
+}
+
+.addFile{
+    width: 1125px;
+}
+
+.hr-1{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 0;
+    height: 1px;
+    background-color: var(--lol-white);
+}
+
+.hr-3{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 0;
+    height: 3px;
+    background-color: var(--lol-white);
+}
+
+.hr-op{
+    opacity: 0.3;
+}
+
+/* 등록, 취소 버튼 */
+.insertBtnDiv{
+    display: flex;
+    justify-content: end;
+}
+
+.insertBtn{
+    width: 90px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-left: 7px;
+    cursor: pointer;
+}
+
+.insertBtn:hover{
+    font-weight: bold;
+}
+
+.insertBtnOk{
+    background-color: var(--lol-mainblue);
+    border: 2px solid var(--lol-mainblue);
+}
+
+.insertBtnNo{
+    background-color: transparent;
+    border: 2px solid var(--lol-mainblue);
+}
+
+.fileBtn{
+    transition: ease-out 0.2s;
+}
+
+.fileBtn:active {
+    transform: scale(0.99);
+}
+
+/* 버튼 설정 */
+button{
+    transition: ease-out 0.2s;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+
+/* 문의 상세페이지 css */
+.qnaViewInput{
+    height: 40px auto;
+    width: 1100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.qnaViewContent{
+    height: 390px auto;
+    width: 1100px;
+}
+
+pre{
+    margin: 0;
+    line-height: 33px;
+}
+
+/* 문의 댓글 css */
+.qnaCommentDiv{
+    margin-top: 100px;
+    border-radius: 10px;
+    background-color: var(--khy-bg-gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.qnaCommentDivSize{
+    width: 92%;
+    height: 90%;
+}
+
+.qnaCommentTitle{
+    margin: 50px 0px 20px 0px;
+    font-size: 23px;
+}
+
+ion-icon{
+    color: var(--lol-white);
+    font-size: 35px;
+    cursor: pointer;
+}
+
+.insertCommentDiv{
+    min-height: 150px auto;
+    border-radius: 10px;
+    background-color: var(--khy-off-gray);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.insertComment{
+    border: none;
+    background-color: var(--khy-off-gray);
+    width: 85%;
+    height: 115px;
+    color: var(--lol-white);
+    padding: 0px 20px;
+    /*overflow: hidden;*/
+    border-radius: 10px;
+}
+
+.insertComment:focus{
+    outline: none;
+}
+
+.qnaCommentListDiv{
+    margin: 70px 0px 50px 0px;
+}
+
+.countBtnDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.countBtn{
+    margin: 20px 30px;
+    display: flex;
+    justify-content: end;
+}
+
+.commentBtn{
+    border-radius: 10px;
+    background-color: var(--lol-mainblue);
+    height: 33px;
+    width: 70px;
+    color: var(--lol-white);
+    border-style: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.iconBtn{
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 25px;
+}
+
+/* 댓글 리스트 조회 css */
+.commentList{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 10px;
+}
+
+.commentDetail{
+    width: 85%;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+.commentInfo{
+    display: flex;
+    align-items: center;
+}
+
+.bestDiv{
+    background-color: var(--lol-mainblue);
+    border-radius: 10px;
+    width: 78px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nickname{
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.tierImg{
+    width: 50px;
+    margin: 0 20px 0 7px;
+}
+
+.commentContent{
+    margin: 10px 0 25px 0;
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.dateSpan{
+    font-size: 16px;
+    color: #aaa;
+}
+
+.preText{
+    line-height: 32px;
+}
+
+.moreIconBtn{
+    background-color: transparent;
+    border-style: none;
+}
+
+.moreIcon:hover{
+    background-color: var(--khy-off-gray);
+    border-radius: 7px;
+}
+
+/* ... 클릭 시 */
+.optionDiv{
+    position: relative;
+}
+
+.optionUl{
+    position: absolute;
+    right: 0px;
+    padding: 6px;
+    margin-top: 6px;
+    border-radius: 8px;
+    z-index: 10px;
+    background-color: var(--lol-white);
+    list-style: none;
+    width: 93px;
+    justify-content: center;
+
+    display: none;
+}
+
+.optionUl button{
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    color: var(--khy-bg-gray);
+    font-family: 'SUIT-Regular';
+    border-style: none;
+    margin: 8px;
+}
+
+.optionIcon{
+    color: var(--khy-bg-gray);
+    font-size: 23px;
+    padding-right: 4px;
+}
+
+.cDelBtn button, .cUpBtn button{
+	cursor: pointer;
+}
+
+.fs-23{
+    font-size: 23px;
+}
