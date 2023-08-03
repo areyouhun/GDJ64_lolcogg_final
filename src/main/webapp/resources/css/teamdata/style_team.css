@@ -73,8 +73,13 @@ img {
     margin-right: 10px;
 }
 
+.team-stats-date {
+    margin: 10px 10px 0 0;
+    text-align: right;
+}
+
 .bar-layout {
-    margin-top: 40px;
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -95,6 +100,7 @@ img {
     width: 100%;
     padding: 10px;
     position: relative;
+    margin-bottom: 60px;
 }
 
 .team-players-info {
@@ -122,8 +128,8 @@ img {
 
 .team-players-card {
     position: absolute;
-    top: 91px;
-    right: 9px;
+    top: 60px;
+    right: 10px;
     width: 250px;
     height: 480px;
 }
@@ -207,4 +213,65 @@ img {
                 0 0 0px var(--lol-white), 
                 0 0 5px var(--lol-white), 
                 0 0 5px var(--lol-white);
+}
+
+.team-match_scheduled {
+    margin-bottom: 60px;
+}
+
+.match-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.match-table td {
+    width: 180px;
+    height: 105px;
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--lol-white);
+}
+
+.match-table_team {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.match-table_option {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.match-table img {
+    width: 30%;
+}
+
+.team_versus {
+    margin-right: 20px;
+    text-align: right;
+}
+
+.match-btn {
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 20px;
+    border: none;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background-color: var(--lol-white);
+    color: var(--lol-black);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.match-alarm {
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 20px;
+    border: none;
+    background: url("/resources/images/common/icon-alarm_empty.svg") no-repeat;
+    width: 25px;
+    height: 30px;
 }

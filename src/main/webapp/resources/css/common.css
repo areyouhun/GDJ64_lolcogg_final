@@ -62,7 +62,6 @@ footer{
     background-color: black;
     display: flex;
     justify-content: center;
-    margin-top: 100px;
 }
 
 .title {
@@ -323,3 +322,48 @@ a:-webkit-any-link {
     padding: 8px 15px;
 }
 
+/* footer */
+.footer-container {
+    padding: 0 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--lol-white);
+}
+
+.footer-left {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-left-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.footer-left-content p {
+    font-size: 1.1rem;
+}
+
+.footer-left-content h3 {
+    margin-bottom: 10px
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-right h4 {
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 1.7rem;
+}
+
+.footer-right h2 {
+    font-size: 2.5rem;
+}

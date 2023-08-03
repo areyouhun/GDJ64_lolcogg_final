@@ -98,6 +98,13 @@
 		    <version>1.16</version>
 		</dependency>
 		
+		<!-- OpenCSV -->
+		<dependency>
+		    <groupId>com.opencsv</groupId>
+		    <artifactId>opencsv</artifactId>
+		    <version>5.7.1</version>
+		</dependency>
+		
 		<!-- Jackson -->
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
