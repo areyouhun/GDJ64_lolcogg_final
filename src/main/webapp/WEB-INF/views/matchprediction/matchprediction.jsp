@@ -86,7 +86,9 @@
                                 <div class="homeDiv">
                                     <div class="logoDiv">
                                         <div class="logoImgDiv">
-                                            <img src="">
+                                        	<c:if test="${m.msHome != null}">
+                                            <img src="${path }/resources/images/logo/${m.msHome}_big.png">
+                                            </c:if>
                                         </div>
                                     </div>
                                     <div class="homeStatusDiv">
@@ -117,7 +119,9 @@
                                     </div>
                                     <div class="awayLogoDiv">
                                         <div class="logoImgDiv">
-                                            <img src="">
+                                        	<c:if test="${m.msAway != null}">
+                                            <img src="${path }/resources/images/logo/${m.msAway}_big.png">
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>
@@ -423,7 +427,7 @@ var riskFactorChart = new Chart(ctx, {
 
 
 /* 승부예측 */
-	$(".mpMatchDiv").click(e=>{		
+	$(document).on("click", ".mpMatchDiv", function(e) {	
 	
 		// 둘 중 하나라도 true면 선택한 것
 		console.log("home있니?" + $(e.target).hasClass('homeDiv'));
@@ -458,32 +462,64 @@ const weekChoice=(week)=>{
 	    data: { week: week }, // 옵션 객체로 전달할 데이터는 key: value 형태로 작성해야 함
 	    dataType: "json",
 	    success: function(data) {
-			const mpAllDiv = $(".mpAllDiv");
-			mpAllDiv.html('');
+			const mpDiv = $(".mpDiv");
+			mpDiv.html('');
 			let html = '';
 			
 			data.forEach(function(item) {
-				html += "<div class='mpDiv'>";
-				html += "<fmt:formatDate value='${today}' pattern='yyyy.MM.dd(E)' var='todayDate' />";
-				html += "<fmt:formatDate value='${m.msDate}' pattern='yyyy.MM.dd(E)' var='matchDate'/>";
+				console.log(item);
+				
+				/* 날짜  */
+				function getDateFormat() {
+				    let d = new Date(item.msDate);
+				    return d.getFullYear() + '.' + ((d.getMonth() + 1) > 9 ? (d.getMonth() + 1).toString() : '0' + (d.getMonth() + 1)) + '.' + (d.getDate() > 9 ? d.getDate().toString() : '0' + d.getDate().toString()) + '(' + '일월화수목금토'.charAt(d.getDay()) + ')';
+				}
+				
+				/* 시간 */
+				const msDate = item.msDate;
+				const date = new Date(msDate);
+				const msTime =  new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+				
 				html += "<div class='mpDateDiv'>";
-				html += "<span class='content fs-20'>${matchDate }</span>";
+				html += "<span class='content fs-20'>" + getDateFormat(item.msDate) + "</span>";
 				html += "<hr class='dateHr'></div>";
 				html += "<div class='statusTimeDiv'>";
 				html += "<div class='statusDiv'>";
 				html += "<p class='content fs-16'>미참여</p>";
 				html += "</div>";
-				html += "<p class='content fs-20'><fmt:formatDate value='${m.msDate}' pattern='HH:mm'/></p>";
+				html += "<p class='content fs-20'>" + msTime + "</p>";
 				html += "</div>";
-				html += "";
-				html += "";
-				html += "";
-				html += "";
-				html += "";
-				html += "";
-				html += "";
+				html += "<div id='${m.msNo }' class='mpMatchDiv'>";
+				html += "<div class='homeDiv'>";
+				html += "<div class='logoDiv'>";
+				html += "<div class='logoImgDiv'>";
+				html += (item.msAway != null) ? "<img src='${path}/resources/images/logo/" + item.msHome +"_big.png'>" : "";
+				html += "</div></div>";
+				html += "<div class='homeStatusDiv'>";
+				html += "<p class='content'>";
+				html += (item.msHome != null) ? (item.msHome + " " + item.team.homeRank + "위") : "TBD";
+				html += "</p>";
+				html += "<p class='content fs-40 fw-bold'>100%</p></div>";
+				html += "<div class='homeScoreDiv'>";
+				html += "<p class='title fs-45'>" + item.msHomeScore + "</p>";
+				html += "</div></div>";
+				
+				html += "<div class='awayDiv'>";
+				html += "<div class='awayScoreDiv'>";
+				html += "<p class='title fs-45'>" + item.msAwayScore + "</p>";
+				html += "</div>";
+				html += "<div class='awayStatusDiv'>";
+				html += "<p class='content awaySort'>";
+				html += (item.msAway != null) ? (item.msAway + " " + item.team.awayRank + "위") : "TBD";
+				html += "</p>";
+				html += "<p class='content fs-40 fw-bold awaySort'>100%</p>";
+				html += "</div>";
+				html += "<div class='awayLogoDiv'>";
+				html += "<div class='logoImgDiv'>";
+				html += (item.msAway != null) ? "<img src='${path}/resources/images/logo/" + item.msAway +"_big.png'>" : "";
+				html += "</div></div></div></div>";
 			});
-			mpAllDiv.append(html);
+			mpDiv.append(html);
 			
 			$(".weekDiv").removeClass("weekChoice");
 			$(".weekDiv").each(function() {

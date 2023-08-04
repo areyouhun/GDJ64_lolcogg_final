@@ -1,5 +1,6 @@
 package gg.lolco.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import gg.lolco.model.service.MatchPredictionService;
 import gg.lolco.model.vo.MatchSchedule;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class MatchPerdictionController {
-
+	
 	private MatchPredictionService service;
 
 	public MatchPerdictionController(MatchPredictionService service) {
@@ -42,12 +45,10 @@ public class MatchPerdictionController {
 		List<MatchSchedule> ms = service.matchScheduleByWeek(nowWeek);
 		m.addAttribute("ms", ms);
 		
-		// 예측 성공 유무 업데이트
-		// 		승리팀, 선택한 팀
-//		List<MatchPrediction> msmp = service.matchMpYn();
-		
-		// 		업데이트
+		// 업데이트
 		int mpYn = service.updateMpYn();
+		
+		// 적중률(이메일
 
 		return "matchprediction/matchprediction";
 	}
@@ -56,6 +57,7 @@ public class MatchPerdictionController {
 	@PostMapping("/matchPrediction/week")
 	@ResponseBody
 	public List<MatchSchedule> weekChoice(int week){
+		int mpYn = service.updateMpYn();
 		List<MatchSchedule> ms = service.matchScheduleByWeek(week);
 		return ms;
 	}
