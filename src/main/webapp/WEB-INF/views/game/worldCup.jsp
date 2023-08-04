@@ -644,6 +644,14 @@
 		})
 		
 	}
+	function OTOWinner(e){
+		$.ajax({
+			type : 'POST',          
+		    url : '${path}/game/OTOWinner',
+		    dataType : 'text',
+		    data : {"name" : e},
+		})
+	}
 	
 	
 	
@@ -654,6 +662,7 @@
  		$( '.secondImg' ).css({'transform':'translate(200%,0)'});
  		$( '.secondImg' ).css({'transition':'0.5s'});
  		$( '.fight' ).hide();
+ 		console.log($(e.target).parent().next().find('div').children(":first").text());
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		quarterfinalsplayerImg.push($(e.target).attr("src"));
@@ -675,6 +684,7 @@
  		$( '.secondImg' ).css({'transform':'translate(200%,0)'});
  		$( '.secondImg' ).css({'transition':'0.5s'});
  		$( '.fight' ).hide();
+ 		console.log($(e.target).text())
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.firstImg').attr("src"));
@@ -698,6 +708,7 @@
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		$( '.fight' ).hide();
+ 		console.log($(e.target).parent().next().find('div').children(":last").text());
  		quarterfinalsplayerImg.push($(e.target).attr("src"));
  		quarterfinalsplayerName.push($(e.target).parent().next().find('div').children(":last").text());
  		setTimeout(function(){
@@ -719,6 +730,7 @@
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		$( '.fight' ).hide();
+ 		console.log($(e.target).text())
  		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.firstImg').attr("src"));
  		quarterfinalsplayerName.push($(e.target).text());
  		setTimeout(function(){

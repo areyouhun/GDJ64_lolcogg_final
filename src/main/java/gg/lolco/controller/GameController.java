@@ -77,5 +77,11 @@ public class GameController {
 		service.winnerwinnerChickemDinner(name);
 	}
 	
+//	@PostMapping("/OTOWinner")
+//	@ResponseBody
+//	public void OTOWinner(Model m,String name) {
+//		service.OTOWinner(name);
+//	}
+	
 	
 }

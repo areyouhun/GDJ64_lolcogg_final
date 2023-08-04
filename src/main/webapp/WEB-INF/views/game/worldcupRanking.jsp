@@ -77,9 +77,9 @@
                 			<td><img src="${path }/resources/images/game/worldcup/${r.wcImgFilename }" style="width:130px;height:130px;"></td>
                 			<td>${r.wcImgName }</td>
                 			<td>
-                				<fmt:formatNumber var="num" value="${r.wcWinNo/rate*100 }" pattern="0.0" />
+                				<fmt:formatNumber var="num" value="${r.wcWinNo/rate*100 }" pattern="0.00" />
                 				<div class="graph">
-                					<span style="width:${r.wcWinNo/rate*100 }%">${num}</span>
+                					<span style="width:${r.wcWinNo/rate*100 }%">${num}%</span>
                 				</div>
                 			</td>
                 		</tr>
