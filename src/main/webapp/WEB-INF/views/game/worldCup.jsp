@@ -708,7 +708,10 @@
  		$( '.secondImg' ).css({'transform':'translate(200%,0)'});
  		$( '.secondImg' ).css({'transition':'0.5s'});
  		$( '.fight' ).hide();
+<<<<<<< Upstream, based on store
  		OTOWinner($(e.target).text());
+=======
+>>>>>>> 0dcf39a feat(game): 1:1승리 기능 추가
  		console.log($(e.target).text())
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
@@ -733,7 +736,10 @@
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		$( '.fight' ).hide();
+<<<<<<< Upstream, based on store
  		OTOWinner($(e.target).parent().next().find('div').children(":last").text());
+=======
+>>>>>>> 0dcf39a feat(game): 1:1승리 기능 추가
  		console.log($(e.target).parent().next().find('div').children(":last").text());
  		quarterfinalsplayerImg.push($(e.target).attr("src"));
  		quarterfinalsplayerName.push($(e.target).parent().next().find('div').children(":last").text());
@@ -756,9 +762,14 @@
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		$( '.fight' ).hide();
+<<<<<<< Upstream, based on store
  		OTOWinner($(e.target).text());
  		console.log($(e.target).text())
  		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.secondImg').attr("src"));
+=======
+ 		console.log($(e.target).text())
+ 		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.firstImg').attr("src"));
+>>>>>>> 0dcf39a feat(game): 1:1승리 기능 추가
  		quarterfinalsplayerName.push($(e.target).text());
  		setTimeout(function(){
  			$(".firstImg").css({ 'pointer-events': 'auto' });
