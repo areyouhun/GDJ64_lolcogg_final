@@ -180,6 +180,11 @@
                         			</c:if>
                         		</c:forEach>
                         	</c:if>
+                            <c:if test="${matchSchedule eq null}">
+                                <tr>
+                                    <td colspan="7"><h3>예정된 경기가 없습니다.</h3></td>
+                                </tr>
+                            </c:if>
                         </tbody>
                     </table>
                 </div>

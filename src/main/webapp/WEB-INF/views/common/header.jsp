@@ -79,7 +79,3 @@
         </div>
     </div>
 </header>
-<script>
-	console.log('${loginMember}');
-</script>
-

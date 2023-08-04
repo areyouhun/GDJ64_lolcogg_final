@@ -2,6 +2,10 @@
     color: var(--lol-white);
 }
 
+p {
+    font-size: 1.2rem;
+}
+
 img {
     display: block;
     width: 100%;
@@ -9,6 +13,44 @@ img {
 
 table, tr, td {
     border:none;
+}
+
+.pos-absolute {
+    background-color: #1c1c1c;
+    border-radius: 12px;
+    position: absolute;
+    z-index: 10;
+    width: max-content;
+    max-width: 320px;
+    padding: 20px;
+    text-align: left;
+    display: none;
+    box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.1),
+                0 0 0 1px hsla(230, 13%, 9%, 0.075),
+                0 0.3px 0.4px hsla(230, 13%, 9%, 0.02),
+                0 0.9px 1.5px hsla(230, 13%, 9%, 0.045),
+                0 3.5px 6px hsla(230, 13%, 9%, 0.09);
+}
+
+.pos-absolute h4 {
+    margin-bottom: 10px; 
+}
+
+.spell-title {
+    color: rgb(12, 206, 51);
+}
+
+.item-title {
+    color: rgb(211, 0, 211);
+}
+
+.price {
+    color: rgb(246, 255, 119); 
+    margin-top: 10px;
+}
+
+.ornn-border {
+    border: 3px ridge rgb(221, 36, 36);
 }
 
 .flex-grow {
@@ -118,7 +160,7 @@ table, tr, td {
     display: none;
 }
 
-.show{ 
+.show { 
     display: block; 
 }
 
@@ -160,7 +202,7 @@ table, tr, td {
 }
 
 .side {
-    width: 120px;
+    width: 130px;
 }
 
 .side div {
@@ -186,8 +228,8 @@ table, tr, td {
     height: 90px;
 }
 
-.set-table:last-child tr {
-    height: 200px;
+.set-table:last-child td {
+    height: 240px;
 }
 
 .set-table td:first-child {
@@ -218,16 +260,17 @@ table, tr, td {
 }
 
 .set-category {
+    font-weight: 900;
     background-color: var(--lol-white);
     border-radius: 10px;
-    padding: 5px 10px;
+    padding: 10px;
     margin: 0 40px;
     color: var(--lol-black);
     text-align: center;
 }
 
 .set-position {
-    padding: 80px 10px;
+    padding: 90px 10px;
 }
 
 .banned-blue>div,
@@ -240,7 +283,7 @@ table, tr, td {
 }
 
 .champion-layout {
-    width: 50%;
+    width: 60%;
     border: 3px solid var(--lol-white);
     border-radius: 50%;
 }
@@ -282,10 +325,96 @@ table, tr, td {
     align-items: center;
 }
 
+.set-player-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.set-player-content>* {
+    margin-bottom: 10px;
+}
+
+.set-player-content>h2 {
+    font-size: 2rem;
+}
+
 .blue-player-name {
     text-align: left;
 }
 
 .red-player-name {
     text-align: right;
+}
+
+.set-champion-content,
+.set-champion-item,
+.set-champion-info {
+    display: flex;
+    align-items: center;
+}
+
+.set-champion-content>* {
+    margin-bottom: 10px;
+}
+
+.player-champ-sub {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.player-champ-sub>h3 {
+    text-align: left;
+}
+
+.player-champion-img {
+    width: 70px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.player-champion-img>img {
+    width: 100%;
+}
+
+.set-champion-spell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+}
+
+.set-champion-spell>img {
+    width: 25%;
+    margin-right: 5px;
+    border-radius: 12px;
+}
+
+.set-champion-item {
+    position: relative;
+    width: 350px;
+}
+
+.set-champion-item>img {
+    width: 13%;
+    margin-right: 5px;
+    border-radius: 12px;
+}
+
+.set-champion-stats {
+    width: 100%;
+    padding-right: 20px;
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.set-champion-stats span {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #5F5F5F;
 }

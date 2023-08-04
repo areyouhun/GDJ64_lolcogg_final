@@ -16,7 +16,6 @@ function updateTeamList() {
             matchContainer.html("");
 
             data.forEach((team, index) => {
-                console.log(team.teamAbbr);
                 const pathToSmallLogo = getContextPath() 
                                         + "/resources/images/logo/" 
                                         + team.teamAbbr + "_square.png";
@@ -165,7 +164,17 @@ function showMatchRecords(element) {
 }
 
 $(document).on("click", ".slide-btn", event => {
-    location.assign(getContextPath() + "/teamdata/team?abbr=" + $(event.target).text());
+    let teamName;
+
+    if ($(event.target).prop("tagName") === "BUTTON") {
+        teamName = $(event.target).text();
+    }
+    
+    if ($(event.target).prop("tagName") === "IMG") {
+        teamName = $(event.target).parent().text();
+    }
+
+    location.assign(`${getContextPath()}/teamdata/team?abbr=${teamName}`);
 });
 
 $(document).on("mouseenter", ".slide-btn", event => {
