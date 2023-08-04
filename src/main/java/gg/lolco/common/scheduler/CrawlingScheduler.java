@@ -44,7 +44,7 @@ public class CrawlingScheduler {
 	@Scheduled(cron = "0 0 1 * * ?")
 	public void catchExceptionMethod() {
         LocalDate currentDate = LocalDate.now();
-
+        
         LocalDate stopSchedulerDate = LocalDate.of(2023, 8, 27);
 
         if (currentDate.isAfter(stopSchedulerDate)) {
@@ -175,8 +175,6 @@ public class CrawlingScheduler {
 						String url = "gol.gg" + tableRow.select("a").get(i).attr("href").replace(".", "");
 						// 각 세트 경기 결과 
 						String gameSetResultUrl = url.replace("/page-summary/", "/page-game/");
-						// 결과요약 링크 
-						String gameInfoPath = url.replace("/page-summary/", "/page-fullstats/");
 						
 						// 스코어
 						char homeTeamScore = tableRow.get(i).select("td").get(2).text().charAt(0);
@@ -240,6 +238,14 @@ public class CrawlingScheduler {
 								// 다음 세트 숫자
 								int gameSetNum = Integer.parseInt(divisionGameSet) + j;
 								
+								// 세트 결과 페이지 주소
+								String gameSetPath = gameSetResultUrl.replace(divisionGameSet, String.valueOf(gameSetNum));
+								
+								// 세트 결과 페이지 
+								Document gameSetDoc = Jsoup.connect("https://" + gameSetPath).get();
+								
+								// 결과요약 링크 
+								String gameInfoPath = gameSetPath.replace("/page-game/", "/page-fullstats/");
 								
 								// 결과요약 페이지
 								Document gameInfoDoc = Jsoup.connect("https://" + gameInfoPath).get();
@@ -261,12 +267,6 @@ public class CrawlingScheduler {
 										.replace("Golds ", "").split(" ");
 								String[] damageArr = gameInfoDoc.select(".completestats tbody tr").get(24).text()
 										.replace("Total damage to Champion ", "").split(" ");
-								
-								// 세트 결과 페이지 주소
-								String gameSetPath = gameSetResultUrl.replace(divisionGameSet, String.valueOf(gameSetNum));
-								
-								// 세트 결과 페이지 
-								Document gameSetDoc = Jsoup.connect("https://" + gameSetPath).get();
 								
 								// 밴픽
 								List<String> banpickSrcList = gameSetDoc.select("a.black_link img").eachAttr("src");
