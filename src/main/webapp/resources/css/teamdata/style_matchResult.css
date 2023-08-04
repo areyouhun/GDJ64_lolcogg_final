@@ -7,6 +7,10 @@ img {
     width: 100%;
 }
 
+table, tr, td {
+    border:none;
+}
+
 .flex-grow {
     flex-grow: 1;
 }
@@ -132,7 +136,7 @@ img {
 }
 
 .team {
-    width: 300px;
+    width: 400px;
 }
 
 .team>* {
@@ -150,9 +154,13 @@ img {
     width: 80%;
 }
 
-.team-blue>, 
-.team-red> {
-    width: 250px;
+.team-blue, 
+.team-red {
+    width: 150px;
+}
+
+.side {
+    width: 120px;
 }
 
 .side div {
@@ -165,42 +173,61 @@ img {
     height: 120%;
 }
 
-.set-top-table {
+.set-table {
+    width: 100%;
     margin: 0 auto;
+    margin-bottom: 60px;
+    border: none;
+    border-collapse: separate;
+    border-spacing: 0 20px;
 }
 
-.set-top-table tr {
+.set-table tr {
     height: 90px;
-    margin-bottom: 10px;
 }
 
-.set-top-table td:first-child {
+.set-table:last-child tr {
+    height: 200px;
+}
+
+.set-table td:first-child {
     text-align: right;
 }
 
-.set-top-table td:nth-child(2) {
+.set-table td:nth-child(2) {
+    width: 180px;
     text-align: center;
 }
 
-.set-top-table td:last-child {
+.set-table td:last-child {
     text-align: left;
 }
 
 .banned-blue,
 .banned-red {
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 
+.banned-blue {
+    justify-content: right;
+}
+
+.banned-red {
+    justify-content: left;
+}
+
 .set-category {
-    width: 80px;
     background-color: var(--lol-white);
     border-radius: 10px;
     padding: 5px 10px;
     margin: 0 40px;
     color: var(--lol-black);
     text-align: center;
+}
+
+.set-position {
+    padding: 80px 10px;
 }
 
 .banned-blue>div,
@@ -221,8 +248,41 @@ img {
     margin-bottom: 5px;
 }
 
-.kills {
-    margin: 0 35px;
+.set-kills {
+    margin: 0 30px;
     font-size: 2.5rem;
     font-weight: 900;
+}
+
+.set-objects {
+    width: 200px;
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.set-objects:first-child {
+    margin-right: 30px;
+    margin-left: auto;
+}
+
+.set-objects:last-child {
+    margin-right: auto;
+    margin-left: 30px;
+}
+
+.set-objects-obj {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.blue-player-name {
+    text-align: left;
+}
+
+.red-player-name {
+    text-align: right;
 }

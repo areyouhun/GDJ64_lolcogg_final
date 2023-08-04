@@ -10,11 +10,11 @@ import java.util.stream.IntStream;
 public class MatchHistoryFormatter {
 	private static final String BLUE_SIDE = "blueSide";
 	private static final String RED_SIDE = "redSide";
-	private static final String TOP = "top";
-	private static final String JUNGLE = "jungle";
-	private static final String MID = "mid";
-	private static final String BOT = "bot";
-	private static final String SUPPORT = "support";
+	private static final String TOP = "Top";
+	private static final String JUNGLE = "Jungle";
+	private static final String MID = "Mid";
+	private static final String BOT = "Bot";
+	private static final String SUPPORT = "Support";
 
 	public static List<Map<String, Object>> format(List<List<String[]>> setResults, 
 													String separator) 
@@ -161,7 +161,7 @@ public class MatchHistoryFormatter {
 									String side, String position, 
 									String[] row) 
 	{
-		setResultFormatted.put(side + position + "Player", Arrays.toString(row));
+		setResultFormatted.put(side + position + "Player", String.join("", row));
 	}
 	
 	private static void updateChamp(Map<String, Object> setResultFormatted, 

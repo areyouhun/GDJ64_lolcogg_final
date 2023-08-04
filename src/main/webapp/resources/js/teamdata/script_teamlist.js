@@ -46,6 +46,8 @@ function updateTeamList() {
             }, 100);
 
             $(document).on("click", ".team-btn_down_left", event => {
+                $(event.target).css("pointer-events", "none");
+
                 const targetContainer = $(event.target).siblings(".match-content_wrapper").children(".match-team-container");
 
                 targetContainer.css('transform', `translateY(-${++currentIdxLeft * wrapper.height()}px)`);
@@ -55,15 +57,21 @@ function updateTeamList() {
                         currentIdxLeft = 1;
                         targetContainer.removeClass("animated-smooth")
                             .css("transform", `translateY(-${wrapper.height()}px)`);
-                    }, 400);
+                    }, 250);
 
                     setTimeout(() => {
                         targetContainer.addClass("animated-smooth");
-                    }, 500);
+                    }, 300);
                 }
+
+                setTimeout(() => {
+                    $(event.target).css("pointer-events", "auto");
+                }, 310);
             });
 
             $(document).on("click", ".team-btn_down_right", event => {
+                $(event.target).css("pointer-events", "none");
+
                 const targetContainer = $(event.target).siblings(".match-content_wrapper").children(".match-team-container");
 
                 targetContainer.css('transform', `translateY(-${++currentIdxRight * wrapper.height()}px)`);
@@ -73,15 +81,21 @@ function updateTeamList() {
                         currentIdxRight = 1;
                         targetContainer.removeClass("animated-smooth")
                             .css("transform", `translateY(-${wrapper.height()}px)`);
-                    }, 400);
+                    }, 250);
 
                     setTimeout(() => {
                         targetContainer.addClass("animated-smooth");
-                    }, 500);
+                    }, 300);
                 }
+
+                setTimeout(() => {
+                    $(event.target).css("pointer-events", "auto");
+                }, 310);
             });
 
             $(document).on("click", ".team-btn_up_left", event => {
+                $(event.target).css("pointer-events", "none");
+
                 const targetContainer = $(event.target).siblings(".match-content_wrapper").children(".match-team-container");
 
                 targetContainer.css('transform', `translateY(-${--currentIdxLeft * wrapper.height()}px)`);
@@ -91,15 +105,21 @@ function updateTeamList() {
                         currentIdxLeft = numOfbanners;
                         targetContainer.removeClass("animated-smooth");
                         targetContainer.css("transform", `translateY(-${matchContainer.height()}px)`);
-                    }, 400);
+                    }, 250);
 
                     setTimeout(() => {
                         targetContainer.addClass("animated-smooth");
-                    }, 500);
+                    }, 300);
                 }
+
+                setTimeout(() => {
+                    $(event.target).css("pointer-events", "auto");
+                }, 310);
             });
 
             $(document).on("click", ".team-btn_up_right", event => {
+                $(event.target).css("pointer-events", "none");
+
                 const targetContainer = $(event.target).siblings(".match-content_wrapper").children(".match-team-container");
 
                 targetContainer.css('transform', `translateY(-${--currentIdxRight * wrapper.height()}px)`);
@@ -109,12 +129,16 @@ function updateTeamList() {
                         currentIdxRight = numOfbanners;
                         targetContainer.removeClass("animated-smooth");
                         targetContainer.css("transform", `translateY(-${matchContainer.height()}px)`);
-                    }, 400);
+                    }, 250);
 
                     setTimeout(() => {
                         targetContainer.addClass("animated-smooth");
-                    }, 500);
+                    }, 300);
                 }
+
+                setTimeout(() => {
+                    $(event.target).css("pointer-events", "auto");
+                }, 310);
             });
         });
 }
