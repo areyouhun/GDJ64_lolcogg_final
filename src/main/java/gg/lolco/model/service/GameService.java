@@ -9,10 +9,13 @@ public interface GameService {
 	int worldAllCount(int num);
 	
 	int worldRate(int num);
+	int worldRateOTO(int num);
 	
 	List<WCImg> worldcupStart(Map<String,Object> param);
 	
 	List<WCImg> selectWCImgAll(Map param);
 	
 	void winnerwinnerChickemDinner(String name);
+	
+	void OTOWinner(String name);
 }

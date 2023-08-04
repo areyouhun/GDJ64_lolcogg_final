@@ -11,8 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class WCImg {
 	private int wcImgNo;
+	private int rownum;
 	private String wcImgName;
 	private String wcImgFilename;
 	private int wcCateNo;
 	private int wcWinNo;
+	private int wcOTOWinNo;
 }

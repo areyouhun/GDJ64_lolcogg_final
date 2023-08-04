@@ -44,9 +44,9 @@ public class GameController {
 	public String worldcupRanking(@RequestParam(value="cPage", defaultValue="1") int cPage,@RequestParam(value="numPerpage",defaultValue="5") int numPerpage, Model m,String gameName,int num) {
 		List<WCImg> WCR=service.selectWCImgAll(Map.of("cPage",cPage, "numPerpage", numPerpage,"num",num));
 		m.addAttribute("rate",service.worldRate(num));
-		m.addAttribute("ranking",0);
+		m.addAttribute("rateOTO",service.worldRateOTO(num));
 		m.addAttribute("WCR",WCR);
-		m.addAttribute("pageBar", PageFactoryWorldCup.getPage(cPage, numPerpage, service.worldAllCount(num), "worldcupRanking?num="+num));
+		m.addAttribute("pageBar", PageFactoryWorldCup.getPage(cPage, numPerpage, service.worldAllCount(num), "worldcupRanking",gameName,num));
 		m.addAttribute("gameName",gameName);
 		return "game/worldcupRanking";
 	}
@@ -77,11 +77,11 @@ public class GameController {
 		service.winnerwinnerChickemDinner(name);
 	}
 	
-//	@PostMapping("/OTOWinner")
-//	@ResponseBody
-//	public void OTOWinner(Model m,String name) {
-//		service.OTOWinner(name);
-//	}
+	@PostMapping("/OTOWinner")
+	@ResponseBody
+	public void OTOWinner(Model m,String name) {
+		service.OTOWinner(name);
+	}
 	
 	
 }

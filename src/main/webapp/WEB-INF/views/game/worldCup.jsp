@@ -599,6 +599,7 @@
 		 		$( '.secondImg' ).css({'transform':'translate(200%,0)'});
 		 		$( '.secondImg' ).css({'transition':'0.5s'});
 		 		winnerwinnerChickemDinner($('.finalLeft').text());
+		 		OTOWinner($('.finalLeft').text());
 		 		$( '.fight' ).hide();
 		 		$( '.round' ).hide();
 		 		const finalText=$('<div class="finalLeftText">');
@@ -619,11 +620,12 @@
 		 		$( '.firstImg' ).css({'transform':'translate(-200%,0)'});
 		 		$( '.firstImg' ).css({'transition':'0.5s'});
 		 		winnerwinnerChickemDinner($('.finalRight').text());
+		 		OTOWinner($('.finalRight').text());
 		 		$( '.fight' ).hide();
 		 		$( '.round' ).hide();
 		 		const finalText=$('<div class="finalRightText">');
 		 		const winner=$('<h2>오늘의 우승자는</h2>');
-		 		const winnerName=$('<h3>'+$(e.target).parent().next().find('div').children(":first").text()+'</h3>')
+		 		const winnerName=$('<h3>'+$(e.target).parent().next().find('div').children(":last").text()+'</h3>')
 		 		const finalchoice=$('<div class=""><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하기</h3></div><div class="goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
 		 		finalText.append(winner);
 		 		finalText.append(winnerName);
@@ -662,6 +664,7 @@
  		$( '.secondImg' ).css({'transform':'translate(200%,0)'});
  		$( '.secondImg' ).css({'transition':'0.5s'});
  		$( '.fight' ).hide();
+ 		OTOWinner($(e.target).parent().next().find('div').children(":first").text());
  		console.log($(e.target).parent().next().find('div').children(":first").text());
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
@@ -684,6 +687,7 @@
  		$( '.secondImg' ).css({'transform':'translate(200%,0)'});
  		$( '.secondImg' ).css({'transition':'0.5s'});
  		$( '.fight' ).hide();
+ 		OTOWinner($(e.target).text());
  		console.log($(e.target).text())
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
@@ -708,6 +712,7 @@
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		$( '.fight' ).hide();
+ 		OTOWinner($(e.target).parent().next().find('div').children(":last").text());
  		console.log($(e.target).parent().next().find('div').children(":last").text());
  		quarterfinalsplayerImg.push($(e.target).attr("src"));
  		quarterfinalsplayerName.push($(e.target).parent().next().find('div').children(":last").text());
@@ -730,8 +735,9 @@
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		$( '.fight' ).hide();
+ 		OTOWinner($(e.target).text());
  		console.log($(e.target).text())
- 		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.firstImg').attr("src"));
+ 		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.secondImg').attr("src"));
  		quarterfinalsplayerName.push($(e.target).text());
  		setTimeout(function(){
  			$(".firstImg").css({ 'pointer-events': 'auto' });
