@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="today" value="<%=new java.util.Date()%>" />
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path }/resources/css/matchprediction/matchprediction.css">
@@ -23,246 +26,108 @@
                         <p class="content fs-20">LCK 10팀의 승패예측, 지금 바로 참여하세요!</p>
                         <p class="content fs-20">예측성공 수에 따라 포인트가 지급됩니다.</p>
                     </div>
-                    <p class="title fs-25">현재 <span class="title mpCountSpan">183,276명</span> 참여중!</p>
+                    <p class="title fs-25">현재 <span class="title mpCountSpan"><fmt:formatNumber value="${playerCount }" pattern="#,###" />명</span> 참여중!</p>
                 </div>
 
                 <div class="weekChoiceDiv">
-                    <button class="weekDiv">
-                        <div class="weekDivInfo">
-                            <p class="title fs-26 week">2</p>
-                            <p class="content fs-16 weekSpan">주차</p>
-                        </div>
-                        <p class="content fs-12 weekStatus">종료</p>
-                    </button>
-                    <button class="weekDiv">
-                        <div class="weekDivInfo">
-                            <p class="title fs-26 week">2</p>
-                            <p class="content fs-16 weekSpan">주차</p>
-                        </div>
-                        <p class="content fs-12 weekStatus">종료</p>
-                    </button>
-                    <button class="weekDiv">
-                        <div class="weekDivInfo">
-                            <p class="title fs-26 week">2</p>
-                            <p class="content fs-16 weekSpan">주차</p>
-                        </div>
-                        <p class="content fs-12 weekStatus">종료</p>
-                    </button>
-                    <button class="weekDiv">
-                        <div class="weekDivInfo">
-                            <p class="title fs-26 week">2</p>
-                            <p class="content fs-16 weekSpan">주차</p>
-                        </div>
-                        <p class="content fs-12 weekStatus">종료</p>
-                    </button>
-                    <button class="weekDiv">
-                        <div class="weekDivInfo">
-                            <p class="title fs-26 week">2</p>
-                            <p class="content fs-16 weekSpan">주차</p>
-                        </div>
-                        <p class="content fs-12 weekStatus">종료</p>
-                    </button>
-                    <button class="weekDiv">
-                        <div class="weekDivInfo">
-                            <p class="title fs-26 week">2</p>
-                            <p class="content fs-16 weekSpan">주차</p>
-                        </div>
-                        <p class="content fs-12 weekStatus">종료</p>
-                    </button>
-                    <button class="weekDiv">
-                        <div class="weekDivInfo">
-                            <p class="title fs-26 week">2</p>
-                            <p class="content fs-16 weekSpan">주차</p>
-                        </div>
-                        <p class="content fs-12 weekStatus">종료</p>
-                    </button>
-                    <button class="weekDiv">
-                        <div class="weekDivInfo">
-                            <p class="title fs-26 week">2</p>
-                            <p class="content fs-16 weekSpan">주차</p>
-                        </div>
-                        <p class="content fs-12 weekStatus">종료</p>
-                    </button>
-                    <button class="weekDiv weekChoice">
-                        <div class="weekDivInfo">
-                            <p class="title fs-26 week">2</p>
-                            <p class="content fs-16 weekSpan">주차</p>
-                        </div>
-                        <p class="content fs-12 weekStatus weekChoiceP">진행중</p>
-                    </button>
-                    <button class="weekDiv">
-                        <div class="weekDivInfo">
-                            <p class="title fs-26 week">2</p>
-                            <p class="content fs-16 weekSpan">주차</p>
-                        </div>
-                        <p class="content fs-12 weekStatus">종료</p>
-                    </button>
+                	<c:if test="${not empty week }">
+	                	<c:forEach var="w" items="${week }">
+	                		<c:if test="${nowWeek == w.msWeek}">
+		                    	<button id="${w.msWeek }" class="weekDiv weekChoice" onclick="weekChoice('${w.msWeek}');">
+		                    </c:if>
+		                    <c:if test="${nowWeek != w.msWeek}">
+		                    	<button id="${w.msWeek }" class="weekDiv" onclick="weekChoice('${w.msWeek}');">
+		                    </c:if>
+		                        <div class="weekDivInfo">
+		                            <p class="title fs-26 week">${w.msWeek }</p>
+		                            <p class="content fs-16 weekSpan">주차</p>
+		                        </div>
+		                        <c:if test="${nowWeek == w.msWeek}">
+		                        	<p class="content fs-12 weekStatus weekChoiceP">진행중</p>
+		                        </c:if>
+		                        <c:if test="${nowWeek < w.msWeek}">
+		                        	<p class="content fs-12 weekStatus">예정</p>
+		                        </c:if>
+		                        <c:if test="${nowWeek > w.msWeek}">
+		                        	<p class="content fs-12 weekStatus">종료</p>
+		                        </c:if>
+		                    </button>
+	                    </c:forEach>
+                    </c:if>
                 </div>
-
+				
                 <!-- 승부예측, 적중률 랭킹, 실시간 채팅 -->
                 <div class="mpPageDiv">
                     <div class="mpAllDiv">
                         <div class="mpDiv">
+                <c:if test="${not empty ms}">
+					<c:forEach var="m" items="${ms }">
+						<%-- ${ms[1] } --%>
+						<c:if test="${nowWeek == m.msWeek }">
+						
+						<fmt:formatDate value="${today}" pattern="yyyy.MM.dd(E)" var="todayDate" />
+						<fmt:formatDate value="${m.msDate}" pattern="yyyy.MM.dd(E)" var="matchDate"/>
+						
                             <div class="mpDateDiv">
-                                <span class="content fs-20">2023.07.25(화)</span>
+                            	<c:if test="true">
+                                	<span class="content fs-20">${matchDate }</span>
+                                </c:if>
                                 <hr class="dateHr">
                             </div>
-
+						
                             <div class="statusTimeDiv">
                                 <div class="statusDiv">
                                     <p class="content fs-16">미참여</p>
                                 </div>
-                                <p class="content fs-20">15:00</p>
+                                <p class="content fs-20"><fmt:formatDate value="${m.msDate}" pattern="HH:mm"/></p>
                             </div>
-                            <div class="mpMatchDiv">
+                            <!-- 한 경기 시작 -->
+                            <div id="${m.msNo }" class="mpMatchDiv">
                                 <div class="homeDiv">
                                     <div class="logoDiv">
                                         <div class="logoImgDiv">
-                                            <img src="/UI/team/freecs/freecs_logo_big.png">
+                                            <img src="">
                                         </div>
                                     </div>
                                     <div class="homeStatusDiv">
-                                        <p class="content">BRO 10위</p>
+                                        <c:if test="${m.msHome != null }">
+                                        	<p class="content">${m.msHome } ${m.team.homeRank }위</p>
+                                        </c:if>
+                                        <c:if test="${m.msHome == null }">
+                                        	<p class="content">TBD</p>
+                                        </c:if>
                                         <p class="content fs-40 fw-bold">100%</p>
                                     </div>
                                     <div class="homeScoreDiv">
-                                        <p class="title fs-45">2</p>
+                                        <p class="title fs-45">${m.msHomeScore }</p>
                                     </div>
                                 </div>
                                 <div class="awayDiv">
                                     <div class="awayScoreDiv">
-                                        <p class="title fs-45">1</p>
+                                        <p class="title fs-45">${m.msAwayScore }</p>
                                     </div>
                                     <div class="awayStatusDiv">
-                                        <p class="content awaySort">BRO 10위</p>
+                                    	<c:if test="${m.msAway != null }">
+                                        	<p class="content awaySort">${m.msAway } ${m.team.awayRank }위</p>
+                                        </c:if>
+                                        <c:if test="${m.msAway == null }">
+                                        	<p class="content awaySort">TBD</p>
+                                        </c:if>
                                         <p class="content fs-40 fw-bold awaySort">100%</p>
                                     </div>
                                     <div class="awayLogoDiv">
                                         <div class="logoImgDiv">
-                                            <img src="/UI/team/freecs/freecs_logo_big.png">
+                                            <img src="">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="statusTimeDiv">
-                                <div class="statusDiv">
-                                    <p class="content fs-16">미참여</p>
-                                </div>
-                                <p class="content fs-20">15:00</p>
-                            </div>
-                            <div class="mpMatchDiv">
-                                <div class="homeDiv">
-                                    <div class="logoDiv">
-                                        <div class="logoImgDiv">
-                                            <img src="/UI/team/freecs/freecs_logo_big.png">
-                                        </div>
-                                    </div>
-                                    <div class="homeStatusDiv">
-                                        <p class="content">BRO 10위</p>
-                                        <p class="content fs-40 fw-bold">100%</p>
-                                    </div>
-                                    <div class="homeScoreDiv">
-                                        <p class="title fs-45">2</p>
-                                    </div>
-                                </div>
-                                <div class="awayDiv">
-                                    <div class="awayScoreDiv">
-                                        <p class="title fs-45">1</p>
-                                    </div>
-                                    <div class="awayStatusDiv">
-                                        <p class="content awaySort">BRO 10위</p>
-                                        <p class="content fs-40 fw-bold awaySort">100%</p>
-                                    </div>
-                                    <div class="awayLogoDiv">
-                                        <div class="logoImgDiv">
-                                            <img src="/UI/team/freecs/freecs_logo_big.png">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mpDiv">
-                            <div class="mpDateDiv">
-                                <span class="content fs-20">2023.07.25(화)</span>
-                                <hr class="dateHr">
-                            </div>
-
-                            <div class="statusTimeDiv">
-                                <div class="statusDiv">
-                                    <p class="content fs-16">미참여</p>
-                                </div>
-                                <p class="content fs-20">15:00</p>
-                            </div>
-                            <div class="mpMatchDiv">
-                                <div class="homeDiv">
-                                    <div class="logoDiv">
-                                        <div class="logoImgDiv">
-                                            <img src="/UI/team/freecs/freecs_logo_big.png">
-                                        </div>
-                                    </div>
-                                    <div class="homeStatusDiv">
-                                        <p class="content">BRO 10위</p>
-                                        <p class="content fs-40 fw-bold">100%</p>
-                                    </div>
-                                    <div class="homeScoreDiv">
-                                        <p class="title fs-45">2</p>
-                                    </div>
-                                </div>
-                                <div class="awayDiv">
-                                    <div class="awayScoreDiv">
-                                        <p class="title fs-45">1</p>
-                                    </div>
-                                    <div class="awayStatusDiv">
-                                        <p class="content awaySort">BRO 10위</p>
-                                        <p class="content fs-40 fw-bold awaySort">100%</p>
-                                    </div>
-                                    <div class="awayLogoDiv">
-                                        <div class="logoImgDiv">
-                                            <img src="/UI/team/freecs/freecs_logo_big.png">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="statusTimeDiv">
-                                <div class="statusDiv">
-                                    <p class="content fs-16">미참여</p>
-                                </div>
-                                <p class="content fs-20">15:00</p>
-                            </div>
-                            <div class="mpMatchDiv">
-                                <div class="homeDiv">
-                                    <div class="logoDiv">
-                                        <div class="logoImgDiv">
-                                            <img src="/UI/team/freecs/freecs_logo_big.png">
-                                        </div>
-                                    </div>
-                                    <div class="homeStatusDiv">
-                                        <p class="content">BRO 10위</p>
-                                        <p class="content fs-40 fw-bold">100%</p>
-                                    </div>
-                                    <div class="homeScoreDiv">
-                                        <p class="title fs-45">2</p>
-                                    </div>
-                                </div>
-                                <div class="awayDiv">
-                                    <div class="awayScoreDiv">
-                                        <p class="title fs-45">1</p>
-                                    </div>
-                                    <div class="awayStatusDiv">
-                                        <p class="content awaySort">BRO 10위</p>
-                                        <p class="content fs-40 fw-bold awaySort">100%</p>
-                                    </div>
-                                    <div class="awayLogoDiv">
-                                        <div class="logoImgDiv">
-                                            <img src="/UI/team/freecs/freecs_logo_big.png">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- 한 경기 끝 -->
+                        </c:if>
+					</c:forEach>
+				</c:if>
                         </div>
                     </div>
-
 
                     <div class="rankDiv" style="width: 25%;">
                         <div class="choiceRankDiv">
@@ -286,155 +151,23 @@
                                     </div>
                                 </div>
                                 <!-- 랭킹 한명 -->
-                                <div class="rankInfoDiv">
-                                    <div class="centerSort" style="width: 15%;">
-                                        <p class="title">1</p>
-                                    </div>
-                                    <div class="leftSort" style="width: 51%;">
-                                        <p class="content">닉네임여덟글자야</p>
-                                    </div>
-                                    <div class="centerSort" style="width: 12%;">
-                                        <P class="content">64/65</P>
-                                    </div>
-                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
-                                        <p class="content">97%</p>
-                                    </div>
-                                </div>
-                                <!-- 랭킹 한명 -->
-                                <div class="rankInfoDiv">
-                                    <div class="centerSort" style="width: 15%;">
-                                        <p class="title">1</p>
-                                    </div>
-                                    <div class="leftSort" style="width: 51%;">
-                                        <p class="content">닉네임여덟글자야</p>
-                                    </div>
-                                    <div class="centerSort" style="width: 12%;">
-                                        <P class="content">64/65</P>
-                                    </div>
-                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
-                                        <p class="content">97%</p>
-                                    </div>
-                                </div>
-                                <!-- 랭킹 한명 -->
-                                <div class="rankInfoDiv">
-                                    <div class="centerSort" style="width: 15%;">
-                                        <p class="title">1</p>
-                                    </div>
-                                    <div class="leftSort" style="width: 51%;">
-                                        <p class="content">닉네임여덟글자야</p>
-                                    </div>
-                                    <div class="centerSort" style="width: 12%;">
-                                        <P class="content">64/65</P>
-                                    </div>
-                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
-                                        <p class="content">97%</p>
-                                    </div>
-                                </div>
-                                <!-- 랭킹 한명 -->
-                                <div class="rankInfoDiv">
-                                    <div class="centerSort" style="width: 15%;">
-                                        <p class="title">1</p>
-                                    </div>
-                                    <div class="leftSort" style="width: 51%;">
-                                        <p class="content">닉네임여덟글자야</p>
-                                    </div>
-                                    <div class="centerSort" style="width: 12%;">
-                                        <P class="content">64/65</P>
-                                    </div>
-                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
-                                        <p class="content">97%</p>
-                                    </div>
-                                </div>
-                                <!-- 랭킹 한명 -->
-                                <div class="rankInfoDiv">
-                                    <div class="centerSort" style="width: 15%;">
-                                        <p class="title">1</p>
-                                    </div>
-                                    <div class="leftSort" style="width: 51%;">
-                                        <p class="content">닉네임여덟글자야</p>
-                                    </div>
-                                    <div class="centerSort" style="width: 12%;">
-                                        <P class="content">64/65</P>
-                                    </div>
-                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
-                                        <p class="content">97%</p>
-                                    </div>
-                                </div>
-                                <!-- 랭킹 한명 -->
-                                <div class="rankInfoDiv">
-                                    <div class="centerSort" style="width: 15%;">
-                                        <p class="title">1</p>
-                                    </div>
-                                    <div class="leftSort" style="width: 51%;">
-                                        <p class="content">닉네임여덟글자야</p>
-                                    </div>
-                                    <div class="centerSort" style="width: 12%;">
-                                        <P class="content">64/65</P>
-                                    </div>
-                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
-                                        <p class="content">97%</p>
-                                    </div>
-                                </div>
-                                <!-- 랭킹 한명 -->
-                                <div class="rankInfoDiv">
-                                    <div class="centerSort" style="width: 15%;">
-                                        <p class="title">1</p>
-                                    </div>
-                                    <div class="leftSort" style="width: 51%;">
-                                        <p class="content">닉네임여덟글자야</p>
-                                    </div>
-                                    <div class="centerSort" style="width: 12%;">
-                                        <P class="content">64/65</P>
-                                    </div>
-                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
-                                        <p class="content">97%</p>
-                                    </div>
-                                </div>
-                                <!-- 랭킹 한명 -->
-                                <div class="rankInfoDiv">
-                                    <div class="centerSort" style="width: 15%;">
-                                        <p class="title">1</p>
-                                    </div>
-                                    <div class="leftSort" style="width: 51%;">
-                                        <p class="content">닉네임여덟글자야</p>
-                                    </div>
-                                    <div class="centerSort" style="width: 12%;">
-                                        <P class="content">64/65</P>
-                                    </div>
-                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
-                                        <p class="content">97%</p>
-                                    </div>
-                                </div>
-                                <!-- 랭킹 한명 -->
-                                <div class="rankInfoDiv">
-                                    <div class="centerSort" style="width: 15%;">
-                                        <p class="title">1</p>
-                                    </div>
-                                    <div class="leftSort" style="width: 51%;">
-                                        <p class="content">닉네임여덟글자야</p>
-                                    </div>
-                                    <div class="centerSort" style="width: 12%;">
-                                        <P class="content">64/65</P>
-                                    </div>
-                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
-                                        <p class="content">97%</p>
-                                    </div>
-                                </div>
-                                <!-- 랭킹 한명 -->
-                                <div class="rankInfoDiv">
-                                    <div class="centerSort" style="width: 15%;">
-                                        <p class="title">1</p>
-                                    </div>
-                                    <div class="leftSort" style="width: 51%;">
-                                        <p class="content">닉네임여덟글자야</p>
-                                    </div>
-                                    <div class="centerSort" style="width: 12%;">
-                                        <P class="content">64/65</P>
-                                    </div>
-                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
-                                        <p class="content">97%</p>
-                                    </div>
-                                </div>
+                                <c:forEach items="${ms }" var="test" varStatus="status" end="9">
+                                <!-- 랭킹 수정 필요 -->
+	                                <div class="rankInfoDiv">
+	                                    <div class="centerSort" style="width: 15%;">
+	                                        <p class="title">${status.count }</p>
+	                                    </div>
+	                                    <div class="leftSort" style="width: 51%;">
+	                                        <p class="content">닉네임여덟글자야</p>
+	                                    </div>
+	                                    <div class="centerSort" style="width: 12%;">
+	                                        <P class="content">64/65</P>
+	                                    </div>
+	                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
+	                                        <p class="content">97%</p>
+	                                    </div>
+	                                </div>
+                                </c:forEach>
                             </div>
                         </div>
 
@@ -443,6 +176,8 @@
                                 <p class="title fs-18">실시간 채팅</p>
                                 <img src="${path }/resources/images/matchprediction/chatting.png" width="25px">
                             </div>
+                             <button class="content chatBtn fs-20">실시간 채팅 참여하기<img src="${path }/resources/images/matchprediction/arrow.png"
+                                    width="25px" style="margin-left: 3px;"></button>
                             <button class="content chatBtn fs-20">실시간 채팅 참여하기<img src="${path }/resources/images/matchprediction/arrow.png"
                                     width="25px" style="margin-left: 3px;"></button>
                         </div>
@@ -685,6 +420,88 @@ var riskFactorChart = new Chart(ctx, {
     data: doughnutData,
     options: options
 });
+
+
+/* 승부예측 */
+	$(".mpMatchDiv").click(e=>{		
+	
+		// 둘 중 하나라도 true면 선택한 것
+		console.log("home있니?" + $(e.target).hasClass('homeDiv'));
+		console.log("home있니?" + $(e.target).parents('.homeDiv').hasClass('homeDiv'));
+		
+		// home 클릭 시
+		if($(e.target).hasClass('homeDiv') || $(e.target).parents('.homeDiv').hasClass('homeDiv')){
+			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "#0D0063");
+			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "");
+			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamblue)");
+			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamblue)");
+		} else if($(e.target).hasClass('awayDiv') || $(e.target).parents('.awayDiv').hasClass('awayDiv')){
+			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "#490000");
+			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "");
+			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamred)");
+			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamred)");
+		}
+		
+		const msNo = $(e.target).parents('.mpMatchDiv').attr('id');
+		const team = $(e.target).parents('.mpMatchDiv').attr('id');
+		// console.log(msNo);
+	});	
+	
+	
+/* 주차 변경하기 */
+const weekChoice=(week)=>{
+	/* 버튼에 클래스 추가 weekChoice, 버튼에 삭제? */
+	
+	$.ajax({
+	    type: "POST",
+	    url: "/matchPrediction/week",
+	    data: { week: week }, // 옵션 객체로 전달할 데이터는 key: value 형태로 작성해야 함
+	    dataType: "json",
+	    success: function(data) {
+			const mpAllDiv = $(".mpAllDiv");
+			mpAllDiv.html('');
+			let html = '';
+			
+			data.forEach(function(item) {
+				html += "<div class='mpDiv'>";
+				html += "<fmt:formatDate value='${today}' pattern='yyyy.MM.dd(E)' var='todayDate' />";
+				html += "<fmt:formatDate value='${m.msDate}' pattern='yyyy.MM.dd(E)' var='matchDate'/>";
+				html += "<div class='mpDateDiv'>";
+				html += "<span class='content fs-20'>${matchDate }</span>";
+				html += "<hr class='dateHr'></div>";
+				html += "<div class='statusTimeDiv'>";
+				html += "<div class='statusDiv'>";
+				html += "<p class='content fs-16'>미참여</p>";
+				html += "</div>";
+				html += "<p class='content fs-20'><fmt:formatDate value='${m.msDate}' pattern='HH:mm'/></p>";
+				html += "</div>";
+				html += "";
+				html += "";
+				html += "";
+				html += "";
+				html += "";
+				html += "";
+				html += "";
+			});
+			mpAllDiv.append(html);
+			
+			$(".weekDiv").removeClass("weekChoice");
+			$(".weekDiv").each(function() {
+				const weekChoice = $(this).attr('id')
+				if(weekChoice == week){
+					$(this).addClass("weekChoice");
+				}
+			});
+			
+	    },
+	    error: function(err) {
+	        console.log("요청 실패", err);
+	    }
+	});
+		
+
+}
+
 </script>
 <!-- icon -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

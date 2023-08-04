@@ -288,6 +288,10 @@
 }
 
 /* 실시간 채팅 */
+.chatDiv{
+	margin-bottom: 50px;
+}
+
 .chatTitle {
     display: flex;
     align-items: center;
@@ -744,4 +748,13 @@ button:active {
 
 .hr-1Black {
     color: var(--lol-black);
+}
+
+/* 승부예측 추가 css */
+.homeDiv:hover{
+	background-color: #06002F;
+}
+
+.awayDiv:hover{
+	background-color: #320100;
 }
