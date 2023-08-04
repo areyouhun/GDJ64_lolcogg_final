@@ -23,11 +23,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CommunityController {
 
-	private final CommunityService service;
-
-	public CommunityController(CommunityService service) {
-		this.service = service;
-	}
+	/*
+	 * private final CommunityService service;
+	 * 
+	 * public CommunityController(CommunityService service) { this.service =
+	 * service; }
+	 */
 
 	/*
 	 * @RequestMapping("/selectboardList") public String
