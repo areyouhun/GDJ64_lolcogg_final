@@ -6,6 +6,8 @@
 <%@taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 <spring:eval var="champImgPath" expression="@environment.getProperty('lolcogg.datadragon.image.champion')" />
 <spring:eval var="champInfoPath" expression="@environment.getProperty('lolcogg.datadragon.info.champion')" />
+<spring:eval var="spellImgPath" expression="@environment.getProperty('lolcogg.datadragon.image.spell')" />
+<spring:eval var="itemImgPath" expression="@environment.getProperty('lolcogg.datadragon.image.item')" />
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="matchResultSummary" value="${requestScope.matchResultSummary}"/>
 <c:set var="matchResultDetail" value="${requestScope.matchResultDetail}"/>
@@ -93,7 +95,7 @@
                                                     <div class="banned-blue">
                                                         <c:forEach var="bannedChampion" items="${set.blueSideBanned}">
                                                             <div>
-                                                                <img src="${champImgPath}${bannedChampion}.png">
+                                                                <img class="champion-layout" src="${champImgPath}${bannedChampion}.png">
                                                                 <p class="bannedName"><c:out value="${bannedChampion}"/></p>
                                                             </div>
                                                         </c:forEach>
@@ -104,7 +106,7 @@
                                                     <div class="banned-red">
                                                         <c:forEach var="bannedChampion" items="${set.redSideBanned}">
                                                             <div>
-                                                                <img src="${champImgPath}${bannedChampion}.png">
+                                                                <img class="champion-layout" src="${champImgPath}${bannedChampion}.png">
                                                                 <p class="bannedName"><c:out value="${bannedChampion}"/></p>
                                                             </div>
                                                         </c:forEach>
@@ -161,8 +163,45 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <div>
+                                                    <div class="set-player-content">
                                                         <h2 class="blue-player-name"><c:out value="${fn:toUpperCase(set.blueSideTopPlayer)}"/></h2>
+                                                        <div class="set-champion-content">
+                                                            <div class="set-champion-info">
+                                                                <div>
+                                                                    <img class="champion-layout" src="${champImgPath}${set.blueSideTopChamp}.png">
+                                                                </div>
+                                                                <div>
+                                                                    <h3><c:out value="${set.blueSideTopChamp}"/><h3/>
+                                                                    <div>
+                                                                        <img src="${spellImgPath}${set.blueSideTopSpellOne}.png">
+                                                                        <img src="${spellImgPath}${set.blueSideTopSpellOne}.png">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="set-champion-item">
+                                                                <c:forEach var="item" items="${set.blueSideTopItems}">
+                                                                	<img src="${itemImgPath}${fn:replace(item, 'items/', '')}.png">
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <h3>KDA</h3>
+                                                                <h3></h3>
+                                                            </div>
+                                                            <div>
+                                                                <h3>데미지</h3>
+                                                                <h3></h3>
+                                                            </div>
+                                                            <div>
+                                                                <h3>골드</h3>
+                                                                <h3></h3>
+                                                            </div>
+                                                            <div>
+                                                                <h3>CS</h3>
+                                                                <h3></h3>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </td>
                                                 <td><p class="set-category set-position">TOP</p></td>

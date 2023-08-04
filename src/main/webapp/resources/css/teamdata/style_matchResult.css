@@ -239,11 +239,14 @@ table, tr, td {
     align-items: center;
 }
 
-.banned-blue img,
-.banned-red img {
+.champion-layout {
     width: 50%;
     border: 3px solid var(--lol-white);
     border-radius: 50%;
+}
+
+.banned-blue img,
+.banned-red img {
     filter: grayscale(100%);
     margin-bottom: 5px;
 }

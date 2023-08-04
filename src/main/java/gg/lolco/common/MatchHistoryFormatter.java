@@ -171,7 +171,7 @@ public class MatchHistoryFormatter {
 		setResultFormatted.put(side + position + "Champ", row[0]);
 		setResultFormatted.put(side + position + "SpellOne", row[1]);
 		setResultFormatted.put(side + position + "SpellTwo", row[2]);
-		setResultFormatted.put(side + position + "items", Arrays.copyOfRange(row, 3, row.length));
+		setResultFormatted.put(side + position + "Items", Arrays.copyOfRange(row, 3, row.length));
 	}
 	
 	private static void updateStats(Map<String, Object> setResultFormatted, 
