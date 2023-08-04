@@ -39,7 +39,9 @@
                 </div>
                 <div class="socialLoginBox">
                     <a href="javascript:kakaoLogin()"><img src="${path}/resources/images/member/naver_logo_icon.png"></a>
+                    <div></div>
                     <a href="/lolco/template.html"><img src="${path}/resources/images/member/kakaotalk_logo_icon.png"></a>
+                    <div></div>
                 </div>
         		<!------------------------------------------------------------------------------>
             </div>
