@@ -112,14 +112,35 @@
 	justify-content: space-around;
 	color: var(--lol-white);
 	-webkit-text-stroke: 1.5px;
-	-webkit-text-stroke-color: var(--lol-mainblue);
-	font-size: 4vh;
+	font-size: 3vh;
 	-webkit-text-stroke-color: var(--lol-mainblue);
 }
 .fight>div>h2{
 	display: flex;
     width: 50%;
     justify-content: center;
+}
+.finalLeftText{
+    position: absolute;
+    color: white;
+    top: 20vh;
+    right: 53vh;
+    font-size: 3vh;
+    width: 42vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.finalRightText{
+    position: absolute;
+    color: white;
+    top: 20vh;
+    left: 53vh;
+    font-size: 3vh;
+    width: 42vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>
 <!------------------------------------>
@@ -170,14 +191,14 @@
 	 let select=[];
 	 let quarterfinalsplayerImg=[]
 	 let quarterfinalsplayerName=[]
-	const startWorldCup=()=>{
+	 const startWorldCup=()=>{
 		$('.worldcupModal').hide();
 		$.ajax({
 		    type : 'GET',          
 		    url : '${path}/game/worldcupStart',
 		    dataType : 'json',
 		    data : {
-		    	"no" : ${no},
+		    	"num" : ${num},
 		    	"round" :$("#roundselect").val()
 		    }, 
 		    success : function(data) { 
@@ -190,42 +211,42 @@
 			    	quarterfinalsplayerImg=[]
 			   	 	quarterfinalsplayerName=[]
 			    	choiceClick();
-			    	  $('.finalImgLO').click(function(){
+			    	  $('.finalImgLO,.finalNameLO').click(function(){
 		    		  	setTimeout(function(){
 			    		gameround=0;
 			    		round64();
 				    	quarterfinalsplayerImg=[]
 				   	 	quarterfinalsplayerName=[]
 				    	choiceClick();
-				    	  $('.finalImgSF').click(function(){
+				    	  $('.finalImgSF,.finalNameSF').click(function(){
 			    		  	setTimeout(function(){
 				    		gameround=0;
 				    		round32();
 					    	quarterfinalsplayerImg=[]
 					   	 	quarterfinalsplayerName=[]
 					    	choiceClick();
-					    	  $('.finalImgTT').click(function(){
+					    	  $('.finalImgTT,.finalNameTT').click(function(){
 					    		 setTimeout(function(){
 					    			 gameround=0;
 					    			 round16();
 					    			 quarterfinalsplayerImg=[]
 					 		   	 	 quarterfinalsplayerName=[]
 					    			 choiceClick();
-							    	  $('.finalImgST').click(function(){
+							    	  $('.finalImgST,.finalNameST').click(function(){
 							    		 setTimeout(function(){
 							    			 gameround=0;
 							    			 round8();
 							    			 quarterfinalsplayerImg=[]
 							 		   	 	 quarterfinalsplayerName=[]
 							    			 choiceClick();
-							 		    	$('.finalImgE').click(function(){
+							 		    	$('.finalImgE,.finalNameE').click(function(){
 									    		 setTimeout(function(){
 									    			 gameround=0;
 									    			 round4();
 									    			 quarterfinalsplayerImg=[]
 									 		   	 	 quarterfinalsplayerName=[]
 									    			 choiceClick();
-									 		    	$('.finalImgF').click(function(){
+									 		    	$('.finalImgF,.finalNameF').click(function(){
 											    		 setTimeout(function(){
 											    			 gameround=0;
 											    			 round2();
@@ -247,35 +268,35 @@
 				    	quarterfinalsplayerImg=[]
 				   	 	quarterfinalsplayerName=[]
 				    	choiceClick();
-				    	  $('.finalImgSF').click(function(){
+				    	  $('.finalImgSF,.finalNameSF').click(function(){
 			    		  	setTimeout(function(){
 				    		gameround=0;
 				    		round32();
 					    	quarterfinalsplayerImg=[]
 					   	 	quarterfinalsplayerName=[]
 					    	choiceClick();
-					    	  $('.finalImgTT').click(function(){
+					    	  $('.finalImgTT,.finalNameTT').click(function(){
 					    		 setTimeout(function(){
 					    			 gameround=0;
 					    			 round16();
 					    			 quarterfinalsplayerImg=[]
 					 		   	 	 quarterfinalsplayerName=[]
 					    			 choiceClick();
-							    	  $('.finalImgST').click(function(){
+							    	  $('.finalImgST,.finalNameST').click(function(){
 							    		 setTimeout(function(){
 							    			 gameround=0;
 							    			 round8();
 							    			 quarterfinalsplayerImg=[]
 							 		   	 	 quarterfinalsplayerName=[]
 							    			 choiceClick();
-							 		    	$('.finalImgE').click(function(){
+							 		    	$('.finalImgE,.finalNameE').click(function(){
 									    		 setTimeout(function(){
 									    			 gameround=0;
 									    			 round4();
 									    			 quarterfinalsplayerImg=[]
 									 		   	 	 quarterfinalsplayerName=[]
 									    			 choiceClick();
-									 		    	$('.finalImgF').click(function(){
+									 		    	$('.finalImgF,.finalNameF').click(function(){
 											    		 setTimeout(function(){
 											    			 gameround=0;
 											    			 round2();
@@ -296,28 +317,28 @@
 			    	quarterfinalsplayerImg=[]
 			   	 	quarterfinalsplayerName=[]
 			    	choiceClick();
-			    	  $('.finalImgTT').click(function(){
+			    	  $('.finalImgTT,.finalNameTT').click(function(){
 			    		 setTimeout(function(){
 			    			 gameround=0;
 			    			 round16();
 			    			 quarterfinalsplayerImg=[]
 			 		   	 	 quarterfinalsplayerName=[]
 			    			 choiceClick();
-					    	  $('.finalImgST').click(function(){
+					    	  $('.finalImgST,.finalNameST').click(function(){
 					    		 setTimeout(function(){
 					    			 gameround=0;
 					    			 round8();
 					    			 quarterfinalsplayerImg=[]
 					 		   	 	 quarterfinalsplayerName=[]
 					    			 choiceClick();
-					 		    	$('.finalImgE').click(function(){
+					 		    	$('.finalImgE,.finalNameE').click(function(){
 							    		 setTimeout(function(){
 							    			 gameround=0;
 							    			 round4();
 							    			 quarterfinalsplayerImg=[]
 							 		   	 	 quarterfinalsplayerName=[]
 							    			 choiceClick();
-							 		    	$('.finalImgF').click(function(){
+							 		    	$('.finalImgF,.finalNameF').click(function(){
 									    		 setTimeout(function(){
 									    			 gameround=0;
 									    			 round2();
@@ -337,21 +358,21 @@
 			    			 quarterfinalsplayerImg=[]
 			 		   	 	 quarterfinalsplayerName=[]
 			    			 choiceClick();
-					    	  $('.finalImgST').click(function(){
+					    	  $('.finalImgST,.finalNameST').click(function(){
 					    		 setTimeout(function(){
 					    			 gameround=0;
 					    			 round8();
 					    			 quarterfinalsplayerImg=[]
 					 		   	 	 quarterfinalsplayerName=[]
 					    			 choiceClick();
-					 		    	$('.finalImgE').click(function(){
+					 		    	$('.finalImgE,.finalNameE').click(function(){
 							    		 setTimeout(function(){
 							    			 gameround=0;
 							    			 round4();
 							    			 quarterfinalsplayerImg=[]
 							 		   	 	 quarterfinalsplayerName=[]
 							    			 choiceClick();
-							 		    	$('.finalImgF').click(function(){
+							 		    	$('.finalImgF,.finalNameF').click(function(){
 									    		 setTimeout(function(){
 									    			 gameround=0;
 									    			 round2();
@@ -369,14 +390,14 @@
 			    			 quarterfinalsplayerImg=[]
 			 		   	 	 quarterfinalsplayerName=[]
 			    			 choiceClick();
-			 		    	$('.finalImgE').click(function(){
+			 		    	$('.finalImgE,.finalNameE').click(function(){
 					    		 setTimeout(function(){
 					    			 gameround=0;
 					    			 round4();
 					    			 quarterfinalsplayerImg=[]
 					 		   	 	 quarterfinalsplayerName=[]
 					    			 choiceClick()
-					 		    	$('.finalImgF').click(function(){
+					 		    	$('.finalImgF,.finalNameF').click(function(){
 							    		 setTimeout(function(){
 							    			 gameround=0;
 							    			 round2();
@@ -391,7 +412,7 @@
 	    			 quarterfinalsplayerImg=[]
 	 		   	 	 quarterfinalsplayerName=[]
 	    			 choiceClick();
-	 		    	$('.finalImgF').click(function(){
+	 		    	$('.finalImgF,.finalNameF').click(function(){
 			    		 setTimeout(function(){
 			    			 gameround=0;
 			    			 round2();
@@ -430,7 +451,7 @@
 			const secondImg=$('<img class="secondImg'+(i!=126?'"':' finalImgLO" ')+'src="${path }'+($("#roundselect").val()==128?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
-			const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
+			const name=$('<div><h2 class="leftName'+(i!=126?'">':' finalNameLO">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=126?'">':' finalNameLO">')+quarterfinalsplayerName[i+1]+'</h2></div>')
 			imgsetting.append(firstImg);
 			imgsetting.append(secondImg);
 			shape.append(imgsetting);
@@ -452,7 +473,7 @@
 			const secondImg=$('<img class="secondImg'+(i!=62?'"':' finalImgSF" ')+'src="${path }'+($("#roundselect").val()==64?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
-			const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
+			const name=$('<div><h2 class="leftName'+(i!=62?'">':' finalNameSF">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=62?'">':' finalNameSF">')+quarterfinalsplayerName[i+1]+'</h2></div>')
 			imgsetting.append(firstImg);
 			imgsetting.append(secondImg);
 			shape.append(imgsetting);
@@ -474,7 +495,7 @@
 			const secondImg=$('<img class="secondImg'+(i!=30?'"':' finalImgTT" ')+'src="${path }'+($("#roundselect").val()==32?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
-			const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
+			const name=$('<div><h2 class="leftName'+(i!=30?'">':' finalNameTT">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=30?'">':' finalNameTT">')+quarterfinalsplayerName[i+1]+'</h2></div>')
 			imgsetting.append(firstImg);
 			imgsetting.append(secondImg);
 			shape.append(imgsetting);
@@ -496,7 +517,7 @@
 			const secondImg=$('<img class="secondImg'+(i!=14?'"':' finalImgST" ')+'src="${path }'+($("#roundselect").val()==16?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
-			const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
+			const name=$('<div><h2 class="leftName'+(i!=14?'">':' finalNameST">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=14?'">':' finalNameST">')+quarterfinalsplayerName[i+1]+'</h2></div>')
 			imgsetting.append(firstImg);
 			imgsetting.append(secondImg);
 			shape.append(imgsetting);
@@ -519,7 +540,7 @@
 			const secondImg=$('<img class="secondImg'+(i!=6?'"':' finalImgE" ')+'src="${path }'+($("#roundselect").val()==8?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
-			const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
+			const name=$('<div><h2 class="leftName'+(i!=6?'">':' finalNameE">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=6?'">':' finalNameE">')+quarterfinalsplayerName[i+1]+'</h2></div>')
 			imgsetting.append(firstImg);
 			imgsetting.append(secondImg);
 			shape.append(imgsetting);
@@ -541,7 +562,7 @@
 			const secondImg=$('<img class="secondImg'+(i!=2?'"':' finalImgF" ')+'src="${path }'+($("#roundselect").val()==4?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
-			const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
+			const name=$('<div><h2 class="leftName'+(i!=2?'">':' finalNameF">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=2?'">':' finalNameF">')+quarterfinalsplayerName[i+1]+'</h2></div>')
 			imgsetting.append(firstImg);
 			imgsetting.append(secondImg);
 			shape.append(imgsetting);
@@ -561,7 +582,7 @@
 		const secondImg=$('<img class="secondImg" src="${path }'+quarterfinalsplayerImg[1]+'">')
 		const fight=$('<div class="fight">');
 		const versus=$('<img src="${path }/resources/images/game/versus.png">');
-		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[0]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[1]+'</h2></div>')
+		const name=$('<div><h2 class="leftName finalLeft">'+quarterfinalsplayerName[0]+'</h2><h2 class="rightName finalRight">'+quarterfinalsplayerName[1]+'</h2></div>')
 		imgsetting.append(firstImg);
 		imgsetting.append(secondImg);
 		shape.append(imgsetting);
@@ -572,22 +593,56 @@
 	}
 	
 	function finalClick(){
-		 $( '.firstImg' ).click(function(e){
-				$( '.firstImg' ).css({'transform':'translate(50%,0)'});
+		 $( '.firstImg,.leftName' ).click(function(e){
+				$( '.firstImg' ).css({'transform':'scale(0.8)'});
 		 		$( '.firstImg' ).css({'transition':'0.5s'});
 		 		$( '.secondImg' ).css({'transform':'translate(200%,0)'});
 		 		$( '.secondImg' ).css({'transition':'0.5s'});
+		 		winnerwinnerChickemDinner($('.finalLeft').text());
 		 		$( '.fight' ).hide();
 		 		$( '.round' ).hide();
+		 		const finalText=$('<div class="finalLeftText">');
+		 		const winner=$('<h2>오늘의 우승자는</h2>');
+		 		const winnerName=$('<h3>'+$(e.target).parent().next().find('div').children(":first").text()+'</h3>')
+		 		const finalchoice=$('<div class=""><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하기</h3></div><div class="goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
+		 		finalText.append(winner);
+		 		finalText.append(winnerName);
+		 		finalText.append(finalchoice);
+		 		$('#worldcupAll').after(finalText);
+		 		$(".goRanking").click(function(){
+		 			location.assign("${path}/game/worldcupRanking?gameName=${gameName }&num=${num}") 
+		 		});
 		 	 })
-		 	 $( '.secondImg' ).click(function(e){
-		 		$( '.secondImg' ).css({'transform':'translate(-50%,0)'});
+		 	 $( '.secondImg,.rightName' ).click(function(e){
+		 		$( '.secondImg' ).css({'transform':'scale(0.8)'});
 		 		$( '.secondImg' ).css({'transition':'0.5s'})
 		 		$( '.firstImg' ).css({'transform':'translate(-200%,0)'});
 		 		$( '.firstImg' ).css({'transition':'0.5s'});
+		 		winnerwinnerChickemDinner($('.finalRight').text());
 		 		$( '.fight' ).hide();
 		 		$( '.round' ).hide();
+		 		const finalText=$('<div class="finalRightText">');
+		 		const winner=$('<h2>오늘의 우승자는</h2>');
+		 		const winnerName=$('<h3>'+$(e.target).parent().next().find('div').children(":first").text()+'</h3>')
+		 		const finalchoice=$('<div class=""><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하기</h3></div><div class="goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
+		 		finalText.append(winner);
+		 		finalText.append(winnerName);
+		 		finalText.append(finalchoice);
+		 		$('#worldcupAll').after(finalText);
+		 		$(".goRanking").click(function(){
+		 			location.assign("${path}/game/worldcupRanking?gameName=${gameName }&num=${num}") 
+		 		});
 		 	 })
+	}
+	
+	function winnerwinnerChickemDinner(e){
+		$.ajax({
+			type : 'POST',          
+		    url : '${path}/game/winnerwinnerChickemDinner',
+		    dataType : 'text',
+		    data : {"name" : e},
+		})
+		
 	}
 	
 	
@@ -622,8 +677,8 @@
  		$( '.fight' ).hide();
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
- 		quarterfinalsplayerImg.push($(e.target).attr("src"));
- 		quarterfinalsplayerName.push($(e.target).parent().next().find('div').children(":first").text());
+ 		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.firstImg').attr("src"));
+ 		quarterfinalsplayerName.push($(e.target).text());
  		setTimeout(function(){
  			$(".firstImg").css({ 'pointer-events': 'auto' });
  			$(".secondImg").css({ 'pointer-events': 'auto' });
@@ -664,8 +719,8 @@
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		$( '.fight' ).hide();
- 		quarterfinalsplayerImg.push($(e.target).attr("src"));
- 		quarterfinalsplayerName.push($(e.target).parent().next().find('div').children(":last").text());
+ 		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.firstImg').attr("src"));
+ 		quarterfinalsplayerName.push($(e.target).text());
  		setTimeout(function(){
  			$(".firstImg").css({ 'pointer-events': 'auto' });
  			$(".secondImg").css({ 'pointer-events': 'auto' });
@@ -684,6 +739,8 @@
 		 const str=$("#roundText").text()
 		 $("#roundText").html(str.replace(regex,$('#roundselect').val())); 
 	 })
+	 
+	 
 	 
 	 
 </script>

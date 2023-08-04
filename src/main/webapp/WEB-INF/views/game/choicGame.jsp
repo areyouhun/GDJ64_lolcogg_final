@@ -222,7 +222,7 @@
 	                                    <img src="${path}/resources/images/game/cupstart.png">
 	                                    <h3>시작하기</h3>
 	                                </div>
-	                                <div class="start cursor">
+	                                <div class="start cursor goRanking">
 	                                    <img src="${path}/resources/images/game/cuplist.png">
 	                                    <h3>랭킹보기</h3>
 	                                </div>
@@ -264,7 +264,7 @@
 	                                    <img src="${path}/resources/images/game/cupstart.png">
 	                                    <h3>시작하기</h3>
 	                                </div>
-	                                <div class="start cursor">
+	                                <div class="start cursor goRanking">
 	                                    <img src="${path}/resources/images/game/cuplist.png">
 	                                    <h3>랭킹보기</h3>
 	                                </div>
@@ -284,7 +284,7 @@
 	                                    <img src="${path}/resources/images/game/cupstart.png">
 	                                    <h3>시작하기</h3>
 	                                </div>
-	                                <div class="start cursor">
+	                                <div class="start cursor goRanking">
 	                                    <img src="${path}/resources/images/game/cuplist.png">
 	                                    <h3>랭킹보기</h3>
 	                                </div>
@@ -355,7 +355,16 @@ $(function () {
 			case "LCK 롤 프로게이머 월드컵" : num=1;break;
 			case "LOL 롤 스킨 월드컵" : num=2;break;
 		}
-		window.open("${path}/game/worldcup?gameName="+name+"&no="+num) 
+		window.open("${path}/game/worldcup?gameName="+name+"&num="+num) 
+	});
+	$(".goRanking").click(function(e){
+		const name=$(e.target).parent().parent().parent().find('.gameName').text();
+		let num=0;
+		switch(name){
+			case "LCK 롤 프로게이머 월드컵" : num=1;break;
+			case "LOL 롤 스킨 월드컵" : num=2;break;
+		}
+		location.assign("${path}/game/worldcupRanking?gameName="+name+"&num="+num) 
 	});
 	
 });
