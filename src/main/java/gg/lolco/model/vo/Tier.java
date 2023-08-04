@@ -14,4 +14,5 @@ public class Tier {
    private int tierNo;
    private String email;
    private TierRules tierRulesNo;
+   
 }
