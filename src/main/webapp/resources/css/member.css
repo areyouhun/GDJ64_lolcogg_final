@@ -9,11 +9,13 @@
 .loginBox{ display: flex; flex-direction: column; /* 수직 정렬을 위해 column 설정 */ padding: 0 30em 0 30em;}
 .loginBox input{ color: var(--lol-white); background-color: var(--bg-gray); border:solid 0.5px var(--lol-white); border:0 0 0 0;  border-radius: 5px; padding: 0.7em 2em 0.7em 2em; margin: 0.5em 1em 0.5em 1em;}
 .autoLoginBox{ display: flex; justify-content: center; padding: 0.2em 13em 1em 0.5em;}
+.autoLoginBox>p{margin-left: 0.5em;}
 .autoLoginBox>input{ cursor: pointer;}
 .loginButton{ display: flex; justify-content: center;}
 .loginButton>input{ color: var(--lol-white); background-color: var(--lol-black); border:solid 0.5px var(--lol-white); border:0 0 0 0;  border-radius: 5px; padding: 0.8em 9.5em 0.8em 9.5em; margin: 0.5em 0em 0.5em 0em; cursor: pointer;}
 .memberCheckBox{ display: flex; justify-content: center; margin: 1rem 0 0 0 ;}
 .socialLoginBox{ display: flex; justify-content: center; margin: 1rem 0 0 0 ;}
+.socialLoginBox>div{margin:0 0.5em 0 1em;}
 .socialLoginBox img{width: 45px; height: 45px; }
 
 /* 회원가입 css */
@@ -48,7 +50,13 @@
     padding: 0.5em 0.75em 0em 0em; 
     margin: 0.1em 0em 0em 1em;
 }
+.abbrCheckBox>img:nth-child(1){
+	margin : 0 0 0.1em 0;
+}
 
+.abbrCheckBox>img{
+	margin : 0 0 0.1em 0;
+}
 /* .abbrCheckBoxRows{
     display: block;
 } */
@@ -57,11 +65,14 @@
     text-align:center;
     margin: 0 0 1em 0 ;
 }
+.abbrCheckBox>.line>.abbrName{
+    margin: 0em 0 0.15em 0.2em ;
+}
 .buttonBox>.duplicationCheck:nth-child(2){
     margin-top: 6.7em;
 }
 .buttonBox>.duplicationCheck:nth-child(3){
-    margin-top: 14em;
+    margin-top: 14.1em;
 }
 .buttonBox>.duplicationCheck:nth-child(4){
     /* margin-top: 6.8em; */
@@ -85,9 +96,6 @@
     height : 1.3em;
     margin-left: 0.08em;
   } */
-.line>.abbrName{
-    margin: 0.17em 0 0 0.05em ;
-}
 .duplicationCheck{
     color: var(--lol-white); 
     background-color: var(--lol-black); 
