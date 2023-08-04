@@ -40,6 +40,7 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("index");
 		registry.addViewController("/template").setViewName("template");
 		// member ==================================================================
 		registry.addViewController("/member/loginPage").setViewName("member/login");
@@ -62,11 +63,6 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 //		registry.addHandler(chattingServer, "");
-	}
-	
-	@GetMapping({"", "/"})
-	public String index() {
-		return "redirect:/mainPage";
 	}
 
 }

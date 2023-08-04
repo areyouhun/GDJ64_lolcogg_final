@@ -81,15 +81,22 @@
     justify-content: space-between;
 }
 
+.imgDiv{
+	width: 180px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .homeTeamDiv img {
-    max-width: 200px;
-    max-height: 160px;
+    max-width: 170px;
+    max-height: 135px;
     margin-right: 35px;
 }
 
 .awayTeamDiv img {
-    max-width: 200px;
-    max-height: 160px;
+    max-width: 170px;
+    max-height: 135px;
     margin-left: 35px;
 }
 

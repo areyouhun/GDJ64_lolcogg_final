@@ -20,40 +20,7 @@
                     <p class="subTitle fs-20 centerSort">TODAY'S MATCH UP</p>
                     <p class="mainTitle fs-55 centerSort" style="margin-bottom: 50px;">오늘의 경기</p>
                 </div>
-                <div class="todayMatchAllDiv">
-                    <div class="totayMatchDiv">
-                        <div class="totayMatch">
-                            <div class="homeTeamDiv centerSort">
-                                <img src="${path}/resources/images/logo/brion_logo_big2.png">
-                                <p class="title fs-55">BRO</p>
-                            </div>
-                            <div class="timeVsDiv">
-                                <p class="time fs-20">15:00</p>
-                                <p class="content fs-70 fw-bold">VS</p>
-                            </div>
-                            <div class="awayTeamDiv centerSort">
-                                <p class="title fs-55">BRO</p>
-                                <img src="${path}/resources/images/logo/dplus_logo_white.png">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="totayMatchDiv">
-                        <div class="totayMatch">
-                            <div class="homeTeamDiv centerSort">
-                                <img src="${path}/resources/images/logo/freecs_logo_big.png">
-                                <p class="title fs-55">BRO</p>
-                            </div>
-                            <div class="timeVsDiv">
-                                <p class="time fs-20">15:00</p>
-                                <p class="content fs-70 fw-bold">VS</p>
-                            </div>
-                            <div class="awayTeamDiv centerSort">
-                                <p class="title fs-55">BRO</p>
-                                <img src="${path}/resources/images/logo/t1_logo_big.png">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="todayMatchAllDiv"></div>
             </div>
         </div>
         <div class="center-1280 background-img bgImgRank mainpage mainHeight centerSort">
@@ -190,6 +157,56 @@
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <script>
+
+	/* <p class="content">${todayMs }</p>
+	<p class="content">${teamRank }</p> */
+	
+	$.ajax({
+		url: '${path}/mainPage',
+		dataType: 'json',
+		success: (data)=>{
+			
+		// 오늘의 경기
+		const todayMatch = data[0];
+		let html = '';
+		const todayMatchAllDiv = $(".todayMatchAllDiv");
+		
+		todayMatch.forEach((tm, i) => {
+			const tmDate = tm.msDate;
+			const date = new Date(tmDate);
+			const tmdate =  new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+			
+			html += "<div class='totayMatchDiv'>";
+			html += "<div class='totayMatch'>";
+			html += "<div class='homeTeamDiv centerSort'>";
+			html += "<div class='imgDiv'><img src='${path}/resources/images/logo/" + tm.msHome + "_big.png'></div>";
+			html += "<p class='title fs-55'>" + tm.msHome + "</p>";
+			html += "</div><div class='timeVsDiv'>";
+			html += "<p class='time fs-20'>" + tmdate + "</p>";
+			html += "<p class='content fs-70 fw-bold'>VS</p>";
+			html += "</div><div class='awayTeamDiv centerSort'>";
+			html += "<p class='title fs-55'>" + tm.msAway + "</p>";
+			html += "<div class='imgDiv'><img src='${path}/resources/images/logo/" + tm.msAway + "_big.png'></div>";
+			html += "</div></div></div>";
+		});
+		todayMatchAllDiv.append(html);
+		
+		// 팀 순위
+		const teamRank = data[1];
+		/* let html = ''; */
+		teamRank.forEach((tr, i) => {
+		          console.log(tr);
+		});
+			
+		},
+		error: (r, m)=>{
+			console.log(r);
+			console.log(m);
+		}
+		
+	})
+
+
     // 스크롤 이벤트 삭제
     window.addEventListener("wheel", function (e) {
         e.preventDefault();

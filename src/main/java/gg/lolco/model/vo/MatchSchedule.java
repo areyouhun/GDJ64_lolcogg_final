@@ -1,6 +1,8 @@
-package gg.lolco.model.dao;
+package gg.lolco.model.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class MatchSchedule {
+	
 	private long msNo;
 	private String msSeason;
 	private String msCategory;
@@ -21,6 +24,8 @@ public class MatchSchedule {
 	private String msAway;
 	private int msHomeScore;
 	private int msAwayScore;
-	// msFileName
+//	private String msFileName;
 	private String msWinner;
+	
+	private Team team;
 }
