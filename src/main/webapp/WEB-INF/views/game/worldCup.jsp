@@ -123,8 +123,8 @@
 .finalLeftText{
     position: absolute;
     color: white;
-    top: 20vh;
-    right: 53vh;
+    top: 13vh;
+    right: 43vh;
     font-size: 3vh;
     width: 42vh;
     display: flex;
@@ -134,13 +134,22 @@
 .finalRightText{
     position: absolute;
     color: white;
-    top: 20vh;
-    left: 53vh;
+    top: 13vh;
+    left: 43vh;
     font-size: 3vh;
     width: 42vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.finalCenter{
+	display: flex;
+	align-items: center;
+}
+
+.finalRightText * {
+	margin: 3vh;
 }
 </style>
 <!------------------------------------>
@@ -602,10 +611,10 @@
 		 		OTOWinner($('.finalLeft').text());
 		 		$( '.fight' ).hide();
 		 		$( '.round' ).hide();
-		 		const finalText=$('<div class="finalLeftText">');
-		 		const winner=$('<h2>오늘의 우승자는</h2>');
+		 		const finalText=$('<div class="finalLeftText" style="width:50vh;">');
+		 		const winner=$('<h2>당신의 선택은</h2>');
 		 		const winnerName=$('<h3>'+$(e.target).parent().next().find('div').children(":first").text()+'</h3>')
-		 		const finalchoice=$('<div class=""><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하기</h3></div><div class="goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
+		 		const finalchoice=$('<div class="finalCenter gameChoice"><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하러가기</h3></div><div class="finalCenter retry"><img src="${path}/resources/images/game/retry.png"><h3>다시 시도</h3></div><div class="finalCenter goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
 		 		finalText.append(winner);
 		 		finalText.append(winnerName);
 		 		finalText.append(finalchoice);
@@ -613,6 +622,12 @@
 		 		$(".goRanking").click(function(){
 		 			location.assign("${path}/game/worldcupRanking?gameName=${gameName }&num=${num}") 
 		 		});
+		 		$(".retry").click(function(){
+		 			location.replace("${path}/game/worldcup?gameName=${gameName }&num=${num}") 
+		 		});
+		 		$(".gameChoice").click(function(){
+		 			location.replace('${path }/game/choice');
+		 		})
 		 	 })
 		 	 $( '.secondImg,.rightName' ).click(function(e){
 		 		$( '.secondImg' ).css({'transform':'scale(0.8)'});
@@ -623,17 +638,23 @@
 		 		OTOWinner($('.finalRight').text());
 		 		$( '.fight' ).hide();
 		 		$( '.round' ).hide();
-		 		const finalText=$('<div class="finalRightText">');
-		 		const winner=$('<h2>오늘의 우승자는</h2>');
+		 		const finalText=$('<div class="finalRightText style="width:50vh;"">');
+		 		const winner=$('<h2>당신의 선택은</h2>');
 		 		const winnerName=$('<h3>'+$(e.target).parent().next().find('div').children(":last").text()+'</h3>')
-		 		const finalchoice=$('<div class=""><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하기</h3></div><div class="goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
+		 		const finalchoice=$('<div class="finalCenter gameChoice"><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하러가기</h3></div><div class="finalCenter retry"><img src="${path}/resources/images/game/retry.png"><h3>다시 시도</h3></div><div class="finalCenter goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
 		 		finalText.append(winner);
 		 		finalText.append(winnerName);
 		 		finalText.append(finalchoice);
 		 		$('#worldcupAll').after(finalText);
 		 		$(".goRanking").click(function(){
-		 			location.assign("${path}/game/worldcupRanking?gameName=${gameName }&num=${num}") 
+		 			location.assign("${path}/game/worldcupRanking?gameName=${gameName }&num=${num}");
 		 		});
+		 		$(".retry").click(function(){
+		 			location.replace("${path}/game/worldcup?gameName=${gameName }&num=${num}");
+		 		});
+		 		$(".gameChoice").click(function(){
+		 			location.replace('${path }/game/choice');
+		 		})
 		 	 })
 	}
 	

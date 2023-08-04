@@ -37,6 +37,9 @@
 		background-color: violet;
 		border-radius: 40px
 	}
+	.pageBar{
+		margin-bottom: 8vh;
+	}
 	.page{
 		height:5vh;
 		list-style: none;
