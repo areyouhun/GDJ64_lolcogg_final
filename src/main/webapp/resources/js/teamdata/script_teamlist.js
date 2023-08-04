@@ -16,9 +16,10 @@ function updateTeamList() {
             matchContainer.html("");
 
             data.forEach((team, index) => {
+                console.log(team.teamAbbr);
                 const pathToSmallLogo = getContextPath() 
                                         + "/resources/images/logo/" 
-                                        + team.logo.small;
+                                        + team.teamAbbr + "_square.png";
 
                 const pathToWhiteLogo = getContextPath() 
                                         + "/resources/images/logo/" 
@@ -45,6 +46,8 @@ function updateTeamList() {
             }, 100);
 
             $(document).on("click", ".team-btn_down_left", event => {
+                $(event.target).css("pointer-events", "none");
+
                 const targetContainer = $(event.target).siblings(".match-content_wrapper").children(".match-team-container");
 
                 targetContainer.css('transform', `translateY(-${++currentIdxLeft * wrapper.height()}px)`);
@@ -54,15 +57,21 @@ function updateTeamList() {
                         currentIdxLeft = 1;
                         targetContainer.removeClass("animated-smooth")
                             .css("transform", `translateY(-${wrapper.height()}px)`);
-                    }, 400);
+                    }, 250);
 
                     setTimeout(() => {
                         targetContainer.addClass("animated-smooth");
-                    }, 500);
+                    }, 300);
                 }
+
+                setTimeout(() => {
+                    $(event.target).css("pointer-events", "auto");
+                }, 310);
             });
 
             $(document).on("click", ".team-btn_down_right", event => {
+                $(event.target).css("pointer-events", "none");
+
                 const targetContainer = $(event.target).siblings(".match-content_wrapper").children(".match-team-container");
 
                 targetContainer.css('transform', `translateY(-${++currentIdxRight * wrapper.height()}px)`);
@@ -72,15 +81,21 @@ function updateTeamList() {
                         currentIdxRight = 1;
                         targetContainer.removeClass("animated-smooth")
                             .css("transform", `translateY(-${wrapper.height()}px)`);
-                    }, 400);
+                    }, 250);
 
                     setTimeout(() => {
                         targetContainer.addClass("animated-smooth");
-                    }, 500);
+                    }, 300);
                 }
+
+                setTimeout(() => {
+                    $(event.target).css("pointer-events", "auto");
+                }, 310);
             });
 
             $(document).on("click", ".team-btn_up_left", event => {
+                $(event.target).css("pointer-events", "none");
+
                 const targetContainer = $(event.target).siblings(".match-content_wrapper").children(".match-team-container");
 
                 targetContainer.css('transform', `translateY(-${--currentIdxLeft * wrapper.height()}px)`);
@@ -90,15 +105,21 @@ function updateTeamList() {
                         currentIdxLeft = numOfbanners;
                         targetContainer.removeClass("animated-smooth");
                         targetContainer.css("transform", `translateY(-${matchContainer.height()}px)`);
-                    }, 400);
+                    }, 250);
 
                     setTimeout(() => {
                         targetContainer.addClass("animated-smooth");
-                    }, 500);
+                    }, 300);
                 }
+
+                setTimeout(() => {
+                    $(event.target).css("pointer-events", "auto");
+                }, 310);
             });
 
             $(document).on("click", ".team-btn_up_right", event => {
+                $(event.target).css("pointer-events", "none");
+
                 const targetContainer = $(event.target).siblings(".match-content_wrapper").children(".match-team-container");
 
                 targetContainer.css('transform', `translateY(-${--currentIdxRight * wrapper.height()}px)`);
@@ -108,20 +129,23 @@ function updateTeamList() {
                         currentIdxRight = numOfbanners;
                         targetContainer.removeClass("animated-smooth");
                         targetContainer.css("transform", `translateY(-${matchContainer.height()}px)`);
-                    }, 400);
+                    }, 250);
 
                     setTimeout(() => {
                         targetContainer.addClass("animated-smooth");
-                    }, 500);
+                    }, 300);
                 }
+
+                setTimeout(() => {
+                    $(event.target).css("pointer-events", "auto");
+                }, 310);
             });
         });
 }
 
 function generateTeamBtn(abbr, path) {
-    return $("<input type='button'>").val(abbr)
-                                    .css("backgroundImage", "url(" + path + ")").
-                                    addClass("btn-img fw-bolder");
+    return $("<button>").text(abbr)
+    .append($("<img>").attr("src", path).addClass("img-absolute")).addClass("btn-img fw-bolder slide-btn");
 }
 
 function generateMatchContent(abbr, path) {
@@ -140,6 +164,10 @@ function showMatchRecords(element) {
     console.log(matchContainer.eq(1).children(".match-content_lineup").eq(currentIdxRight).children("p").text());
 }
 
-$(document).on("click", ".teams input[type='button']", event => {
-    location.assign(getContextPath() + "/teamdata/team?abbr=" + $(event.target).val());
+$(document).on("click", ".slide-btn", event => {
+    location.assign(getContextPath() + "/teamdata/team?abbr=" + $(event.target).text());
 });
+
+$(document).on("mouseenter", ".slide-btn", event => {
+    $(event.target).children().css("color", "var(--lol-black)");
+})

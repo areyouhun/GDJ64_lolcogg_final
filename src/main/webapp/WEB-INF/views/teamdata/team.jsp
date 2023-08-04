@@ -299,6 +299,14 @@
 
             location.assign("${path}/teamdata/matchResult?matchDate=" + matchDate + "&home=" + home + "&away=" + away);
         });
+
+        $(document).on("mouseenter", ".name-list input[type='button']", event => {
+            $(event.target).addClass("neon");
+        });
+
+        $(document).on("mouseleave", ".name-list input[type='button']", event => {
+            $(event.target).removeClass("neon");
+        });
 </script>
 </body>
 </html>

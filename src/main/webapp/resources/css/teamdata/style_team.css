@@ -203,15 +203,16 @@ img {
     color: var(--lol-white);
     font-weight: 700;
     cursor: pointer;
+    transition: all 0.3s;
 }
 
-.name-list input[type="button"]:hover {
-    text-shadow: 0 0 5px var(--lol-white), 
+.neon {
+    text-shadow: 0 0 3px var(--lol-white), 
                 0 0 0px var(--lol-white), 
                 0 0 0px var(--lol-white), 
                 0 0 0px var(--lol-white), 
                 0 0 0px var(--lol-white), 
-                0 0 5px var(--lol-white), 
+                0 0 3px var(--lol-white), 
                 0 0 5px var(--lol-white);
 }
 
