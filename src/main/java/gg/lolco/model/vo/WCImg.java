@@ -14,4 +14,5 @@ public class WCImg {
 	private String wcImgName;
 	private String wcImgFilename;
 	private int wcCateNo;
+	private int wcWinNo;
 }

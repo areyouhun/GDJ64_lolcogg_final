@@ -8,7 +8,12 @@ import org.apache.ibatis.session.SqlSession;
 import gg.lolco.model.vo.WCImg;
 
 public interface GameDao {
-	int worldAllCount(SqlSession session,int no);
+	int worldAllCount(SqlSession session,int num);
+	int worldRate(SqlSession session,int num);
 	
 	List<WCImg> worldcupStart(SqlSession session,Map<String, Object> param);
+	
+	List<WCImg> selectWCImgAll(SqlSession session,Map param);
+	
+	void winnerwinnerChickemDinner(SqlSession session,String name);
 }

@@ -116,11 +116,6 @@
 		border: 4px solid var(--lol-mainblue);
 		border-radius: 10px 10px 10px 10px;
 	}
-	.cupGameBack>div:first-child>div:first-child>img:first-child {
-		border-radius: 10px 0px 0px 10px;
-	}.cupGameBack>div:first-child>div:first-child>img:last-child {
-		border-radius: 0px 10px 10px 0px;
-	}
 	.cupGameBack>div:first-child,.cupGameBack>div:first-child>div:first-child {
 		display: flex;
 	}
@@ -130,22 +125,8 @@
    		align-items: center;
    		color: var(--lol-white);
 	} 
-	.cupGameBack>div:first-child>div:last-child{
-		position: absolute;
-	    display: flex;
-	    width: 22.5%;
-	    flex-direction: column;
-	    align-items: center;
-        margin-top: 4rem;
-	}
-	.cupGameBack>div:first-child>div:last-child>div{
-		display:flex;
-		width:100%;
-		justify-content: space-around;
-		font-size:20px;
-		-webkit-text-stroke: 1px;
-    	-webkit-text-stroke-color: var(--lol-mainblue);
-	}
+
+
 	.cupGameBack>div:last-child>div{
 		display: flex;
 	    width: 100%;
@@ -231,15 +212,7 @@
 						<div class="cupGameBack">
 							<div>
 								<div>
-									<img src="${path }/resources/images/game/Teemo_choice.png" style="width:200px;height:200px">
-		                    		<img src="${path }/resources/images/game/Yuumi_choice.png" style="width:200px;height:200px">
-								</div>
-								<div>
-									<img src="${path }/resources/images/game/versus.png" style="width:6rem;height:6rem;">
-			                    	<div>
-			                    		<h4 class="mainTitle">티모</h4>
-			                    		<h4 class="mainTitle">유미</h4>
-			                    	</div>
+		                    		<img src="${path }/resources/images/game/gameMainSkin.png" style="width:400px;height:200px">
 								</div>
 							</div>
 							<div>
@@ -249,7 +222,7 @@
 	                                    <img src="${path}/resources/images/game/cupstart.png">
 	                                    <h3>시작하기</h3>
 	                                </div>
-	                                <div class="start cursor">
+	                                <div class="start cursor goRanking">
 	                                    <img src="${path}/resources/images/game/cuplist.png">
 	                                    <h3>랭킹보기</h3>
 	                                </div>
@@ -259,15 +232,7 @@
 						<div class="cupGameBack">
 							<div>
 								<div>
-									<img src="${path }/resources/images/game/Teemo_choice.png" style="width:200px;height:200px">
-		                    		<img src="${path }/resources/images/game/Yuumi_choice.png" style="width:200px;height:200px">
-								</div>
-								<div>
-									<img src="${path }/resources/images/game/versus.png" style="width:6rem;height:6rem;">
-			                    	<div>
-			                    		<h4 class="mainTitle">티모</h4>
-			                    		<h4 class="mainTitle">유미</h4>
-			                    	</div>
+		                    		<img src="${path }/resources/images/game/gameMainSkin.png" style="width:400px;height:200px">
 								</div>
 							</div>
 							<div>
@@ -289,15 +254,7 @@
 						<div class="cupGameBack">
 							<div>
 								<div>
-									<img src="${path }/resources/images/game/zeka.jpg" style="width:200px;height:200px">
-		                    		<img src="${path }/resources/images/game/rascal.jpg" style="width:200px;height:200px">
-								</div>
-								<div>
-									<img src="${path }/resources/images/game/versus.png" style="width:6rem;height:6rem;">
-			                    	<div>
-			                    		<h4 class="mainTitle">제카</h4>
-			                    		<h4 class="mainTitle">라스칼</h4>
-			                    	</div>
+		                    		<img src="${path }/resources/images/game/gameMainProgamer.png" style="width:400px;height:200px">
 								</div>
 							</div>
 							<div>
@@ -307,7 +264,7 @@
 	                                    <img src="${path}/resources/images/game/cupstart.png">
 	                                    <h3>시작하기</h3>
 	                                </div>
-	                                <div class="start cursor">
+	                                <div class="start cursor goRanking">
 	                                    <img src="${path}/resources/images/game/cuplist.png">
 	                                    <h3>랭킹보기</h3>
 	                                </div>
@@ -317,25 +274,17 @@
 						<div class="cupGameBack">
 							<div>
 								<div>
-									<img src="${path }/resources/images/game/Teemo_choice.png" style="width:200px;height:200px">
-		                    		<img src="${path }/resources/images/game/Yuumi_choice.png" style="width:200px;height:200px">
-								</div>
-								<div>
-									<img src="${path }/resources/images/game/versus.png" style="width:6rem;height:6rem;">
-			                    	<div>
-			                    		<h4 class="mainTitle">티모</h4>
-			                    		<h4 class="mainTitle">유미</h4>
-			                    	</div>
+		                    		<img src="${path }/resources/images/game/gameMainSkin.png" style="width:400px;height:200px">
 								</div>
 							</div>
 							<div>
-								<h3 class="gameName">LOL 월드컵</h3>
+								<h3 class="gameName">LOL 롤 스킨 월드컵</h3>
 	                            <div class="startworld">
 	                                <div class="start cursor goGame">
 	                                    <img src="${path}/resources/images/game/cupstart.png">
 	                                    <h3>시작하기</h3>
 	                                </div>
-	                                <div class="start cursor">
+	                                <div class="start cursor goRanking">
 	                                    <img src="${path}/resources/images/game/cuplist.png">
 	                                    <h3>랭킹보기</h3>
 	                                </div>
@@ -404,8 +353,18 @@ $(function () {
 		let num=0;
 		switch(name){
 			case "LCK 롤 프로게이머 월드컵" : num=1;break;
+			case "LOL 롤 스킨 월드컵" : num=2;break;
 		}
-		window.open("${path}/game/worldcup?gameName="+name+"&no="+num) 
+		window.open("${path}/game/worldcup?gameName="+name+"&num="+num) 
+	});
+	$(".goRanking").click(function(e){
+		const name=$(e.target).parent().parent().parent().find('.gameName').text();
+		let num=0;
+		switch(name){
+			case "LCK 롤 프로게이머 월드컵" : num=1;break;
+			case "LOL 롤 스킨 월드컵" : num=2;break;
+		}
+		location.assign("${path}/game/worldcupRanking?gameName="+name+"&num="+num) 
 	});
 	
 });

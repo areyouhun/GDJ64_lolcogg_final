@@ -20,13 +20,28 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public int worldAllCount(int no) {
-		return dao.worldAllCount(session,no);
+	public int worldAllCount(int num) {
+		return dao.worldAllCount(session,num);
+	}
+	
+	@Override
+	public int worldRate(int num) {
+		return dao.worldRate(session,num);
 	}
 	
 	@Override
 	public List<WCImg> worldcupStart(Map<String, Object> param) {
 		return dao.worldcupStart(session,param);
+	}
+	
+	@Override
+	public List<WCImg> selectWCImgAll(Map param) {
+		return dao.selectWCImgAll(session,param);
+	}
+	
+	@Override
+	public void winnerwinnerChickemDinner(String name) {
+		dao.winnerwinnerChickemDinner(session,name);
 	}
 
 }
