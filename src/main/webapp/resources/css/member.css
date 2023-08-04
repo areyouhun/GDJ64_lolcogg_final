@@ -7,7 +7,7 @@
 .ff-macho{ font-family: "EF_MACHO";}
 .loginTitle{ display: flex; justify-content: center; margin-top: 10%; margin-bottom: 2.5%;}
 .loginBox{ display: flex; flex-direction: column; /* 수직 정렬을 위해 column 설정 */ padding: 0 30em 0 30em;}
-.loginBox input{ color: var(--lol-white); background-color: var(--bg-gray); border:solid 0.5px var(--lol-white); border:0 0 0 0;  border-radius: 5px; padding: 0.7em 2em 0.7em 2em; margin: 0.5em 1em 0.5em 1em;}
+.loginBox input{color: var(--lol-white); background-color: var(--khy-bg-gray);  border:none; border:0 0 0 0;  border-radius: 5px; padding: 0.7em 2em 0.7em 2em; margin: 0.5em 1em 0.5em 1em;}
 .autoLoginBox{ display: flex; justify-content: center; padding: 0.2em 13em 1em 0.5em;}
 .autoLoginBox>p{margin-left: 0.5em;}
 .autoLoginBox>input{ cursor: pointer;}
@@ -30,7 +30,8 @@
     border:none; 
     border:0 0 0 0;  
     border-radius: 5px; 
-    padding: 0.7em 12em 0.7em 2em; 
+    width: 26.5em;
+    padding: 0.7em 1em 0.7em 2em; 
     margin: 0.5em 1em 0.5em 1em;
 }
 .divFlex{
@@ -141,24 +142,22 @@
 display: inline-block; width:17px; height: 17px; background: #fa3062;
 cursor: pointer; border-radius: 3px;float: right;}
 .agree .all_agree:after {display:block; clear:both; content:"";}
-.agree .all_agree input[type="checkbox"]:checked + label {
-    background:url(../images/check.png) #fa3062 no-repeat center/10px 10px; float: right}
+.agree .all_agree input[type="checkbox"]:checked + label {background:url(../images/check.png) #fa3062 no-repeat center/10px 10px; float: right}
 .agree {position:relative;}
-.agree .all_agree input[type="checkbox"] + label span {
-position: absolute; top: 0; left:0px; display: block; font-weight: bold;}
+.agree .all_agree input[type="checkbox"] + label span {position: absolute; top: 0; left:0px; display: block; font-weight: bold;}
 .agree {position:relative;}
-.agree .all_agree input[type="checkbox"] + label span {
-position: absolute; top: 0; left:0px; display: block; font-weight: bold;}
+.agree .all_agree input[type="checkbox"] + label span {position: absolute; top: 0; left:0px; display: block; font-weight: bold;}
+
 #privacy_scroll::-webkit-scrollbar {
     width: 6px;  /* 스크롤바의 너비 */
 }
 #privacy_scroll::-webkit-scrollbar-thumb {
-    height: 50%; /* 스크롤바의 길이 */
-    background: #515151; /* 스크롤바의 색상 */
+    height: 40%; /* 스크롤바의 길이 */
+    background: var(--lol-white); /* 스크롤바의 색상 */
     border-radius: 10px;
 }
 #privacy_scroll::-webkit-scrollbar-track {
-    background: var(--bg-gray);  /*스크롤바 뒷 배경 색상*/
+    background: var(--khy-off-gray);  /*스크롤바 뒷 배경 색상*/
 }
 #privacy_scroll{
     border-radius: 5px;

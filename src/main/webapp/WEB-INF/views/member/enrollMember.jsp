@@ -25,10 +25,8 @@
                     <div class="divFlex">
                         <div class="enrollBox">
                             <div class="line">
-                                <form action="#" method="get">
-                                    <p class="color-white ff-suit fw-bold">*이메일</p>
-                                    <input type="text" class ="ff-suit" placeholder="ex. abc@lolcogg.com" name="email">
-                                </form>
+								<p class="color-white ff-suit fw-bold">*이메일</p>
+                                <input type="text" class ="ff-suit" placeholder="ex. abc@lolcogg.com" name="email">
                             </div>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">*비밀번호</p>
@@ -123,7 +121,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="color-white fs-10 info" >*응원팀 선택 시 가입 기념 카드 + 이모티콘(팀 이모티콘 팩) 지급</p>
+                            <p class="color-white fs-10 info" >[*응원팀 선택 시 가입 기념 카드 + 이모티콘(응원팀 이모티콘 팩) 지급]</p>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">프로필이미지</p>
                                 <input type="file" name="file" id="file" accept="image/*" style="display:none" /> 
@@ -147,7 +145,7 @@
                                 <p class="color-white ff-suit fw-bold">추천인 코드 입력</p>
                                 <input type="text" class ="ff-suit" placeholder="추천인 코드를 입력해주세요" name="abbrCode">
                             </div>
-                            <p class="color-white fs-10 info" >*추천인 코드 입력 시 웰컴 포인트 지급</p>
+                            <p class="color-white fs-10 info" >[*추천인 코드 입력 시 웰컴 포인트 지급]</p>
                             <div class='h-line1'></div>
                         </div>
                         <div class="buttonBox">
