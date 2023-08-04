@@ -80,6 +80,6 @@
     </div>
 </header>
 <script>
-	console.log('${loginMember.tier.tierRulesNo.tierRulesImage}');
+	console.log('${loginMember}');
 </script>
 
