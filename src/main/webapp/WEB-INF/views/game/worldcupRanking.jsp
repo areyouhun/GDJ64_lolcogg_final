@@ -83,8 +83,13 @@
                 			<td><img src="${path }/resources/images/game/worldcup/${r.wcImgFilename }" style="width:130px;height:130px;"></td>
                 			<td>${r.wcImgName }</td>
                 			<td>
+<<<<<<< Upstream, based on game
                 				<fmt:formatNumber var="num" value="${r.wcWinNo/(rate==0?1:rate)*100 }" pattern="0.00" />
+=======
+                				<fmt:formatNumber var="num" value="${r.wcWinNo/rate*100 }" pattern="0.00" />
+>>>>>>> fac48c3 feat(game): 1:1승리 기능 추가
                 				<div class="graph">
+<<<<<<< Upstream, based on game
                 					<span style="width:${num }%">${num}%</span>
                 				</div>
                 			</td>
@@ -92,6 +97,9 @@
                 				<fmt:formatNumber var="num" value="${r.wcOTOWinNo/(rateOTO==0?1:rateOTO)*100 }" pattern="0.00" />
                 				<div class="graph">
                 					<span style="width:${num}%">${num}%</span>
+=======
+                					<span style="width:${r.wcWinNo/rate*100 }%">${num}%</span>
+>>>>>>> fac48c3 feat(game): 1:1승리 기능 추가
                 				</div>
                 			</td>
                 		</tr>
