@@ -11,4 +11,6 @@ public interface SchedulerService {
 
 	int updateTeamRanking(List<Map<String, String>> param);
 	
+	int updateRegionalMatch(List<Map<String, String>> param);
+	
 }

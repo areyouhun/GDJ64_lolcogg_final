@@ -49,5 +49,15 @@ public class ScheduleServiceImpl implements SchedulerService {
 			result = dao.updateTeamRanking(session, data);
 		} return result;
 	}
+
+	@Transactional
+	@Override
+	public int updateRegionalMatch(List<Map<String, String>> param) {
+		int result = 1;
+		
+		for(Map<String, String> data : param) {
+			result = dao.updateRegionalMatch(session, data);
+		} return result;
+	}
 	
 }
