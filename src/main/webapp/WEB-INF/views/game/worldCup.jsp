@@ -639,6 +639,7 @@
 		 		$( '.fight' ).hide();
 		 		$( '.round' ).hide();
 <<<<<<< Upstream, based on store
+<<<<<<< Upstream, based on store
 		 		const finalText=$('<div class="finalRightText style="width:50vh;"">');
 		 		const winner=$('<h2>당신의 선택은</h2>');
 		 		const winnerName=$('<h3>'+$(e.target).parent().next().find('div').children(":last").text()+'</h3>')
@@ -646,9 +647,17 @@
 =======
 		 		const finalText=$('<div class="finalRightText">');
 		 		const winner=$('<h2>오늘의 우승자는</h2>');
+=======
+		 		const finalText=$('<div class="finalRightText style="width:50vh;"">');
+		 		const winner=$('<h2>당신의 선택은</h2>');
+>>>>>>> 70950b1 feat(game): 이상형월드컵 결승전 후 이동페이지 연결
 		 		const winnerName=$('<h3>'+$(e.target).parent().next().find('div').children(":last").text()+'</h3>')
+<<<<<<< Upstream, based on store
 		 		const finalchoice=$('<div class=""><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하기</h3></div><div class="goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
 >>>>>>> 2709cfa feat(game): 랭킹시스템 구현 및 에러 수정
+=======
+		 		const finalchoice=$('<div class="finalCenter gameChoice"><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하러가기</h3></div><div class="finalCenter retry"><img src="${path}/resources/images/game/retry.png"><h3>다시 시도</h3></div><div class="finalCenter goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
+>>>>>>> 70950b1 feat(game): 이상형월드컵 결승전 후 이동페이지 연결
 		 		finalText.append(winner);
 		 		finalText.append(winnerName);
 		 		finalText.append(finalchoice);
