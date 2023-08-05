@@ -83,11 +83,15 @@
 }
 
 .weekChoice {
-    border: 2px solid var(--lol-mainblue);
+    border: 3px solid var(--lol-mainblue);
 }
 
 .weekChoiceP {
     color: var(--lol-mainblue);
+}
+
+.borderRank{
+	border: 3px solid var(--lol-mainblue);
 }
 
 /* 승부예측 + 적중률 랭킹 + 실시간 채팅 */

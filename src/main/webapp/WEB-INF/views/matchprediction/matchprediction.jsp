@@ -155,7 +155,12 @@
                                     </div>
                                 </div>
                                 <c:forEach items="${mpSuccess }" var="mpRank" varStatus="status" end="9">
+                                <c:if test="${mpRank.nickname == loginMember.nickname }">
+	                                <div class="rankInfoDiv borderRank">
+	                            </c:if>
+	                            <c:if test="${mpRank.nickname != loginMember.nickname }">
 	                                <div class="rankInfoDiv">
+	                            </c:if>
 	                                    <div class="centerSort" style="width: 15%;">
 	                                        <p class="title">${status.count }</p>
 	                                    </div>
@@ -407,45 +412,48 @@ $(".moreIconBtn").click(e => {
 })
 
 /* chart */
-let options = {
-    cutoutPercentage: 85,
-    rotation: Math.PI,
 
-    legend: {
-        display: false,
-    },
-    tooltips: {
-        enabled: true,
-    },
-
-};
-
-let totalPlay = [${myMpSuccess[0].successPlay}, ${myMpSuccess[0].totalPlay}-${myMpSuccess[0].successPlay}];
-let doughnutData = {
-    labels: [
-        "예측성공", "예측실패"
-    ],
-    datasets: [{
-        data: totalPlay,
-        backgroundColor: [
-        "#6454ED", "#ccc"
-        ],
-        hoverBackgroundColor: [
-        "#6454ED", "#ccc"
-        ],
-        borderWidth: 0,
-    }]
-};
-
-$('#riskFactorChartLoading').hide("fast");
-let ctx = $("#riskFactorChart").get(0).getContext("2d");
-
-let riskFactorChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: doughnutData,
-    options: options
-});
-
+let myMpSuccess = '${myMpSuccess}';
+if(myMpSuccess != null){
+	let options = {
+	    cutoutPercentage: 85,
+	    rotation: Math.PI,
+	
+	    legend: {
+	        display: false,
+	    },
+	    tooltips: {
+	        enabled: true,
+	    },
+	
+	};
+	
+	let totalPlay = [${myMpSuccess[0].successPlay}, `${myMpSuccess[0].totalPlay}-${myMpSuccess[0].successPlay}`];
+	let doughnutData = {
+	    labels: [
+	        "예측성공", "예측실패"
+	    ],
+	    datasets: [{
+	        data: totalPlay,
+	        backgroundColor: [
+	        "#6454ED", "#ccc"
+	        ],
+	        hoverBackgroundColor: [
+	        "#6454ED", "#ccc"
+	        ],
+	        borderWidth: 0,
+	    }]
+	};
+	
+	$('#riskFactorChartLoading').hide("fast");
+	let ctx = $("#riskFactorChart").get(0).getContext("2d");
+	
+	let riskFactorChart = new Chart(ctx, {
+	    type: 'doughnut',
+	    data: doughnutData,
+	    options: options
+	});
+}
 
 /* 승부예측 */
 	$(document).on("click", ".mpMatchDiv", function(e) {	
@@ -474,7 +482,7 @@ let riskFactorChart = new Chart(ctx, {
 	
 	
 /* 주차 변경하기 */
-const weekChoice=(week)=>{
+function weekChoice(week){
 	/* 버튼에 클래스 추가 weekChoice, 버튼에 삭제? */
 	
 	$.ajax({
@@ -488,7 +496,6 @@ const weekChoice=(week)=>{
 			let html = '';
 			
 			data.forEach(function(item) {
-				console.log(item);
 				
 				/* 날짜  */
 				function getDateFormat() {
