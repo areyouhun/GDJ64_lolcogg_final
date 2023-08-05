@@ -50,4 +50,9 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 		return dao.updateMpYn(session);
 	}
 
+	@Override
+	public List<MatchPrediction> mpSuccess(String nickname) {
+		return dao.mpSuccess(session, nickname);
+	}
+
 }

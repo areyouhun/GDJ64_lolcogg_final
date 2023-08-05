@@ -20,4 +20,6 @@ public interface MatchPredictionDao {
 	List<MatchPrediction> matchMpYn(SqlSessionTemplate session);
 	
 	int updateMpYn(SqlSessionTemplate session);
+	
+	List<MatchPrediction> mpSuccess(SqlSessionTemplate session, String nickname);
 }

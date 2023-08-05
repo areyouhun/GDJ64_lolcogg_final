@@ -154,21 +154,19 @@
                                         <p class="content">적중률</p>
                                     </div>
                                 </div>
-                                <!-- 랭킹 한명 -->
-                                <c:forEach items="${ms }" var="test" varStatus="status" end="9">
-                                <!-- 랭킹 수정 필요 -->
+                                <c:forEach items="${mpSuccess }" var="mpRank" varStatus="status" end="9">
 	                                <div class="rankInfoDiv">
 	                                    <div class="centerSort" style="width: 15%;">
 	                                        <p class="title">${status.count }</p>
 	                                    </div>
 	                                    <div class="leftSort" style="width: 51%;">
-	                                        <p class="content">닉네임여덟글자야</p>
+	                                        <p class="content">${mpRank.nickname }</p>
 	                                    </div>
 	                                    <div class="centerSort" style="width: 12%;">
-	                                        <P class="content">64/65</P>
+	                                        <P class="content">${mpRank.successPlay }/${mpRank.totalPlay }</P>
 	                                    </div>
 	                                    <div class="centerSort" style="width: 22%; margin-left: 10px;">
-	                                        <p class="content">97%</p>
+	                                        <p class="content">${mpRank.successPlayPercentage }%</p>
 	                                    </div>
 	                                </div>
                                 </c:forEach>
@@ -190,25 +188,47 @@
 
 
                 <div class="myDiv">
-                    <div class="myInfoDiv">
+                <c:if test="${not empty myMpSuccess}">
+                	<c:forEach var="my" items="${myMpSuccess }">
+		                    <div class="myInfoDiv">
+		                        <p class="title fs-20">나의 적중률 랭킹</p>
+		                        <div class="myInfoDetailDiv">
+		                            <div class="myRank">
+		                                <span class="title fs-75 mpCountSpan"><fmt:formatNumber value="${my.rownum }" pattern="#,###" /></span>
+		                                <span class="title fs-40">위</span>
+		                            </div>
+		                            <p class="content fs-18">총 <fmt:formatNumber value="${playerCount }" pattern="#,###" />명 참여</p>
+		                        </div>
+		                    </div>
+		                    <div class="myInfoDiv">
+		                        <p class="title fs-20">나의 적중 횟수</p>
+		                        <div class="myInfoChartDiv">
+			                        <div class="chart">
+			                            <canvas id="riskFactorChart"></canvas>
+		                            </div>
+		                            <div class="chartInfoDiv">
+		                                <p class="content fs-18">적중 경기 수 ${my.successPlay }/${my.totalPlay }</p>
+		                            </div>
+		                        </div>
+		                    </div>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${empty myMpSuccess}">
+                	<div class="myInfoDiv">
                         <p class="title fs-20">나의 적중률 랭킹</p>
                         <div class="myInfoDetailDiv">
-                            <div class="myRank">
-                                <span class="title fs-75 mpCountSpan">1,350</span>
-                                <span class="title fs-40">위</span>
-                            </div>
-                            <p class="content fs-18">총 12,435명 참여</p>
+                            <p class="content fs-18">로그인 후 이용하실 수 있습니다.</p>
                         </div>
                     </div>
                     <div class="myInfoDiv">
                         <p class="title fs-20">나의 적중 횟수</p>
                         <div class="myInfoChartDiv">
-                            <canvas id="riskFactorChart"></canvas>
                             <div class="chartInfoDiv">
-                                <p class="content fs-18">적중 경기 수 64/67</p>
+                               	<p class="content fs-18">로그인 후 이용하실 수 있습니다.</p>
                             </div>
                         </div>
                     </div>
+                </c:if>
                 </div>
                 <!-- 댓글 -->
                 <div class="qnaCommentDiv">
@@ -382,12 +402,12 @@
 <!-- Your own script tag or JavaScript file -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script>
-/* chart */
 $(".moreIconBtn").click(e => {
     $(".optionUl").toggle();
 })
 
-var options = {
+/* chart */
+let options = {
     cutoutPercentage: 85,
     rotation: Math.PI,
 
@@ -400,12 +420,13 @@ var options = {
 
 };
 
-var doughnutData = {
+let totalPlay = [${myMpSuccess[0].successPlay}, ${myMpSuccess[0].totalPlay}-${myMpSuccess[0].successPlay}];
+let doughnutData = {
     labels: [
         "예측성공", "예측실패"
     ],
     datasets: [{
-        data: [64,3],
+        data: totalPlay,
         backgroundColor: [
         "#6454ED", "#ccc"
         ],
@@ -417,9 +438,9 @@ var doughnutData = {
 };
 
 $('#riskFactorChartLoading').hide("fast");
-var ctx = $("#riskFactorChart").get(0).getContext("2d");
+let ctx = $("#riskFactorChart").get(0).getContext("2d");
 
-var riskFactorChart = new Chart(ctx, {
+let riskFactorChart = new Chart(ctx, {
     type: 'doughnut',
     data: doughnutData,
     options: options

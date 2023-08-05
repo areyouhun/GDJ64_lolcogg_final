@@ -344,7 +344,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: end;
+    justify-content: center;
 }
 
 .myRank {
@@ -354,13 +354,14 @@
 
 /* chart */
 canvas {
-    margin-top: 105px;
     width: 180px;
     height: auto;
     margin: 0 auto;
 }
-.chartInfoDiv{
-    margin-top: 20px;
+
+.chart{
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 /* 댓글 */

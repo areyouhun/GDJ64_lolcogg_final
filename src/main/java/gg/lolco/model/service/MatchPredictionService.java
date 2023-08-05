@@ -18,4 +18,6 @@ public interface MatchPredictionService {
 	List<MatchPrediction> matchMpYn();
 	
 	int updateMpYn();
+	
+	List<MatchPrediction> mpSuccess(String nickname);
 }

@@ -41,4 +41,9 @@ public class MatchPredictionDaoImpl implements MatchPredictionDao {
 		return session.update("matchPrediction.updateMpYn");
 	}
 
+	@Override
+	public List<MatchPrediction> mpSuccess(SqlSessionTemplate session, String nickname) {
+		return session.selectList("matchPrediction.mpSuccess", nickname);
+	}
+
 }
