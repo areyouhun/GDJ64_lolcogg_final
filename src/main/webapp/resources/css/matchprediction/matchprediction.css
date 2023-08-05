@@ -44,6 +44,10 @@
 }
 
 /* 승부예측 주차 선택 */
+.closeWeek{
+	color: var(--khy-off-gray);
+}
+
 .weekChoiceDiv {
     display: flex;
     justify-content: center;

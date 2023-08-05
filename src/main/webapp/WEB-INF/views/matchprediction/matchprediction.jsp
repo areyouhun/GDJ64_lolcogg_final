@@ -35,18 +35,29 @@
 	                		<c:if test="${nowWeek == w.msWeek}">
 		                    	<button id="${w.msWeek }" class="weekDiv weekChoice" onclick="weekChoice('${w.msWeek}');">
 		                    </c:if>
-		                    <c:if test="${nowWeek != w.msWeek}">
+		                    <c:if test="${nowWeek > w.msWeek}">
 		                    	<button id="${w.msWeek }" class="weekDiv" onclick="weekChoice('${w.msWeek}');">
 		                    </c:if>
-		                        <div class="weekDivInfo">
-		                            <p class="title fs-26 week">${w.msWeek }</p>
-		                            <p class="content fs-16 weekSpan">주차</p>
-		                        </div>
+		                    <c:if test="${nowWeek < w.msWeek}">
+		                    	<button id="${w.msWeek }" class="weekDiv">
+		                    </c:if>
+		                    	<c:if test="${!(nowWeek < w.msWeek)}">
+			                        <div class="weekDivInfo">
+			                            <p class="title fs-26 week">${w.msWeek }</p>
+			                            <p class="content fs-16 weekSpan">주차</p>
+			                        </div>
+		                        </c:if>
+		                        <c:if test="${nowWeek < w.msWeek}">
+			                        <div class="weekDivInfo">
+			                            <p class="title fs-26 week closeWeek">${w.msWeek }</p>
+			                            <p class="content fs-16 weekSpan closeWeek">주차</p>
+			                        </div>
+		                        </c:if>
 		                        <c:if test="${nowWeek == w.msWeek}">
 		                        	<p class="content fs-12 weekStatus weekChoiceP">진행중</p>
 		                        </c:if>
 		                        <c:if test="${nowWeek < w.msWeek}">
-		                        	<p class="content fs-12 weekStatus">예정</p>
+		                        	<p class="content fs-12 weekStatus closeWeek">예정</p>
 		                        </c:if>
 		                        <c:if test="${nowWeek > w.msWeek}">
 		                        	<p class="content fs-12 weekStatus">종료</p>
@@ -64,7 +75,7 @@
 					<c:forEach var="m" items="${ms }">
 						<%-- ${ms[1] } --%>
 						<c:if test="${nowWeek == m.msWeek }">
-						
+						<c:if test="${m.msHome != null && m.msAway != null}">
 						<fmt:formatDate value="${today}" pattern="yyyy.MM.dd(E)" var="todayDate" />
 						<fmt:formatDate value="${m.msDate}" pattern="yyyy.MM.dd(E)" var="matchDate"/>
 						
@@ -83,7 +94,7 @@
                             </div>
                             <!-- 한 경기 시작 -->
                             <div id="${m.msNo }" class="mpMatchDiv">
-                                <div class="homeDiv">
+                                <div id="${m.msNo }" class="homeDiv">
                                     <div class="logoDiv">
                                         <div class="logoImgDiv">
                                         	<c:if test="${m.msHome != null}">
@@ -104,7 +115,7 @@
                                         <p class="title fs-45">${m.msHomeScore }</p>
                                     </div>
                                 </div>
-                                <div class="awayDiv">
+                                <div id="${m.msNo }" class="awayDiv">
                                     <div class="awayScoreDiv">
                                         <p class="title fs-45">${m.msAwayScore }</p>
                                     </div>
@@ -127,6 +138,7 @@
                                 </div>
                             </div>
                             <!-- 한 경기 끝 -->
+                            </c:if>
                         </c:if>
 					</c:forEach>
 				</c:if>
@@ -407,12 +419,98 @@
 <!-- Your own script tag or JavaScript file -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script>
-$(".moreIconBtn").click(e => {
-    $(".optionUl").toggle();
-})
+/* 승부예측 */
+$(document).on("click", ".mpMatchDiv", function(e) {
+	
+		if($(e.target).hasClass('homeDiv') || $(e.target).parents('.homeDiv').hasClass('homeDiv')){
+			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "#0D0063");
+			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "");
+			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamblue)");
+			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamblue)");
+			let choiceNo = $(e.target).parents('.mpMatchDiv').find('.homeDiv').attr('id');
+			let team = 'home';
+			$.ajax({
+				type: "POST",
+				url: "matchprediction/choice",
+				data:{
+					"choiceNo": choiceNo,
+					"team": team,
+					"email": '${loginMember.email}'
+				},
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+				},
+				error: function(err){
+	    			console.log("요청 실패", err);
+	    		}
+			})
+		} else if($(e.target).hasClass('awayDiv') || $(e.target).parents('.awayDiv').hasClass('awayDiv')){
+			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "#490000");
+			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "");
+			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamred)");
+			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamred)");
+			let choiceNo = $(e.target).parents('.mpMatchDiv').find('.homeDiv').attr('id');
+			let team = 'away';
+			$.ajax({
+				type: "POST",
+				url: "matchprediction/choice",
+				data:{
+					"choiceNo": choiceNo,
+					"team": team,
+					"email": '${loginMember.email}'
+				},
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+				},
+				error: function(err){
+	    			console.log("요청 실패", err);
+	    		}
+			})
+		}
+		
+		const msNo = $(e.target).parents('.mpMatchDiv').attr('id');
+		const team = $(e.target).parents('.mpMatchDiv').attr('id');
+});	
+
+
+
+
+/* 내 승부예측 결과 */
+/* let myMpResult = '${myMp}';
+console.log(myMpResult.length);
+
+
+let mpMatchMsId = $(".mpMatchDiv").attr('id'); */
+// if(mpMatchMsId == )
+
+	
+	
+	
+/* 댓글 권한 */
+$(document).on("focus", ".insertComment", function(e){
+	if('${loginMember}' == null){
+		alert("로그인 후 이용할 수 있습니다.");
+		$(".insertComment").blur();
+	}
+});
+
+/* 댓글 - 수정, 삭제 버튼 토글 */
+/* 동적 태그에 이벤트 위임해줘야 함 */
+$(document).on("click", ".moreIconBtn", function(e) {
+    const optionUl = $(e.target).closest(".optionDiv").find(".optionUl");
+    optionUl.toggle();
+});
+
+/* 댓글 수정 */
+$(document).on("click", ".cUpBtn", function(e) {
+	const qaNo = $(e.target).attr('id');
+	console.log($(e.target).closest("ul").attr('id'));
+});
+
 
 /* chart */
-
 let myMpSuccess = '${myMpSuccess}';
 if(myMpSuccess != null){
 	let options = {
@@ -454,32 +552,6 @@ if(myMpSuccess != null){
 	    options: options
 	});
 }
-
-/* 승부예측 */
-	$(document).on("click", ".mpMatchDiv", function(e) {	
-	
-		// 둘 중 하나라도 true면 선택한 것
-		console.log("home있니?" + $(e.target).hasClass('homeDiv'));
-		console.log("home있니?" + $(e.target).parents('.homeDiv').hasClass('homeDiv'));
-		
-		// home 클릭 시
-		if($(e.target).hasClass('homeDiv') || $(e.target).parents('.homeDiv').hasClass('homeDiv')){
-			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "#0D0063");
-			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "");
-			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamblue)");
-			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamblue)");
-		} else if($(e.target).hasClass('awayDiv') || $(e.target).parents('.awayDiv').hasClass('awayDiv')){
-			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "#490000");
-			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "");
-			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamred)");
-			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamred)");
-		}
-		
-		const msNo = $(e.target).parents('.mpMatchDiv').attr('id');
-		const team = $(e.target).parents('.mpMatchDiv').attr('id');
-		// console.log(msNo);
-	});	
-	
 	
 /* 주차 변경하기 */
 function weekChoice(week){
@@ -508,44 +580,46 @@ function weekChoice(week){
 				const date = new Date(msDate);
 				const msTime =  new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
 				
-				html += "<div class='mpDateDiv'>";
-				html += "<span class='content fs-20'>" + getDateFormat(item.msDate) + "</span>";
-				html += "<hr class='dateHr'></div>";
-				html += "<div class='statusTimeDiv'>";
-				html += "<div class='statusDiv'>";
-				html += "<p class='content fs-16'>미참여</p>";
-				html += "</div>";
-				html += "<p class='content fs-20'>" + msTime + "</p>";
-				html += "</div>";
-				html += "<div id='${m.msNo }' class='mpMatchDiv'>";
-				html += "<div class='homeDiv'>";
-				html += "<div class='logoDiv'>";
-				html += "<div class='logoImgDiv'>";
-				html += (item.msAway != null) ? "<img src='${path}/resources/images/logo/" + item.msHome +"_big.png'>" : "";
-				html += "</div></div>";
-				html += "<div class='homeStatusDiv'>";
-				html += "<p class='content'>";
-				html += (item.msHome != null) ? (item.msHome + " " + item.team.homeRank + "위") : "TBD";
-				html += "</p>";
-				html += "<p class='content fs-40 fw-bold'>100%</p></div>";
-				html += "<div class='homeScoreDiv'>";
-				html += "<p class='title fs-45'>" + item.msHomeScore + "</p>";
-				html += "</div></div>";
-				
-				html += "<div class='awayDiv'>";
-				html += "<div class='awayScoreDiv'>";
-				html += "<p class='title fs-45'>" + item.msAwayScore + "</p>";
-				html += "</div>";
-				html += "<div class='awayStatusDiv'>";
-				html += "<p class='content awaySort'>";
-				html += (item.msAway != null) ? (item.msAway + " " + item.team.awayRank + "위") : "TBD";
-				html += "</p>";
-				html += "<p class='content fs-40 fw-bold awaySort'>100%</p>";
-				html += "</div>";
-				html += "<div class='awayLogoDiv'>";
-				html += "<div class='logoImgDiv'>";
-				html += (item.msAway != null) ? "<img src='${path}/resources/images/logo/" + item.msAway +"_big.png'>" : "";
-				html += "</div></div></div></div>";
+				if(item.msAway != null && item.msHome != null){
+					html += "<div class='mpDateDiv'>";
+					html += "<span class='content fs-20'>" + getDateFormat(item.msDate) + "</span>";
+					html += "<hr class='dateHr'></div>";
+					html += "<div class='statusTimeDiv'>";
+					html += "<div class='statusDiv'>";
+					html += "<p class='content fs-16'>미참여</p>";
+					html += "</div>";
+					html += "<p class='content fs-20'>" + msTime + "</p>";
+					html += "</div>";
+					html += "<div id='${m.msNo }' class='mpMatchDiv'>";
+					html += "<div class='homeDiv'>";
+					html += "<div class='logoDiv'>";
+					html += "<div class='logoImgDiv'>";
+					html += (item.msAway != null) ? "<img src='${path}/resources/images/logo/" + item.msHome +"_big.png'>" : "";
+					html += "</div></div>";
+					html += "<div class='homeStatusDiv'>";
+					html += "<p class='content'>";
+					html += (item.msHome != null) ? (item.msHome + " " + item.team.homeRank + "위") : "TBD";
+					html += "</p>";
+					html += "<p class='content fs-40 fw-bold'>100%</p></div>";
+					html += "<div class='homeScoreDiv'>";
+					html += "<p class='title fs-45'>" + item.msHomeScore + "</p>";
+					html += "</div></div>";
+					
+					html += "<div class='awayDiv'>";
+					html += "<div class='awayScoreDiv'>";
+					html += "<p class='title fs-45'>" + item.msAwayScore + "</p>";
+					html += "</div>";
+					html += "<div class='awayStatusDiv'>";
+					html += "<p class='content awaySort'>";
+					html += (item.msAway != null) ? (item.msAway + " " + item.team.awayRank + "위") : "TBD";
+					html += "</p>";
+					html += "<p class='content fs-40 fw-bold awaySort'>100%</p>";
+					html += "</div>";
+					html += "<div class='awayLogoDiv'>";
+					html += "<div class='logoImgDiv'>";
+					html += (item.msAway != null) ? "<img src='${path}/resources/images/logo/" + item.msAway +"_big.png'>" : "";
+					html += "</div></div></div></div>";
+				}
 			});
 			mpDiv.append(html);
 			
@@ -562,7 +636,7 @@ function weekChoice(week){
 	        console.log("요청 실패", err);
 	    }
 	});
-		
+
 
 }
 

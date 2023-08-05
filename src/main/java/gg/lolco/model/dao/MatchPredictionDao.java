@@ -1,6 +1,7 @@
 package gg.lolco.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -22,4 +23,9 @@ public interface MatchPredictionDao {
 	int updateMpYn(SqlSessionTemplate session);
 	
 	List<MatchPrediction> mpSuccess(SqlSessionTemplate session, String nickname);
+	
+	List<MatchPrediction> myMp(SqlSessionTemplate session, String email);
+	
+	int teamChoice(SqlSessionTemplate session, Map param);
+	int teamChoiceDel(SqlSessionTemplate session, Map param);
 }

@@ -2,11 +2,13 @@ package gg.lolco.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -62,6 +64,14 @@ public class MatchPerdictionController {
 		m.addAttribute("mpSuccess", mpSuccess);
 		m.addAttribute("myMpSuccess", myMpSuccess);
 		
+		// 내 예측
+		List<MatchPrediction> myMp = new ArrayList<>();
+		if(member != null) {
+			myMp = service.myMp(member.getEmail());
+			log.info("@@@@@@@@@{}", myMp);
+		}
+		m.addAttribute("myMp", myMp);
+		
 		return "matchprediction/matchprediction";
 	}
 	
@@ -72,5 +82,15 @@ public class MatchPerdictionController {
 		int mpYn = service.updateMpYn();
 		List<MatchSchedule> ms = service.matchScheduleByWeek(week);
 		return ms;
+	}
+	
+	// 승부예측 선택(ajax)
+	@PostMapping("matchprediction/choice")
+	@ResponseBody
+	public int teamChoice(@RequestParam Map param){
+		log.info("#######{}", param);
+		int result = service.teamChoice(param);
+		log.info("#######{}", result);
+		return result;
 	}
 }

@@ -1,6 +1,7 @@
 package gg.lolco.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -55,4 +56,17 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 		return dao.mpSuccess(session, nickname);
 	}
 
+	@Override
+	public List<MatchPrediction> myMp(String email) {
+		return dao.myMp(session, email);
+	}
+
+	@Override
+	public int teamChoice(Map param) {
+		int result = dao.teamChoiceDel(session, param);
+		result += dao.teamChoice(session, param);
+		return result;
+	}
+	
+	
 }

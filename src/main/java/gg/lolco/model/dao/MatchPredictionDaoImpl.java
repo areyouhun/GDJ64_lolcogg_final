@@ -1,6 +1,7 @@
 package gg.lolco.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -44,6 +45,21 @@ public class MatchPredictionDaoImpl implements MatchPredictionDao {
 	@Override
 	public List<MatchPrediction> mpSuccess(SqlSessionTemplate session, String nickname) {
 		return session.selectList("matchPrediction.mpSuccess", nickname);
+	}
+
+	@Override
+	public List<MatchPrediction> myMp(SqlSessionTemplate session, String email) {
+		return session.selectList("matchPrediction.myMp", email);
+	}
+
+	@Override
+	public int teamChoice(SqlSessionTemplate session, Map param) {
+		return session.insert("matchPrediction.teamChoice", param);
+	}
+
+	@Override
+	public int teamChoiceDel(SqlSessionTemplate session, Map param) {
+		return session.delete("matchPrediction.teamChoiceDel", param);
 	}
 
 }
