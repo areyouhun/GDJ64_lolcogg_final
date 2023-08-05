@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/views/common/top.jsp" />
 <!-- Your own style tag or CSS file -->
 
-<link rel="stylesheet" href="${path }/resources/css/card.css">
+<link rel="stylesheet" href="${path }/resources/css/card/card.css">
 <!------------------------------------>
 <title>cardLeaderSetting</title>
 </head>

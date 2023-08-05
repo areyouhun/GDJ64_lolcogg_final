@@ -6,13 +6,13 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <jsp:include page="/WEB-INF/views/common/top.jsp" />
 <!-- Your own style tag or CSS file -->
-<link rel="stylesheet" href="${path }/resources/css/card.css">
+<link rel="stylesheet" href="${path }/resources/css/card/card.css">
 
 <style>
 
 </style>
 <!------------------------------------>
-<title>SAMPLE</title>
+<title>myCard</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -40,7 +40,7 @@
 								<p class="cardmainTitle fs-35 ">나의 카드</p>
 								<div>
 									<button type="button" class="button" onclick="leaderSetting();">대표 카드 설정</button>
-									<button type="button" class="button" onclick="window.location.href='${path}/card/leaderclear'">대표 카드 해제</button>
+									<button type="button" class="button" onclick="location.assign('${path}/card/leaderclear')">대표 카드 해제</button>
 
 								</div>
 							</div>

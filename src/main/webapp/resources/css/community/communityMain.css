@@ -1,0 +1,925 @@
+@import url('common.css');
+
+/* 인풋스타일 */
+input {
+	border-style: none;
+	outline: none;
+}
+
+button {
+	border-style: none;
+	outline: none;
+	transition: ease-out 0.2s;
+	cursor: pointer;
+
+}
+
+button:active {
+	transform: scale(0.95);
+}
+
+/* hr 얇은선 */
+.hr-1 {
+	margin-top: 20px;
+
+	height: 1px;
+	border: 0px;
+	background: rgba(217, 217, 217, 0.60);
+}
+
+/* 커뮤니티 전체 */
+.community-centent {
+	height: 100%;
+}
+
+/* 커뮤니티 왼쪽 */
+.community-left {
+	display: flex;
+	flex-direction: column;
+	width: 240px;
+}
+
+/* 커뮤니티메인 멤버 정보 */
+.myinfo {
+	height: 130.104px;
+	border-radius: 10px;
+	border: 3px solid #2C2C2C;
+	background-color: rgba(44, 44, 44, 0.60);
+}
+
+/* 회원닉네임 */
+.nickName {
+	color: #FFF;
+	font-family: SUIT;
+	font-size: 22px;
+	font-weight: 800;
+	margin-left: 10px;
+	padding-top: 5px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 300px;
+
+
+}
+
+/* 회원 등급 이미지 */
+.classImg {
+	margin-left: 15px;
+	width: 50px;
+	height: 50px;
+
+}
+
+/* 회원닉네임 등급 전체 */
+.myinfo-nickName-img {
+	margin-top: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+
+}
+
+/* 회원 경험치바 , 회원이름 */
+.myinfo-exp {
+	margin-left: 40px;
+
+}
+
+/* 회원 등급 이름 */
+.mbmerClass {
+	color: var(--lol-blue, #6454ED);
+	font-family: SUIT;
+	font-size: 16px;
+	font-weight: 800;
+
+}
+
+/* 회원 남은 경험치 */
+.remainExp {
+	margin-top: 10px;
+	color: var(--lol-white, #EEE);
+	font-family: SUIT;
+	font-size: 12px;
+	font-weight: 800;
+	margin-left: 43px;
+}
+
+/* 카테고리 전체 */
+.categories {
+	display: flex;
+
+
+
+
+}
+
+/* 카테고리 서브타이틀 */
+.categoriesSubtitle {
+	color: #9D9C9C;
+	font-family: SUIT;
+	font-size: 16px;
+	font-weight: 800;
+	margin: 10px;
+
+}
+
+/* 카테고리 제목 */
+.categoriesName {
+	margin-top: 15px;
+	margin-right: 8px;
+	padding: 7px;
+	height: 40px;
+	color: #FFF;
+	font-size: 20px;
+	font-weight: 800;
+	width: 100px;
+	text-align: center;
+}
+
+/* 카테고리제목 호버 */
+.categoriesName:hover {
+	border-radius: 20px;
+	background: #2C2C2C;
+
+}
+
+.categoriesMain {
+	border-radius: 20px;
+	background: #2C2C2C;
+}
+
+
+/* 커뮤니티 중앙 게시글 */
+.community-center {
+	width: 790px;
+
+	border-radius: 10px;
+	border: 3px solid #2C2C2C;
+
+	background-color: rgba(44, 44, 44, 0.60);
+	margin-left: 10px;
+	margin-right: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* 커뮤니티 중앙 게시글 */
+.community-center-list {
+	width: 100%;
+	border-radius: 10px;
+	border: 3px solid #2C2C2C;
+	background-color: rgba(44, 44, 44, 0.60);
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+/* 커뮤니티 중앙 게시글 내용 */
+.community-center-size {
+	width: 93%;
+	margin-bottom: 60px;
+}
+.pageBar_div{
+	margin-top: 70px;
+}
+/* 커뮤니티 카테고리  */
+.board-categories {
+	margin-bottom: 20px;
+	color: #FFF;
+	font-family: SUIT;
+	font-weight: 800;
+	line-height: normal;
+}
+
+/* 인기글 최시글 버튼 */
+.popular-latest-Button {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+}
+
+/* 인기글 최신글 버튼 */
+.button {
+	display: inline-flex;
+	width: 100px;
+	height: 30px;
+	justify-content: center;
+	align-items: center;
+	border-radius: 12px;
+	border: 1px solid #FFF;
+	background: var(--lol-black, #0F0F0F);
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+/* 인기글최신글 버튼글씨 */
+.button p {
+	color: var(--lol-white, #EEE);
+	text-align: center;
+	font-family: SUIT;
+	font-size: 20px;
+	font-weight: 800;
+}
+
+/* 버튼호버 */
+.button:hover {
+	background: #2C2C2C;
+
+}
+
+/* 카테고리  */
+.board-categories-div {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+
+}
+
+/* 글쓰기버튼 */
+.writing-button {
+	width: 100px;
+	height: 30px;
+	border-radius: 10px;
+	background-color: var(--lol-mainblue);
+	color: var(--lol-white, #EEE);
+	font-family: SUIT;
+	font-size: 20px;
+
+}
+
+.writing-button:hover {
+	font-weight: bold;
+}
+
+
+
+/* 검색카테고리선택 */
+.select-div {
+	border: 1px solid #FFF;
+	border-radius: 12px;
+	height: 30px;
+	background: var(--lol-black, #0F0F0F);
+	color: var(--lol-white, #EEE);
+	font-family: SUIT;
+	font-size: 20px;
+	font-weight: 800;
+	padding-right: 10px;
+
+}
+
+/* 검색 div */
+.board-search-div {
+	display: inline-flex;
+	position: relative;
+	justify-content: center;
+	margin-left: 10px;
+
+}
+
+/* 검색 인풋 */
+.board-search-div input {
+	width: 200px;
+	height: 30px;
+	background: var(--lol-black, #0F0F0F);
+	border: 1px solid #FFF;
+	border-radius: 12px;
+	color: #FFF;
+	padding-left: 10px;
+	font-size: 20px;
+
+
+
+}
+
+/* 검색 돋보기 */
+.board-search-div img {
+	position: absolute;
+	width: 17px;
+	top: 5px;
+	right: 12px;
+	margin: 0;
+	cursor: pointer;
+}
+
+/* 게시글 한개 */
+.board-content {
+	margin-top: 20px;
+	margin-left: 10px;
+}
+
+/* 게시글 제목 */
+.board-title {
+	color: var(--lol-white, #EEE);
+	font-family: SUIT;
+	font-size: 20px;
+	font-weight: 500;
+}
+
+/* 게시글 댓글갯수 */
+.comment {
+	color: var(--lol-blue, #6454ED);
+	text-align: center;
+	font-family: SUIT;
+	font-size: 20px;
+	font-weight: 500;
+	margin-left: 5px;
+}
+
+.attachmenOn {
+
+	margin-left: 5px;
+}
+
+/* 게시글 아래정보 */
+.board-bottom {
+	display: flex;
+	color: var(--lol-white, #EEE);
+	font-size: 18px;
+	font-weight: 500;
+	margin-top: 20px;
+	justify-content: space-between;
+}
+
+/* 칭호 */
+.designation {
+	background: linear-gradient(180deg, #3F0 13.02%, rgba(11, 117, 98, 0.00) 100%);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-family: SUIT;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+.board-bottom>div:first-child>span {
+	margin-right: 30px;
+}
+
+.board-img>div {
+	display: flex;
+
+	margin-left: 30px;
+}
+
+.board-img>div>span {
+	margin-left: 10px;
+}
+
+.board-img {
+	display: flex;
+}
+
+.Backslash {
+	color: #9D9C9C;
+}
+
+/* 커뮤니티 오른쪽 */
+.community-right {
+	width: 240px;
+	height: 482px;
+	border-radius: 10px;
+	border: 3px solid #2C2C2C;
+	background: rgba(44, 44, 44, 0.60);
+}
+.popularity{
+	width: 100%;
+	margin-bottom: 20px;
+	border-radius: 10px;
+	border: 3px solid #2C2C2C;
+	background-color: rgba(44, 44, 44, 0.60);
+
+}
+
+
+/* 커뮤니티 오른쪽 실제내용 */
+.community-right-size {
+	display: flex;
+	margin: auto;
+	width: 93%;
+	justify-content: space-around;	
+}
+
+/* 실시간 인기 */
+.community-right-top {
+	display: flex;
+	
+}
+.community-right-top p {
+	margin-right: 20px;
+	
+}
+
+/* 실시간 인기 기준*/
+.community-right-top p:first-child {
+	color: var(--lol-white, #EEE);
+	font-family: SUIT;
+	font-size: 20px;
+	font-weight: 800;
+	margin-top: 7px;
+
+}
+
+/* 실시간 인기 내용*/
+.community-right-top p:last-child {
+	margin-top: 15px;
+	color: rgba(217, 217, 217, 0.60);
+	font-family: SUIT;
+	font-size: 13px;
+	font-weight: 800;
+
+}
+
+/* 실시간 인기 내용*/
+.realTime-popularity {
+	display: flex;
+	margin-top: 15px;
+	border: 2px;
+	border-radius: 10px;
+	background: #2C2C2C;
+	width: 550px;
+	margin-bottom: 15px;
+
+}
+
+/* 실시간 인기 내용*/
+.realTime-popularity p {
+	color: #FFF;
+	font-family: SUIT;
+	font-size: 16px;
+	font-weight: 800;
+	padding-left: 10px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	white-space: nowrap;
+}
+
+.realTime-popularity p:first-child {
+	font-family: "EF_MACHO";
+}
+
+.realTime-popularity p:nth-child(3) {
+	text-overflow: ellipsis;
+	overflow: hidden;
+
+}
+
+/* 실시간 인기 1위*/
+#realTime1 {
+	padding-left: 13px;
+}
+
+/* 실시간 인기 10위*/
+#realTime10 {
+	padding-left: 3px;
+}
+
+/* 로그인버튼 */
+.community-login {
+	margin: auto;
+	margin-top: 45px;
+	display: flex;
+	width: 153px;
+	height: 40px;
+	padding: 5px 10px;
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	background: var(--lol-mainblue);
+	color: var(--lol-white, #EEE);
+	text-align: center;
+	font-size: 20px;
+
+
+}
+
+/* 게시글등록 css */
+.insert-select-div {
+	border: 1px solid #FFF;
+	border-radius: 12px;
+	width: 150px;
+	height: 35px;
+	background: var(--lol-black);
+	color: var(--lol-white, #EEE);
+	font-family: SUIT;
+	font-size: 20px;
+	font-weight: 800;
+	padding: 3px;
+	margin-bottom: 10px;
+
+
+}
+
+.insert-title {
+	margin-top: 10px;
+
+
+
+}
+
+.insert-title div {
+	display: flex;
+	flex-direction: column;
+
+
+
+}
+
+.insert-title div>input::placeholder {
+	color: #EEE;
+
+}
+
+.insert-title div>input {
+	padding-left: 20px;
+	margin-bottom: 20px;
+	width: 100%;
+	height: 40px;
+	border-radius: 10px;
+	background: rgba(157, 157, 157, 0.62);
+	color: #FFF;
+	font-family: SUIT;
+	font-size: 20px;
+	font-weight: 800;
+
+
+}
+
+.insert-board-center {
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	border: 3px solid #2C2C2C;
+	background-color: rgba(44, 44, 44, 0.60);
+	margin-left: 10px;
+	margin-right: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.insert-button-div {
+	padding-bottom: 50px;
+	display: flex;
+	margin-top: 30px;
+	justify-content: center;
+
+
+}
+
+.insert-board {
+	background-color: var(--lol-mainblue);
+	margin-right: 30px;
+	font-size: 20px;
+}
+
+.remove-board {
+	border: 2px solid var(--lol-mainblue);
+	background-color: transparent;
+
+}
+
+.insert-video img {
+
+	width: 300px;
+	margin-bottom: 20px;
+
+}
+
+.board-bottom-right span {
+	margin-left: 15px;
+}
+
+/* 게시글상세 css */
+.board-buffNerfDiv {
+	margin-top: 30px;
+}
+
+.buffDiv .buffBtn {
+	margin-right: 10px;
+}
+
+.nerfDiv .buffBtn {
+	margin-right: 10px;
+}
+
+.nerfDiv {
+	padding-left: 10px;
+}
+
+.report-sharing {
+	margin-top: 30px;
+	display: flex;
+	justify-content: end;
+	cursor: pointer;
+	margin-bottom: 50px;
+}
+
+.report-sharing svg {
+	margin-right: 10px;
+
+}
+
+.report-sharing span {
+	margin-right: 15px;
+}
+
+/* 게시글 댓글 */
+
+.board-comment {
+	width: 770px;
+	margin-right: 3px;
+	height: 100%;
+	flex-shrink: 0;
+	border-radius: 10px;
+	border: 3px solid #2C2C2C;
+	background: rgba(44, 44, 44, 0.60);
+}
+
+.board-page-margin {
+	margin: 130px 0px 40px 0px;
+}
+
+
+.titleBlack {
+	font-family: "EF_MACHO";
+	color: var(--lol-white);
+}
+
+.contentBlack {
+	font-family: "SUIT";
+	color: var(--lol-white);
+}
+
+.qnaCommentDiv {
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+
+.qnaCommentDivSize {
+	width: 93%;
+	height: 93%;
+
+}
+
+.qnaCommentTitle {
+	margin: 30px 0px 20px 0px;
+	font-size: 23px;
+}
+
+ion-icon {
+	color: var(--lol-white);
+	font-size: 35px;
+	cursor: pointer;
+}
+
+.insertCommentDiv {
+	min-height: 150px auto;
+	border-radius: 10px;
+	background: #2C2C2C;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.insertComment {
+	border: none;
+	background: #2C2C2C;
+	width: 85%;
+	height: 120px;
+	padding: 0 20px;
+	overflow: hidden;
+	border-radius: 10px;
+}
+
+.insertComment:focus {
+	outline: none;
+}
+
+
+.countBtnDiv {
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+}
+
+.countBtn {
+	margin: 20px 25px;
+	display: flex;
+	justify-content: end;
+}
+
+.commentBtn {
+	border-radius: 10px;
+	background-color: var(--lol-mainblue);
+	height: 33px;
+	width: 70px;
+	color: var(--lol-white);
+	border-style: none;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+.iconBtn {
+	width: 120px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 20px 25px;
+}
+
+/* 댓글 리스트 조회 css */
+.commentSort {
+	display: flex;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	color: rgb(124, 118, 118);
+}
+
+.commentSort :hover {
+	cursor: pointer;
+
+	color: var(--lol-white);
+}
+
+.commentListSort {
+	display: flex;
+}
+
+.newMargin {
+	margin-right: 10px;
+
+
+}
+
+
+.commentList {
+	display: flex;
+	justify-content: space-between;
+	margin: 15px 10px 25px 10px;
+}
+
+.detailDiv {
+	width: 1070px;
+	margin-left: 20px;
+}
+
+.detaildetailDiv {
+	width: 1000px;
+	margin-left: 20px;
+}
+
+.commentDetail {
+	display: flex;
+	justify-content: space-between;
+}
+
+.commentInfo {
+	display: flex;
+	align-items: center;
+}
+
+.bestDiv {
+	background-color: var(--lol-mainblue);
+	border-radius: 10px;
+	width: 78px;
+	height: 28px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.nickname {
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.tierImg {
+	width: 50px;
+	margin: 0 20px 0 7px;
+}
+
+.commentContent {
+	margin: 10px 0 25px 0;
+	font-size: 23px;
+	line-height: 34px;
+}
+
+.dateBuffDiv {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.dateSpan {
+	font-family: 'SUIT';
+	font-size: 16px;
+	color: rgb(124, 118, 118)
+}
+
+.buffNerfDiv {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.buffDiv {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.nerfDiv {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 10px;
+}
+
+.bnIcon {
+	color: var(--khy-off-gray);
+	font-size: 15px;
+}
+
+.buffBtn {
+	width: 55px;
+	height: 25px;
+	outline: none;
+	background-color: white;
+	border: 2px solid #ccc;
+	border-radius: 50px;
+	padding-left: 2px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 5px;
+}
+
+.preText {
+	line-height: 38px;
+}
+
+.moreIconBtn {
+	background-color: transparent;
+	border-style: none;
+}
+
+.moreIcon:hover {
+	background-color: #ccc;
+	border-radius: 7px;
+}
+
+/* ... 클릭 시 */
+.optionDiv {
+	position: relative;
+}
+
+.optionUl {
+	position: absolute;
+	right: 0px;
+	padding: 6px;
+	margin-top: 6px;
+	border-radius: 8px;
+	z-index: 10px;
+	background-color: #ccc;
+	list-style: none;
+	width: 90px;
+	justify-content: center;
+
+	display: none;
+}
+
+.optionUl button {
+	display: flex;
+	align-items: center;
+	font-size: 18px;
+	color: var(--lol-black);
+	border-style: none;
+	margin: 8px;
+	background-color: transparent;
+}
+
+.optionIcon {
+	color: var(--lol-black);
+	font-size: 23px;
+	padding-right: 4px;
+}
+
+.fs-23 {
+	font-size: 25px;
+}
+
+.board-title-member {
+	display: flex;
+	justify-content: space-between;
+}
