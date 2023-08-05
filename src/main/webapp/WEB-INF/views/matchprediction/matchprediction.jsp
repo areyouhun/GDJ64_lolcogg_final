@@ -419,9 +419,19 @@
 <!-- Your own script tag or JavaScript file -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script>
+
+/* 댓글 권한 */
+$(document).on("click", ".insertComment", function(e){
+	console.log("ㄷ포커스!");
+	if('${loginMember}' == null){
+		alert("로그인 후 이용할 수 있습니다.");
+		$(".insertComment").blur();
+	}
+});
+
 /* 승부예측 */
 $(document).on("click", ".mpMatchDiv", function(e) {
-	
+	if('${loginMember}' == null){
 		if($(e.target).hasClass('homeDiv') || $(e.target).parents('.homeDiv').hasClass('homeDiv')){
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "#0D0063");
 			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "");
@@ -469,32 +479,11 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 	    		}
 			})
 		}
-		
-		const msNo = $(e.target).parents('.mpMatchDiv').attr('id');
-		const team = $(e.target).parents('.mpMatchDiv').attr('id');
-});	
-
-
-
-
-/* 내 승부예측 결과 */
-/* let myMpResult = '${myMp}';
-console.log(myMpResult.length);
-
-
-let mpMatchMsId = $(".mpMatchDiv").attr('id'); */
-// if(mpMatchMsId == )
-
-	
-	
-	
-/* 댓글 권한 */
-$(document).on("focus", ".insertComment", function(e){
-	if('${loginMember}' == null){
-		alert("로그인 후 이용할 수 있습니다.");
-		$(".insertComment").blur();
+	} else{
+		alert("로그인 후 이용하실 수 있습니다.");
 	}
-});
+		
+});	
 
 /* 댓글 - 수정, 삭제 버튼 토글 */
 /* 동적 태그에 이벤트 위임해줘야 함 */
