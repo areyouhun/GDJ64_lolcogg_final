@@ -108,7 +108,7 @@ table, tr, td {
 }
 
 .bar-layout {
-    margin: 40px 0 20px 0;
+    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;

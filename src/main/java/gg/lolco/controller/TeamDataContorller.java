@@ -38,6 +38,16 @@ public class TeamDataContorller {
 		return "teamdata/team";
 	}
 	
+	@GetMapping("/compare")
+	public String compareTeams(String teamLeft, String teamRight, Model model) {
+		final Map<String, String> teams = Map.of("teamLeft", teamLeft, "teamRight", teamRight);
+		
+		model.addAttribute("matchHistory", service.selectMatchHistoryByTeams(teams));
+		model.addAttribute("numOfMatches", service.selectCountMatchesOfTeams(teams));
+		model.addAttribute("numOfTeamLeftWins", service.selectCountTeamLeftWins(teams));
+		return "teamdata/compare";
+	}
+	
 	@GetMapping("/player")
 	public String player(String nickname, Model model) {
 		model.addAttribute("player", service.selectPlayerByNickname(nickname.toLowerCase()));

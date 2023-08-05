@@ -34,4 +34,19 @@ public class TeamDaoImpl implements TeamDataDao {
 		return session.selectOne("teamdata.selectMatchResultByKeyword", keyword);
 	}
 
+	@Override
+	public List<Map<String, Object>> selectMatchHistoryByTeams(SqlSession session, Map<String, String> teams) {
+		return session.selectList("teamdata.selectMatchHistoryByTeams", teams);
+	}
+
+	@Override
+	public int selectCountMatchesOfTeams(SqlSession session, Map<String, String> teams) {
+		return session.selectOne("teamdata.selectCountMatchesOfTeams", teams);
+	}
+
+	@Override
+	public int selectCountTeamLeftWins(SqlSession session, Map<String, String> teams) {
+		return session.selectOne("teamdata.selectCountTeamLeftWins", teams);
+	}
+
 }

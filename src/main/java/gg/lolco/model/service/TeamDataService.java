@@ -14,4 +14,10 @@ public interface TeamDataService {
 	Map<String, Object> selectPlayerByNickname(String nickname);
 	
 	Map<String, Object> selectMatchResultByKeyword(Map<String, String> keyword);
+
+	List<Map<String, Object>> selectMatchHistoryByTeams(Map<String, String> teams);
+
+	int selectCountMatchesOfTeams(Map<String, String> teams);
+
+	int selectCountTeamLeftWins(Map<String, String> teams);
 }

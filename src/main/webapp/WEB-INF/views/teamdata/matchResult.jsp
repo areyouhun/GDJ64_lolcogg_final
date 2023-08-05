@@ -161,6 +161,12 @@
                                             </tr>
                                         </tbody>
                                     </table>
+
+                                    <div class="bar-layout">
+                                        <hr class="flex-grow">
+                                        <p class="fw-bold">PLAYERS</p>
+                                        <hr class="flex-grow">
+                                    </div>
                                     <table class="set-table">
                                         <tbody>
                                             <tr>
@@ -620,6 +626,13 @@
                                             </tr>
                                         </tbody>
                                     </table>
+
+                                    <div class="bar-layout">
+                                        <hr class="flex-grow">
+                                        <p class="fw-bold">RUNES</p>
+                                        <hr class="flex-grow">
+                                    </div>
+                                    <!-- WRITE YOUR CODE HERE -->
                                 </div>
                             </div>
                     	</c:forEach>
@@ -674,7 +687,7 @@
             .then(data => {
                 const spell = data.data["Summoner" + $(event.target).attr("spell")];
 
-                $(event.target).siblings(".pos-absolute")
+                $(event.target).siblings(".pos-absolute").html("")
                                 .append($("<h4>").text(spell.name).addClass("fw-bold spell-title"))
                                 .append($("<h5>").text(spell.description))
                                 .addClass("show");
@@ -700,7 +713,7 @@
             $.get("${itemInfoPath}")
             .then(data => {
                 const item = data.data[$(event.target).attr("itemNo").toString()];
-                $(event.target).siblings(".pos-absolute")
+                $(event.target).siblings(".pos-absolute").html("")
                                 .append($("<h4>").text(item.name).addClass("fw-bold item-title"))
                                 .append($("<h5>").html(item.description))
                                 .append($("<h5>").text("가격: " + item.gold.total + " Gold").addClass("price"))
