@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import gg.lolco.model.dao.MatchPredictionDao;
 import gg.lolco.model.vo.MatchPrediction;
+import gg.lolco.model.vo.MatchPredictionComment;
 import gg.lolco.model.vo.MatchSchedule;
 
 @Service
@@ -67,6 +68,17 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 		result += dao.teamChoice(session, param);
 		return result;
 	}
+
+	@Override
+	public List<MatchPredictionComment> commentListAll(int week) {
+		return dao.commentListAll(session, week);
+	}
+
+	@Override
+	public List<MatchPredictionComment> bestCommentList(int week) {
+		return dao.bestCommentList(session, week);
+	}
+	
 	
 	
 }

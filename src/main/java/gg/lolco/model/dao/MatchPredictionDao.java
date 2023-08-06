@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import gg.lolco.model.vo.MatchPrediction;
+import gg.lolco.model.vo.MatchPredictionComment;
 import gg.lolco.model.vo.MatchSchedule;
 
 public interface MatchPredictionDao {
@@ -28,4 +29,8 @@ public interface MatchPredictionDao {
 	
 	int teamChoice(SqlSessionTemplate session, Map param);
 	int teamChoiceDel(SqlSessionTemplate session, Map param);
+	
+	List<MatchPredictionComment> commentListAll(SqlSessionTemplate session, int week);
+	
+	List<MatchPredictionComment> bestCommentList(SqlSessionTemplate session, int week);
 }

@@ -487,6 +487,10 @@ ion-icon {
     margin: 15px 10px 25px 10px;
 }
 
+.commentList img:first-child{
+	border: 1px solid #ccc;
+}
+
 .detailDiv {
     width: 1070px;
     margin-left: 20px;
@@ -523,14 +527,19 @@ ion-icon {
 }
 
 .tierImg {
-    width: 50px;
+    max-width: 35px;
+    max-height: 25px;
     margin: 0 20px 0 7px;
 }
 
 .commentContent {
-    margin: 10px 0 25px 0;
+    margin: 0px 0 10px 0;
     font-size: 23px;
     line-height: 34px;
+}
+
+.emoticon{
+	margin-bottom: 15px;
 }
 
 .dateBuffDiv {
@@ -766,4 +775,78 @@ button:active {
 
 .awayDiv:hover{
 	background-color: #320100;
+}
+
+/* 댓글 추가 css */
+.insertReplyDiv{
+    display: flex;
+    align-items: center;
+}
+.insertReply{
+    cursor: pointer;
+    margin-left: 10px;
+    color: var(--lol-black);
+}
+
+.replyDiv{
+    border-radius: 10px;
+    background-color: #cccccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    display: none;
+}
+
+.replyForm{
+    display: flex;
+    align-items: center;
+}
+
+.iconBtn{
+    position: relative;
+}
+
+.emoDiv{
+	display: flex;
+	align-items: center;
+}
+
+.emo{
+    position: absolute;
+    right: 85px;
+    top: 40px;
+    overflow: auto;
+    height: 200px;
+    width: 550px;
+    background-color: var(--lol-white);
+    border: 2px solid var(--khy-off-gray);
+    border-radius: 10px;
+    z-index: 1;
+    display: none;
+}
+
+.emoSort{
+    display: grid;
+    grid-template-columns: repeat(6,80px);
+    justify-content: space-between;
+    padding: 8px 18px 18px;
+}
+
+.emoSort li{
+    list-style: none;
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emoSort button{
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.replyBestAllDiv{
+	display: none;
 }

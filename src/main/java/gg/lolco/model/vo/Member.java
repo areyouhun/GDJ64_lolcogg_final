@@ -33,7 +33,6 @@ public class Member  {
 	private Date withdrawDate;
 	private String authority; 
 	
-
 	private Tier tier;
 	private List<PointHistory> pointHistorys = new ArrayList();
 	private List<Alert> alerts = new ArrayList();

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import gg.lolco.model.vo.MatchPrediction;
+import gg.lolco.model.vo.MatchPredictionComment;
 import gg.lolco.model.vo.MatchSchedule;
 
 public interface MatchPredictionService {
@@ -25,4 +26,8 @@ public interface MatchPredictionService {
 	List<MatchPrediction> myMp(String email);
 	
 	int teamChoice(Map param);
+	
+	List<MatchPredictionComment> commentListAll(int week);
+	
+	List<MatchPredictionComment> bestCommentList(int week);
 }

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import gg.lolco.model.vo.MatchPrediction;
+import gg.lolco.model.vo.MatchPredictionComment;
 import gg.lolco.model.vo.MatchSchedule;
 
 @Repository
@@ -60,6 +61,16 @@ public class MatchPredictionDaoImpl implements MatchPredictionDao {
 	@Override
 	public int teamChoiceDel(SqlSessionTemplate session, Map param) {
 		return session.delete("matchPrediction.teamChoiceDel", param);
+	}
+
+	@Override
+	public List<MatchPredictionComment> commentListAll(SqlSessionTemplate session, int week) {
+		return session.selectList("matchPrediction.commentListAll", week);
+	}
+
+	@Override
+	public List<MatchPredictionComment> bestCommentList(SqlSessionTemplate session, int week) {
+		return session.selectList("matchPrediction.bestCommentList", week);
 	}
 
 }

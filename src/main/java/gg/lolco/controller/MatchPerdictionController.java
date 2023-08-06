@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import gg.lolco.model.service.MatchPredictionService;
 import gg.lolco.model.vo.MatchPrediction;
+import gg.lolco.model.vo.MatchPredictionComment;
 import gg.lolco.model.vo.MatchSchedule;
 import gg.lolco.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,15 @@ public class MatchPerdictionController {
 		List<MatchSchedule> ms = service.matchScheduleByWeek(nowWeek);
 		m.addAttribute("ms", ms);
 		
+		// 댓글 리스트
+		List<MatchPredictionComment> commentList = service.commentListAll(nowWeek);
+		m.addAttribute("commentList", commentList);
+
+		// 베스트3 댓글
+		List<MatchPredictionComment> bestCommentList = service.bestCommentList(nowWeek);
+		m.addAttribute("bestCommentList", bestCommentList);
+
+		
 		// 업데이트
 		int mpYn = service.updateMpYn();
 		
@@ -58,7 +68,6 @@ public class MatchPerdictionController {
 		if(member != null) {
 			String nickname = member.getNickname();
 			myMpSuccess = service.mpSuccess(nickname);
-			log.info("@@@@@my@@@{}", myMpSuccess);
 		}
 		List<MatchPrediction> mpSuccess = service.mpSuccess(null);
 		m.addAttribute("mpSuccess", mpSuccess);
@@ -88,9 +97,7 @@ public class MatchPerdictionController {
 	@PostMapping("matchprediction/choice")
 	@ResponseBody
 	public int teamChoice(@RequestParam Map param){
-		log.info("#######{}", param);
 		int result = service.teamChoice(param);
-		log.info("#######{}", result);
 		return result;
 	}
 }
