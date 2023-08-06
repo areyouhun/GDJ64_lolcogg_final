@@ -230,7 +230,6 @@ public class CrawlingScheduler {
 								BufferedWriter bw = 
 										new BufferedWriter(new FileWriter(context.getRealPath("/resources/csv/match/") + fileName, true));
 								
-								
 								// 세트 구분 숫자
 								String divisionGameSet = gameSetResultUrl
 										.substring(gameSetResultUrl.indexOf("/page-game/")-5, gameSetResultUrl.indexOf("/page-game/"));
@@ -243,6 +242,24 @@ public class CrawlingScheduler {
 								
 								// 세트 결과 페이지 
 								Document gameSetDoc = Jsoup.connect("https://" + gameSetPath).get();
+								
+								String gamePlayTime = gameSetDoc.select(".rowbreak .text-center h1").text();
+								
+								int playTime = Integer.parseInt(gamePlayTime.substring(0, gamePlayTime.indexOf(":")));
+								
+								while(playTime < 10) {
+									gameSetNum = Integer.parseInt(divisionGameSet) + j + 1;
+									
+									// 세트 결과 페이지 주소
+									gameSetPath = gameSetResultUrl.replace(divisionGameSet, String.valueOf(gameSetNum));
+									
+									// 세트 결과 페이지 
+									gameSetDoc = Jsoup.connect("https://" + gameSetPath).get();
+									
+									gamePlayTime = gameSetDoc.select(".rowbreak .text-center h1").text();
+									
+									playTime = Integer.parseInt(gamePlayTime.substring(0, gamePlayTime.indexOf(":")));
+								}
 								
 								// 결과요약 링크 
 								String gameInfoPath = gameSetPath.replace("/page-game/", "/page-fullstats/");
@@ -269,36 +286,40 @@ public class CrawlingScheduler {
 										.replace("Total damage to Champion ", "").split(" ");
 								
 								// 밴픽
-								List<String> banpickSrcList = gameSetDoc.select("a.black_link img").eachAttr("src");
+								Elements banpickRows = gameSetDoc.select(".row div:containsOwn(Bans)");
 								
 								List<String> banpickList = new ArrayList<>();
-								
-								for(String banpick : banpickSrcList) {
-									if(!gameSetDoc.select("img[alt=No ban]").isEmpty()) {
-										banpickList.add("No ban");
-									}
+
+								for(Element row : banpickRows) {
+									List<String> banpickSrcList = row.nextElementSibling().select("img").eachAttr("src");
 									
-									String championName = banpick.substring(banpick.indexOf("icon/") + 5, banpick.indexOf(".png"));
-									
-									switch(championName) {
-									case "Renata Glasc": 
-										championName = "Renata"; 
-										break;
-									case "Wukong": 
-										championName = "MonkeyKing"; 
-										break;
-									case "LeBlanc":
-										championName = "Leblanc";
-										break;
-									case "KhaZix":
-										championName = "Khazix";
-										break;
-									default:
-										if(championName.contains("'")) championName = championName.replace("'", "");
-										
-										if(championName.contains(" ")) championName = championName.replace(" ", "");
+									for(String banpick : banpickSrcList) {
+										if(banpick.contains("void.png")) {
+											banpickList.add("No Ban");
+										}else {
+											String championName = banpick.substring(banpick.indexOf("icon/") + 5, banpick.indexOf(".png"));
+											
+											switch(championName) {
+											case "Renata Glasc": 
+												championName = "Renata"; 
+												break;
+											case "Wukong": 
+												championName = "MonkeyKing"; 
+												break;
+											case "LeBlanc":
+												championName = "Leblanc";
+												break;
+											case "KhaZix":
+												championName = "Khazix";
+												break;
+											default:
+												if(championName.contains("'")) championName = championName.replace("'", "");
+												
+												if(championName.contains(" ")) championName = championName.replace(" ", "");
+											}
+											banpickList.add(championName);
+										}
 									}
-									banpickList.add(championName);
 								}
 								
 								// 챔피언
@@ -370,11 +391,19 @@ public class CrawlingScheduler {
 									// 밴픽
 									for(int k=0; k<5; k++) {
 										if(line.equals(".blue")) {
-											bw.append(banpickList.get(k));
-											bw.append(k < 4 ? "," : "\n");
+											if(banpickList.get(k).equals("No Ban")) {
+												bw.append("\n");
+											}else{
+												bw.append(k == 0 ? banpickList.get(k) : "," + banpickList.get(k));
+												bw.append(k == 4 ? "\n" : "");
+											}
 										}else {
-											bw.append(banpickList.get(k + 5));
-											bw.append(k < 4 ? "," : "\n");
+											if(banpickList.get(k+5).equals("No Ban")) {
+												bw.append("\n");
+											}else {
+												bw.append(k == 0 ? banpickList.get(k+5) : "," + banpickList.get(k+5));
+												bw.append(k == 4 ? "\n" : "");
+											}
 										}
 									}
 								}
