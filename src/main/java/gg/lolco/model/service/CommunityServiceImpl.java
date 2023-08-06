@@ -62,4 +62,14 @@ public class CommunityServiceImpl implements CommunityService {
 		return dao.selectPopularityCount(session,categorie);
 	}
 
+	@Override
+	public List<CommunityBoard> searchBoard(Map<String, Object> param) {
+		return dao.searchBoard(session,param);
+	}
+
+	@Override
+	public int searchBoardCount(Map<String, Object> param) {
+		return dao.searchBoardCount(session,param);
+	}
+
 }

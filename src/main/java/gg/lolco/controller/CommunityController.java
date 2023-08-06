@@ -234,6 +234,46 @@ public class CommunityController {
 			m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectBoradCategorie"));
 		}
 		return "/community/communityMain";
+	}
+	@GetMapping("/searchBoard")
+	public String searchBoard(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "20") int numPerpage,
+			@RequestParam("selectValue") String selectValue, @RequestParam("search") String search, Model m) {
+				System.out.println(selectValue);
+				System.out.println(search);
+				List<CommunityBoard> searchBoard = service
+						.searchBoard(Map.of("cPage", cPage, "numPerpage", numPerpage, "selectValue", selectValue, "search", search));
+				int totalData = service.searchBoardCount(Map.of("selectValue", selectValue, "search", search));
+				// 이 부분에서는 현재 시간을 LocalDateTime 으로가져오기
+				LocalDateTime now = LocalDateTime.now();
 
+				// 리스트 반복문
+				for (CommunityBoard b : searchBoard) {
+					// 현재 게시글의 작성 시간을 LocalDateTime 형태로 가져오고 있습니다.
+					LocalDateTime boardDate = b.getCmBoardDate();
+
+					// 게시글의 작성 시간과 현재 시간 사이의 차이를 Duration 객체로 가져기
+					Duration duration = Duration.between(boardDate, now);
+
+					// 시간의 차이를 분 단위로 변환후 diffMinutes에 저장
+					long diffMinutes = duration.toMinutes();
+					// 분기준
+					if (diffMinutes == 0) {
+						b.setTimeDifference("방금 전");
+					} else if (diffMinutes < 60) {
+						b.setTimeDifference(diffMinutes + "분 전");
+
+						// 하루기준
+					} else if (diffMinutes < 24 * 60) {
+						b.setTimeDifference(duration.toHours() + "시간 전");
+					} else {
+						b.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+					}
+				}
+				
+				m.addAttribute("selectboardList", searchBoard);
+				m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "searchBoard"));
+				
+		return "/community/communityMain";
 	}
 }

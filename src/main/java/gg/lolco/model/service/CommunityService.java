@@ -10,9 +10,11 @@ public interface CommunityService {
 	List<CommunityBoard> selectboardList(Map<String ,Object> param);
 	List<CommunityBoard> selectBoradCategorie(Map<String ,Object> param);
 	List<CommunityBoard> selectPopularity(Map<String ,Object> param);
+	List<CommunityBoard> searchBoard(Map<String ,Object> param);
 	int insertCommunity(Map<String ,Object> param);
 	Member selectMemberById(String email);
 	int selectBoardCount();
 	int selectBoradCategorieCount(String categorie);
 	int selectPopularityCount(String categorie);
+	int searchBoardCount(Map<String ,Object> param);
 }

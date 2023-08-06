@@ -62,4 +62,17 @@ public class CommunityDaoImpl implements CommunityDao {
 		return session.selectOne("community.selectPopularityCount",categorie);
 	}
 
+	@Override
+	public List<CommunityBoard> searchBoard(SqlSession session, Map<String, Object> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		return session.selectList("community.searchBoard",param,rb);
+	}
+
+	@Override
+	public int searchBoardCount(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("community.searchBoardCount",param);
+	}
+
 }

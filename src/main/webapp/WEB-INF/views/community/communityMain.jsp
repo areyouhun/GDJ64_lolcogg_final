@@ -112,17 +112,17 @@
 								</button>
 							</div>
 
-							<form action="">
+							<form action="${path }/community/searchBoard" id="searchBoardForm">
 								<div>
 									<select class="select-div" name="selectValue">
-										<option value="제목+내용">제목+내용</option>
-										<option value="제목">제목</option>
-										<option value="내용">내용</option>
-										<option value="글쓴이">글쓴이</option>
+										<option value="titleContent">제목+내용</option>
+										<option value="title">제목</option>
+										<option value="content">내용</option>
+										<option value="writer">글쓴이</option>
 									</select>
 									<div class="board-search-div">
 										<input placeholder="검색" name="search"> <img
-											src="${path }/resources/images/community/돋보기.svg" alt="돋보기">
+											src="${path }/resources/images/community/돋보기.svg" alt="돋보기" id="submitImage">
 									</div>
 								</div>
 							</form>
@@ -250,6 +250,12 @@
 	        const path = "${path}/community/selectPopularity?categorie=" + currentCategorieValue;
 	        location.assign(path);
 	    }
+		
+		//돋보기 클릭시 서밋
+	    document.getElementById("submitImage").addEventListener("click", function() {
+	        document.getElementById("searchBoardForm").submit();
+	    });
+
 
 
 </script>
