@@ -8,7 +8,11 @@ import gg.lolco.model.vo.Member;
 
 public interface CommunityService {
 	List<CommunityBoard> selectboardList(Map<String ,Object> param);
+	List<CommunityBoard> selectBoradCategorie(Map<String ,Object> param);
+	List<CommunityBoard> selectPopularity(Map<String ,Object> param);
 	int insertCommunity(Map<String ,Object> param);
 	Member selectMemberById(String email);
 	int selectBoardCount();
+	int selectBoradCategorieCount(String categorie);
+	int selectPopularityCount(String categorie);
 }

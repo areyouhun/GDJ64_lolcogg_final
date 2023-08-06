@@ -217,7 +217,6 @@
 								
 							</select> <select class="Initialization select_button_season">
 								<option hidden="hiddn" value="season">시즌</option>
-
 								<option value="LCK 2023 spring">2023 Spring</option>
 
 							</select> <select class="Initialization select_button_position">
