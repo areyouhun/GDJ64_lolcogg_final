@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <c:set var="today" value="<%=new java.util.Date()%>" />
+<c:set var="loginMember" scope="session" value="${loginMember }" />
 <jsp:include page="/WEB-INF/views/common/top.jsp" />
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet"
@@ -281,8 +282,13 @@
 					<!-- 댓글 작성 -->
 					<form>
 						<div class="insertCommentDiv">
+							<div class="commentDiv">
 							<textarea type="text" class="insertComment contentBlack fs-20"
 								style="resize: none;"></textarea>
+								<%-- <div class="insertEmoDiv">
+									<button type="button" class="emoXIcon"><img src="${path }/resources/images/matchprediction/xicon.png"></button>
+								</div> --%>
+							</div>
 							<div class="countBtnDiv">
 								<div class="countBtn">
 									<span id="letterSpan" class="contentBlack fs-20">0/150</span>
@@ -293,9 +299,11 @@
 										<div class="emo">
 											<ul class="emoSort">
 												<!-- 보유 이모티콘 -->
-												<li><button type="button">
-														<img src="/champion/full/Aatrox.jpg" width="65px"
+												<c:forEach var="emo" items="${myEmo }">
+													<li><button class="emoBtn" type="button">
+														<img id="${emo.emoticon.emoNo }" src="${path }/resources/images/emoticon/${emo.emoticon.emoFilename}" width="65px"
 															height="65px"></li>
+													</c:forEach>
 												</button>
 											</ul>
 										</div>
@@ -339,15 +347,19 @@
 										</button>
 										<ul class="optionUl">
 											<li>
-												<!-- 작성자 및 관리자 --> <!-- <button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+												<!-- 작성자 및 관리자 -->
+												<c:if test="${best.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
+													<button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
 					                                <hr class="hr-1Black hr-op">
-					                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button> -->
-
+					                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+				                                </c:if>
 												<!-- 작성자 x -->
+												<c:if test="${best.mpcWriter.email != loginMember.email}">
 												<button>
 													<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
 													신고
 												</button>
+												</c:if>
 											</li>
 										</ul>
 									</div>
@@ -400,9 +412,11 @@
 													<ion-icon name="happy-outline"></ion-icon>
 													<div class="emo">
 														<ul class="emoSort">
-															<li><button type="button">
-																	<img src="/champion/full/Aatrox.jpg" width="65px"
+															<c:forEach var="emo" items="${myEmo }">
+																<li><button class="emoBtn" type="button">
+																	<img id="${emo.emoticon.emoNo }" src="${path }/resources/images/emoticon/${emo.emoticon.emoFilename}" width="65px"
 																		height="65px"></li>
+																</c:forEach>
 															</button>
 														</ul>
 													</div>
@@ -442,16 +456,19 @@
 															</button>
 															<ul class="optionUl">
 																<li>
-																	<!-- 작성자 및 관리자 --> <!-- <button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-	                                <hr class="hr-1Black hr-op">
-	                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button> -->
-
+																	<!-- 작성자 및 관리자 -->
+																	<c:if test="${reply.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
+																		<button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+										                                <hr class="hr-1Black hr-op">
+										                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+									                                </c:if>
 																	<!-- 작성자 x -->
+																	<c:if test="${reply.mpcWriter.email != loginMember.email}">
 																	<button>
-																		<ion-icon class="optionIcon"
-																			name="remove-circle-outline"></ion-icon>
+																		<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
 																		신고
 																	</button>
+																	</c:if>
 																</li>
 															</ul>
 														</div>
@@ -527,15 +544,19 @@
 												</button>
 												<ul class="optionUl">
 													<li>
-														<!-- 작성자 및 관리자 --> <!-- <button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-					                                <hr class="hr-1Black hr-op">
-					                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button> -->
-
+														<!-- 작성자 및 관리자 -->
+														<c:if test="${comment.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
+															<button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+							                                <hr class="hr-1Black hr-op">
+							                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+						                                </c:if>
 														<!-- 작성자 x -->
+														<c:if test="${comment.mpcWriter.email != loginMember.email}">
 														<button>
 															<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
 															신고
 														</button>
+														</c:if>
 													</li>
 												</ul>
 											</div>
@@ -597,9 +618,11 @@
 															<ion-icon name="happy-outline"></ion-icon>
 															<div class="emo">
 																<ul class="emoSort">
-																	<li><button type="button">
-																			<img src="/champion/full/Aatrox.jpg" width="65px"
+																	<c:forEach var="emo" items="${myEmo }">
+																		<li><button class="emoBtn" type="button">
+																			<img id="${emo.emoticon.emoNo }" src="${path }/resources/images/emoticon/${emo.emoticon.emoFilename}" width="65px"
 																				height="65px"></li>
+																		</c:forEach>
 																	</button>
 																</ul>
 															</div>
@@ -640,16 +663,19 @@
 															</button>
 															<ul class="optionUl">
 																<li>
-																	<!-- 작성자 및 관리자 --> <!-- <button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-	                                <hr class="hr-1Black hr-op">
-	                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button> -->
-
+																	<!-- 작성자 및 관리자 -->
+																	<c:if test="${reply.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
+																		<button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+										                                <hr class="hr-1Black hr-op">
+										                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+									                                </c:if>
 																	<!-- 작성자 x -->
+																	<c:if test="${reply.mpcWriter.email != loginMember.email}">
 																	<button>
-																		<ion-icon class="optionIcon"
-																			name="remove-circle-outline"></ion-icon>
+																		<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
 																		신고
 																	</button>
+																	</c:if>
 																</li>
 															</ul>
 														</div>
@@ -723,50 +749,27 @@
 			</div>
 		</div>
 	</section>
-	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
-	<script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
-	<script src="${path}/resources/js/script_common.js"></script>
-	<!-- Your own script tag or JavaScript file -->
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-	<script>
-/* 댓글 작성시간 */
-/* function elapsedTime(date) {
-  const start = new Date(date);
-  const end = new Date();
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />
+<script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
+<script src="${path}/resources/js/script_common.js"></script>
+<!-- Your own script tag or JavaScript file -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script>
+/* 로그인 세션값 */
+const loginMember = "${sessionScope.loginMember}";
 
-  const diff = (end - start) / 1000;
-  
-  const times = [
-    { name: '년', milliSeconds: 60 * 60 * 24 * 365 },
-    { name: '개월', milliSeconds: 60 * 60 * 24 * 30 },
-    { name: '일', milliSeconds: 60 * 60 * 24 },
-    { name: '시간', milliSeconds: 60 * 60 },
-    { name: '분', milliSeconds: 60 },
-  ];
-
-  for (const value of times) {
-    const betweenTime = Math.floor(diff / value.milliSeconds);
-
-    if (betweenTime > 0) {
-      return `${betweenTime}${value.name} 전`;
-    }
-  }
-  return '방금 전';
-} */
-
-
-/* 댓글 권한 (왜 안돼!!! 수정 필요) */
-/* $(document).on("focus", ".insertComment", function(e){
-	if('${empty loginMember}'){
+/* 댓글 권한 */
+$(document).on("focus", ".insertComment", function(e){
+	if(loginMember == ''){
 		alert("로그인 후 이용할 수 있습니다.");
 		$(".insertComment").blur();
 	}
-}); */
+});
 
 /* 승부예측 */
 $(document).on("click", ".mpMatchDiv", function(e) {
-	if('${loginMember}' == null){
+	if(loginMember != ''){
 		if($(e.target).hasClass('homeDiv') || $(e.target).parents('.homeDiv').hasClass('homeDiv')){
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "#0D0063");
 			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "");
@@ -814,7 +817,7 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 	    		}
 			})
 		}
-	} else{
+	} else {
 		alert("로그인 후 이용하실 수 있습니다.");
 	}
 		
@@ -824,7 +827,6 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 /* 댓글 글자 수 제한 */
 $(document).on("keyup", ".insertComment", function(e) {
 	let content = $(e.target).val();
-    console.log(content);
     // 글자수 세기
     if (content.length == 0 || content == '') {
     	$('#letterSpan').text('0/150');
@@ -861,7 +863,35 @@ function insertReply(e) {
 $(".emoDiv").on("click", function(e){
      const emo = $(e.target).siblings('.emo');
      emo.toggle();
- });
+});
+ 
+/* 이모티콘 선택 */
+$(document).on("click", ".emoBtn", function(e) {
+	/* console.log($(e.target).attr('id')); */
+	
+	const emo = $(e.target).parents('.insertCommentDiv').find('.commentDiv');
+	
+	$(".insertEmoDiv").remove();
+	
+    const emoDiv = $("<div>").addClass("insertEmoDiv");
+    const xButton = $("<button>").attr("type", "button").addClass("emoXIcon");
+    const xIcon = $("<img>").attr("src", "${path}/resources/images/matchprediction/xicon.png");
+    xButton.append(xIcon);
+    emoDiv.append(xButton);
+    emo.append(emoDiv);
+	
+    emoDiv.show();
+	const imgUrl = $(e.target).attr('src');
+	emoDiv.css("background-image", "url('" + imgUrl + "')");
+	
+});
+
+/* 이모티콘 취소 */
+$(document).on("click", ".emoXIcon", function(e) {
+	const emoDiv = $(e.target).parent().parent('.insertEmoDiv');
+	emoDiv.remove();
+});
+
  
 /* 답글 토글 */
 $(document).on("click", ".replyCount", function(e) {
@@ -869,52 +899,55 @@ $(document).on("click", ".replyCount", function(e) {
 	reply.toggle(100);
 });
 
+/* 베스트 댓글 답글 토글 */
 $(document).on("click", ".replyCount", function(e) {
 	const reply = $(e.target).parent().parent().parent().parent().next().next('.replyBestAllDiv');
 	reply.toggle();
 });
 
 /* chart */
-let myMpSuccess = '${myMpSuccess}';
-if(myMpSuccess != null){
-	let options = {
-	    cutoutPercentage: 85,
-	    rotation: Math.PI,
-	
-	    legend: {
-	        display: false,
-	    },
-	    tooltips: {
-	        enabled: true,
-	    },
-	
-	};
-	
-	let totalPlay = [${myMpSuccess[0].successPlay}, `${myMpSuccess[0].totalPlay}-${myMpSuccess[0].successPlay}`];
-	let doughnutData = {
-	    labels: [
-	        "예측성공", "예측실패"
-	    ],
-	    datasets: [{
-	        data: totalPlay,
-	        backgroundColor: [
-	        "#6454ED", "#ccc"
-	        ],
-	        hoverBackgroundColor: [
-	        "#6454ED", "#ccc"
-	        ],
-	        borderWidth: 0,
-	    }]
-	};
-	
-	$('#riskFactorChartLoading').hide("fast");
-	let ctx = $("#riskFactorChart").get(0).getContext("2d");
-	
-	let riskFactorChart = new Chart(ctx, {
-	    type: 'doughnut',
-	    data: doughnutData,
-	    options: options
-	});
+if(loginMember != ''){
+	let myMpSuccess = '${myMpSuccess}';
+	if(myMpSuccess != null){
+		let options = {
+		    cutoutPercentage: 85,
+		    rotation: Math.PI,
+		
+		    legend: {
+		        display: false,
+		    },
+		    tooltips: {
+		        enabled: true,
+		    },
+		
+		};
+		
+		let totalPlay = [${myMpSuccess[0].successPlay}, ${myMpSuccess[0].failPlay}];
+		let doughnutData = {
+		    labels: [
+		        "예측성공", "예측실패"
+		    ],
+		    datasets: [{
+		        data: totalPlay,
+		        backgroundColor: [
+		        "#6454ED", "#ccc"
+		        ],
+		        hoverBackgroundColor: [
+		        "#6454ED", "#ccc"
+		        ],
+		        borderWidth: 0,
+		    }]
+		};
+		
+		$('#riskFactorChartLoading').hide("fast");
+		let ctx = $("#riskFactorChart").get(0).getContext("2d");
+		
+		let riskFactorChart = new Chart(ctx, {
+		    type: 'doughnut',
+		    data: doughnutData,
+		    options: options
+		});
+	}
 }
 	
 /* 주차 변경하기 */
