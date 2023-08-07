@@ -37,7 +37,7 @@
                     </div>
                     <div class="match-container">
                         <div class="match-content">
-                            <input type="button" class="team-btn team-btn_up_left" value="">
+                            <input type="button" class="team-btn team-btn_up_left">
                             <div class="match-content_wrapper">
                                 <div class="match-team-container">
                                     <div class="match-content_lineup animated-smooth">
@@ -48,11 +48,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="button" class="team-btn team-btn_down_left" value="">
+                            <input type="button" class="team-btn team-btn_down_left">
+                            <input type="hidden" value="">
                         </div>
                         <div class="match-btn">
                             <p class="title">VS</p>
-                            <input type="button" class="title" value="전력 비교" onclick="showMatchRecords(this);">
+                            <input type="button" class="title" value="전력 비교" onclick="compareTeams(this);">
                         </div>
                         <div class="match-content">
                             <input type="button" class="team-btn team-btn_up_right">
@@ -66,7 +67,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="button" class="team-btn team-btn_down_right" value="">
+                            <input type="button" class="team-btn team-btn_down_right">
+                            <input type="hidden" value="">
                         </div>
                     </div>
                 </article>

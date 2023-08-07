@@ -9,6 +9,7 @@ function updateTeamList() {
             const numOfbanners = data.length;
             const wrapper = $(".match-content_wrapper");
             const matchContainer = $(".match-team-container");
+            const matchContent = $(".match-content");
             let currentIdxLeft = 1;
             let currentIdxRight = 1;
 
@@ -16,7 +17,6 @@ function updateTeamList() {
             matchContainer.html("");
 
             data.forEach((team, index) => {
-                console.log(team.teamAbbr);
                 const pathToSmallLogo = getContextPath() 
                                         + "/resources/images/logo/" 
                                         + team.teamAbbr + "_square.png";
@@ -41,6 +41,10 @@ function updateTeamList() {
             matchContainer.height(wrapper.height() * numOfbanners)
                         .css('transform', `translateY(-${currentIdxLeft * wrapper.height()}px)`);
 
+
+            matchContent.eq(0).children("input[type=hidden]").val(matchContainer.eq(0).children(".match-content_lineup").eq(currentIdxLeft).children("p").text());
+            matchContent.eq(1).children("input[type=hidden]").val(matchContainer.eq(1).children(".match-content_lineup").eq(currentIdxRight).children("p").text());
+
             setTimeout(function () {
                 matchContainer.addClass('animated-smooth');
             }, 100);
@@ -51,6 +55,8 @@ function updateTeamList() {
                 const targetContainer = $(event.target).siblings(".match-content_wrapper").children(".match-team-container");
 
                 targetContainer.css('transform', `translateY(-${++currentIdxLeft * wrapper.height()}px)`);
+
+                matchContent.eq(0).children("input[type=hidden]").val(matchContainer.eq(0).children(".match-content_lineup").eq(currentIdxLeft).children("p").text());
                 
                 if (currentIdxLeft == numOfbanners + 1) {
                     setTimeout(() => {
@@ -76,6 +82,8 @@ function updateTeamList() {
 
                 targetContainer.css('transform', `translateY(-${++currentIdxRight * wrapper.height()}px)`);
 
+                matchContent.eq(1).children("input[type=hidden]").val(matchContainer.eq(1).children(".match-content_lineup").eq(currentIdxRight).children("p").text());
+
                 if (currentIdxRight == numOfbanners + 1) {
                     setTimeout(() => {
                         currentIdxRight = 1;
@@ -99,6 +107,8 @@ function updateTeamList() {
                 const targetContainer = $(event.target).siblings(".match-content_wrapper").children(".match-team-container");
 
                 targetContainer.css('transform', `translateY(-${--currentIdxLeft * wrapper.height()}px)`);
+
+                matchContent.eq(0).children("input[type=hidden]").val(matchContainer.eq(0).children(".match-content_lineup").eq(currentIdxLeft).children("p").text());
                 
                 if (currentIdxLeft == 0) {
                     setTimeout(() => {
@@ -123,6 +133,8 @@ function updateTeamList() {
                 const targetContainer = $(event.target).siblings(".match-content_wrapper").children(".match-team-container");
 
                 targetContainer.css('transform', `translateY(-${--currentIdxRight * wrapper.height()}px)`);
+
+                matchContent.eq(1).children("input[type=hidden]").val(matchContainer.eq(1).children(".match-content_lineup").eq(currentIdxRight).children("p").text());
                 
                 if (currentIdxRight == 0) {
                     setTimeout(() => {
@@ -159,13 +171,30 @@ function generateMatchContent(abbr, path) {
     `;
 }
 
-function showMatchRecords(element) {
-    console.log(matchContainer.eq(0).children(".match-content_lineup").eq(currentIdxLeft).children("p").text());
-    console.log(matchContainer.eq(1).children(".match-content_lineup").eq(currentIdxRight).children("p").text());
+function compareTeams(element) {
+	const teamLeft = $(".match-content").eq(0).children("input[type=hidden]").val();
+	const teamRight = $(".match-content").eq(1).children("input[type=hidden]").val();
+	
+	if (teamLeft === teamRight) {
+		alert("서로 다른 두 팀을 선택해주세요.");
+		return;
+	}
+	
+	location.assign(`${getContextPath()}/teamdata/comparison?teamLeft=${teamLeft}&teamRight=${teamRight}`);
 }
 
 $(document).on("click", ".slide-btn", event => {
-    location.assign(getContextPath() + "/teamdata/team?abbr=" + $(event.target).text());
+    let teamName;
+
+    if ($(event.target).prop("tagName") === "BUTTON") {
+        teamName = $(event.target).text();
+    }
+    
+    if ($(event.target).prop("tagName") === "IMG") {
+        teamName = $(event.target).parent().text();
+    }
+
+    location.assign(`${getContextPath()}/teamdata/team?abbr=${teamName}`);
 });
 
 $(document).on("mouseenter", ".slide-btn", event => {

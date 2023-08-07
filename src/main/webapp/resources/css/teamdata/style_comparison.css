@@ -15,42 +15,67 @@ table, tr, td {
     border:none;
 }
 
-.pos-absolute {
-    background-color: #1c1c1c;
-    border-radius: 12px;
-    position: absolute;
-    z-index: 10;
-    width: max-content;
-    max-width: 320px;
-    padding: 20px;
-    text-align: left;
-    display: none;
-    box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.1),
-                0 0 0 1px hsla(230, 13%, 9%, 0.075),
-                0 0.3px 0.4px hsla(230, 13%, 9%, 0.02),
-                0 0.9px 1.5px hsla(230, 13%, 9%, 0.045),
-                0 3.5px 6px hsla(230, 13%, 9%, 0.09);
+.neon {
+    text-shadow: 0 0 3px var(--lol-white), 
+                0 0 0px var(--lol-white), 
+                0 0 0px var(--lol-white), 
+                0 0 0px var(--lol-white), 
+                0 0 0px var(--lol-white), 
+                0 0 3px var(--lol-white), 
+                0 0 5px var(--lol-white);
 }
 
-.pos-absolute h4 {
-    margin-bottom: 10px; 
+.team-players {
+    margin-bottom: 60px;
 }
 
-.spell-title {
-    color: rgb(12, 206, 51);
+.team-players-info {
+    width: 100%;
+    height: 168px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--lol-white);
 }
 
-.item-title {
-    color: rgb(211, 0, 211);
+.team-players-info>div {
+    width: 420px;
 }
 
-.price {
-    color: rgb(246, 255, 119); 
-    margin-top: 10px;
+.team-players-info>div:nth-child(2)>img {
+    width: 15%;
+    margin: 0 auto;
 }
 
-.ornn-border {
-    border: 3px ridge rgb(221, 36, 36);
+.players-name p {
+    color: var(--lol-mainblue);
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.name-list {
+    display: flex;
+}
+
+.name-list span {
+    display: inline-block;
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0 20px;
+}
+
+.name-list input[type="button"] {
+    background-color: transparent;
+    border: none;
+    font-size: 3rem;
+    color: var(--lol-white);
+    font-weight: 700;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.player-stats-date {
+    margin: 10px 10px 0 0;
+    text-align: right;
 }
 
 .flex-grow {
@@ -108,7 +133,6 @@ table, tr, td {
 }
 
 .bar-layout {
-    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -149,6 +173,7 @@ table, tr, td {
 
 .set-container {
     width: 100%;
+    margin-bottom: 60px;
 }
 
 .set-result-top * {
@@ -218,7 +243,7 @@ table, tr, td {
 .set-table {
     width: 100%;
     margin: 0 auto;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
     border: none;
     border-collapse: separate;
     border-spacing: 0 20px;
@@ -418,4 +443,51 @@ table, tr, td {
     font-size: 1rem;
     font-weight: 700;
     color: #5F5F5F;
+}
+
+.match-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.match-table td {
+    width: 180px;
+    height: 105px;
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--lol-white);
+}
+
+.match-table_team {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.match-table_option {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.match-table img {
+    width: 30%;
+}
+
+.team_versus {
+    margin-right: 20px;
+    text-align: right;
+}
+
+.match-btn {
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 20px;
+    border: none;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background-color: var(--lol-white);
+    color: var(--lol-black);
+    font-size: 1rem;
+    font-weight: 700;
 }

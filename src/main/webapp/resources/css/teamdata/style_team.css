@@ -91,7 +91,7 @@ img {
 }
 
 .bar-layout>p {
-    width: 150px;
+    padding: 0 40px;
     font-size: 1.1rem;
     text-align: center;
 }
@@ -265,14 +265,4 @@ img {
     color: var(--lol-black);
     font-size: 1rem;
     font-weight: 700;
-}
-
-.match-alarm {
-    cursor: pointer;
-    display: inline-block;
-    margin-right: 20px;
-    border: none;
-    background: url("/resources/images/common/icon-alarm_empty.svg") no-repeat;
-    width: 25px;
-    height: 30px;
 }

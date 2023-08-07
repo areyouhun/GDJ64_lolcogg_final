@@ -16,4 +16,10 @@ public interface TeamDataDao {
 	Map<String, Object> selectPlayerByNickname(SqlSession session, String nickname);
 	
 	Map<String, Object> selectMatchResultByKeyword(SqlSession session, Map<String, String> keyword);
+
+	List<Map<String, Object>> selectMatchHistoryByTeams(SqlSession session, Map<String, String> teams);
+
+	int selectCountMatchesOfTeams(SqlSession session, Map<String, String> teams);
+
+	int selectCountTeamLeftWins(SqlSession session, Map<String, String> teams);
 }

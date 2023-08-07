@@ -7,7 +7,9 @@
 <spring:eval var="champImgPath" expression="@environment.getProperty('lolcogg.datadragon.image.champion')" />
 <spring:eval var="champInfoPath" expression="@environment.getProperty('lolcogg.datadragon.info.champion')" />
 <spring:eval var="spellImgPath" expression="@environment.getProperty('lolcogg.datadragon.image.spell')" />
+<spring:eval var="spellInfoPath" expression="@environment.getProperty('lolcogg.datadragon.info.spell')" />
 <spring:eval var="itemImgPath" expression="@environment.getProperty('lolcogg.datadragon.image.item')" />
+<spring:eval var="itemInfoPath" expression="@environment.getProperty('lolcogg.datadragon.info.item')" />
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="matchResultSummary" value="${requestScope.matchResultSummary}"/>
 <c:set var="matchResultDetail" value="${requestScope.matchResultDetail}"/>
@@ -159,77 +161,478 @@
                                             </tr>
                                         </tbody>
                                     </table>
+
+                                    <div class="bar-layout">
+                                        <hr class="flex-grow">
+                                        <p class="fw-bold">PLAYERS</p>
+                                        <hr class="flex-grow">
+                                    </div>
                                     <table class="set-table">
                                         <tbody>
                                             <tr>
                                                 <td>
                                                     <div class="set-player-content">
-                                                        <h2 class="blue-player-name"><c:out value="${fn:toUpperCase(set.blueSideTopPlayer)}"/></h2>
+                                                        <h2 class="blue-player-name fw-bold"><c:out value="${fn:toUpperCase(set.blueSideTopPlayer)}"/></h2>
                                                         <div class="set-champion-content">
                                                             <div class="set-champion-info">
-                                                                <div>
+                                                                <div class="player-champion-img">
                                                                     <img class="champion-layout" src="${champImgPath}${set.blueSideTopChamp}.png">
                                                                 </div>
-                                                                <div>
-                                                                    <h3><c:out value="${set.blueSideTopChamp}"/><h3/>
-                                                                    <div>
-                                                                        <img src="${spellImgPath}${set.blueSideTopSpellOne}.png">
-                                                                        <img src="${spellImgPath}${set.blueSideTopSpellOne}.png">
+                                                                <div class="player-champ-sub">
+                                                                    <h3><c:out value="${set.blueSideTopChamp}"/></h3>
+                                                                    <div class="set-champion-spell">
+                                                                        <div class="pos-absolute"></div>
+                                                                        <img src="${spellImgPath}${set.blueSideTopSpellOne}.png" spell="${set.blueSideTopSpellOne}">
+                                                                        <img src="${spellImgPath}${set.blueSideTopSpellTwo}.png" spell="${set.blueSideTopSpellTwo}">
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="set-champion-item">
+                                                                <div class="pos-absolute"></div>
                                                                 <c:forEach var="item" items="${set.blueSideTopItems}">
-                                                                	<img src="${itemImgPath}${fn:replace(item, 'items/', '')}.png">
+                                                                	<img class="${fn:contains(item, 'items') ? 'ornn-border' : ''}" src="${itemImgPath}${fn:replace(item, 'items/', '')}.png" itemNo="${fn:replace(item, 'items/', '')}">
                                                                 </c:forEach>
                                                             </div>
                                                         </div>
-                                                        <div>
+                                                        <div class="set-champion-stats">
                                                             <div>
                                                                 <h3>KDA</h3>
-                                                                <h3></h3>
+                                                                <h2><c:out value="${set.blueSideTopKdaOverall}"/><span><c:out value=" (${set.blueSideTopKdaTotal})"/></span></h2>
                                                             </div>
                                                             <div>
-                                                                <h3>데미지</h3>
-                                                                <h3></h3>
+                                                                <h3>데미지</h2>
+                                                                <h2><c:out value="${set.blueSideTopDamage}"/></h2>
                                                             </div>
                                                             <div>
-                                                                <h3>골드</h3>
-                                                                <h3></h3>
+                                                                <h3>골드</h2>
+                                                                <h2><c:out value="${set.blueSideTopGold}"/></h2>
                                                             </div>
                                                             <div>
                                                                 <h3>CS</h3>
-                                                                <h3></h3>
+                                                                <h2><c:out value="${set.blueSideTopCs}"/><span> (<fmt:formatNumber value="${set.blueSideTopCsM}" pattern="##0.0"/>)</span></h2>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td><p class="set-category set-position">TOP</p></td>
-                                                <td></td>
+                                                <td>
+                                                    <div class="set-player-content">
+                                                        <h2 class="red-player-name fw-bold"><c:out value="${fn:toUpperCase(set.redSideTopPlayer)}"/></h2>
+                                                        <div class="set-champion-content">
+                                                            <div class="set-champion-info">
+                                                                <div class="player-champion-img">
+                                                                    <img class="champion-layout" src="${champImgPath}${set.redSideTopChamp}.png">
+                                                                </div>
+                                                                <div class="player-champ-sub">
+                                                                    <h3><c:out value="${set.redSideTopChamp}"/></h3>
+                                                                    <div class="set-champion-spell">
+                                                                        <div class="pos-absolute"></div>
+                                                                        <img src="${spellImgPath}${set.redSideTopSpellOne}.png" spell="${set.redSideTopSpellOne}">
+                                                                        <img src="${spellImgPath}${set.redSideTopSpellTwo}.png" spell="${set.redSideTopSpellTwo}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="set-champion-item">
+                                                                <div class="pos-absolute"></div>
+                                                                <c:forEach var="item" items="${set.redSideTopItems}">
+                                                                	<img class="${fn:contains(item, 'items') ? 'ornn-border' : ''}" src="${itemImgPath}${fn:replace(item, 'items/', '')}.png" itemNo="${fn:replace(item, 'items/', '')}">
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                        <div class="set-champion-stats">
+                                                            <div>
+                                                                <h3>KDA</h3>
+                                                                <h2><c:out value="${set.redSideTopKdaOverall}"/><span><c:out value=" (${set.redSideTopKdaTotal})"/></span></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>데미지</h3>
+                                                                <h2><c:out value="${set.redSideTopDamage}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>골드</h3>
+                                                                <h2><c:out value="${set.redSideTopGold}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>CS</h3>
+                                                                <h2><c:out value="${set.redSideTopCs}"/><span> (<fmt:formatNumber value="${set.redSideTopCsM}" pattern="##0.0"/>)</span></h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td></td>
+                                                <td>
+                                                    <div class="set-player-content">
+                                                        <h2 class="blue-player-name fw-bold"><c:out value="${fn:toUpperCase(set.blueSideJunglePlayer)}"/></h2>
+                                                        <div class="set-champion-content">
+                                                            <div class="set-champion-info">
+                                                                <div class="player-champion-img">
+                                                                    <img class="champion-layout" src="${champImgPath}${set.blueSideJungleChamp}.png">
+                                                                </div>
+                                                                <div class="player-champ-sub">
+                                                                    <h3><c:out value="${set.blueSideJungleChamp}"/></h3>
+                                                                    <div class="set-champion-spell">
+                                                                        <div class="pos-absolute"></div>
+                                                                        <img src="${spellImgPath}${set.blueSideJungleSpellOne}.png" spell="${set.blueSideJungleSpellOne}">
+                                                                        <img src="${spellImgPath}${set.blueSideJungleSpellTwo}.png" spell="${set.blueSideJungleSpellTwo}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="set-champion-item">
+                                                                <div class="pos-absolute"></div>
+                                                                <c:forEach var="item" items="${set.blueSideJungleItems}">
+                                                                	<img class="${fn:contains(item, 'items') ? 'ornn-border' : ''}" src="${itemImgPath}${fn:replace(item, 'items/', '')}.png" itemNo="${fn:replace(item, 'items/', '')}">
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                        <div class="set-champion-stats">
+                                                            <div>
+                                                                <h3>KDA</h3>
+                                                                <h2><c:out value="${set.blueSideJungleKdaOverall}"/><span><c:out value=" (${set.blueSideJungleKdaTotal})"/></span></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>데미지</h3>
+                                                                <h2><c:out value="${set.blueSideJungleDamage}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>골드</h3>
+                                                                <h2><c:out value="${set.blueSideJungleGold}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>CS</h3>
+                                                                <h2><c:out value="${set.blueSideJungleCs}"/><span> (<fmt:formatNumber value="${set.blueSideJungleCsM}" pattern="##0.0"/>)</span></h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td><p class="set-category set-position">JUNGLE</p></td>
-                                                <td></td>
+                                                <td>
+                                                    <div class="set-player-content">
+                                                        <h2 class="red-player-name fw-bold"><c:out value="${fn:toUpperCase(set.redSideJunglePlayer)}"/></h2>
+                                                        <div class="set-champion-content">
+                                                            <div class="set-champion-info">
+                                                                <div class="player-champion-img">
+                                                                    <img class="champion-layout" src="${champImgPath}${set.redSideJungleChamp}.png">
+                                                                </div>
+                                                                <div class="player-champ-sub">
+                                                                    <h3><c:out value="${set.redSideJungleChamp}"/></h3>
+                                                                    <div class="set-champion-spell">
+                                                                        <div class="pos-absolute"></div>
+                                                                        <img src="${spellImgPath}${set.redSideJungleSpellOne}.png" spell="${set.redSideJungleSpellOne}">
+                                                                        <img src="${spellImgPath}${set.redSideJungleSpellTwo}.png" spell="${set.redSideJungleSpellTwo}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="set-champion-item">
+                                                                <div class="pos-absolute"></div>
+                                                                <c:forEach var="item" items="${set.redSideJungleItems}">
+                                                                	<img class="${fn:contains(item, 'items') ? 'ornn-border' : ''}" src="${itemImgPath}${fn:replace(item, 'items/', '')}.png" itemNo="${fn:replace(item, 'items/', '')}">
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                        <div class="set-champion-stats">
+                                                            <div>
+                                                                <h3>KDA</h3>
+                                                                <h2><c:out value="${set.redSideJungleKdaOverall}"/><span><c:out value=" (${set.redSideJungleKdaTotal})"/></span></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>데미지</h3>
+                                                                <h2><c:out value="${set.redSideJungleDamage}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>골드</h3>
+                                                                <h2><c:out value="${set.redSideJungleGold}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>CS</h2>
+                                                                <h2><c:out value="${set.redSideJungleCs}"/><span> (<fmt:formatNumber value="${set.redSideJungleCsM}" pattern="##0.0"/>)</span></h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td></td>
+                                                <td>
+                                                    <div class="set-player-content">
+                                                        <h2 class="blue-player-name fw-bold"><c:out value="${fn:toUpperCase(set.blueSideMidPlayer)}"/></h2>
+                                                        <div class="set-champion-content">
+                                                            <div class="set-champion-info">
+                                                                <div class="player-champion-img">
+                                                                    <img class="champion-layout" src="${champImgPath}${set.blueSideMidChamp}.png">
+                                                                </div>
+                                                                <div class="player-champ-sub">
+                                                                    <h3><c:out value="${set.blueSideMidChamp}"/></h3>
+                                                                    <div class="set-champion-spell">
+                                                                        <div class="pos-absolute"></div>
+                                                                        <img src="${spellImgPath}${set.blueSideMidSpellOne}.png" spell="${set.blueSideMidSpellOne}">
+                                                                        <img src="${spellImgPath}${set.blueSideMidSpellTwo}.png" spell="${set.blueSideMidSpellTwo}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="set-champion-item">
+                                                                <div class="pos-absolute"></div>
+                                                                <c:forEach var="item" items="${set.blueSideMidItems}">
+                                                                	<img class="${fn:contains(item, 'items') ? 'ornn-border' : ''}" src="${itemImgPath}${fn:replace(item, 'items/', '')}.png" itemNo="${fn:replace(item, 'items/', '')}">
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                        <div class="set-champion-stats">
+                                                            <div>
+                                                                <h3>KDA</h3>
+                                                                <h2><c:out value="${set.blueSideMidKdaOverall}"/><span><c:out value=" (${set.blueSideMidKdaTotal})"/></span></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>데미지</h3>
+                                                                <h2><c:out value="${set.blueSideMidDamage}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>골드</h3>
+                                                                <h2><c:out value="${set.blueSideMidGold}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h2>CS</h2>
+                                                                <h2><c:out value="${set.blueSideMidCs}"/><span> (<fmt:formatNumber value="${set.blueSideMidCsM}" pattern="##0.0"/>)</span></h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td><p class="set-category set-position">MID</p></td>
-                                                <td></td>
+                                                <td>
+                                                    <div class="set-player-content">
+                                                        <h2 class="red-player-name fw-bold"><c:out value="${fn:toUpperCase(set.redSideMidPlayer)}"/></h2>
+                                                        <div class="set-champion-content">
+                                                            <div class="set-champion-info">
+                                                                <div class="player-champion-img">
+                                                                    <img class="champion-layout" src="${champImgPath}${set.redSideMidChamp}.png">
+                                                                </div>
+                                                                <div class="player-champ-sub">
+                                                                    <h3><c:out value="${set.redSideMidChamp}"/></h3>
+                                                                    <div class="set-champion-spell">
+                                                                        <div class="pos-absolute"></div>
+                                                                        <img src="${spellImgPath}${set.redSideMidSpellOne}.png" spell="${set.redSideMidSpellOne}">
+                                                                        <img src="${spellImgPath}${set.redSideMidSpellTwo}.png" spell="${set.redSideMidSpellTwo}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="set-champion-item">
+                                                                <div class="pos-absolute"></div>
+                                                                <c:forEach var="item" items="${set.redSideMidItems}">
+                                                                	<img class="${fn:contains(item, 'items') ? 'ornn-border' : ''}" src="${itemImgPath}${fn:replace(item, 'items/', '')}.png" itemNo="${fn:replace(item, 'items/', '')}">
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                        <div class="set-champion-stats">
+                                                            <div>
+                                                                <h3>KDA</h3>
+                                                                <h2><c:out value="${set.redSideMidKdaOverall}"/><span><c:out value=" (${set.redSideMidKdaTotal})"/></span></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>데미지</h3>
+                                                                <h2><c:out value="${set.redSideMidDamage}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>골드</h2>
+                                                                <h2><c:out value="${set.redSideMidGold}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>CS</h3>
+                                                                <h2><c:out value="${set.redSideMidCs}"/><span> (<fmt:formatNumber value="${set.redSideMidCsM}" pattern="##0.0"/>)</span></h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td></td>
+                                                <td>
+                                                    <div class="set-player-content">
+                                                        <h2 class="blue-player-name fw-bold"><c:out value="${fn:toUpperCase(set.blueSideBotPlayer)}"/></h2>
+                                                        <div class="set-champion-content">
+                                                            <div class="set-champion-info">
+                                                                <div class="player-champion-img">
+                                                                    <img class="champion-layout" src="${champImgPath}${set.blueSideBotChamp}.png">
+                                                                </div>
+                                                                <div class="player-champ-sub">
+                                                                    <h3><c:out value="${set.blueSideBotChamp}"/></h3>
+                                                                    <div class="set-champion-spell">
+                                                                        <div class="pos-absolute"></div>
+                                                                        <img src="${spellImgPath}${set.blueSideBotSpellOne}.png" spell="${set.blueSideBotSpellOne}">
+                                                                        <img src="${spellImgPath}${set.blueSideBotSpellTwo}.png" spell="${set.blueSideBotSpellTwo}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="set-champion-item">
+                                                                <div class="pos-absolute"></div>
+                                                                <c:forEach var="item" items="${set.blueSideBotItems}">
+                                                                	<img class="${fn:contains(item, 'items') ? 'ornn-border' : ''}" src="${itemImgPath}${fn:replace(item, 'items/', '')}.png" itemNo="${fn:replace(item, 'items/', '')}">
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                        <div class="set-champion-stats">
+                                                            <div>
+                                                                <h3>KDA</h3>
+                                                                <h2><c:out value="${set.blueSideBotKdaOverall}"/><span><c:out value=" (${set.blueSideBotKdaTotal})"/></span></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>데미지</h3>
+                                                                <h2><c:out value="${set.blueSideBotDamage}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>골드</h3>
+                                                                <h2><c:out value="${set.blueSideBotGold}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h2>CS</h2>
+                                                                <h2><c:out value="${set.blueSideBotCs}"/><span> (<fmt:formatNumber value="${set.blueSideBotCsM}" pattern="##0.0"/>)</span></h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td><p class="set-category set-position">BOT</p></td>
-                                                <td></td>
+                                                <td>
+                                                    <div class="set-player-content">
+                                                        <h2 class="red-player-name fw-bold"><c:out value="${fn:toUpperCase(set.redSideBotPlayer)}"/></h2>
+                                                        <div class="set-champion-content">
+                                                            <div class="set-champion-info">
+                                                                <div class="player-champion-img">
+                                                                    <img class="champion-layout" src="${champImgPath}${set.redSideBotChamp}.png">
+                                                                </div>
+                                                                <div class="player-champ-sub">
+                                                                    <h3><c:out value="${set.redSideBotChamp}"/></h3>
+                                                                    <div class="set-champion-spell">
+                                                                        <div class="pos-absolute"></div>
+                                                                        <img src="${spellImgPath}${set.redSideBotSpellOne}.png" spell="${set.redSideBotSpellOne}">
+                                                                        <img src="${spellImgPath}${set.redSideBotSpellTwo}.png" spell="${set.redSideBotSpellTwo}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="set-champion-item">
+                                                                <div class="pos-absolute"></div>
+                                                                <c:forEach var="item" items="${set.redSideBotItems}">
+                                                                	<img class="${fn:contains(item, 'items') ? 'ornn-border' : ''}" src="${itemImgPath}${fn:replace(item, 'items/', '')}.png" itemNo="${fn:replace(item, 'items/', '')}">
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                        <div class="set-champion-stats">
+                                                            <div>
+                                                                <h3>KDA</h3>
+                                                                <h2><c:out value="${set.redSideBotKdaOverall}"/><span><c:out value=" (${set.redSideBotKdaTotal})"/></span></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>데미지</h3>
+                                                                <h2><c:out value="${set.redSideBotDamage}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>골드</h3>
+                                                                <h2><c:out value="${set.redSideBotGold}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h2>CS</h2>
+                                                                <h2><c:out value="${set.redSideBotCs}"/><span> (<fmt:formatNumber value="${set.redSideBotCsM}" pattern="##0.0"/>)</span></h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td></td>
+                                                <td>
+                                                    <div class="set-player-content">
+                                                        <h2 class="blue-player-name fw-bold"><c:out value="${fn:toUpperCase(set.blueSideSupportPlayer)}"/></h2>
+                                                        <div class="set-champion-content">
+                                                            <div class="set-champion-info">
+                                                                <div class="player-champion-img">
+                                                                    <img class="champion-layout" src="${champImgPath}${set.blueSideSupportChamp}.png">
+                                                                </div>
+                                                                <div class="player-champ-sub">
+                                                                    <h3><c:out value="${set.blueSideSupportChamp}"/></h3>
+                                                                    <div class="set-champion-spell">
+                                                                        <div class="pos-absolute"></div>
+                                                                        <img src="${spellImgPath}${set.blueSideSupportSpellOne}.png" spell="${set.blueSideSupportSpellOne}">
+                                                                        <img src="${spellImgPath}${set.blueSideSupportSpellTwo}.png" spell="${set.blueSideSupportSpellTwo}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="set-champion-item">
+                                                                <div class="pos-absolute"></div>
+                                                                <c:forEach var="item" items="${set.blueSideSupportItems}">
+                                                                	<img class="${fn:contains(item, 'items') ? 'ornn-border' : ''}" src="${itemImgPath}${fn:replace(item, 'items/', '')}.png" itemNo="${fn:replace(item, 'items/', '')}">
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                        <div class="set-champion-stats">
+                                                            <div>
+                                                                <h3>KDA</h3>
+                                                                <h2><c:out value="${set.blueSideSupportKdaOverall}"/><span><c:out value=" (${set.blueSideSupportKdaTotal})"/></span></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>데미지</h3>
+                                                                <h2><c:out value="${set.blueSideSupportDamage}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>골드</h3>
+                                                                <h2><c:out value="${set.blueSideSupportGold}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h2>CS</h2>
+                                                                <h2><c:out value="${set.blueSideSupportCs}"/><span> (<fmt:formatNumber value="${set.blueSideSupportCsM}" pattern="##0.0"/>)</span></h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td><p class="set-category set-position">SUPPORT</p></td>
-                                                <td></td>
+                                                <td>
+                                                    <div class="set-player-content">
+                                                        <h2 class="red-player-name fw-bold"><c:out value="${fn:toUpperCase(set.redSideSupportPlayer)}"/></h2>
+                                                        <div class="set-champion-content">
+                                                            <div class="set-champion-info">
+                                                                <div class="player-champion-img">
+                                                                    <img class="champion-layout" src="${champImgPath}${set.redSideSupportChamp}.png">
+                                                                </div>
+                                                                <div class="player-champ-sub">
+                                                                    <h3><c:out value="${set.redSideSupportChamp}"/></h3>
+                                                                    <div class="set-champion-spell">
+                                                                        <div class="pos-absolute"></div>
+                                                                        <img src="${spellImgPath}${set.redSideSupportSpellOne}.png" spell="${set.redSideSupportSpellOne}">
+                                                                        <img src="${spellImgPath}${set.redSideSupportSpellTwo}.png" spell="${set.redSideSupportSpellTwo}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="set-champion-item">
+                                                                <div class="pos-absolute"></div>
+                                                                <c:forEach var="item" items="${set.redSideSupportItems}">
+                                                                	<img class="${fn:contains(item, 'items') ? 'ornn-border' : ''}" src="${itemImgPath}${fn:replace(item, 'items/', '')}.png" itemNo="${fn:replace(item, 'items/', '')}">
+                                                                </c:forEach>
+                                                            </div>
+                                                        </div>
+                                                        <div class="set-champion-stats">
+                                                            <div>
+                                                                <h3>KDA</h3>
+                                                                <h2><c:out value="${set.redSideSupportKdaOverall}"/><span><c:out value=" (${set.redSideSupportKdaTotal})"/></span></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>데미지</h3>
+                                                                <h2><c:out value="${set.redSideSupportDamage}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h3>골드</h3>
+                                                                <h2><c:out value="${set.redSideSupportGold}"/></h2>
+                                                            </div>
+                                                            <div>
+                                                                <h2>CS</h2>
+                                                                <h2><c:out value="${set.redSideSupportCs}"/><span> (<fmt:formatNumber value="${set.redSideSupportCsM}" pattern="##0.0"/>)</span></h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
-                                            
                                         </tbody>
                                     </table>
+
+                                    <div class="bar-layout">
+                                        <hr class="flex-grow">
+                                        <p class="fw-bold">RUNES</p>
+                                        <hr class="flex-grow">
+                                    </div>
+                                    <!-- WRITE YOUR CODE HERE -->
                                 </div>
                             </div>
                     	</c:forEach>
@@ -244,8 +647,13 @@
 <script>
     $.get("${champInfoPath}")
     .then(data => {
-        $(".bannedName").each((index, pName) => {
-            $(pName).text(data.data[$(pName).text()].name);
+        $(".bannedName").each((index, champName) => {
+            $(champName).text(data.data[$(champName).text()].name);
+            }
+        );
+
+        $(".player-champ-sub>h3").each((index, champName) => {
+                $(champName).text(data.data[$(champName).text()].name);
             }
         );
     });
@@ -272,6 +680,60 @@
         $('.set-result').removeClass('show');
         $('.set-result').eq(index).addClass('show');
     }
+
+    $(document).on("mouseenter", ".set-champion-spell img", event => {
+        if ($(event.target).prop("tagName") === "IMG") {
+            $.get("${spellInfoPath}")
+            .then(data => {
+                const spell = data.data["Summoner" + $(event.target).attr("spell")];
+
+                $(event.target).siblings(".pos-absolute").html("")
+                                .append($("<h4>").text(spell.name).addClass("fw-bold spell-title"))
+                                .append($("<h5>").text(spell.description))
+                                .addClass("show");
+
+                $(event.target).siblings(".pos-absolute")
+                                .css({
+                                    "top": -($(event.target).siblings(".pos-absolute").height() + 50) + "px"
+                                });
+            });
+        }
+    });
+
+    $(document).on("mouseleave", ".set-champion-spell img", event => {
+        if ($(event.target).prop("tagName") === "IMG") {
+            $(event.target).siblings(".pos-absolute")
+                            .removeClass("show")
+                            .html("");
+        }
+    });
+
+    $(document).on("mouseenter", ".set-champion-item img", event => {
+        if ($(event.target).prop("tagName") === "IMG") {
+            $.get("${itemInfoPath}")
+            .then(data => {
+                const item = data.data[$(event.target).attr("itemNo").toString()];
+                $(event.target).siblings(".pos-absolute").html("")
+                                .append($("<h4>").text(item.name).addClass("fw-bold item-title"))
+                                .append($("<h5>").html(item.description))
+                                .append($("<h5>").text("가격: " + item.gold.total + " Gold").addClass("price"))
+                                .addClass("show");
+
+                $(event.target).siblings(".pos-absolute")
+                                .css({
+                                    "top": -($(event.target).siblings(".pos-absolute").height() + 50) + "px"
+                                });
+            });
+        }
+    });
+
+    $(document).on("mouseleave", ".set-champion-item img", event => {
+        if ($(event.target).prop("tagName") === "IMG") {
+            $(event.target).siblings(".pos-absolute")
+                            .removeClass("show")
+                            .html("");
+        }
+    });
 </script>
 </body>
 </html>

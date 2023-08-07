@@ -148,38 +148,44 @@
                     </div>
                     <table class="match-table">
                         <tbody>
-                        	<c:if test="${matchSchedule ne null}">
-                        		<c:forEach var="match" items="${matchSchedule}" varStatus="status">
-                        			<c:if test="${status.index < 5}">
-                        				<tr>
-                                        	<td class="match_date"><h3><fmt:formatDate value="${match.MS_DATE}" type="both" pattern="MM.dd (E) HH:mm"/></h3></td>
-                                        	<td class="home">
-                                        		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_HOME}"/></h3>
-                                        	</td>
-                                        	<td>
-                                        		<div>
-                                        			<img src="${path}/resources/images/logo/${match.MS_HOME}_small.png">
-                                        		</div>
-                                        	</td>
-                                        	<td><h3 class="title">VS</h3></td>
-                                        	<td class="away">
-                                        		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_AWAY}"/></h3>
-                                        	</td>
-                                        	<td>
-                                        		<div>
-                                        			<img src="${path}/resources/images/logo/${match.MS_AWAY}_small.png">
-                                        		</div>
-                                        	</td>
-                                        	<td>
-                                        		<div class="match-table_option">
-                                        			<input type="button" class="match-alarm"/>
-                                        			<input type="button" class="match-btn" value="전력 비교"/>
-                                        		</div>
-                                        	</td>
-                        				</tr>
-                        			</c:if>
-                        		</c:forEach>
-                        	</c:if>
+                        	<c:choose>
+                        		<c:when test="${matchSchedule ne null and not empty matchSchedule}">
+                        			<c:forEach var="match" items="${matchSchedule}" varStatus="status">
+	                        			<c:if test="${status.index < 5}">
+	                        				<tr>
+	                                        	<td class="match_date"><h3><fmt:formatDate value="${match.MS_DATE}" type="both" pattern="MM.dd (E) HH:mm"/></h3></td>
+	                                        	<td class="home">
+	                                        		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_HOME}"/></h3>
+	                                        	</td>
+	                                        	<td>
+	                                        		<div>
+	                                        			<img src="${path}/resources/images/logo/${match.MS_HOME}_small.png">
+	                                        		</div>
+	                                        	</td>
+	                                        	<td><h3 class="title">VS</h3></td>
+	                                        	<td class="away">
+	                                        		<h3 class="fw-bolder team_versus"><c:out value="${match.MS_AWAY}"/></h3>
+	                                        	</td>
+	                                        	<td>
+	                                        		<div>
+	                                        			<img src="${path}/resources/images/logo/${match.MS_AWAY}_small.png">
+	                                        		</div>
+	                                        	</td>
+	                                        	<td>
+	                                        		<div class="match-table_option">
+	                                        			<input type="button" class="match-btn" value="전력 비교"/>
+	                                        		</div>
+	                                        	</td>
+	                        				</tr>
+	                        			</c:if>
+	                        		</c:forEach>
+                        		</c:when>
+	                            <c:otherwise>
+	                                <tr>
+	                                    <td colspan="7"><h3>예정된 경기가 없습니다.</h3></td>
+	                                </tr>
+	                            </c:otherwise>
+                        	</c:choose>
                         </tbody>
                     </table>
                 </div>

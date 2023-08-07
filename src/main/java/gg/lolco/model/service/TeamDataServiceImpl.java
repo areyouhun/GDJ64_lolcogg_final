@@ -43,4 +43,19 @@ public class TeamDataServiceImpl implements TeamDataService {
 		return dao.selectMatchResultByKeyword(session, keyword);
 	}
 
+	@Override
+	public List<Map<String, Object>> selectMatchHistoryByTeams(Map<String, String> teams) {
+		return dao.selectMatchHistoryByTeams(session, teams);
+	}
+
+	@Override
+	public int selectCountMatchesOfTeams(Map<String, String> teams) {
+		return dao.selectCountMatchesOfTeams(session, teams);
+	}
+
+	@Override
+	public int selectCountTeamLeftWins(Map<String, String> teams) {
+		return dao.selectCountTeamLeftWins(session, teams);
+	}
+
 }
