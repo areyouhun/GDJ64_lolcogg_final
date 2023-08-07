@@ -10,6 +10,7 @@ import gg.lolco.model.dao.MatchPredictionDao;
 import gg.lolco.model.vo.MatchPrediction;
 import gg.lolco.model.vo.MatchPredictionComment;
 import gg.lolco.model.vo.MatchSchedule;
+import gg.lolco.model.vo.MemberEmoticon;
 
 @Service
 public class MatchPredictionServiceImpl implements MatchPredictionService {
@@ -78,7 +79,10 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 	public List<MatchPredictionComment> bestCommentList(int week) {
 		return dao.bestCommentList(session, week);
 	}
-	
-	
+
+	@Override
+	public List<MemberEmoticon> myEmo(String email) {
+		return dao.myEmo(session, email);
+	}
 	
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import gg.lolco.model.vo.MatchPrediction;
 import gg.lolco.model.vo.MatchPredictionComment;
 import gg.lolco.model.vo.MatchSchedule;
+import gg.lolco.model.vo.MemberEmoticon;
 
 public interface MatchPredictionService {
 	
@@ -30,4 +31,6 @@ public interface MatchPredictionService {
 	List<MatchPredictionComment> commentListAll(int week);
 	
 	List<MatchPredictionComment> bestCommentList(int week);
+	
+	List<MemberEmoticon> myEmo(String email);
 }

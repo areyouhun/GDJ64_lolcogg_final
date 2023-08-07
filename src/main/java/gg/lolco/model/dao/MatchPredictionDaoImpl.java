@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import gg.lolco.model.vo.MatchPrediction;
 import gg.lolco.model.vo.MatchPredictionComment;
 import gg.lolco.model.vo.MatchSchedule;
+import gg.lolco.model.vo.MemberEmoticon;
 
 @Repository
 public class MatchPredictionDaoImpl implements MatchPredictionDao {
@@ -71,6 +72,11 @@ public class MatchPredictionDaoImpl implements MatchPredictionDao {
 	@Override
 	public List<MatchPredictionComment> bestCommentList(SqlSessionTemplate session, int week) {
 		return session.selectList("matchPrediction.bestCommentList", week);
+	}
+
+	@Override
+	public List<MemberEmoticon> myEmo(SqlSessionTemplate session, String email) {
+		return session.selectList("matchPrediction.myEmo", email);
 	}
 
 }

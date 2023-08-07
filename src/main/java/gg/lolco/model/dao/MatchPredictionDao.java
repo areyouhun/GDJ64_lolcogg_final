@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import gg.lolco.model.vo.MatchPrediction;
 import gg.lolco.model.vo.MatchPredictionComment;
 import gg.lolco.model.vo.MatchSchedule;
+import gg.lolco.model.vo.MemberEmoticon;
 
 public interface MatchPredictionDao {
 	
@@ -33,4 +34,6 @@ public interface MatchPredictionDao {
 	List<MatchPredictionComment> commentListAll(SqlSessionTemplate session, int week);
 	
 	List<MatchPredictionComment> bestCommentList(SqlSessionTemplate session, int week);
+	
+	List<MemberEmoticon> myEmo(SqlSessionTemplate session, String email);
 }
