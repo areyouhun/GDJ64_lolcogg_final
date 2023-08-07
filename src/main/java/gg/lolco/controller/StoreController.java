@@ -46,7 +46,7 @@ public class StoreController {
 	public String itemPurchase(Model m,String name) {
 		m.addAttribute("emopack",service.itemPurchaseEmoticon(name));
 		m.addAttribute("cardPack",service.itemPurchaseCard(name));
-		return "store/storePurchase2";
+		return "store/storePurchase";
 	}
 	
 	@GetMapping("/playerPack")
