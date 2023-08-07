@@ -141,7 +141,7 @@ img {
 }
 
 .bar-layout>p {
-    width: 150px;
+    padding: 0 40px;
     font-size: 1.1rem;
     text-align: center;
 }

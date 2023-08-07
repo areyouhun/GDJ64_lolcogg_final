@@ -173,7 +173,6 @@
 	                                        	</td>
 	                                        	<td>
 	                                        		<div class="match-table_option">
-	                                        			<input type="button" class="match-alarm"/>
 	                                        			<input type="button" class="match-btn" value="전력 비교"/>
 	                                        		</div>
 	                                        	</td>

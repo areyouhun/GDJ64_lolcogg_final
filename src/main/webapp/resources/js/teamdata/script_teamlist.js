@@ -180,7 +180,7 @@ function compareTeams(element) {
 		return;
 	}
 	
-	location.assign(`${getContextPath()}/teamdata/compare?teamLeft=${teamLeft}&teamRight=${teamRight}`);
+	location.assign(`${getContextPath()}/teamdata/comparison?teamLeft=${teamLeft}&teamRight=${teamRight}`);
 }
 
 $(document).on("click", ".slide-btn", event => {
