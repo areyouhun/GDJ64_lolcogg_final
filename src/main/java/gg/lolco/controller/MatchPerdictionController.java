@@ -18,6 +18,7 @@ import gg.lolco.model.vo.MatchPrediction;
 import gg.lolco.model.vo.MatchPredictionComment;
 import gg.lolco.model.vo.MatchSchedule;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.MemberEmoticon;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -59,6 +60,12 @@ public class MatchPerdictionController {
 		List<MatchPredictionComment> bestCommentList = service.bestCommentList(nowWeek);
 		m.addAttribute("bestCommentList", bestCommentList);
 
+		// 내가 가진 이모티콘
+		List<MemberEmoticon> myEmo = new ArrayList<>();
+		if(member != null) {
+			myEmo = service.myEmo(member.getEmail());
+		}
+		m.addAttribute("myEmo", myEmo);
 		
 		// 업데이트
 		int mpYn = service.updateMpYn();
@@ -77,7 +84,6 @@ public class MatchPerdictionController {
 		List<MatchPrediction> myMp = new ArrayList<>();
 		if(member != null) {
 			myMp = service.myMp(member.getEmail());
-			log.info("@@@@@@@@@{}", myMp);
 		}
 		m.addAttribute("myMp", myMp);
 		
