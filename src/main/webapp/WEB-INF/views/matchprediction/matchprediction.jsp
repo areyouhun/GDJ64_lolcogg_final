@@ -1502,6 +1502,9 @@ function weekChoice(week){
 	});
 }
 
+$(".chatBtn").click(event => {
+	openPage("${path}/chat/chatroom", 1024, 768);
+});
 </script>
 	<!-- icon -->
 	<script type="module"

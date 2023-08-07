@@ -1,0 +1,179 @@
+/* element */
+* {
+    color: var(--lol-white);
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+/* utility */
+.flex-grow {
+    flex-grow: 1;
+}
+
+.animated-smooth {
+	transition: 0.25s ease-out;
+}
+
+.pos-absolute {
+    width: max-content;
+    max-width: 300px;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    border-radius: 12px;
+    position: absolute;
+    bottom: 90px;
+    left: 20px;
+}
+
+/* ui */
+.chatroom-container {
+    width: 100%;
+    height: 100%;
+    padding: 1.5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chatroom-left {
+    width: 854px;
+    display: flex;
+    padding-bottom: 5px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.donation-container {
+    text-shadow: -1px 0px var(--lol-black), 
+                0px 1px var(--lol-black), 
+                1px 0px var(--lol-black), 
+                0px -1px var(--lol-black);
+}
+
+.nickname {
+    color: green;
+}
+
+.chatroom-left-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-donation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 130px;
+    background-color: var(--lol-white);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    padding: 5px 10px; 
+    margin-right: 10px;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-position: 160px center;
+}
+
+.btn-donation>span {
+    color: var(--lol-black);
+    font-weight: 700;
+}
+
+.btn-donation>img {
+    width: 15%;
+}
+
+.info-title {
+    background-color: #2e2e2e;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+
+.chatroom-right {
+    width: 300px;
+    height: 100%;
+}
+
+.chatroom-right-chatboard,
+.chatboard-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chatroom-right-chatboard {
+    border-radius: 10px;
+    box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075),
+                0 0 0 1px hsla(0, 0%, 0%, 0.05),
+                0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),
+                0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),
+                0 3.5px 6px hsla(0, 0%, 0%, 0.09);
+}
+
+.chatboard-title {
+    width: 100%;
+    padding: 10px 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+    font-weight: 700;
+    background-color: hsla(0, 0%, 100%, 0.075);
+}
+
+.chatboard-box {
+    padding: 10px;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.chatboard-msg {
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+}
+
+.chatboard-msg>h6:first-of-type {
+    color: magenta;
+    font-weight: 900;
+    margin-right: 5px;
+}
+
+.me {
+    justify-content: end;
+}
+
+.chatboard-send {
+    width: 100%;
+    padding-left: 10px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chatboard-send>input {
+    display: inline-block;
+    border: none;
+    border-radius: 6px;
+    height: 30px;
+}
+
+.chatboard-send>input:first-child {
+    flex-grow: 5;
+    margin-right: 10px;
+}
+
+.chatboard-send>input:first-child::placeholder {
+    padding-left: 5px;
+}
+
+.chatboard-send>input:last-child {
+    flex-grow: 2;
+}

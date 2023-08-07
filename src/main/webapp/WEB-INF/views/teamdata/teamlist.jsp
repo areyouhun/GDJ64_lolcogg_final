@@ -54,6 +54,7 @@
                         <div class="match-btn">
                             <p class="title">VS</p>
                             <input type="button" class="title" value="전력 비교" onclick="compareTeams(this);">
+                            <input type="button" class="title chatBtn" value="실시간 채팅">
                         </div>
                         <div class="match-content">
                             <input type="button" class="team-btn team-btn_up_right">
@@ -79,5 +80,10 @@
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <script src="${path}/resources/js/teamdata/script_teamlist.js"></script>
+<script>
+$(".chatBtn").click(event => {
+	openPage("${path}/chat/chatroom", 1200, 550);
+});
+</script>
 </body>
 </html>
