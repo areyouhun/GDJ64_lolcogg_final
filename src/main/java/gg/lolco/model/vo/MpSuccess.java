@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MpSuccess {
 	
-	String nickname;
-	int totalPlay;
-	int successPlay;
-	int successPlayPercentage;
-	int rownum;
+	private String nickname;
+	private int totalPlay;
+	private int successPlay;
+	private int successPlayPercentage;
+	private int rownum;
 	
 }
