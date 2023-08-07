@@ -21,6 +21,10 @@ public class GameDaoImpl implements GameDao {
 	public int worldRate(SqlSession session, int num) {
 		return session.selectOne("game.worldRate",num);
 	}
+	@Override
+	public int worldRateOTO(SqlSession session, int num) {
+		return session.selectOne("game.worldRateOTO",num);
+	}
 	
 	@Override
 	public List<WCImg> worldcupStart(SqlSession session, Map<String, Object> param) {
@@ -38,6 +42,11 @@ public class GameDaoImpl implements GameDao {
 	@Override
 	public void winnerwinnerChickemDinner(SqlSession session, String name) {
 		session.update("game.winnerwinnerChickemDinner",name);
+	}
+	
+	@Override
+	public void OTOWinner(SqlSession session, String name) {
+		session.update("game.OTOWinner",name);
 	}
 
 }

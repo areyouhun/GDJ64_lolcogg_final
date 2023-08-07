@@ -40,21 +40,7 @@
     height: 100%;
     width: 660px;
 }
-.choiceTheme>div:first-child{
-	display:flex;
-}
-.choiceTheme>div:first-child>img{
-	z-index: -1;
-}
-.choiceTheme>div:last-child{
-	position: absolute;
-    width: 27%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 8rem;
-    
-}
+
 .choiceTheme>div:last-child>div{
 	display:flex;
 	flex-direction: row;
@@ -149,6 +135,11 @@
    		justify-content: space-around;
    		margin-bottom: 2rem;
 	}
+	
+	.percent{
+	    height: 100%;
+    	width: 100%;
+	}
 </style>
 <!------------------------------------>
 <title>롤코지지-게임</title>
@@ -159,14 +150,14 @@
 </jsp:include>
     <section>
     	<div id="adventureGame" style="display:none">
-    		<img src="${path}/resources/images/game/poro_adventure_loading.jpg" >
+    		<img src="${path}/resources/images/game/poro_adventure_loading.jpg"  style="width:100%;height:100vh">
     	</div>
     	<div id="worldCupGame" style="display:none">
-    		<img src="${path}/resources/images/game/worldcup_loading.jpg" >
+    		<img src="${path}/resources/images/game/worldcup_loading.jpg" style="width:100%;height:100vh">
     	</div>
     	<img id="choiceGameBack" >
         <div class="center-1280 background-img mainpage mainHeight">
-            <div class="width-1280 page-margin" style="height:551px">
+            <div class="width-1280 page-margin" style="height:551px">	
             
             	<div id="gameTitle" >
 	                <p class="subTitle fs-20">게임 선택</p>
@@ -174,17 +165,9 @@
 	                    <p class="mainTitle fs-35 mainTitleMargin">이상형 월드컵</p>
 	                    <div class="gameChoiceView">
 	                    	<img class="cursor switch" src="${path }/resources/images/game/leftClick.png">
-		                    <div class="choiceTheme">
-		                    	<div>
-		                    		<img src="${path }/resources/images/game/Teemo_choice.png">
-		                    		<img src="${path }/resources/images/game/Yuumi_choice.png">
-		                    	</div>
-		                    	<div>
-			                    	<img src="${path }/resources/images/game/versus.png" style="width:8rem;height:8rem;">
-			                    	<div>
-			                    		<h4 class="mainTitle">티모</h4>
-			                    		<h4 class="mainTitle">유미</h4>
-			                    	</div>
+		                    <div class="choiceTheme ">
+		                    	<div class="percent">
+		                    		<img class="percent" src="${path }/resources/images/game/worldcup_choice.png">
 		                    	</div>
 		                    </div>
 		                    <img class="cursor switch" src="${path }/resources/images/game/rightClick.png">
@@ -302,7 +285,6 @@
             </div>
         </div>
     </section>
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->

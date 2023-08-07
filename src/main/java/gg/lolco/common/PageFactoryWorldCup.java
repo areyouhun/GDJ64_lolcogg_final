@@ -2,7 +2,7 @@ package gg.lolco.common;
 
 public class PageFactoryWorldCup {
    
-   public static String getPage(int cPage, int numPerpage, int totalData, String url) {
+   public static String getPage(int cPage, int numPerpage, int totalData, String url,String gameName,int num) {
          
          StringBuffer pageBar=new StringBuffer();
          
@@ -55,7 +55,7 @@ public class PageFactoryWorldCup {
          
          pageBar.append("<script>");
          pageBar.append("function fn_paging(no){");
-         pageBar.append("location.assign('"+url+"&cPage='+no+'&numPerpage="+numPerpage+"');");
+         pageBar.append("location.assign('"+url+"?cPage='+no+'&numPerpage="+numPerpage+"&gameName="+gameName+"&num="+num+"');");
          pageBar.append("}");
          pageBar.append("</script>");
          

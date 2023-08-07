@@ -28,6 +28,7 @@
 	.graph{
 		background-color: gray;
 		border-radius: 40px;
+		width: 80%;
 	}
 	.graph>span{
 		display:block;
@@ -36,8 +37,11 @@
 		background-color: violet;
 		border-radius: 40px
 	}
+	.pageBar{
+		margin-bottom: 8vh;
+	}
 	.page{
-		display:flex;
+		height:5vh;
 		list-style: none;
 		justify-content: space-evenly;
 		width: 20%;
@@ -45,8 +49,9 @@
    	    display: flex;
 	}
 	.pageAll{
-	    display: flex;
-   		justify-content: center;
+        width: 100%;
+    	display: flex;
+    	justify-content: space-evenly;
 	}
 	
 </style>
@@ -70,16 +75,23 @@
                 			<th  style="width:20%;">이미지</th>
                 			<th style="width:40%;">이름</th>
                 			<th>우승비율</th>
+                			<th>1:1승리 비율</th>
                 		</tr>
                 		<c:forEach var="r" items="${WCR }">
                 		<tr>
-                			<td>${ranking=ranking+1}</td>
+                			<td>${r.rownum}</td>
                 			<td><img src="${path }/resources/images/game/worldcup/${r.wcImgFilename }" style="width:130px;height:130px;"></td>
                 			<td>${r.wcImgName }</td>
                 			<td>
-                				<fmt:formatNumber var="num" value="${r.wcWinNo/rate*100 }" pattern="0.0" />
+                				<fmt:formatNumber var="num" value="${r.wcWinNo/(rate==0?1:rate)*100 }" pattern="0.00" />
                 				<div class="graph">
-                					<span style="width:${r.wcWinNo/rate*100 }%">${num}</span>
+                					<span style="width:${num }%">${num}%</span>
+                				</div>
+                			</td>
+                			<td>
+                				<fmt:formatNumber var="num" value="${r.wcOTOWinNo/(rateOTO==0?1:rateOTO)*100 }" pattern="0.00" />
+                				<div class="graph">
+                					<span style="width:${num}%">${num}%</span>
                 				</div>
                 			</td>
                 		</tr>

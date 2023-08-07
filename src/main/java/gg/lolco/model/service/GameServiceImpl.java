@@ -28,6 +28,10 @@ public class GameServiceImpl implements GameService {
 	public int worldRate(int num) {
 		return dao.worldRate(session,num);
 	}
+	@Override
+	public int worldRateOTO(int num) {
+		return dao.worldRateOTO(session,num);
+	}
 	
 	@Override
 	public List<WCImg> worldcupStart(Map<String, Object> param) {
@@ -42,6 +46,11 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public void winnerwinnerChickemDinner(String name) {
 		dao.winnerwinnerChickemDinner(session,name);
+	}
+	
+	@Override
+	public void OTOWinner(String name) {
+		dao.OTOWinner(session,name);
 	}
 
 }

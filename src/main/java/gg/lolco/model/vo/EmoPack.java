@@ -9,12 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WCImg {
-	private int wcImgNo;
-	private int rownum;
-	private String wcImgName;
-	private String wcImgFilename;
-	private int wcCateNo;
-	private int wcWinNo;
-	private int wcOTOWinNo;
+public class EmoPack {
+	private int emoPackNo;
+	private Emoticon emoNo;
+	private PointItem itemNo;
 }

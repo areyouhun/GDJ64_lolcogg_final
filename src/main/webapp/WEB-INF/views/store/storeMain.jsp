@@ -5,6 +5,110 @@
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path}/resources/css/store/store_main.css">
+<style>
+	.nickName{
+		border: 2px solid var(--lol-mainblue);
+		width: 500px;
+		height: 200px;
+		display: none;
+		position: absolute;
+		z-index: 10000;
+		background-color: var(--lol-black);
+		font-family: "SUIT-Regular";
+		color: var(--lol-white);
+	}
+	#nickCloseContainer{
+		width: 100%;
+    	display: flex;
+    	margin-right: 2vh;
+    	justify-content: flex-end;
+	}
+	#nickContent{
+		height: 100%;
+		display: flex;
+   		flex-direction: column;
+    	align-items: center;
+	}
+	.nickClose{
+		width:3vh;
+	    position: absolute;
+    	top: -1.5vh;
+    	right: -1.5vh;
+	}
+	#nickText{
+		width: 100%;
+	    height: 67%;
+	    display: flex;
+	    justify-content: space-between;
+        align-items: center;
+	}
+	#nickText>input:first-child {
+		width: 70%;
+		height: 80%;
+		border: 2px solid var(--lol-mainblue);
+	    text-indent: 0.8rem;
+	    background-color: var(--lol-black);
+	    color: var(--lol-white);
+	
+	}
+	#nickText>input:last-child {
+		width: 20%;
+		height: 80%;
+		border: 2px solid var(--lol-white);
+		background-color: var(--lol-black);
+		color:var(--lol-white);
+	}
+	#nickChange{
+	    width: 70%;
+    	display: flex;
+    	align-items: center;
+   	    margin-bottom: 1vh;
+	}
+	#nickChange>input{
+	    width: 2vh;
+	    height: 2vh;
+	    -webkit-appearance: none;
+	    margin-right: 1vh;
+	    border: 2px solid var(--lol-mainblue);
+	    background-color: var(--lol-black);
+	    cursor: pointer;
+	}
+	#nickChange>input[type="checkbox"]:checked {
+        border: 2px solid var(--lol-mainblue);
+	    background-color: var(--lol-black);
+        color:var(--lol-white);
+    }
+	#nickChangeButton{
+		width: 30%;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	}
+	#nickChangeButton>img{
+	    position: absolute;
+	    left: 44%;
+	    z-index: 2;
+	    width: 20px;
+	}
+	#nickChangeButton>button{
+		width: 11vh;
+	    height: 4vh;
+	    text-indent: 19%;
+	    background-color: var(--lol-black);
+	    color: var(--lol-white);
+	     border: 2px solid var(--lol-mainblue);
+	}
+	#nickResult{
+	    width: 70%;
+	    display: flex;
+	    font-size: 11px;
+	}
+	#nickResult>img{
+        width: 1vh;
+    	margin-right: 0.5vh;
+	}
+}
+</style>
 <!------------------------------------>
 <title>롤코지지-포인트 상점</title>
 </head>
@@ -68,52 +172,33 @@
                 <div>
                 	<div class="storeTheme">
                 		<h3 id="hotItem">LCK 랜덤선수팩</h3>
-	                    <a href="${path}/store/playerPack">전체보기></a>
+	                    <a href="${path}/store/detail?no=1">전체보기></a>
                 	</div>
                 	<div class="itemArray">
-                		<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
+                		<c:if test="${not empty itemsCard}">
+				          		<c:forEach var="c" items="${itemsCard }">
+				                		<div class="item">
+					                        <img class="checkBuyItem" src="${path}/resources/images/store/${c.itemFilename}">
+					                        <h4>${c.itemName }</h4>
+					                        <p style="display:none">${c.itemExp }</p>
+					                        <div>
+					                            <img src="${path}/resources/images/store/pointImg.png">
+					                            <h5>${c.itemPrice }</h5>
+					                        </div>
+				                    	</div>
+				           		</c:forEach>
+					        </c:if>
                 	</div>
                 </div>
                 <hr class="storeLine">
 	                <div>
 	                	<div class="storeTheme">
 	                		<h3 id="hotItem">이모티콘 랜덤팩</h3>
-		                    <a href="">전체보기></a>
+		                    <a href="${path}/store/detail?no=2">전체보기></a>
 	                	</div>
 	                	<div class="itemArray">
-				            <c:if test="${not empty items}">
-				          		<c:forEach var="i" items="${items }">
+				            <c:if test="${not empty itemsEmoticon}">
+				          		<c:forEach var="i" items="${itemsEmoticon }">
 				                		<div class="item">
 					                        <img class="checkBuyItem" src="${path}/resources/images/store/${i.itemFilename}">
 					                        <h4>${i.itemName }</h4>
@@ -132,41 +217,22 @@
                 <div>
                 	<div class="storeTheme">
                 		<h3 id="hotItem">잡화</h3>
-	                    <a href="">전체보기></a>
+	                    <a href="${path}/store/detail?no=3">전체보기></a>
                 	</div>
                 	<div class="itemArray">
-                		<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
+                		<c:if test="${not empty itemsETC}">
+				          		<c:forEach var="e" items="${itemsETC }">
+				                		<div class="item">
+					                        <img class="checkBuyItem" src="${path}/resources/images/store/${e.itemFilename}">
+					                        <h4>${e.itemName }</h4>
+					                        <p style="display:none">${e.itemExp }</p>
+					                        <div>
+					                            <img src="${path}/resources/images/store/pointImg.png">
+					                            <h5>${e.itemPrice }</h5>
+					                        </div>
+				                    	</div>
+				           		</c:forEach>
+					        </c:if>
                 	</div>
                 </div>
             </div>
@@ -197,6 +263,32 @@
 				<div id="moadlButton">
 					<button id="modalClose">취소</button>
 					<button id="modalPurchase">확인</button>
+				</div>
+			</div>
+ 		</div>
+ 		
+ 		<div class="nickName">
+			<div id="nickContent" >
+				<div id="nickCloseContainer">
+					<img class="nickClose" src="${path}/resources/images/store/cancel.png" >
+				</div>
+				<p style="margin:1.5vh">닉네임 변경</p>
+				<div style="height:36%;width:70%;">
+					<div id="nickText">
+						<input type="text" placeholder="원하는 닉네임">
+						<input type="button" value="중복확인">
+					</div>
+					<div id="nickResult">
+						<img class="" src="${path}/resources/images/store/correct.png" >
+						<p>축하합니다. 선택한 이름을 사용할 수 있습니다!</p>
+					</div>
+				</div>
+				<div id="nickChange">
+					<input type="checkbox" >변경하시겠습니까?
+				</div>
+				<div id="nickChangeButton">
+					<img class="" src="${path}/resources/images/store/pointImg.png" >
+					<button id="nickChangeButtonAccept">200</button>
 				</div>
 			</div>
  		</div>
@@ -235,7 +327,6 @@
 	/*버튼 클릭시 위 함수 콜*/
 	$(function () {
 		$('.checkBuyItem').click(function(e) {
-			console.log($(e.target).next().next().text());
 			$('#modalImg').attr("src",$(e.target).attr("src"));
 			$('#modaltemName').text($(e.target).next('h4').text());
 			$('#modalExplain').text($(e.target).next().next().text());
@@ -250,8 +341,22 @@
 			$('.storeModal').hide();
 		})
 		$('#modalPurchase').click(function(e){
-			console.log($(e.target).parent().parent().find('#modaltemName').text())
-			location.href='${path}/store/purchase?name='+$(e.target).parent().parent().find('#modaltemName').text();
+			const name=$(e.target).parent().parent().find('#modaltemName').text();
+			if(name=="닉네임 변경권"){
+				document.body.style.overflow = 'hidden';
+				$('#modalImg').attr("src","")
+				$('.storeModal').hide();
+				$('.nickName').show();
+				$('.nickName').center();
+				$('.nickClose').click(function(e){
+					document.body.style.overflow = "scroll";
+					$('#modalImg').attr("src","")
+					$('#mask').hide();
+					$('.nickName').hide();
+				})
+			}else{
+				location.href='${path}/store/purchase?name='+name;
+			}
 		})
 	});
 
