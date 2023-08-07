@@ -14,6 +14,7 @@ public class MpSuccess {
 	private String nickname;
 	private int totalPlay;
 	private int successPlay;
+	private int failPlay;
 	private int successPlayPercentage;
 	private int rownum;
 	
