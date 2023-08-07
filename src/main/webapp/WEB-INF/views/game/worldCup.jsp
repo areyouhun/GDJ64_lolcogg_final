@@ -638,26 +638,10 @@
 		 		OTOWinner($('.finalRight').text());
 		 		$( '.fight' ).hide();
 		 		$( '.round' ).hide();
-<<<<<<< Upstream, based on store
-<<<<<<< Upstream, based on store
 		 		const finalText=$('<div class="finalRightText style="width:50vh;"">');
 		 		const winner=$('<h2>당신의 선택은</h2>');
 		 		const winnerName=$('<h3>'+$(e.target).parent().next().find('div').children(":last").text()+'</h3>')
 		 		const finalchoice=$('<div class="finalCenter gameChoice"><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하러가기</h3></div><div class="finalCenter retry"><img src="${path}/resources/images/game/retry.png"><h3>다시 시도</h3></div><div class="finalCenter goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
-=======
-		 		const finalText=$('<div class="finalRightText">');
-		 		const winner=$('<h2>오늘의 우승자는</h2>');
-=======
-		 		const finalText=$('<div class="finalRightText style="width:50vh;"">');
-		 		const winner=$('<h2>당신의 선택은</h2>');
->>>>>>> 70950b1 feat(game): 이상형월드컵 결승전 후 이동페이지 연결
-		 		const winnerName=$('<h3>'+$(e.target).parent().next().find('div').children(":last").text()+'</h3>')
-<<<<<<< Upstream, based on store
-		 		const finalchoice=$('<div class=""><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하기</h3></div><div class="goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
->>>>>>> 2709cfa feat(game): 랭킹시스템 구현 및 에러 수정
-=======
-		 		const finalchoice=$('<div class="finalCenter gameChoice"><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하러가기</h3></div><div class="finalCenter retry"><img src="${path}/resources/images/game/retry.png"><h3>다시 시도</h3></div><div class="finalCenter goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
->>>>>>> 70950b1 feat(game): 이상형월드컵 결승전 후 이동페이지 연결
 		 		finalText.append(winner);
 		 		finalText.append(winnerName);
 		 		finalText.append(finalchoice);
@@ -701,11 +685,7 @@
  		$( '.secondImg' ).css({'transform':'translate(200%,0)'});
  		$( '.secondImg' ).css({'transition':'0.5s'});
  		$( '.fight' ).hide();
-<<<<<<< Upstream, based on store
  		OTOWinner($(e.target).parent().next().find('div').children(":first").text());
-=======
- 		OTOWinner($(e.target).parent().next().find('div').children(":first").text());
->>>>>>> 2709cfa feat(game): 랭킹시스템 구현 및 에러 수정
  		console.log($(e.target).parent().next().find('div').children(":first").text());
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
@@ -728,14 +708,7 @@
  		$( '.secondImg' ).css({'transform':'translate(200%,0)'});
  		$( '.secondImg' ).css({'transition':'0.5s'});
  		$( '.fight' ).hide();
-<<<<<<< Upstream, based on store
-<<<<<<< Upstream, based on store
  		OTOWinner($(e.target).text());
-=======
->>>>>>> 0dcf39a feat(game): 1:1승리 기능 추가
-=======
- 		OTOWinner($(e.target).text());
->>>>>>> 2709cfa feat(game): 랭킹시스템 구현 및 에러 수정
  		console.log($(e.target).text())
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
@@ -760,14 +733,7 @@
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		$( '.fight' ).hide();
-<<<<<<< Upstream, based on store
-<<<<<<< Upstream, based on store
  		OTOWinner($(e.target).parent().next().find('div').children(":last").text());
-=======
->>>>>>> 0dcf39a feat(game): 1:1승리 기능 추가
-=======
- 		OTOWinner($(e.target).parent().next().find('div').children(":last").text());
->>>>>>> 2709cfa feat(game): 랭킹시스템 구현 및 에러 수정
  		console.log($(e.target).parent().next().find('div').children(":last").text());
  		quarterfinalsplayerImg.push($(e.target).attr("src"));
  		quarterfinalsplayerName.push($(e.target).parent().next().find('div').children(":last").text());
@@ -790,22 +756,9 @@
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		$( '.fight' ).hide();
-<<<<<<< Upstream, based on store
-<<<<<<< Upstream, based on store
  		OTOWinner($(e.target).text());
  		console.log($(e.target).text())
  		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.secondImg').attr("src"));
-=======
-=======
- 		OTOWinner($(e.target).text());
->>>>>>> 2709cfa feat(game): 랭킹시스템 구현 및 에러 수정
- 		console.log($(e.target).text())
-<<<<<<< Upstream, based on store
- 		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.firstImg').attr("src"));
->>>>>>> 0dcf39a feat(game): 1:1승리 기능 추가
-=======
- 		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.secondImg').attr("src"));
->>>>>>> 2709cfa feat(game): 랭킹시스템 구현 및 에러 수정
  		quarterfinalsplayerName.push($(e.target).text());
  		setTimeout(function(){
  			$(".firstImg").css({ 'pointer-events': 'auto' });
