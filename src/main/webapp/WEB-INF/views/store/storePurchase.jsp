@@ -139,7 +139,7 @@
 			<c:if test="${not empty pack}">
 				<c:forEach var="p" items="${pack }">
 				<c:set var="i" value="${i+1}"/>
-					'${p.emoName}',${i}, 1,
+					'${p.emoNo.emoName}',${i}, 1,
 				</c:forEach>
 			</c:if>
 			];

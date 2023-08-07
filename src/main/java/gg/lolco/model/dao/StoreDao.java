@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import gg.lolco.model.vo.Emoticon;
+import gg.lolco.model.vo.CardPack;
+import gg.lolco.model.vo.EmoPack;
 import gg.lolco.model.vo.PointItem;
 
 public interface StoreDao {
-	List<PointItem> selectItem(SqlSession session);
+	List<PointItem> selectItemMain(SqlSession session,int no);
+	List<PointItem> selectItemDetail(SqlSession session,int no);
 	
-	List<Emoticon> itemPurchase(SqlSession session,String name);
+	List<EmoPack> itemPurchaseEmoticon(SqlSession session,String name);
+	List<CardPack> itemPurchaseCard(SqlSession session,String name);
 }

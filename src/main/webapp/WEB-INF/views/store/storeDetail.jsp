@@ -118,6 +118,85 @@
 		text-decoration: underline;
 		font-size: 18px;
 	}
+	#mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 9999;
+	background-color: #000;
+	display: none;
+}
+
+.storeModal {
+	border: 2px solid var(--lol-mainblue);
+	width: 600px;
+	height: 400px;
+	display: none;
+	position: absolute;
+	z-index: 10000;
+	background-color: var(--lol-black);
+	font-family: "SUIT-Regular";
+	color: var(--lol-white);
+}
+
+#modalContent {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#modalImg {
+	width: 14rem;
+	height: 14rem;
+}
+
+#modalItemDetail {
+	display: flex;
+	width: 90%;
+}
+
+#modalContent>p {
+	font-family: EF_MACHO;
+	font-size: 20px;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+#modalItemDetail>div>table>tbody>tr:first-child {
+	height: 3rem;
+}
+
+#moadlButton {
+	width: 100%;
+	display: flex;
+	margin-top: 2rem;
+	justify-content: center;
+}
+
+#moadlButton>button {
+	width: 6rem;
+	height: 2rem;
+	border: none;
+	color: var(--lol-black);
+	font-size: 16px;
+}
+
+#moadlButton>button:first-child {
+	background-color: var(--lol-white);
+	margin-right: 1rem;
+}
+
+#moadlButton>button:last-child {
+	background-color: var(--lol-teamblue);
+	margin-left: 1rem;
+}
+
+#modalTable>tbody>tr>td:first-child {
+	width: 5rem;
+}
+#checkitem{
+	color: var(--lol-mainblue);
+}
 	
 </style>
 <!------------------------------------>
@@ -134,9 +213,9 @@
                     <img id="storeMainImg" src="${path}/resources/images/store/storeMainImage.jpg">
                 </div>
                 <div class="storeChoice">
-                    <a href="">선수 랜덤팩</a>
-                    <a href="">이모티콘 랜덤팩</a>
-                    <a href="">잡화</a>
+                    <a href="" id=${no==1?"checkitem":"" }>선수 랜덤팩</a>
+                    <a href="" id=${no==2?"checkitem":"" }>이모티콘 랜덤팩</a>
+                    <a href="" id=${no==3?"checkitem":"" }>잡화</a>
                 </div>
                 <hr class="storeLine">
                 <div>
@@ -153,89 +232,103 @@
 	                    </div>
                 	</div>
                 	<div class="itemArray">
-                		<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
+                		<c:if test="${not empty items}">
+				          		<c:forEach var="i" items="${items }">
+				                		<div class="item">
+					                        <img class="checkBuyItem" src="${path}/resources/images/store/${i.itemFilename}">
+					                        <h4>${i.itemName }</h4>
+					                        <p style="display:none">${i.itemExp }</p>
+					                        <div>
+					                            <img src="${path}/resources/images/store/pointImg.png">
+					                            <h5>${i.itemPrice }</h5>
+					                        </div>
+				                    	</div>
+				           		</c:forEach>
+					        </c:if>
                 	</div>
                 </div>
             </div>
         </div>
+        <div class="storeModal">
+			<div id="modalContent">
+				<p>상품정보</p>
+				<div id="modalItemDetail">
+					<img id="modalImg">
+					<div>
+						<table id="modalTable">
+							<tr>
+								<td>상품명</td>
+								<td id="modaltemName"></td>
+							</tr>
+							<tr>
+								<td>상세 설명</td>
+								<td id="modalExplain"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div>
+					<p>위 아이템을 구매하시겠습니까?</p>
+					
+				</div>
+				<div id="moadlButton">
+					<button id="modalClose">취소</button>
+					<button id="modalPurchase">확인</button>
+				</div>
+			</div>
+ 		</div>
+		<!-- 페이드 영역-->
+		<div id="mask"></div>
     </section>
     
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
+<script>
+	/*center 함수 재정의*/
+	jQuery.fn.center = function () {
+		this.css('top', Math.max(0,(($(window).height()-$(this).outerHeight())/2) + $(window).scrollTop())+'px');
+		this.css('left', Math.max(0,(($(window).width()-$(this).outerWidth())/2) + $(window).scrollLeft())+'px');
+		return this;
+	}
 
+	/*모달 활성화 및 팝업 활성화*/
+	function wrapWindowByMask (){
+		var maskHeight = $(document).height();
+		var maskWidth = $(window).width();
+		
+		$('#mask').css({'width':maskWidth, 'height':maskHeight});
+		$('#mask').fadeTo(10,0.8);
+		
+		$('.storeModal').show();
+		$('.storeModal').center();
+	}
+
+	/*버튼 클릭시 위 함수 콜*/
+	$(function () {
+		$('.checkBuyItem').click(function(e) {
+			console.log($(e.target).next().next().text());
+			$('#modalImg').attr("src",$(e.target).attr("src"));
+			$('#modaltemName').text($(e.target).next('h4').text());
+			$('#modalExplain').text($(e.target).next().next().text());
+			document.body.style.overflow = 'hidden';
+			e.preventDefault();
+			wrapWindowByMask();
+		});
+		$('#modalClose').click(function(e){
+			document.body.style.overflow = "scroll";
+			$('#modalImg').attr("src","")
+			$('#mask').hide();
+			$('.storeModal').hide();
+		})
+		$('#modalPurchase').click(function(e){
+			console.log($(e.target).parent().parent().find('#modaltemName').text())
+			location.href='${path}/store/purchase?name='+$(e.target).parent().parent().find('#modaltemName').text();
+		})
+	});
+
+</script>
 <!-------------------------------------------->
 </body>
 </html>

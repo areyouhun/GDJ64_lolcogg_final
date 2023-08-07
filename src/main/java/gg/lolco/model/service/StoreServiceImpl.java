@@ -6,7 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import gg.lolco.model.dao.StoreDao;
-import gg.lolco.model.vo.Emoticon;
+import gg.lolco.model.vo.CardPack;
+import gg.lolco.model.vo.EmoPack;
 import gg.lolco.model.vo.PointItem;
 
 @Service
@@ -20,13 +21,21 @@ public class StoreServiceImpl implements StoreService {
 	}
 	
 	@Override
-	public List<PointItem> selectItem() {
-		return dao.selectItem(session);
+	public List<PointItem> selectItemMain(int no) {
+		return dao.selectItemMain(session, no);
+	}
+	@Override
+	public List<PointItem> selectItemDetail(int no) {
+		return dao.selectItemDetail(session, no);
 	}
 	
 	@Override
-	public List<Emoticon> itemPurchase(String name) {
-		return dao.itemPurchase(session,name);
+	public List<EmoPack> itemPurchaseEmoticon(String name) {
+		return dao.itemPurchaseEmoticon(session,name);
+	}
+	@Override
+	public List<CardPack> itemPurchaseCard(String name) {
+		return dao.itemPurchaseCard(session,name);
 	}
 
 }
