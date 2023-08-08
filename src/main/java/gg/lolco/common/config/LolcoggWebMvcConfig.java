@@ -5,37 +5,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 import gg.lolco.common.interceptor.AdminChecker;
 import gg.lolco.common.interceptor.LoginChecker;
+import gg.lolco.common.websocket.ChattingServer;
 
 @Configuration
+@EnableWebSocket
 public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigurer {
-//	private final Logger logger;
-//	private final LoginChecker loginChecker;
-//	private final AdminChecker adminChecker;
-//	private final ChattingServer chattingServer;
-//	
-//	public LolcoggWebMvcConfig(Logger logger, 
-//								LoginChecker loginChecker,
-//								AdminChecker adminChecker,
-//								ChattingServer chattingServer) 
-//	{
-//		this.logger = logger;
-//		this.loginChecker = loginChecker;
-//		this.adminChecker = adminChecker;
-//		this.chattingServer = chattingServer;
-//	}
-
 	private final LoginChecker loginChecker;
 	private final AdminChecker adminChecker;
+	private final ChattingServer chattingServer;
+//	private final Logger logger;
 
 	public LolcoggWebMvcConfig(LoginChecker loginChecker,
-								AdminChecker adminChecker) {
+								AdminChecker adminChecker,
+								ChattingServer chattingServer) {
 		this.loginChecker = loginChecker;
 		this.adminChecker = adminChecker;
+		this.chattingServer = chattingServer;
 	}
 
 	@Override
@@ -64,7 +55,7 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-//		registry.addHandler(chattingServer, "");
+		registry.addHandler(chattingServer, "/chatting");
 	}
 
 }
