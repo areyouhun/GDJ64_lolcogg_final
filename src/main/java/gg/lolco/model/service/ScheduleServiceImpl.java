@@ -60,4 +60,12 @@ public class ScheduleServiceImpl implements SchedulerService {
 		} return result;
 	}
 	
+	@Override
+	public int updateMatchTeam(List<Map<String, String>> param) {
+		int result = 1;
+		
+		for(Map<String, String> data : param) {
+			result = dao.updateMatchTeam(session, data);
+		} return result;	}
+	
 }

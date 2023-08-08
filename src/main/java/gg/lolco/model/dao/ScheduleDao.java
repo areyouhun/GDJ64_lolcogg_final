@@ -14,4 +14,6 @@ public interface ScheduleDao {
 	
 	int updateRegionalMatch(SqlSession session, Map<String, String> param);
 	
+	int updateMatchTeam(SqlSession session, Map<String, String> param);
+	
 }

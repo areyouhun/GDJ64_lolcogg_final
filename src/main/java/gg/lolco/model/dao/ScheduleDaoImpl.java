@@ -27,5 +27,10 @@ public class ScheduleDaoImpl implements ScheduleDao {
 	public int updateRegionalMatch(SqlSession session, Map<String, String> param) {
 		return session.update("schedule.updateRegionalMatch", param);
 	}
+	
+	@Override
+	public int updateMatchTeam(SqlSession session, Map<String, String> param) {
+		return session.update("schedule.updateMatchTeam", param);
+	}
 
 }

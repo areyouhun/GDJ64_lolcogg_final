@@ -13,4 +13,6 @@ public interface SchedulerService {
 	
 	int updateRegionalMatch(List<Map<String, String>> param);
 	
+	int updateMatchTeam(List<Map<String, String>> param);
+	
 }

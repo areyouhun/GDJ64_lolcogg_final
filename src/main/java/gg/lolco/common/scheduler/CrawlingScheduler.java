@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 
+import org.apache.ibatis.session.SqlSession;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,6 +29,7 @@ public class CrawlingScheduler {
 	
 	private final SchedulerService service;
 	private final ServletContext context;
+	private SqlSession session;
 	
 	private final Map<String, String> PARSE_TEAM_NAME = Map.of(
 			"Gen.G eSports", "GEN", "Dplus KIA", "DK", 
@@ -36,9 +38,10 @@ public class CrawlingScheduler {
 			"KT Rolster", "KT", "T1", "T1",
 			"Liiv SANDBOX", "LSB", "Kwangdong Freecs", "KDF");
 	
-	public CrawlingScheduler(SchedulerService controller, ServletContext context) {
+	public CrawlingScheduler(SchedulerService controller, ServletContext context, SqlSession session) {
 		this.service = controller;
 		this.context = context;
+		this.session = session;
 	}
 	
 	@Scheduled(cron = "0 0 1 * * ?")
@@ -55,6 +58,7 @@ public class CrawlingScheduler {
     			getMatchData();
     			getTeamRanking();
     			getRegionalMatch();
+        		getMatchSchedule();
     		}catch(IOException e) {
     			e.printStackTrace();
     		}
@@ -117,6 +121,9 @@ public class CrawlingScheduler {
 							
 				switch(championName) {
 					case "Renata Glasc": 
+						championName = "Renata"; 
+						break;
+					case "RenataGlasc":
 						championName = "Renata"; 
 						break;
 					case "Wukong": 
@@ -230,7 +237,6 @@ public class CrawlingScheduler {
 								BufferedWriter bw = 
 										new BufferedWriter(new FileWriter(context.getRealPath("/resources/csv/match/") + fileName, true));
 								
-								
 								// 세트 구분 숫자
 								String divisionGameSet = gameSetResultUrl
 										.substring(gameSetResultUrl.indexOf("/page-game/")-5, gameSetResultUrl.indexOf("/page-game/"));
@@ -243,6 +249,24 @@ public class CrawlingScheduler {
 								
 								// 세트 결과 페이지 
 								Document gameSetDoc = Jsoup.connect("https://" + gameSetPath).get();
+								
+								String gamePlayTime = gameSetDoc.select(".rowbreak .text-center h1").text();
+								
+								int playTime = Integer.parseInt(gamePlayTime.substring(0, gamePlayTime.indexOf(":")));
+								
+								while(playTime < 10) {
+									gameSetNum = Integer.parseInt(divisionGameSet) + j + 1;
+									
+									// 세트 결과 페이지 주소
+									gameSetPath = gameSetResultUrl.replace(divisionGameSet, String.valueOf(gameSetNum));
+									
+									// 세트 결과 페이지 
+									gameSetDoc = Jsoup.connect("https://" + gameSetPath).get();
+									
+									gamePlayTime = gameSetDoc.select(".rowbreak .text-center h1").text();
+									
+									playTime = Integer.parseInt(gamePlayTime.substring(0, gamePlayTime.indexOf(":")));
+								}
 								
 								// 결과요약 링크 
 								String gameInfoPath = gameSetPath.replace("/page-game/", "/page-fullstats/");
@@ -269,36 +293,40 @@ public class CrawlingScheduler {
 										.replace("Total damage to Champion ", "").split(" ");
 								
 								// 밴픽
-								List<String> banpickSrcList = gameSetDoc.select("a.black_link img").eachAttr("src");
+								Elements banpickRows = gameSetDoc.select(".row div:containsOwn(Bans)");
 								
 								List<String> banpickList = new ArrayList<>();
-								
-								for(String banpick : banpickSrcList) {
-									if(!gameSetDoc.select("img[alt=No ban]").isEmpty()) {
-										banpickList.add("No ban");
-									}
+
+								for(Element row : banpickRows) {
+									List<String> banpickSrcList = row.nextElementSibling().select("img").eachAttr("src");
 									
-									String championName = banpick.substring(banpick.indexOf("icon/") + 5, banpick.indexOf(".png"));
-									
-									switch(championName) {
-									case "Renata Glasc": 
-										championName = "Renata"; 
-										break;
-									case "Wukong": 
-										championName = "MonkeyKing"; 
-										break;
-									case "LeBlanc":
-										championName = "Leblanc";
-										break;
-									case "KhaZix":
-										championName = "Khazix";
-										break;
-									default:
-										if(championName.contains("'")) championName = championName.replace("'", "");
-										
-										if(championName.contains(" ")) championName = championName.replace(" ", "");
+									for(String banpick : banpickSrcList) {
+										if(banpick.contains("void.png")) {
+											banpickList.add("No Ban");
+										}else {
+											String championName = banpick.substring(banpick.indexOf("icon/") + 5, banpick.indexOf(".png"));
+											
+											switch(championName) {
+											case "Renata Glasc": 
+												championName = "Renata"; 
+												break;
+											case "Wukong": 
+												championName = "MonkeyKing"; 
+												break;
+											case "LeBlanc":
+												championName = "Leblanc";
+												break;
+											case "KhaZix":
+												championName = "Khazix";
+												break;
+											default:
+												if(championName.contains("'")) championName = championName.replace("'", "");
+												
+												if(championName.contains(" ")) championName = championName.replace(" ", "");
+											}
+											banpickList.add(championName);
+										}
 									}
-									banpickList.add(championName);
 								}
 								
 								// 챔피언
@@ -370,11 +398,19 @@ public class CrawlingScheduler {
 									// 밴픽
 									for(int k=0; k<5; k++) {
 										if(line.equals(".blue")) {
-											bw.append(banpickList.get(k));
-											bw.append(k < 4 ? "," : "\n");
+											if(banpickList.get(k).equals("No Ban")) {
+												bw.append("\n");
+											}else{
+												bw.append(k == 0 ? banpickList.get(k) : "," + banpickList.get(k));
+												bw.append(k == 4 ? "\n" : "");
+											}
 										}else {
-											bw.append(banpickList.get(k + 5));
-											bw.append(k < 4 ? "," : "\n");
+											if(banpickList.get(k+5).equals("No Ban")) {
+												bw.append("\n");
+											}else {
+												bw.append(k == 0 ? banpickList.get(k+5) : "," + banpickList.get(k+5));
+												bw.append(k == 4 ? "\n" : "");
+											}
 										}
 									}
 								}
@@ -398,6 +434,9 @@ public class CrawlingScheduler {
 									
 									switch(championName) {
 									case "Renata Glasc": 
+										championName = "Renata"; 
+										break;
+									case "RenataGlasc":
 										championName = "Renata"; 
 										break;
 									case "Wukong": 
@@ -441,6 +480,57 @@ public class CrawlingScheduler {
 				}
 			}				
 		} service.updateMatchFile(matchData);
+	}
+	
+	private void getMatchSchedule() throws IOException {
+		List<Map<String, String>> matchData = new ArrayList<>();
+
+		List<String> matchTypeLink = List.of(
+				"LCK%20Spring%202023/", "LCK%20Spring%20Playoffs%202023/", "LCK%20Summer%202023/",
+				"LCK%20Summer%20Playoffs%202023/", "LCK%20Regionals%20Finals%202023/");
+		
+		for(String link : matchTypeLink) {
+			Document matchListDoc = Jsoup.connect("https://gol.gg/tournament/tournament-matchlist/" + link).get();
+			Elements tableRow = matchListDoc.select("table tbody tr");
+			
+			if(!(tableRow.size() == 0)) {
+				int tableRowSize = tableRow.select(".text-left a").size();
+				
+				for(int i=0; i<tableRowSize; i++) {
+					if(tableRow.select("a").get(i).attr("href").contains("page-preview")) {
+						Map<String, String> saveMap = new HashMap<>();
+						
+						// 경기날짜
+						String matchDate = tableRow.get(i).select("td").last().text();
+						
+						// 팀 이름
+						String homeTeamName = tableRow.get(i).select("td").get(1).text();
+						String awayTeamName = tableRow.get(i).select("td").get(3).text();
+						
+						if(homeTeamName != null || awayTeamName != null) {
+							// 팀 이름 -> 팀 약칭 
+							for(String team : PARSE_TEAM_NAME.keySet()) {
+								if(homeTeamName.equals(team)) {
+									homeTeamName = PARSE_TEAM_NAME.get(team);
+								}
+								if(awayTeamName.equals(team)) {
+									awayTeamName = PARSE_TEAM_NAME.get(team);
+								}
+							}
+							
+							// 경기 날짜
+							saveMap.put("matchdate", matchDate);
+							
+							// 홈 팀, 어웨이 팀
+							saveMap.put("homeTeamName", homeTeamName);
+							saveMap.put("awayTeamName", awayTeamName);
+
+							matchData.add(saveMap);
+						}
+					}
+				}
+			}
+		} service.updateMatchTeam(matchData);
 	}
 	
 	private void getTeamRanking() throws IOException {

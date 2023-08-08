@@ -11,7 +11,7 @@
                     <li>
                         <a href="" class="nav-a">LCK</a>
                         <ul class="nav-ul-ul">
-                            <li><a href="">일정</a></li>
+                            <li><a href="${path}/schedule">일정</a></li>
                             <li><a href="${path}/teamdata">팀 데이터</a></li>
                             <li><a href="${path }/matchprediction">승부예측</a></li>
                         </ul>
