@@ -213,9 +213,9 @@
                     <img id="storeMainImg" src="${path}/resources/images/store/storeMainImage.jpg">
                 </div>
                 <div class="storeChoice">
-                    <a href="" id=${no==1?"checkitem":"" }>선수 랜덤팩</a>
-                    <a href="" id=${no==2?"checkitem":"" }>이모티콘 랜덤팩</a>
-                    <a href="" id=${no==3?"checkitem":"" }>잡화</a>
+                    <a href="${path}/store/detail?no=1" id=${no==1?"checkitem":"" }>선수 랜덤팩</a>
+                    <a href="${path}/store/detail?no=2" id=${no==2?"checkitem":"" }>이모티콘 랜덤팩</a>
+                    <a href="${path}/store/detail?no=3" id=${no==3?"checkitem":"" }>잡화</a>
                 </div>
                 <hr class="storeLine">
                 <div>
@@ -323,8 +323,10 @@
 			$('.storeModal').hide();
 		})
 		$('#modalPurchase').click(function(e){
-			console.log($(e.target).parent().parent().find('#modaltemName').text())
 			location.href='${path}/store/purchase?name='+$(e.target).parent().parent().find('#modaltemName').text();
+		})
+		$('#storeSearchButton').click(function(){
+			location.href='${path}/store/detail?name='+$("#storeSearch").val()
 		})
 	});
 
