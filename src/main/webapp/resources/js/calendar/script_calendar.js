@@ -60,12 +60,17 @@ function printCalendar(year, month) {
 							const CALENDAR_DATE = new Date(year, month - 1, date);
 
 							if(MATCH_DATE.getDate() === CALENDAR_DATE.getDate() && !!data[k].msHome) {
-								let container = $('<div>').addClass('match-schedule').on('click', (event) => {
-									const FORMAT_DATE = 
-										MATCH_DATE.getFullYear().toString().slice(2) + '-' +
-										(MATCH_DATE.getMonth() + 1).toString().padStart(2, '0') + '-' +
-										MATCH_DATE.getDate().toString().padStart(2, '0');
-										location.href =  getContextPath() + '/teamdata/matchResult?matchDate=' + FORMAT_DATE + '&home=' + data[k].msHome + '&away=' + data[k].msAway;
+								let container = $('<div>').addClass(!data[k].msWinner ? 'match-schedule' : 'match-schedule match-result')
+								.on('click', function(e) {
+									if($(e.currentTarget).hasClass('match-result')){
+										const FORMAT_DATE = 
+											MATCH_DATE.getFullYear().toString().slice(2) + '-' +
+											(MATCH_DATE.getMonth() + 1).toString().padStart(2, '0') + '-' +
+											MATCH_DATE.getDate().toString().padStart(2, '0');
+											location.href =  getContextPath() + '/teamdata/matchResult?matchDate=' + FORMAT_DATE + '&home=' + data[k].msHome + '&away=' + data[k].msAway;
+									}else {
+										location.href = getContextPath() + '/matchprediction';
+									}
 								});
 								
 								container.append($('<div>').addClass('team-logo').append($('<span>').addClass(data[k].msHome === data[k].msWinner ? 'winner' : 'defeat').text(data[k].msHome)));
