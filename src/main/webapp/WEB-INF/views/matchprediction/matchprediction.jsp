@@ -1503,8 +1503,6 @@ $(document).on("click", ".delBtn", function(e) {
 			},
 			dataType: "json",
 			success : function(data){
-				console.log(mpcNo);
-				console.log(data);
 				if(data > 0){
 					alert("삭제 완료");
 					removeDiv.remove();
