@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 
+import org.apache.ibatis.session.SqlSession;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,6 +29,7 @@ public class CrawlingScheduler {
 	
 	private final SchedulerService service;
 	private final ServletContext context;
+	private SqlSession session;
 	
 	private final Map<String, String> PARSE_TEAM_NAME = Map.of(
 			"Gen.G eSports", "GEN", "Dplus KIA", "DK", 
@@ -36,9 +38,10 @@ public class CrawlingScheduler {
 			"KT Rolster", "KT", "T1", "T1",
 			"Liiv SANDBOX", "LSB", "Kwangdong Freecs", "KDF");
 	
-	public CrawlingScheduler(SchedulerService controller, ServletContext context) {
+	public CrawlingScheduler(SchedulerService controller, ServletContext context, SqlSession session) {
 		this.service = controller;
 		this.context = context;
+		this.session = session;
 	}
 	
 	@Scheduled(cron = "0 0 1 * * ?")
@@ -55,6 +58,7 @@ public class CrawlingScheduler {
     			getMatchData();
     			getTeamRanking();
     			getRegionalMatch();
+        		getMatchSchedule();
     		}catch(IOException e) {
     			e.printStackTrace();
     		}
@@ -117,6 +121,9 @@ public class CrawlingScheduler {
 							
 				switch(championName) {
 					case "Renata Glasc": 
+						championName = "Renata"; 
+						break;
+					case "RenataGlasc":
 						championName = "Renata"; 
 						break;
 					case "Wukong": 
@@ -429,6 +436,9 @@ public class CrawlingScheduler {
 									case "Renata Glasc": 
 										championName = "Renata"; 
 										break;
+									case "RenataGlasc":
+										championName = "Renata"; 
+										break;
 									case "Wukong": 
 										championName = "MonkeyKing"; 
 										break;
@@ -470,6 +480,57 @@ public class CrawlingScheduler {
 				}
 			}				
 		} service.updateMatchFile(matchData);
+	}
+	
+	private void getMatchSchedule() throws IOException {
+		List<Map<String, String>> matchData = new ArrayList<>();
+
+		List<String> matchTypeLink = List.of(
+				"LCK%20Spring%202023/", "LCK%20Spring%20Playoffs%202023/", "LCK%20Summer%202023/",
+				"LCK%20Summer%20Playoffs%202023/", "LCK%20Regionals%20Finals%202023/");
+		
+		for(String link : matchTypeLink) {
+			Document matchListDoc = Jsoup.connect("https://gol.gg/tournament/tournament-matchlist/" + link).get();
+			Elements tableRow = matchListDoc.select("table tbody tr");
+			
+			if(!(tableRow.size() == 0)) {
+				int tableRowSize = tableRow.select(".text-left a").size();
+				
+				for(int i=0; i<tableRowSize; i++) {
+					if(tableRow.select("a").get(i).attr("href").contains("page-preview")) {
+						Map<String, String> saveMap = new HashMap<>();
+						
+						// 경기날짜
+						String matchDate = tableRow.get(i).select("td").last().text();
+						
+						// 팀 이름
+						String homeTeamName = tableRow.get(i).select("td").get(1).text();
+						String awayTeamName = tableRow.get(i).select("td").get(3).text();
+						
+						if(homeTeamName != null || awayTeamName != null) {
+							// 팀 이름 -> 팀 약칭 
+							for(String team : PARSE_TEAM_NAME.keySet()) {
+								if(homeTeamName.equals(team)) {
+									homeTeamName = PARSE_TEAM_NAME.get(team);
+								}
+								if(awayTeamName.equals(team)) {
+									awayTeamName = PARSE_TEAM_NAME.get(team);
+								}
+							}
+							
+							// 경기 날짜
+							saveMap.put("matchdate", matchDate);
+							
+							// 홈 팀, 어웨이 팀
+							saveMap.put("homeTeamName", homeTeamName);
+							saveMap.put("awayTeamName", awayTeamName);
+
+							matchData.add(saveMap);
+						}
+					}
+				}
+			}
+		} service.updateMatchTeam(matchData);
 	}
 	
 	private void getTeamRanking() throws IOException {
