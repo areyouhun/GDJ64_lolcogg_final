@@ -48,6 +48,7 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 		//=========================================================================
 		registry.addViewController("/teamdata").setViewName("teamdata/teamlist");
 		registry.addViewController("/qna/insertQna").setViewName("qna/insertQna");
+		registry.addViewController("/schedule").setViewName("calendar/schedule");
 	}
 
 	@Override
