@@ -79,4 +79,14 @@ public class MatchPredictionDaoImpl implements MatchPredictionDao {
 		return session.selectList("matchPrediction.myEmo", email);
 	}
 
+	@Override
+	public int insertComment(SqlSessionTemplate session, Map param) {
+		return session.insert("matchPrediction.insertComment", param);
+	}
+
+	@Override
+	public int deleteComment(SqlSessionTemplate session, String mpcNo) {
+		return session.delete("matchPrediction.deleteComment", mpcNo);
+	}
+
 }

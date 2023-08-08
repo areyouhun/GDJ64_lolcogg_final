@@ -100,10 +100,42 @@ public class MatchPerdictionController {
 	}
 	
 	// 승부예측 선택(ajax)
-	@PostMapping("matchprediction/choice")
+	@PostMapping("/matchprediction/choice")
 	@ResponseBody
 	public int teamChoice(@RequestParam Map param){
 		int result = service.teamChoice(param);
 		return result;
 	}
+	
+	// 댓글 등록(ajax)
+	@PostMapping("/matchprediction/insertComment")
+	@ResponseBody
+	public List<MatchPredictionComment> insertComment(@RequestParam Map param) {
+		List allMpc = new ArrayList<>();
+		int result = service.insertComment(param);
+		int week = Integer.parseInt((String.valueOf(param.get("week"))));
+		
+		if(result > 0) {
+			// 성공(댓글 목록 내보내기)
+			List<MatchPredictionComment> mpc = service.commentListAll(week);
+			List<MatchPredictionComment> bestCommentList = service.bestCommentList(week);
+			allMpc.add(mpc);
+			allMpc.add(bestCommentList);
+			return allMpc;
+		} else {
+			return null;
+		}
+	}
+	
+	// 댓글 삭제(ajax)
+	@PostMapping("/matchprediction/deleteComment")
+	@ResponseBody
+	public int deleteComment(@RequestParam String mpcNo) {
+		log.info(mpcNo);
+		int result = service.deleteComment(mpcNo);
+		return result;
+	}
+	
+	
+	
 }

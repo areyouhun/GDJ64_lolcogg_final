@@ -276,11 +276,12 @@
 				</c:if>
 			</div>
 			<!-- 댓글 -->
-			<div class="qnaCommentDiv">
-				<div class="qnaCommentDivSize">
-					<p class="titleBlack qnaCommentTitle fs-20">댓글</p>
+			<div class="mpCommentDiv">
+				<div class="mpCommentDivSize">
+					<p class="titleBlack mpCommentTitle fs-20">댓글</p>
 					<!-- 댓글 작성 -->
-					<form>
+					<!-- id="commentForm" 지움 나중에 에러나면 다시 추가 -->
+					<form method="post" onsubmit="return fn_insertComment(${nowWeek}, event);">
 						<div class="insertCommentDiv">
 							<div class="commentDiv">
 							<textarea type="text" class="insertComment contentBlack fs-20"
@@ -313,422 +314,849 @@
 							</div>
 						</div>
 					</form>
+<!-- 댓글 목록 -->
+  <div class="mpCommentListDiv">
+    <div class='commentSort'>
+      <p class='contentBlack fs-18 newMargin fw-bolder'>최신 순</p>
+      <p class='contentBlack fs-18'>인기 순</p>
+    </div>
+    <hr class='hr-1Black hr-op'>
+
+    <!-- 베스트 댓글 한 개 -->
+    <c:if test="${not empty bestCommentList}">
+      <c:forEach var="best" items="${bestCommentList}">
+        <div class="commentList">
+          <div>
+            <img src="${path }/resources/upload/profile/${best.mpcWriter.profile}"
+              style="width: 70px; height: 70px; border-radius: 70px;">
+          </div>
+          <div class="detailDiv">
+            <div class="commentDetail">
+              <div class="commentInfo">
+                <p class="contentBlack fs-20 nickname">${best.mpcWriter.nickname }</p>
+                <img src="${path }/resources/images/tier/${best.mpcWriter.tier.tierRulesNo.tierRulesImage}"
+                  class="tierImg">
+                <div class="bestDiv">
+                  <p class="content fs-20">BEST</p>
+                </div>
+              </div>
+              <div class="optionDiv">
+                <button class="moreIconBtn">
+                  <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
+                </button>
+                <ul class="optionUl">
+                  <li id="${best.mpcNo}">
+                    <!-- 작성자 및 관리자 -->
+                    <c:if test="${best.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
+                      <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+                      <hr class="hr-1Black hr-op">
+                      <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+                    </c:if>
+                    <!-- 작성자 x -->
+                    <c:if test="${best.mpcWriter.email != loginMember.email}">
+                      <button class="repBtn">
+                        <ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
+                        신고
+                      </button>
+                    </c:if>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <p class="contentBlack fs-20 commentContent">${best.mpcContent }</p>
+              <c:if test="${best.mpcEmoNo.emoFilename != null}">
+                <img class="emoticon" src="${path }/resources/images/emoticon/${best.mpcEmoNo.emoFilename}"
+                  width="100px" height="100px">
+              </c:if>
+            </div>
+            <div class="dateBuffDiv">
+
+              <div class='insertReplyDiv'>
+                <span class="dateSpan">
+                  <fmt:formatDate value="${best.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
+                </span>
+                <p id="${best.mpcNo }" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
+                <p class='replyCount insertReply'>답글 29</p>
+              </div>
+
+              <div class="buffNerfDiv">
+                <div class="buffDiv">
+                  <button class="buffBtn">
+                    버프
+                    <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
+                  </button>
+                  <p class="contentBlack">
+                    <fmt:formatNumber value="${best.buffCount }" type="number" />
+                  </p>
+                </div>
+                <div class="nerfDiv">
+                  <button class="buffBtn">
+                    너프
+                    <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
+                  </button>
+                  <p class="contentBlack">
+                    <fmt:formatNumber value="${best.nerfCount }" type="number" />
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class='replyDiv'>
+              <form id="${best.mpcNo }" class="replyForm" method="post"
+                onsubmit="return fn_insertComment(${nowWeek}, event);">
+                <div class="insertCommentDiv">
+                  <div class="commentDiv">
+                    <textarea type="text" class="insertComment contentBlack fs-20" style="resize: none;"></textarea>
+                  </div>
+                </div>
+                <div class="countBtnDiv">
+                  <div class="countBtn">
+                    <span id="letterSpan" class="contentBlack fs-20">0/150</span>
+                  </div>
+                  <div class="iconBtn">
+                    <div class="emoDiv">
+                      <ion-icon name="happy-outline"></ion-icon>
+                      <div class="emo">
+                        <ul class="emoSort">
+                          <c:forEach var="emo" items="${myEmo }">
+                            <li><button class="emoBtn" type="button">
+                                <img id="${emo.emoticon.emoNo }"
+                                  src="${path }/resources/images/emoticon/${emo.emoticon.emoFilename}" width="65px"
+                                  height="65px"></li>
+                          </c:forEach>
+                          </button>
+                        </ul>
+                      </div>
+                    </div>
+                    <button class="commentBtn content">등록</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <hr class="hr-1Black hr-op">
+
+        <div class="replyBestAllDiv">
+          <c:forEach var="reply" items="${commentList }">
+            <c:if test="${reply.mpcRefNo != 0 && best.mpcNo == reply.mpcRefNo}">
+              <!-- 대댓글 한 개 시작 -->
+              <div class="commentList">
+                <div style="width: 80px;"></div>
+                <div>
+                  <img src="${path }/resources/upload/profile/${reply.mpcWriter.profile}"
+                    style="width: 70px; height: 70px; border-radius: 70px;">
+                </div>
+                <div class="detaildetailDiv">
+                  <div class="commentDetail">
+                    <div class="commentInfo">
+                      <p class="contentBlack fs-20 nickname">${reply.mpcWriter.nickname }</p>
+                      <img src="${path }/resources/images/tier/${reply.mpcWriter.tier.tierRulesNo.tierRulesImage}"
+                        class="tierImg">
+                    </div>
+                    <div class="optionDiv">
+                      <button class="moreIconBtn">
+                        <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
+                      </button>
+                      <ul class="optionUl">
+                        <li id="${reply.mpcNo}" >
+                          <!-- 작성자 및 관리자 -->
+                          <c:if
+                            test="${reply.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
+                            <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+                            <hr class="hr-1Black hr-op">
+                            <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+                          </c:if>
+                          <!-- 작성자 x -->
+                          <c:if test="${reply.mpcWriter.email != loginMember.email}">
+                            <button class="repBtn">
+                              <ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
+                              신고
+                            </button>
+                          </c:if>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p class="contentBlack fs-20 commentContent">
+                      ${reply.mpcContent }</p>
+                    <c:if test="${reply.mpcEmoNo.emoFilename != null}">
+                      <img class="emoticon" src="${path }/resources/images/emoticon/${reply.mpcEmoNo.emoFilename}"
+                        width="100px" height="100px">
+                    </c:if>
+                  </div>
+                  <div class="dateBuffDiv">
+                    <span class="dateSpan">
+                      <fmt:formatDate value="${reply.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
+                    </span>
+                    <div class="buffNerfDiv">
+                      <div class="buffDiv">
+                        <button class="buffBtn">
+                          버프
+                          <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
+                        </button>
+                        <p class="contentBlack">
+                          <fmt:formatNumber value="${reply.buffCount }" type="number" />
+                        </p>
+                      </div>
+                      <div class="nerfDiv">
+                        <button class="buffBtn">
+                          너프
+                          <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
+                        </button>
+                        <p class="contentBlack">
+                          <fmt:formatNumber value="${reply.nerfCount }" type="number" />
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="hr-1Black hr-op">
+              <!-- 대댓글 하나 끝 -->
+            </c:if>
+          </c:forEach>
+        </div>
+      </c:forEach>
+    </c:if>
+
+    <!-- 댓글 한 개 -->
+    <c:forEach var="comment" items="${commentList }">
+      <c:if test="${comment.mpcRefNo == 0 }">
+        <div class="commentList">
+          <div>
+            <img src="${path }/resources/upload/profile/${comment.mpcWriter.profile}"
+              style="width: 70px; height: 70px; border-radius: 70px;">
+          </div>
+          <div class="detailDiv">
+            <div class="commentDetail">
+              <div class="commentInfo">
+                <p class="contentBlack fs-20 nickname">${comment.mpcWriter.nickname }</p>
+                <img src="${path }/resources/images/tier/${comment.mpcWriter.tier.tierRulesNo.tierRulesImage}"
+                  class="tierImg">
+              </div>
+              <div class="optionDiv">
+                <button class="moreIconBtn">
+                  <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
+                </button>
+                <ul class="optionUl">
+                  <li id="${comment.mpcNo}" >
+                    <!-- 작성자 및 관리자 -->
+                    <c:if test="${comment.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
+                      <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+                      <hr class="hr-1Black hr-op">
+                      <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+                    </c:if>
+                    <!-- 작성자 x -->
+                    <c:if test="${comment.mpcWriter.email != loginMember.email}">
+                      <button class="repBtn">
+                        <ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
+                        신고
+                      </button>
+                    </c:if>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <p class="contentBlack fs-20 commentContent">
+                ${comment.mpcContent }</p>
+              <c:if test="${comment.mpcEmoNo.emoFilename != null}">
+                <img class="emoticon" src="${path }/resources/images/emoticon/${comment.mpcEmoNo.emoFilename}"
+                  width="100px" height="100px">
+              </c:if>
+            </div>
+            <div class="dateBuffDiv">
+
+              <div class='insertReplyDiv'>
+                <span class="dateSpan">
+                  <fmt:formatDate value="${comment.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
+                </span>
+                <p id="${best.mpcNo }" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
+                <p class='replyCount insertReply'>답글 29</p>
+              </div>
+
+              <div class="buffNerfDiv">
+                <div class="buffDiv">
+                  <button class="buffBtn">
+                    버프
+                    <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
+                  </button>
+                  <p class="contentBlack">
+                    <fmt:formatNumber value="${comment.buffCount }" type="number" />
+                  </p>
+                </div>
+                <div class="nerfDiv">
+                  <button class="buffBtn">
+                    너프
+                    <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
+                  </button>
+                  <p class="contentBlack">
+                    <fmt:formatNumber value="${comment.nerfCount }" type="number" />
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class='replyDiv'>
+              <form id="${comment.mpcNo }" class="replyForm" method="post"
+                onsubmit="return fn_insertComment(${nowWeek}, event);">
+                <textarea type="text" class="insertComment contentBlack fs-20" style="resize: none;"></textarea>
+                <div class="countBtnDiv">
+                  <div class="countBtn">
+                    <span id="letterSpan" class="contentBlack fs-20">0/150</span>
+                  </div>
+                  <div class="iconBtn">
+                    <div class="emoDiv">
+                      <ion-icon name="happy-outline"></ion-icon>
+                      <div class="emo">
+                        <ul class="emoSort">
+                          <c:forEach var="emo" items="${myEmo }">
+                            <li><button class="emoBtn" type="button">
+                                <img id="${emo.emoticon.emoNo }"
+                                  src="${path }/resources/images/emoticon/${emo.emoticon.emoFilename}" width="65px"
+                                  height="65px"></li>
+                          </c:forEach>
+                          </button>
+                        </ul>
+                      </div>
+                    </div>
+                    <button class="commentBtn content">등록</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <hr class="hr-1Black hr-op">
+        <!-- 댓글 한 개 끝 -->
+
+        <div class="replyAllDiv">
+          <c:forEach var="reply" items="${commentList }">
+            <c:if test="${reply.mpcRefNo != 0 && comment.mpcNo == reply.mpcRefNo}">
+              <!-- 대댓글 한 개 시작 -->
+              <div class="commentList">
+                <div style="width: 80px;"></div>
+                <div>
+                  <img src="${path }/resources/upload/profile/${reply.mpcWriter.profile}"
+                    style="width: 70px; height: 70px; border-radius: 70px;">
+                </div>
+                <div class="detaildetailDiv">
+                  <div class="commentDetail">
+                    <div class="commentInfo">
+                      <p class="contentBlack fs-20 nickname">${reply.mpcWriter.nickname }</p>
+                      <img src="${path }/resources/images/tier/${reply.mpcWriter.tier.tierRulesNo.tierRulesImage}"
+                        class="tierImg">
+                    </div>
+                    <div class="optionDiv">
+                      <button class="moreIconBtn">
+                        <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
+                      </button>
+                      <ul class="optionUl">
+                        <li id="${reply.mpcNo}" >
+                          <!-- 작성자 및 관리자 -->
+                          <c:if
+                            test="${reply.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
+                            <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+                            <hr class="hr-1Black hr-op">
+                            <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+                          </c:if>
+                          <!-- 작성자 x -->
+                          <c:if test="${reply.mpcWriter.email != loginMember.email}">
+                            <button class="repBtn">
+                              <ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
+                              신고
+                            </button>
+                          </c:if>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p class="contentBlack fs-20 commentContent">
+                      ${reply.mpcContent }</p>
+                    <c:if test="${reply.mpcEmoNo.emoFilename != null}">
+                      <img class="emoticon" src="${path }/resources/images/emoticon/${reply.mpcEmoNo.emoFilename}"
+                        width="100px" height="100px">
+                    </c:if>
+                  </div>
+                  <div class="dateBuffDiv">
+                    <span class="dateSpan">
+                      <fmt:formatDate value="${reply.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
+                    </span>
+                    <div class="buffNerfDiv">
+                      <div class="buffDiv">
+                        <button class="buffBtn">
+                          버프
+                          <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
+                        </button>
+                        <p class="contentBlack">
+                          <fmt:formatNumber value="${reply.buffCount }" type="number" />
+                        </p>
+                      </div>
+                      <div class="nerfDiv">
+                        <button class="buffBtn">
+                          너프
+                          <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
+                        </button>
+                        <p class="contentBlack">
+                          <fmt:formatNumber value="${reply.nerfCount }" type="number" />
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="hr-1Black hr-op">
+              <!-- 대댓글 하나 끝 -->
+            </c:if>
+          </c:forEach>
+        </div>
+      </c:if>
+    </c:forEach>
+  </div>
+	
+<div class="ajaxComment"></div>
+    	
+<div class="mpCommentListDivClone">
+	<!-- 템플릿 -->
+	
+    <!-- === 베스트 댓글 3개 === -->
+    <!-- == 베스트 댓글 1개 => 3번 반복 == -->
+    <div class="bestCommentList commentList">
+      <!-- 프로필 이미지 div -->
+      <div>
+        <!-- [프로필 이미지] -->
+        <img class="proImg" src="" style="width: 70px; height: 70px; border-radius: 70px;">
+      </div>
+      <!-- 프로필 이미지 제외한 댓글창 div -->
+      <div class="detailDiv">
+        <div class="commentDetail">
+          <div class="commentInfo">
+            <!-- [닉네임] -->
+            <p class="bestNickname contentBlack fs-20 nickname">[닉네임]</p>
+            <!-- [티어 이미지] -->
+            <img class="bestTier tierImg" src="">
+
+            <div class="bestDiv">
+              <p class="content fs-20">BEST</p>
+            </div>
+          </div>
+
+          <!-- 수정, 삭제, 신고 버튼 div -->
+          <div class="optionDiv">
+            <button class="moreIconBtn">
+              <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
+            </button>
+            <ul class="bestOption optionUl">
+              <li id="${best.mpcNo}">
+                <!-- 작성자 및 관리자 -->
+                <!-- <c:if test="${best.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}"> -->
+                <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+                <hr class="hr-1Black hr-op">
+                <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+                <!-- </c:if> -->
+                <!-- 작성자 x -->
+                <!-- <c:if test="${best.mpcWriter.email != loginMember.email}"> -->
+                <button class="repBtn"><ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고</button>
+                <!-- </c:if> -->
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- [댓글 내용] -->
+        <div class="bestContent">
+          <p class="contentBlack fs-20 commentContent">[댓글 내용]</p>
+          <!-- [이모티콘] -->
+          <!-- <c:if test="${best.mpcEmoNo.emoFilename != null}"> -->
+          <img class="emoticon" src="" width="100px" height="100px">
+          <!-- </c:if> -->
+        </div>
+        <!-- [날짜, 버프너프 수] -->
+        <div class="dateBuffDiv">
+          <div class='bestBn insertReplyDiv'>
+            <!-- [날짜] -->
+            <span class="dateSpan">
+              <fmt:formatDate value="" pattern="yyyy.MM.dd HH:mm" />
+            </span>
+            <p id="" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
+            <!-- [답글 수] -->
+            <p class='replyCount insertReply'>답글 29</p>
+          </div>
+          <div class="buffNerfDiv">
+            <div class="bestB buffDiv">
+              <button class="buffBtn">
+                버프
+                <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
+              </button>
+              <!-- [버프 수] -->
+              <p class="contentBlack">
+                <fmt:formatNumber value="" type="number" />
+              </p>
+            </div>
+            <div class="bestN nerfDiv">
+              <button class="buffBtn">
+                너프
+                <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
+              </button>
+              <!-- [너프 수] -->
+              <p class="contentBlack">
+                <fmt:formatNumber value="" type="number" />
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- 답글 입력 창 div -->
+        <div class="replyDiv">
+          <!-- [댓글 번호, 경기 주차 수] -->
+          <form id="" class="replyForm" method="post"
+            onsubmit="return fn_insertComment(${nowWeek}, event);">
+            <div class="insertCommentDiv">
+              <div class="commentDiv">
+                <textarea type="text" class="insertComment contentBlack fs-20" style="resize: none;"></textarea>
+              </div>
+            </div>
+            <div class="countBtnDiv">
+              <div class="countBtn">
+                <span id="letterSpan" class="contentBlack fs-20">0/150</span>
+              </div>
+              <div class="iconBtn">
+                <div class="emoDiv">
+                  <ion-icon name="happy-outline"></ion-icon>
+                  <div class="emo">
+                    <ul class="emoSort">
+                      <!-- [보유 이모티콘] -->
+                      <!-- <c:forEach var="emo" items="${myEmo }"> -->
+                      <li>
+                        <button class="emoBtn" type="button">
+                          <img id=""
+                            src="${path }/resources/images/emoticon/" width="65px"
+                            height="65px">
+                        </button>
+                      </li>
+                      <!-- </c:forEach> -->
+                    </ul>
+                  </div>
+                </div>
+                <button class="commentBtn content">등록</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <hr class="hr-1Black hr-op">
+
+    <!-- == 베스트 댓글 답글 1개 => 수만큼 반복 -->
+    <div class="replyBestAllDiv">
+      <div class="commentList">
+        <div style="width: 80px;"></div>
+        <div>
+          <!-- [프로필 이미지] -->
+          <img src="" style="width: 70px; height: 70px; border-radius: 70px;">
+        </div>
+        <div class="detaildetailDiv">
+          <div class="commentDetail">
+            <div class="commentInfo">
+              <!-- [닉네임] -->
+              <p class="contentBlack fs-20 nickname">[닉네임]</p>
+              <!-- [티어 이미지] -->
+              <img src="" class="tierImg">
+
+              <div class="bestDiv">
+                <p class="content fs-20">BEST</p>
+              </div>
+            </div>
+
+            <!-- 수정, 삭제, 신고 버튼 div -->
+            <div class="optionDiv">
+              <button class="moreIconBtn">
+                <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
+              </button>
+              <ul class="optionUl">
+                <li id="${best.mpcNo}">
+                  <!-- 작성자 및 관리자 -->
+                  <!-- <c:if test="${best.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}"> -->
+                  <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+                  <hr class="hr-1Black hr-op">
+                  <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+                  <!-- </c:if> -->
+                  <!-- 작성자 x -->
+                  <!-- <c:if test="${best.mpcWriter.email != loginMember.email}"> -->
+                  <button class="repBtn"><ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고</button>
+                  <!-- </c:if> -->
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- [댓글 내용] -->
+          <div>
+            <p class="contentBlack fs-20 commentContent">[댓글 내용]</p>
+            <!-- [이모티콘] -->
+            <!-- <c:if test="${best.mpcEmoNo.emoFilename != null}"> -->
+            <img class="emoticon" src="" width="100px" height="100px">
+            <!-- </c:if> -->
+          </div>
+          <!-- [날짜, 버프너프 수] -->
+          <div class="dateBuffDiv">
+            <div class='insertReplyDiv'>
+              <!-- [날짜] -->
+              <span class="dateSpan">
+                <fmt:formatDate value="${best.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
+              </span>
+              <p id="${best.mpcNo }" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
+              <!-- [답글 수] -->
+              <p class='replyCount insertReply'>답글 29</p>
+            </div>
+            <div class="buffNerfDiv">
+              <div class="buffDiv">
+                <button class="buffBtn">
+                  버프
+                  <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
+                </button>
+                <!-- [버프 수] -->
+                <p class="contentBlack">
+                  <fmt:formatNumber value="" type="number" />
+                </p>
+              </div>
+              <div class="nerfDiv">
+                <button class="buffBtn">
+                  너프
+                  <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
+                </button>
+                <!-- [너프 수] -->
+                <p class="contentBlack">
+                  <fmt:formatNumber value="" type="number" />
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="hr-1Black hr-op">
+    </div>
+    <!-- *끝*(반복 3번) -->
 
 
-					<!-- 댓글 목록 -->
-					<div class="qnaCommentListDiv">
-						<div class="commentSort">
-							<p class="contentBlack fs-18 newMargin fw-bolder">최신 순</p>
-							<p class="contentBlack fs-18">인기 순</p>
-						</div class="commentListSort">
-						<hr class="hr-1Black hr-op">
+    <!-- === 일반 댓글 === -->
+    <!-- == 일반 댓글 1개 => 수만큼 반복 == -->
+    <div class="commentList">
+      <!-- 프로필 이미지 div -->
+      <div>
+        <!-- [프로필 이미지] -->
+        <img src="" style="width: 70px; height: 70px; border-radius: 70px;">
+      </div>
+      <!-- 프로필 이미지 제외한 댓글창 div -->
+      <div class="detailDiv">
+        <div class="commentDetail">
+          <div class="commentInfo">
+            <!-- [닉네임] -->
+            <p class="contentBlack fs-20 nickname">[닉네임]</p>
+            <!-- [티어 이미지] -->
+            <img src="" class="tierImg">
+          </div>
 
-						<!-- 베스트 댓글 한 개 -->
-				<c:if test="${not empty bestCommentList}">
-					<c:forEach var="best" items="${bestCommentList}">
-						<div class="commentList">
-							<div>
-								<img src="${path }/resources/upload/profile/${best.mpcWriter.profile}"
-									style="width: 70px; height: 70px; border-radius: 70px;">
-							</div>
-							<div class="detailDiv">
-								<div class="commentDetail">
-									<div class="commentInfo">
-										<p class="contentBlack fs-20 nickname">${best.mpcWriter.nickname }</p>
-										<img src="${path }/resources/images/tier/${best.mpcWriter.tier.tierRulesNo.tierRulesImage}" class="tierImg">
-										<div class="bestDiv">
-											<p class="content fs-20">BEST</p>
-										</div>
-									</div>
-									<div class="optionDiv">
-										<button class="moreIconBtn">
-											<ion-icon class="moreIcon" name="ellipsis-horizontal"
-												style="font-size: 28px;"></ion-icon>
-										</button>
-										<ul class="optionUl">
-											<li>
-												<!-- 작성자 및 관리자 -->
-												<c:if test="${best.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
-													<button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-					                                <hr class="hr-1Black hr-op">
-					                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
-				                                </c:if>
-												<!-- 작성자 x -->
-												<c:if test="${best.mpcWriter.email != loginMember.email}">
-												<button>
-													<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
-													신고
-												</button>
-												</c:if>
-											</li>
-										</ul>
-									</div>
-								</div>
+          <!-- 수정, 삭제, 신고 버튼 div -->
+          <div class="optionDiv">
+            <button class="moreIconBtn">
+              <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
+            </button>
+            <ul class="optionUl">
+              <li id="${best.mpcNo}">
+                <!-- 작성자 및 관리자 -->
+                <!-- <c:if test="${best.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}"> -->
+                <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+                <hr class="hr-1Black hr-op">
+                <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+                <!-- </c:if> -->
+                <!-- 작성자 x -->
+                <!-- <c:if test="${best.mpcWriter.email != loginMember.email}"> -->
+                <button class="repBtn"><ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고</button>
+                <!-- </c:if> -->
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- [댓글 내용] -->
+        <div>
+          <p class="contentBlack fs-20 commentContent">[댓글 내용]</p>
+          <!-- [이모티콘] -->
+          <!-- <c:if test="${best.mpcEmoNo.emoFilename != null}"> -->
+          <img class="emoticon" src="" width="100px" height="100px">
+          <!-- </c:if> -->
+        </div>
+        <!-- [날짜, 버프너프 수] -->
+        <div class="dateBuffDiv">
+          <div class='insertReplyDiv'>
+            <!-- [날짜] -->
+            <span class="dateSpan">
+              <fmt:formatDate value="" pattern="yyyy.MM.dd HH:mm" />
+            </span>
+            <p id="" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
+            <!-- [답글 수] -->
+            <p class='replyCount insertReply'>답글 29</p>
+          </div>
+          <div class="buffNerfDiv">
+            <div class="buffDiv">
+              <button class="buffBtn">
+                버프
+                <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
+              </button>
+              <!-- [버프 수] -->
+              <p class="contentBlack">
+                <fmt:formatNumber value="" type="number" />
+              </p>
+            </div>
+            <div class="nerfDiv">
+              <button class="buffBtn">
+                너프
+                <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
+              </button>
+              <!-- [너프 수] -->
+              <p class="contentBlack">
+                <fmt:formatNumber value="" type="number" />
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- 답글 입력 창 div -->
+        <div class="replyDiv">
+          <!-- [댓글 번호, 경기 주차 수] -->
+          <form id="" class="replyForm" method="post"
+            onsubmit="return fn_insertComment(${nowWeek}, event);">
+            <div class="insertCommentDiv">
+              <div class="commentDiv">
+                <textarea type="text" class="insertComment contentBlack fs-20" style="resize: none;"></textarea>
+              </div>
+            </div>
+            <div class="countBtnDiv">
+              <div class="countBtn">
+                <span id="letterSpan" class="contentBlack fs-20">0/150</span>
+              </div>
+              <div class="iconBtn">
+                <div class="emoDiv">
+                  <ion-icon name="happy-outline"></ion-icon>
+                  <div class="emo">
+                    <ul class="emoSort">
+                      <!-- [보유 이모티콘] -->
+                      <!-- <c:forEach var="emo" items="${myEmo }"> -->
+                      <li>
+                        <button class="emoBtn" type="button">
+                          <img id=""
+                            src="${path }/resources/images/emoticon/" width="65px"
+                            height="65px">
+                        </button>
+                      </li>
+                      <!-- </c:forEach> -->
+                    </ul>
+                  </div>
+                </div>
+                <button class="commentBtn content">등록</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <hr class="hr-1Black hr-op">
 
-								<div>
-									<p class="contentBlack fs-20 commentContent">${best.mpcContent }</p>
-									<c:if test="${best.mpcEmoNo.emoFilename != null}">
-										<img class="emoticon"
-											src="${path }/resources/images/emoticon/${best.mpcEmoNo.emoFilename}"
-											width="100px" height="100px">
-									</c:if>
-								</div>
-								<div class="dateBuffDiv">
+    <!-- == 답글 1개 => 수만큼 반복 -->
+    <div class="replyAllDiv">
+      <div class="commentList">
+        <div style="width: 80px;"></div>
+        <div>
+          <!-- [프로필 이미지] -->
+          <img src="" style="width: 70px; height: 70px; border-radius: 70px;">
+        </div>
+        <div class="detaildetailDiv">
+          <div class="commentDetail">
+            <div class="commentInfo">
+              <!-- [닉네임] -->
+              <p class="contentBlack fs-20 nickname">[닉네임]</p>
+              <!-- [티어 이미지] -->
+              <img src="" class="tierImg">
 
-									<div class='insertReplyDiv'>
-										<span class="dateSpan"><fmt:formatDate value="${best.mpcDate }" pattern="yyyy.MM.dd HH:mm" /></span>
-										<p class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
-										<p class='replyCount insertReply'>답글 29</p>
-									</div>
+              <div class="bestDiv">
+                <p class="content fs-20">BEST</p>
+              </div>
+            </div>
 
-									<div class="buffNerfDiv">
-										<div class="buffDiv">
-											<button class="buffBtn">
-												버프
-												<ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
-											</button>
-											<p class="contentBlack"><fmt:formatNumber value="${best.buffCount }" type="number" /></p>
-										</div>
-										<div class="nerfDiv">
-											<button class="buffBtn">
-												너프
-												<ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
-											</button>
-											<p class="contentBlack"><fmt:formatNumber value="${best.nerfCount }" type="number" /></p>
-										</div>
-									</div>
-								</div>
-
-								<div class='replyDiv'>
-									<form class="replyForm">
-										<textarea type="text" class="insertComment contentBlack fs-20"
-											style="resize: none;"></textarea>
-										<div class="countBtnDiv">
-											<div class="countBtn">
-												<span id="letterSpan" class="contentBlack fs-20">0/150</span>
-											</div>
-											<div class="iconBtn">
-												<div class="emoDiv">
-													<ion-icon name="happy-outline"></ion-icon>
-													<div class="emo">
-														<ul class="emoSort">
-															<c:forEach var="emo" items="${myEmo }">
-																<li><button class="emoBtn" type="button">
-																	<img id="${emo.emoticon.emoNo }" src="${path }/resources/images/emoticon/${emo.emoticon.emoFilename}" width="65px"
-																		height="65px"></li>
-																</c:forEach>
-															</button>
-														</ul>
-													</div>
-												</div>
-												<button class="commentBtn content">등록</button>
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-						<hr class="hr-1Black hr-op">
+            <!-- 수정, 삭제, 신고 버튼 div -->
+            <div class="optionDiv">
+              <button class="moreIconBtn">
+                <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
+              </button>
+              <ul class="optionUl">
+                <li id="${best.mpcNo}">
+                  <!-- 작성자 및 관리자 -->
+                  <!-- <c:if test="${best.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}"> -->
+                  <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
+                  <hr class="hr-1Black hr-op">
+                  <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
+                  <!-- </c:if> -->
+                  <!-- 작성자 x -->
+                  <!-- <c:if test="${best.mpcWriter.email != loginMember.email}"> -->
+                  <button class="repBtn"><ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고</button>
+                  <!-- </c:if> -->
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- [댓글 내용] -->
+          <div>
+            <p class="contentBlack fs-20 commentContent">[댓글 내용]</p>
+            <!-- [이모티콘] -->
+            <!-- <c:if test="${best.mpcEmoNo.emoFilename != null}"> -->
+            <img class="emoticon" src="" width="100px" height="100px">
+            <!-- </c:if> -->
+          </div>
+          <!-- [날짜, 버프너프 수] -->
+          <div class="dateBuffDiv">
+            <div class='insertReplyDiv'>
+              <!-- [날짜] -->
+              <span class="dateSpan">
+                <fmt:formatDate value="" pattern="yyyy.MM.dd HH:mm" />
+              </span>
+              <p id="" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
+              <!-- [답글 수] -->
+              <p class='replyCount insertReply'>답글 29</p>
+            </div>
+            <div class="buffNerfDiv">
+              <div class="buffDiv">
+                <button class="buffBtn">
+                  버프
+                  <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
+                </button>
+                <!-- [버프 수] -->
+                <p class="contentBlack">
+                  <fmt:formatNumber value="" type="number" />
+                </p>
+              </div>
+              <div class="nerfDiv">
+                <button class="buffBtn">
+                  너프
+                  <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
+                </button>
+                <!-- [너프 수] -->
+                <p class="contentBlack">
+                  <fmt:formatNumber value="" type="number" />
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="hr-1Black hr-op">
+    </div>
+    <!-- *끝* -->
+</div>				
 						
-						<div class="replyBestAllDiv">
-									<c:forEach var="reply" items="${commentList }">
-										<c:if test="${reply.mpcRefNo != 0 && best.mpcNo == reply.mpcRefNo}">
-											<!-- 대댓글 한 개 시작 -->
-											<div class="commentList">
-												<div style="width: 80px;"></div>
-												<div>
-													<img
-														src="${path }/resources/upload/profile/${reply.mpcWriter.profile}"
-														style="width: 70px; height: 70px; border-radius: 70px;">
-												</div>
-												<div class="detaildetailDiv">
-													<div class="commentDetail">
-														<div class="commentInfo">
-															<p class="contentBlack fs-20 nickname">${reply.mpcWriter.nickname }</p>
-															<img
-																src="${path }/resources/images/tier/${reply.mpcWriter.tier.tierRulesNo.tierRulesImage}"
-																class="tierImg">
-														</div>
-														<div class="optionDiv">
-															<button class="moreIconBtn">
-																<ion-icon class="moreIcon" name="ellipsis-horizontal"
-																	style="font-size: 28px;"></ion-icon>
-															</button>
-															<ul class="optionUl">
-																<li>
-																	<!-- 작성자 및 관리자 -->
-																	<c:if test="${reply.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
-																		<button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-										                                <hr class="hr-1Black hr-op">
-										                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
-									                                </c:if>
-																	<!-- 작성자 x -->
-																	<c:if test="${reply.mpcWriter.email != loginMember.email}">
-																	<button>
-																		<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
-																		신고
-																	</button>
-																	</c:if>
-																</li>
-															</ul>
-														</div>
-													</div>
-
-													<div>
-														<p class="contentBlack fs-20 commentContent">
-															${reply.mpcContent }</p>
-														<c:if test="${reply.mpcEmoNo.emoFilename != null}">
-															<img class="emoticon"
-																src="${path }/resources/images/emoticon/${reply.mpcEmoNo.emoFilename}"
-																width="100px" height="100px">
-														</c:if>
-													</div>
-													<div class="dateBuffDiv">
-														<span class="dateSpan"><fmt:formatDate
-																value="${reply.mpcDate }" pattern="yyyy.MM.dd HH:mm" /></span>
-														<div class="buffNerfDiv">
-															<div class="buffDiv">
-																<button class="buffBtn">
-																	버프
-																	<ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
-																</button>
-																<p class="contentBlack">
-																	<fmt:formatNumber value="${reply.buffCount }"
-																		type="number" />
-																</p>
-															</div>
-															<div class="nerfDiv">
-																<button class="buffBtn">
-																	너프
-																	<ion-icon name="caret-down-circle-outline"
-																		class="bnIcon"></ion-icon>
-																</button>
-																<p class="contentBlack">
-																	<fmt:formatNumber value="${reply.nerfCount }"
-																		type="number" />
-																</p>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<hr class="hr-1Black hr-op">
-											<!-- 대댓글 하나 끝 -->
-										</c:if>
-									</c:forEach>
-								</div>
-					</c:forEach>
-				</c:if>
-
-						<!-- 댓글 한 개 -->
-						<c:forEach var="comment" items="${commentList }">
-							<c:if test="${comment.mpcRefNo == 0 }">
-								<div class="commentList">
-									<div>
-										<img
-											src="${path }/resources/upload/profile/${comment.mpcWriter.profile}"
-											style="width: 70px; height: 70px; border-radius: 70px;">
-									</div>
-									<div class="detailDiv">
-										<div class="commentDetail">
-											<div class="commentInfo">
-												<p class="contentBlack fs-20 nickname">${comment.mpcWriter.nickname }</p>
-												<img
-													src="${path }/resources/images/tier/${comment.mpcWriter.tier.tierRulesNo.tierRulesImage}"
-													class="tierImg">
-											</div>
-											<div class="optionDiv">
-												<button class="moreIconBtn">
-													<ion-icon class="moreIcon" name="ellipsis-horizontal"
-														style="font-size: 28px;"></ion-icon>
-												</button>
-												<ul class="optionUl">
-													<li>
-														<!-- 작성자 및 관리자 -->
-														<c:if test="${comment.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
-															<button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-							                                <hr class="hr-1Black hr-op">
-							                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
-						                                </c:if>
-														<!-- 작성자 x -->
-														<c:if test="${comment.mpcWriter.email != loginMember.email}">
-														<button>
-															<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
-															신고
-														</button>
-														</c:if>
-													</li>
-												</ul>
-											</div>
-										</div>
-
-										<div>
-											<p class="contentBlack fs-20 commentContent">
-												${comment.mpcContent }</p>
-											<c:if test="${comment.mpcEmoNo.emoFilename != null}">
-												<img class="emoticon"
-													src="${path }/resources/images/emoticon/${comment.mpcEmoNo.emoFilename}"
-													width="100px" height="100px">
-											</c:if>
-										</div>
-										<div class="dateBuffDiv">
-
-											<div class='insertReplyDiv'>
-												<span class="dateSpan"><fmt:formatDate
-														value="${comment.mpcDate }" pattern="yyyy.MM.dd HH:mm" /></span>
-												<p class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
-												<p class='replyCount insertReply'>답글 29</p>
-											</div>
-
-											<div class="buffNerfDiv">
-												<div class="buffDiv">
-													<button class="buffBtn">
-														버프
-														<ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
-													</button>
-													<p class="contentBlack">
-														<fmt:formatNumber value="${comment.buffCount }"
-															type="number" />
-													</p>
-												</div>
-												<div class="nerfDiv">
-													<button class="buffBtn">
-														너프
-														<ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
-													</button>
-													<p class="contentBlack">
-														<fmt:formatNumber value="${comment.nerfCount }"
-															type="number" />
-													</p>
-												</div>
-											</div>
-										</div>
-
-										<div class='replyDiv'>
-											<form class="replyForm">
-												<textarea type="text"
-													class="insertComment contentBlack fs-20"
-													style="resize: none;"></textarea>
-												<div class="countBtnDiv">
-													<div class="countBtn">
-														<span id="letterSpan" class="contentBlack fs-20">0/150</span>
-													</div>
-													<div class="iconBtn">
-														<div class="emoDiv">
-															<ion-icon name="happy-outline"></ion-icon>
-															<div class="emo">
-																<ul class="emoSort">
-																	<c:forEach var="emo" items="${myEmo }">
-																		<li><button class="emoBtn" type="button">
-																			<img id="${emo.emoticon.emoNo }" src="${path }/resources/images/emoticon/${emo.emoticon.emoFilename}" width="65px"
-																				height="65px"></li>
-																		</c:forEach>
-																	</button>
-																</ul>
-															</div>
-														</div>
-														<button class="commentBtn content">등록</button>
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-								</div>
-								<hr class="hr-1Black hr-op">
-								<!-- 댓글 한 개 끝 -->
-
-								<div class="replyAllDiv">
-									<c:forEach var="reply" items="${commentList }">
-										<c:if test="${reply.mpcRefNo != 0 && comment.mpcNo == reply.mpcRefNo}">
-											<!-- 대댓글 한 개 시작 -->
-											<div class="commentList">
-												<div style="width: 80px;"></div>
-												<div>
-													<img
-														src="${path }/resources/upload/profile/${reply.mpcWriter.profile}"
-														style="width: 70px; height: 70px; border-radius: 70px;">
-												</div>
-												<div class="detaildetailDiv">
-													<div class="commentDetail">
-														<div class="commentInfo">
-															<p class="contentBlack fs-20 nickname">${reply.mpcWriter.nickname }</p>
-															<img
-																src="${path }/resources/images/tier/${reply.mpcWriter.tier.tierRulesNo.tierRulesImage}"
-																class="tierImg">
-														</div>
-														<div class="optionDiv">
-															<button class="moreIconBtn">
-																<ion-icon class="moreIcon" name="ellipsis-horizontal"
-																	style="font-size: 28px;"></ion-icon>
-															</button>
-															<ul class="optionUl">
-																<li>
-																	<!-- 작성자 및 관리자 -->
-																	<c:if test="${reply.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}">
-																		<button><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-										                                <hr class="hr-1Black hr-op">
-										                                <button><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
-									                                </c:if>
-																	<!-- 작성자 x -->
-																	<c:if test="${reply.mpcWriter.email != loginMember.email}">
-																	<button>
-																		<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
-																		신고
-																	</button>
-																	</c:if>
-																</li>
-															</ul>
-														</div>
-													</div>
-
-													<div>
-														<p class="contentBlack fs-20 commentContent">
-															${reply.mpcContent }</p>
-														<c:if test="${reply.mpcEmoNo.emoFilename != null}">
-															<img class="emoticon"
-																src="${path }/resources/images/emoticon/${reply.mpcEmoNo.emoFilename}"
-																width="100px" height="100px">
-														</c:if>
-													</div>
-													<div class="dateBuffDiv">
-														<span class="dateSpan"><fmt:formatDate
-																value="${reply.mpcDate }" pattern="yyyy.MM.dd HH:mm" /></span>
-														<div class="buffNerfDiv">
-															<div class="buffDiv">
-																<button class="buffBtn">
-																	버프
-																	<ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
-																</button>
-																<p class="contentBlack">
-																	<fmt:formatNumber value="${reply.buffCount }"
-																		type="number" />
-																</p>
-															</div>
-															<div class="nerfDiv">
-																<button class="buffBtn">
-																	너프
-																	<ion-icon name="caret-down-circle-outline"
-																		class="bnIcon"></ion-icon>
-																</button>
-																<p class="contentBlack">
-																	<fmt:formatNumber value="${reply.nerfCount }"
-																		type="number" />
-																</p>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<hr class="hr-1Black hr-op">
-											<!-- 대댓글 하나 끝 -->
-										</c:if>
-									</c:forEach>
-								</div>
-							</c:if>
-						</c:forEach>
-					</div>
-
-
 
 					<!-- 페이지바 -->
 					<!-- 데이터 10개 이하 페이지버튼 none처리 -->
@@ -860,17 +1288,21 @@ function insertReply(e) {
 }
 
 /* 이모티콘 추가창 */
-$(".emoDiv").on("click", function(e){
-     const emo = $(e.target).siblings('.emo');
-     emo.toggle();
-});
+if(loginMember != ''){
+	$(".emoDiv").on("click", function(e){
+	     const emo = $(e.target).siblings('.emo');
+	     emo.toggle();
+	});
+}
  
 /* 이모티콘 선택 */
 $(document).on("click", ".emoBtn", function(e) {
 	/* console.log($(e.target).attr('id')); */
 	
-	const emo = $(e.target).parents('.insertCommentDiv').find('.commentDiv');
-	
+	const comEmo = $(e.target).parents('.insertCommentDiv').find('.commentDiv');
+	const repEmo = $(e.target).parents('.replyForm').find('.commentDiv');
+	console.log(comEmo);
+	console.log(repEmo);
 	$(".insertEmoDiv").remove();
 	
     const emoDiv = $("<div>").addClass("insertEmoDiv");
@@ -878,10 +1310,13 @@ $(document).on("click", ".emoBtn", function(e) {
     const xIcon = $("<img>").attr("src", "${path}/resources/images/matchprediction/xicon.png");
     xButton.append(xIcon);
     emoDiv.append(xButton);
-    emo.append(emoDiv);
+    comEmo.append(emoDiv);
+    repEmo.append(emoDiv);
 	
     emoDiv.show();
 	const imgUrl = $(e.target).attr('src');
+	const imgId = $(e.target).attr('id');
+	emoDiv.attr('id', imgId);
 	emoDiv.css("background-image", "url('" + imgUrl + "')");
 	
 });
@@ -948,7 +1383,144 @@ if(loginMember != ''){
 		    options: options
 		});
 	}
+} 
+
+/* 댓글 등록 ajax */
+const fn_insertComment=(week, e)=>{
+
+	if (loginMember == '') {
+      alert( '로그인 후 이용할 수 있습니다.' );
+      return false;
+    } else {
+    	const writer = '${loginMember.email}';
+    	const content = $(e.target).find('.insertComment').val();
+    	const emoticon = $(e.target).find('.insertEmoDiv').attr('id');
+    	const refNo = $(e.target).attr('id');
+    	// console.log(week); // nowWeek
+    	
+    	$.ajax({
+    		type: "POST",
+    		url: "/matchprediction/insertComment",
+    		data:{
+    			"writer": writer,
+    			"content": content,
+    			"emoticon": emoticon,
+    			"refNo": refNo,
+    			"week": week
+    		},
+    		dataType: "json",
+    		success : function(data){
+    			$(".mpCommentListDiv").html('');
+    			
+    			const div = $(".ajaxComment");
+    			const $commentSort = $('<div>').addClass('commentSort');
+    			const $new = $('<p>').addClass('contentBlack fs-18 newMargin fw-bolder').text('최신 순');
+    			const $popular = $('<p>').addClass('contentBlack fs-18').text('인기 순');
+    			const $hr = $('<hr>').addClass('hr-1Black hr-op');
+    			$commentSort.append($new, $popular);
+    			div.append($commentSort, $hr);
+    			
+    			/* 베스트 댓글 전체 */
+    			if(data[1].length > 0){
+    				console.log(data[1].length);
+	    			data[1].forEach(function(item) {
+	    				
+	    				let template = $(".bestCommentList").clone();
+	    				const $hr = $('<hr>').addClass('hr-1Black hr-op');
+	    				
+	    				console.log(item);
+	    				
+	    				template.find('.proImg').attr('src', '${path}/resources/upload/profile/' + item.mpcWriter.profile).css({width:'70px', height:'70px', borderRadius:'70px'});
+	    				template.find('.bestNickname').text(item.mpcWriter.nickname);
+	    				template.find('.bestTier').attr('src', '${path}/resources/images/tier/' + item.mpcWriter.tier.tierRulesNo.tierRulesImage);
+	    				if(item.mpcContent != null){
+	    					template.find('.bestContent').children('.contentBlack').text(item.mpcContent);
+	    				}
+	    				if(item.mpcEmoNo != null){
+	    					template.find('.bestContent').children('.emoticon').attr('src', '${path}/resources/images/emoticon/' + item.mpcEmoNo.emoFilename);
+	    				};
+    					template.find('.bestBn').children('.dateSpan').text(item.mpcDate);
+    					template.find('.bestBn').children('.insertReply').attr('id', item.mpcNo);
+    					template.find('.bestB').children('.contentBlack').text(item.buffCount);
+    					template.find('.bestN').children('.contentBlack').text(item.nerfCount);
+	    				
+    					div.append(template);
+    					div.append($hr);
+	    			});
+    			}
+    			
+    			/* 댓글 전체 목록 */
+    			/* if(data[0].length > 0){
+	    			data[0].forEach(function(item) {
+	    				let template = $(".bestCommentList").clone();
+	    				const $hr = $('<hr>').addClass('hr-1Black hr-op');
+	    				
+	    				template.find('.proImg').attr('src', '${path}/resources/upload/profile/' + item.mpcWriter.profile).css({width:'70px', height:'70px', borderRadius:'70px'});
+	    				template.find('.bestNickname').text(item.mpcWriter.nickname);
+	    				template.find('.bestTier').attr('src', '${path}/resources/images/tier/' + item.mpcWriter.tier.tierRulesNo.tierRulesImage);
+	    				template.find('.bestDiv').remove();
+	    				if(item.mpcContent != null){
+	    					template.find('.bestContent').children('.contentBlack').text(item.mpcContent);
+	    				}
+	    				if(item.mpcEmoNo != null){
+	    					template.find('.bestContent').children('.emoticon').attr('src', '${path}/resources/images/emoticon/' + item.mpcEmoNo.emoFilename);
+	    				};
+    					template.find('.bestBn').children('.dateSpan').text(item.mpcDate);
+    					template.find('.bestBn').children('.insertReply').attr('id', item.mpcNo);
+    					template.find('.bestB').children('.contentBlack').text(item.buffCount);
+    					template.find('.bestN').children('.contentBlack').text(item.nerfCount);
+	    				
+    					div.append(template);
+    					div.append($hr);
+	    			});
+    			} */
+    				
+    			$(".insertComment").val('');
+    			$(".emo").css('display', 'none');
+    			$(".insertEmoDiv").css('display', 'none');
+    			
+    		},
+    		error: function(err){
+    			console.log("요청 실패", err);
+    		}
+    	});
+    	return false;
+    }
 }
+
+/* 댓글 삭제 */
+$(document).on("click", ".delBtn", function(e) {
+	const mpcNo = $(e.target).parents('li').attr('id');
+	const removeDiv = $(e.target).parents('.commentList');
+	const hr = $(e.target).parents('.commentList').next('hr');
+	
+	if(confirm("정말 삭제하시겠습니까?")){
+		$.ajax({
+			type: "POST",
+			url: "/matchprediction/deleteComment",
+			data:{
+				"mpcNo": mpcNo
+			},
+			dataType: "json",
+			success : function(data){
+				console.log(mpcNo);
+				console.log(data);
+				if(data > 0){
+					alert("삭제 완료");
+					removeDiv.remove();
+					hr.remove();
+				} else {
+					alert("다시 한 번 시도해주세요.");
+				}
+			},
+			error : function(err){
+				console.log("요청 실패", err);
+			}
+		});
+	} else {
+		
+	}
+});
 	
 /* 주차 변경하기 */
 function weekChoice(week){

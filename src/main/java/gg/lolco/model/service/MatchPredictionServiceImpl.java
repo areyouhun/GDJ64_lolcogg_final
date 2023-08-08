@@ -84,5 +84,15 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 	public List<MemberEmoticon> myEmo(String email) {
 		return dao.myEmo(session, email);
 	}
+
+	@Override
+	public int insertComment(Map param) {
+		return dao.insertComment(session, param);
+	}
+
+	@Override
+	public int deleteComment(String mpcNo) {
+		return dao.deleteComment(session, mpcNo);
+	}
 	
 }

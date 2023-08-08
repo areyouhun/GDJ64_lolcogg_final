@@ -384,7 +384,7 @@ canvas {
     color: var(--lol-black);
 }
 
-.qnaCommentDiv {
+.mpCommentDiv {
     margin-top: 100px;
     border-radius: 10px;
     background-color: var(--lol-white);
@@ -393,12 +393,12 @@ canvas {
     align-items: center;
 }
 
-.qnaCommentDivSize {
+.mpCommentDivSize {
     width: 92%;
     height: 90%;
 }
 
-.qnaCommentTitle {
+.mpCommentTitle {
     margin: 50px 0px 20px 0px;
     font-size: 23px;
 }
@@ -415,7 +415,8 @@ ion-icon {
     background-color: #cccccc;
     display: flex;
     justify-content: space-between;
-    align-items: start;
+    align-items: center;
+    width: 100%;
 }
 
 .insertComment {
@@ -432,7 +433,7 @@ ion-icon {
     outline: none;
 }
 
-.qnaCommentListDiv {
+.mpCommentListDiv {
     margin: 70px 0px 50px 0px;
 }
 
@@ -883,4 +884,8 @@ button:active {
 .emoXIcon img{
 	width: 13px;
 	height: 13px;
+}
+
+.mpCommentListDivClone{
+	display: none;
 }

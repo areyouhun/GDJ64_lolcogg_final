@@ -36,4 +36,8 @@ public interface MatchPredictionDao {
 	List<MatchPredictionComment> bestCommentList(SqlSessionTemplate session, int week);
 	
 	List<MemberEmoticon> myEmo(SqlSessionTemplate session, String email);
+	
+	int insertComment(SqlSessionTemplate session, Map param);
+	
+	int deleteComment(SqlSessionTemplate session, String mpcNo);
 }

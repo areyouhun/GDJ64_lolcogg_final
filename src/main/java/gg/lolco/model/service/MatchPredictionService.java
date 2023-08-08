@@ -33,4 +33,9 @@ public interface MatchPredictionService {
 	List<MatchPredictionComment> bestCommentList(int week);
 	
 	List<MemberEmoticon> myEmo(String email);
+	
+	int insertComment(Map param);
+	
+	int deleteComment(String mpcNo);
+	
 }
