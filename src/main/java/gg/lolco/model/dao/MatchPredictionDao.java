@@ -40,4 +40,10 @@ public interface MatchPredictionDao {
 	int insertComment(SqlSessionTemplate session, Map param);
 	
 	int deleteComment(SqlSessionTemplate session, String mpcNo);
+	
+	int commentBn(SqlSessionTemplate session, Map param);
+	
+	int commentBnDelete(SqlSessionTemplate session, Map param);
+	
+	MatchPredictionComment countBn(SqlSessionTemplate session, Map param);
 }

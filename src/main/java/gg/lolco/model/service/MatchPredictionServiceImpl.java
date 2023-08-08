@@ -94,5 +94,20 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 	public int deleteComment(String mpcNo) {
 		return dao.deleteComment(session, mpcNo);
 	}
+
+	@Override
+	public int commentBn(Map param) {
+		return dao.commentBn(session, param);
+	}
+
+	@Override
+	public int commentBnDelete(Map param) {
+		return dao.commentBnDelete(session, param);
+	}
+
+	@Override
+	public MatchPredictionComment countBn(Map param) {
+		return dao.countBn(session, param);
+	}
 	
 }

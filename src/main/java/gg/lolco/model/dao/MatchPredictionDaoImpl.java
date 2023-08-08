@@ -89,4 +89,19 @@ public class MatchPredictionDaoImpl implements MatchPredictionDao {
 		return session.delete("matchPrediction.deleteComment", mpcNo);
 	}
 
+	@Override
+	public int commentBn(SqlSessionTemplate session, Map param) {
+		return session.insert("matchPrediction.commentBn", param);
+	}
+
+	@Override
+	public int commentBnDelete(SqlSessionTemplate session, Map param) {
+		return session.delete("matchPrediction.commentBnDelete", param);
+	}
+
+	@Override
+	public MatchPredictionComment countBn(SqlSessionTemplate session, Map param) {
+		return session.selectOne("matchPrediction.countBn", param);
+	}
+
 }

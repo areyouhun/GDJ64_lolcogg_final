@@ -38,4 +38,9 @@ public interface MatchPredictionService {
 	
 	int deleteComment(String mpcNo);
 	
+	int commentBn(Map param);
+	
+	int commentBnDelete(Map param);
+	
+	MatchPredictionComment countBn(Map param);
 }

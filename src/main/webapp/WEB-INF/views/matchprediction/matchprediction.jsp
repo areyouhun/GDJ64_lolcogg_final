@@ -381,7 +381,7 @@
                 <p class='replyCount insertReply'>답글 29</p>
               </div>
 
-              <div class="buffNerfDiv">
+              <div id="${best.mpcNo }" class="buffNerfDiv">
                 <div class="buffDiv">
                   <button class="buffBtn">
                     버프
@@ -392,7 +392,7 @@
                   </p>
                 </div>
                 <div class="nerfDiv">
-                  <button class="buffBtn">
+                  <button class="nerfBtn">
                     너프
                     <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
                   </button>
@@ -490,10 +490,12 @@
                     </c:if>
                   </div>
                   <div class="dateBuffDiv">
+                  <div class='insertReplyDiv'>
                     <span class="dateSpan">
                       <fmt:formatDate value="${reply.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
                     </span>
-                    <div class="buffNerfDiv">
+                    </div>
+                    <div id="${reply.mpcNo }" class="buffNerfDiv">
                       <div class="buffDiv">
                         <button class="buffBtn">
                           버프
@@ -504,7 +506,7 @@
                         </p>
                       </div>
                       <div class="nerfDiv">
-                        <button class="buffBtn">
+                        <button class="nerfBtn">
                           너프
                           <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
                         </button>
@@ -577,11 +579,11 @@
                 <span class="dateSpan">
                   <fmt:formatDate value="${comment.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
                 </span>
-                <p id="${best.mpcNo }" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
+                <p id="${comment.mpcNo }" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
                 <p class='replyCount insertReply'>답글 29</p>
               </div>
 
-              <div class="buffNerfDiv">
+              <div id="${comment.mpcNo }" class="buffNerfDiv">
                 <div class="buffDiv">
                   <button class="buffBtn">
                     버프
@@ -592,7 +594,7 @@
                   </p>
                 </div>
                 <div class="nerfDiv">
-                  <button class="buffBtn">
+                  <button class="nerfBtn">
                     너프
                     <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
                   </button>
@@ -687,10 +689,12 @@
                     </c:if>
                   </div>
                   <div class="dateBuffDiv">
+                  <div class='insertReplyDiv'>
                     <span class="dateSpan">
                       <fmt:formatDate value="${reply.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
                     </span>
-                    <div class="buffNerfDiv">
+                    </div>
+                    <div id="${reply.mpcNo }" class="buffNerfDiv">
                       <div class="buffDiv">
                         <button class="buffBtn">
                           버프
@@ -701,7 +705,7 @@
                         </p>
                       </div>
                       <div class="nerfDiv">
-                        <button class="buffBtn">
+                        <button class="nerfBtn">
                           너프
                           <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
                         </button>
@@ -801,7 +805,7 @@
               </p>
             </div>
             <div class="bestN nerfDiv">
-              <button class="buffBtn">
+              <button class="nerfBtn">
                 너프
                 <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
               </button>
@@ -914,7 +918,7 @@
               <!-- [답글 수] -->
               <p class='replyCount insertReply'>답글 29</p>
             </div>
-            <div class="buffNerfDiv">
+            <div id="${best.mpcNo }" class="buffNerfDiv">
               <div class="buffDiv">
                 <button class="buffBtn">
                   버프
@@ -926,7 +930,7 @@
                 </p>
               </div>
               <div class="nerfDiv">
-                <button class="buffBtn">
+                <button class="nerfBtn">
                   너프
                   <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
                 </button>
@@ -1002,7 +1006,7 @@
             <!-- [답글 수] -->
             <p class='replyCount insertReply'>답글 29</p>
           </div>
-          <div class="buffNerfDiv">
+          <div id="${best.mpcNo }" class="buffNerfDiv">
             <div class="buffDiv">
               <button class="buffBtn">
                 버프
@@ -1014,7 +1018,7 @@
               </p>
             </div>
             <div class="nerfDiv">
-              <button class="buffBtn">
+              <button class="nerfBtn">
                 너프
                 <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
               </button>
@@ -1127,7 +1131,7 @@
               <!-- [답글 수] -->
               <p class='replyCount insertReply'>답글 29</p>
             </div>
-            <div class="buffNerfDiv">
+            <div id="${best.mpcNo }" class="buffNerfDiv">
               <div class="buffDiv">
                 <button class="buffBtn">
                   버프
@@ -1139,7 +1143,7 @@
                 </p>
               </div>
               <div class="nerfDiv">
-                <button class="buffBtn">
+                <button class="nerfBtn">
                   너프
                   <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
                 </button>
@@ -1494,6 +1498,10 @@ $(document).on("click", ".delBtn", function(e) {
 	const removeDiv = $(e.target).parents('.commentList');
 	const hr = $(e.target).parents('.commentList').next('hr');
 	
+	/* 베스트 댓글일 경우 둘 다 삭제되어야 함 */
+	const mpcNoId = $('[id="' + mpcNo + '"].insertReply');
+	const remove = mpcNoId.parents('.commentList');
+	
 	if(confirm("정말 삭제하시겠습니까?")){
 		$.ajax({
 			type: "POST",
@@ -1505,8 +1513,8 @@ $(document).on("click", ".delBtn", function(e) {
 			success : function(data){
 				if(data > 0){
 					alert("삭제 완료");
-					removeDiv.remove();
-					hr.remove();
+					remove.next('hr').remove();
+					remove.remove();
 				} else {
 					alert("다시 한 번 시도해주세요.");
 				}
@@ -1519,7 +1527,85 @@ $(document).on("click", ".delBtn", function(e) {
 		
 	}
 });
+
+/* 댓글 수정 */
+$(document).on("click", ".upBtn", function(e) {
+	const mpcNo = $(e.target).parents('li').attr('id');
+	const removeDiv = $(e.target).parents('.commentList');
 	
+	console.log(mpcNo);
+	console.log(removeDiv);
+});
+
+/* 댓글 버프 */
+$(document).on("click", ".buffBtn", function(e) {
+	const mpcNo = $(e.target).parents('.buffNerfDiv').attr('id');
+	
+	if (loginMember == '') {
+		alert( '로그인 후 이용할 수 있습니다.' );
+	} else {
+		$.ajax({
+			type: "POST",
+			url: "/matchprediction/commentBn",
+			data:{
+				"bn" : 'B',
+				"mpcNo" : mpcNo,
+				"email" : '${loginMember.email}'
+			},
+			dataType: "json",
+			success : function(data){
+				console.log(data);
+				
+				const buffBtn = $(e.target).closest('.buffBtn');
+				const nerfBtn = buffBtn.parent().siblings('.nerfDiv').find('.nerfBtn');
+				buffBtn.css('border', '3px solid var(--lol-mainblue)');
+				nerfBtn.css('border', '2px solid #ccc');
+				buffBtn.siblings('.contentBlack').text(data.buffCount);
+				nerfBtn.siblings('.contentBlack').text(data.nerfCount);
+					
+			},
+			error : function(err){
+				console.log("요청 실패", err);
+			}
+		});
+	}
+});
+
+/* 댓글 너프 */
+$(document).on("click", ".nerfBtn", function(e) {
+	const mpcNo = $(e.target).parents('.buffNerfDiv').attr('id');
+	
+	if (loginMember == '') {
+		alert( '로그인 후 이용할 수 있습니다.' );
+	} else {
+		$.ajax({
+			type: "POST",
+			url: "/matchprediction/commentBn",
+			data:{
+				"bn" : 'N',
+				"mpcNo" : mpcNo,
+				"email" : '${loginMember.email}'
+			},
+			dataType: "json",
+			success : function(data){
+				console.log(data);
+				console.log(e.target);
+				const nerfBtn = $(e.target).closest('.nerfBtn');
+				const buffBtn = nerfBtn.parent().siblings('.buffDiv').find('.buffBtn');
+				nerfBtn.css('border', '3px solid var(--lol-mainblue)');
+				buffBtn.css('border', '2px solid #ccc');
+				buffBtn.siblings('.contentBlack').text(data.buffCount);
+				nerfBtn.siblings('.contentBlack').text(data.nerfCount);
+			},
+			error : function(err){
+				console.log("요청 실패", err);
+			}
+		});
+	}
+});
+
+
+
 /* 주차 변경하기 */
 function weekChoice(week){
 	/* 버튼에 클래스 추가 weekChoice, 버튼에 삭제? */

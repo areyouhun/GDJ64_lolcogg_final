@@ -72,11 +72,13 @@ public class MatchPerdictionController {
 		
 		// 내 적중률, 전체 적중률 랭킹
 		List<MatchPrediction> myMpSuccess = new ArrayList<>();
+		List<MatchPrediction> mpSuccess = service.mpSuccess(null);
+		log.info("@@@@{}", myMpSuccess);
 		if(member != null) {
 			String nickname = member.getNickname();
 			myMpSuccess = service.mpSuccess(nickname);
 		}
-		List<MatchPrediction> mpSuccess = service.mpSuccess(null);
+		log.info("@@@@{}", myMpSuccess);
 		m.addAttribute("mpSuccess", mpSuccess);
 		m.addAttribute("myMpSuccess", myMpSuccess);
 		
@@ -131,9 +133,21 @@ public class MatchPerdictionController {
 	@PostMapping("/matchprediction/deleteComment")
 	@ResponseBody
 	public int deleteComment(@RequestParam String mpcNo) {
-		log.info(mpcNo);
 		int result = service.deleteComment(mpcNo);
 		return result;
+	}
+	
+	// 댓글 버프너프
+	@PostMapping("/matchprediction/commentBn")
+	@ResponseBody
+	public MatchPredictionComment commentBn(@RequestParam Map param) {
+		int result = service.commentBnDelete(param);
+		result += service.commentBn(param);
+		
+		log.info("@@@@@@@{}", param);
+		// 버프시 너프 카운트, 너프시 버프 카운트
+		MatchPredictionComment countBn = service.countBn(param);
+		return countBn;
 	}
 	
 	
