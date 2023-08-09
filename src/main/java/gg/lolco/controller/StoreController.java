@@ -51,7 +51,7 @@ public class StoreController {
 	}
 	
 	@GetMapping("/detail")
-	public String storeDetail(Model m,Integer no,String name,@SessionAttribute(name="loginMember", required = false) Member member) {
+	public String storeDetail(Model m,Integer no,String name,@SessionAttribute(name="loginMember", required = false) Member member,String sort, String order) {
 		Map<String,Object> param=new HashMap<>();
 		if(member!=null) {
 			String email=member.getEmail();
@@ -59,6 +59,8 @@ public class StoreController {
 			m.addAttribute("buyer",serviceMember.selectMemberById(param));
 		}
 		param.put("no", no);
+		param.put("sort", sort);
+		param.put("order", order);
 		param.put("itemname","%"+name+"%");
 		m.addAttribute("items",service.selectItemDetail(param));
 		m.addAttribute("no",no);
@@ -132,20 +134,25 @@ public class StoreController {
 	
 	@RequestMapping("addExp")
 	@ResponseBody
-	public void addExp(@SessionAttribute("loginMember") Member member, int exp,SessionStatus status,  HttpSession session) {
+	public void addExp(@SessionAttribute("loginMember") Member member, int exp,SessionStatus status,  HttpSession session,int price) {
 		String email=member.getEmail();
 		int memberExp=member.getTotalExp();
 		Map<String,Object> param=new HashMap<>();
 		param.put("email", email);
+		param.put("price", price);
+		int result=service.buyerMoney(param);
 		if(memberExp+exp<0) {
 			exp=-memberExp;
 		}
 		param.put("exp", exp);
-		int result=service.addExp(param);
-		if(result>0) {
+		int resultExp=service.addExp(param);
+		if(result>0&&resultExp>0) {
 			Member memberupdate=serviceMember.selectMemberById(param);
 			if(!status.isComplete()) status.setComplete();
 			session.setAttribute("loginMember", memberupdate);
 		}
 	}
+	
+	
+	
 }

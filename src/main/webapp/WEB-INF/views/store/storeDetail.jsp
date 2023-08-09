@@ -360,9 +360,9 @@
                 <div>
                 	<div class="storeTheme">
                 		<div class="arrayPoint">
-	                        <a class="array clickclick" id="high">높은 포인트순</a>
-	                        <a class="array clickclick" id="low">낮은 포인트순</a>
-	                        <a class="array clickclick" id="name">이름순</a>
+	                        <a href="${path}/store/detail?sort=ITEM_PRICE&order=DESC&no=${no}" >높은 포인트순</a>
+	                        <a href="${path}/store/detail?sort=ITEM_PRICE&order=ASC&no=${no}" >낮은 포인트순</a>
+	                        <a href="${path}/store/detail?sort=ITEM_NAME&order=ASC&no=${no}" >가나다순</a>
 	                    </div>
 	                    <div id="storeSearchMain">
 	                        <img id="searchImg" src="${path}/resources/images/store/searchImg.png">
@@ -582,7 +582,8 @@
 								type : 'POST',
 								url : '${path}/store/nickChange',
 								data : {
-									"name" : changename
+									"name" : changename,
+									"price" : price
 								},
 								success : function(){
 									alert("닉네임이 변경되었습니다.")
@@ -619,7 +620,8 @@
 						type : 'POST',
 						url : '${path}/store/addExp',
 						data : {
-							"exp" : addExpNum
+							"exp" : addExpNum,
+							"price" : price
 						},
 						success : function(){
 							alert(addExpNum+"의 경험치를 얻었습니다.");

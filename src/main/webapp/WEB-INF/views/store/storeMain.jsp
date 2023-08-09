@@ -487,7 +487,8 @@
 						type : 'POST',
 						url : '${path}/store/addExp',
 						data : {
-							"exp" : addExpNum
+							"exp" : addExpNum,
+							"price" : price
 						},
 						success : function(){
 							alert(addExpNum+"의 경험치를 얻었습니다.");
