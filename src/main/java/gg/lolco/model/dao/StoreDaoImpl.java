@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import gg.lolco.model.vo.CardPack;
 import gg.lolco.model.vo.EmoPack;
-import gg.lolco.model.vo.Emoticon;
-import gg.lolco.model.vo.Member;
 import gg.lolco.model.vo.MemberEmoticon;
 import gg.lolco.model.vo.PointItem;
 

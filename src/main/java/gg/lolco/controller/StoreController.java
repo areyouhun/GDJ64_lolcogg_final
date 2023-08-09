@@ -64,6 +64,8 @@ public class StoreController {
 		param.put("itemname","%"+name+"%");
 		m.addAttribute("items",service.selectItemDetail(param));
 		m.addAttribute("no",no);
+		m.addAttribute("sort",sort);
+		m.addAttribute("order",order);
 		return "store/storeDetail";
 	}
 	

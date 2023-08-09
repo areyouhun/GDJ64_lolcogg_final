@@ -360,9 +360,9 @@
                 <div>
                 	<div class="storeTheme">
                 		<div class="arrayPoint">
-	                        <a href="${path}/store/detail?sort=ITEM_PRICE&order=DESC&no=${no}" >높은 포인트순</a>
-	                        <a href="${path}/store/detail?sort=ITEM_PRICE&order=ASC&no=${no}" >낮은 포인트순</a>
-	                        <a href="${path}/store/detail?sort=ITEM_NAME&order=ASC&no=${no}" >가나다순</a>
+	                        <a href="${path}/store/detail?sort=ITEM_PRICE&order=DESC&no=${no}" id=${order=='DESC'&&sort=='ITEM_PRICE'?"checkitem":"" } >높은 포인트순</a>
+	                        <a href="${path}/store/detail?sort=ITEM_PRICE&order=ASC&no=${no}" id=${order=='ASC'&&sort=='ITEM_PRICE'?"checkitem":"" }>낮은 포인트순</a>
+	                        <a href="${path}/store/detail?sort=ITEM_NAME&order=ASC&no=${no}" id=${order=='ASC'&&sort=='ITEM_NAME'?"checkitem":"" }>가나다순</a>
 	                    </div>
 	                    <div id="storeSearchMain">
 	                        <img id="searchImg" src="${path}/resources/images/store/searchImg.png">
