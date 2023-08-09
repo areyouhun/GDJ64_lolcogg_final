@@ -49,7 +49,7 @@
 	height: 2rem;
 	width: 20rem;
 	text-indent: 2.4rem;
-	color: white;
+	color: var(--lol-white);
 	font-size: 18px;
 }
 

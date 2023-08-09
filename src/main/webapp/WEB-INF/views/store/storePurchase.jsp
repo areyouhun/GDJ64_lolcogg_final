@@ -202,7 +202,29 @@
 	<jsp:param name="navBgColor" value="nav-black"/>
 </jsp:include>
     <section>
+    	<%-- <div>
+    		<div>
+    			<div style="background-color: white">
+    				<img id="searchImg" src="${path}/resources/images/store/좌클릭.png" style="width:50px;height: 50px ">
+    			</div>
+    			<p>좌클릭 : 회전</p>
+    		</div>
+    		<div>
+    			<div style="background-color: white">
+    				<img id="searchImg" src="${path}/resources/images/store/우클릭.png" style="width:50px;height: 50px ">
+    			</div>
+    			<p>우클릭 : 이동</p>
+    		</div>
+    		<div>
+    			<div style="background-color: white">
+    				<img id="searchImg" src="${path}/resources/images/store/휠클릭.png" style="width:50px;height: 50px ">
+    			</div>
+    			<p>휠 : 확대,축소</p>
+    		</div>
+    		
+    	</div> --%>
 	    <div id="container"></div>
+	    <button>돌아가기</button>
 		<div id="menu">
 			<button id="table">TABLE</button>
 			<button id="helix">HELIX</button>
@@ -227,10 +249,10 @@
 <script type="module">
 			
 			import * as THREE from 'three';
-
 			import TWEEN from 'three/addons/tween.module.js';
 			import { TrackballControls } from 'three/addons/TrackballControls.js';
 			import { CSS3DRenderer, CSS3DObject } from 'three/addons/CSS3DRenderer.js';
+
 
 			const table = [
 			<c:if test="${not empty cardPack}">
@@ -261,8 +283,8 @@
 
 			function init() {
 
-				camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
-				camera.position.z = 2200;
+				camera = new THREE.PerspectiveCamera( 4000, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera.position.z = 1300;
 
 				scene = new THREE.Scene();
 
@@ -352,15 +374,15 @@
 
 				for ( let i = 0, l = objects.length; i < l; i ++ ) {
 
-					const theta = i * 1 + Math.PI;
-					const y = - ( i * 8 ) + 170;
+					const theta = i * 1.3 + Math.PI;
+					const y = - ( i * 8 ) + 50;
 
 					const object = new THREE.Object3D();
 
-					object.position.setFromCylindricalCoords( 900, theta, y );
+					object.position.setFromCylindricalCoords( 400, theta, y );
 
 					vector.x = object.position.x * 2;
-					vector.y = object.position.y;
+					vector.y = object.position.y * 1.5;
 					vector.z = object.position.z * 2;
 					
 
@@ -380,25 +402,27 @@
 				//
 
 				controls = new TrackballControls( camera, renderer.domElement );
-				controls.minDistance = 100;
+				controls.minDistance = 300;
 				controls.maxDistance = 10000;
 				controls.addEventListener( 'change', render );
+
+				
 
 				const buttonTable = document.getElementById( 'table' );
 				buttonTable.addEventListener( 'click', function () {
 
-					transform( targets.table, 2000 );
+					transform( targets.table, 1500 );
 
 				} );
 
 				const buttonHelix = document.getElementById( 'helix' );
 				buttonHelix.addEventListener( 'click', function () {
-					transform( targets.helix, 2000 );
+					transform( targets.helix, 1500 );
 
 				} );
 
 
-				transform( targets.table, 2000 );
+				transform( targets.helix, 1500 );
 
 				//
 
@@ -490,6 +514,23 @@ window.onload = function onloadEvent() {
 		}
 	}
 }
+function noRefresh()
+{
+    /* CTRL + N키 막음. */
+    if ((event.keyCode == 78) && (event.ctrlKey == true))
+    {
+        event.keyCode = 0;
+        return false;
+    }
+    /* F5 번키 막음. */
+    if(event.keyCode == 116)
+    {
+        event.keyCode = 0;
+        return false;
+    }
+}
+
+document.onkeydown = noRefresh ;
 </script>
 <!-------------------------------------------->
 </body>
