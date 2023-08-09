@@ -37,6 +37,7 @@ public class StoreController {
 	
 	@GetMapping("/main")
 	public String storeMain(Model m,@SessionAttribute(name="loginMember", required = false) Member member) {
+		m.addAttribute("mostItems",service.selectMostItem());
 		m.addAttribute("itemsEmoticon",service.selectItemMain(2));
 		m.addAttribute("itemsCard",service.selectItemMain(1));
 		m.addAttribute("itemsETC",service.selectItemMain(3));
@@ -89,7 +90,7 @@ public class StoreController {
 					if(me==null) {
 						service.memberEmoticonBuy(param);
 					}else {
-						param.put("price", -(price/5));
+						param.put("price", -(price/5)*0.8);
 						service.buyerMoney(param);
 					}
 
@@ -114,13 +115,34 @@ public class StoreController {
 	
 	@RequestMapping("/nickChange")
 	@ResponseBody
-	public void nickChange(Model m,String name,@SessionAttribute("loginMember") Member member,SessionStatus status,  HttpSession session){
+	public void nickChange(Model m,String name,@SessionAttribute("loginMember") Member member,SessionStatus status,  HttpSession session,int price){
 		String email=member.getEmail();
 		Map<String,Object> param=new HashMap<>();
 		param.put("email", email);
 		param.put("name", name);
-		int result=service.nickChange(param);
-		if(result!=0) {
+		param.put("price", price);
+		int result=service.buyerMoney(param);
+		int resultChange=service.nickChange(param);
+		if(resultChange>0&&result>0) {
+			Member memberupdate=serviceMember.selectMemberById(param);
+			if(!status.isComplete()) status.setComplete();
+			session.setAttribute("loginMember", memberupdate);
+		}
+	}
+	
+	@RequestMapping("addExp")
+	@ResponseBody
+	public void addExp(@SessionAttribute("loginMember") Member member, int exp,SessionStatus status,  HttpSession session) {
+		String email=member.getEmail();
+		int memberExp=member.getTotalExp();
+		Map<String,Object> param=new HashMap<>();
+		param.put("email", email);
+		if(memberExp+exp<0) {
+			exp=-memberExp;
+		}
+		param.put("exp", exp);
+		int result=service.addExp(param);
+		if(result>0) {
 			Member memberupdate=serviceMember.selectMemberById(param);
 			if(!status.isComplete()) status.setComplete();
 			session.setAttribute("loginMember", memberupdate);

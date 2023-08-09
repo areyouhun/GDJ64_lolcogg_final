@@ -166,38 +166,19 @@
 	                    </div>
                 	</div>
                 	<div class="itemArray">
-                		<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img class="checkBuyItem" src="${path}/resources/images/store/DK,DRX,KDF,KT_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
-                    	<div class="item">
-	                        <img class="checkBuyItem" src="${path}/resources/images/store/PRM_10.png">
-	                        <h4>프리미엄 선수팩 10장</h4>
-	                        <div>
-	                            <img src="${path}/resources/images/store/pointImg.png">
-	                            <h5>975</h5>
-	                        </div>
-                    	</div>
+                		<c:if test="${not empty mostItems}">
+				          		<c:forEach var="m" items="${mostItems }">
+				                		<div class="item">
+					                        <img class="checkBuyItem" src="${path}/resources/images/store/${m.itemFilename}">
+					                        <h4>${m.itemName }</h4>
+					                        <p style="display:none">${m.itemExp }</p>
+					                        <div>
+					                            <img src="${path}/resources/images/store/pointImg.png">
+					                            <h5>${m.itemPrice }</h5>
+					                        </div>
+				                    	</div>
+				           		</c:forEach>
+					        </c:if>
                 	</div>
                 </div>
                 <hr class="storeLine">
@@ -468,7 +449,8 @@
 								type : 'POST',
 								url : '${path}/store/nickChange',
 								data : {
-									"name" : changename
+									"name" : changename,
+									"price" : 200
 								},
 								success : function(){
 									alert("닉네임이 변경되었습니다.")
@@ -486,13 +468,42 @@
 							$('.nickName').hide();
 						})
 						
+				}else if(name.includes('물약')){
+					let addExpNum;
+					if(name.includes('일반')){
+						addExpNum=Math.floor(Math.random() * 500)
+					}else if(name.includes('서사')){
+						addExpNum=Math.floor(Math.random() * 1000)
+					}else if(name.includes('행운')){
+						if(Math.floor(Math.random() * 2)==0){
+							addExpNum=-Math.floor(Math.random() * 1000)
+						}else{
+							addExpNum=Math.floor(Math.random() * 1000)
+						}
+					}else{
+						addExpNum=Math.floor(Math.random() * 2000)
+					}
+					$.ajax({
+						type : 'POST',
+						url : '${path}/store/addExp',
+						data : {
+							"exp" : addExpNum
+						},
+						success : function(){
+							alert(addExpNum+"의 경험치를 얻었습니다.");
+							location.href='${path}/store/main';
+						},
+						error : function(request, status, error) { 
+					        console.log(error)
+					    }
+					})
 				}else{
-					location.href='${path}/store/purchase?name='+name+"&price="+price;
+					location.replace('${path}/store/purchase?name='+name+"&price="+price);
 				}
 			}
 		})
 		$('#storeSearchButton').click(function(){
-			location.replace='${path}/store/detail?name='+$("#storeSearch").val()
+			location.href='${path}/store/detail?name='+$("#storeSearch").val()
 		})
 	});
 

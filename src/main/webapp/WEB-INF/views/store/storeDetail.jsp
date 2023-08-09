@@ -600,18 +600,44 @@
 							$('.nickName').hide();
 						})
 						
+				}else if(name.includes('물약')){
+					let addExpNum;
+					if(name.includes('일반')){
+						addExpNum=Math.floor(Math.random() * 500)
+					}else if(name.includes('서사')){
+						addExpNum=Math.floor(Math.random() * 1000)
+					}else if(name.includes('행운')){
+						if(Math.floor(Math.random() * 2)==0){
+							addExpNum=-Math.floor(Math.random() * 1000)
+						}else{
+							addExpNum=Math.floor(Math.random() * 1000)
+						}
+					}else{
+						addExpNum=Math.floor(Math.random() * 2000)
+					}
+					$.ajax({
+						type : 'POST',
+						url : '${path}/store/addExp',
+						data : {
+							"exp" : addExpNum
+						},
+						success : function(){
+							alert(addExpNum+"의 경험치를 얻었습니다.");
+							location.href='${path}/store/main';
+						},
+						error : function(request, status, error) { 
+					        console.log(error)
+					    }
+					})
 				}else{
-					location.href='${path}/store/purchase?name='+name+"&price="+price;
+					location.replace('${path}/store/purchase?name='+name+"&price="+price);
 				}
 			}
 		})
 		$('#storeSearchButton').click(function(){
-			location.replace='${path}/store/detail?name='+$("#storeSearch").val()
+			location.href='${path}/store/detail?name='+$("#storeSearch").val()
 		})
-		
-		$('.array').click(function(e){
-			$.ajax
-		})
+
 	});
 
 </script>

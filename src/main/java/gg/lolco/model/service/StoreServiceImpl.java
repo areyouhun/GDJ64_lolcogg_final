@@ -68,10 +68,19 @@ public class StoreServiceImpl implements StoreService {
 	public int memberEmoticonBuy(Map<String, Object> param) {
 		return dao.memberEmoticonBuy(session, param);
 	}
+	@Override
+	public int addExp(Map<String, Object> param) {
+		return dao.addExp(session, param);
+	}
 	
 	@Override
 	public MemberEmoticon memberEmoticonCheck(Map<String, Object> param) {
 		return dao.memberEmoticonCheck(session, param);
+	}
+	
+	@Override
+	public List<PointItem> selectMostItem() {
+		return dao.selectMostItem(session);
 	}
 
 }

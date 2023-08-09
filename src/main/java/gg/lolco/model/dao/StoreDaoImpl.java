@@ -60,10 +60,19 @@ public class StoreDaoImpl implements StoreDao {
 	public int memberEmoticonBuy(SqlSession session, Map<String, Object> param) {
 		return session.insert("store.memberEmoticonBuy",param);
 	}
+	@Override
+	public int addExp(SqlSession session, Map<String, Object> param) {
+		return session.update("store.addExp",param);
+	}
 	
 	@Override
 	public MemberEmoticon memberEmoticonCheck(SqlSession session, Map<String, Object> param) {
 		return session.selectOne("store.memberEmoticonCheck",param);
+	}
+	
+	@Override
+	public List<PointItem> selectMostItem(SqlSession session) {
+		return session.selectList("store.selectMostItem");
 	}
 
 }

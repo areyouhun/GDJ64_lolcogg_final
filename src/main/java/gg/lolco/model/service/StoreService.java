@@ -11,6 +11,7 @@ import gg.lolco.model.vo.PointItem;
 public interface StoreService {
 	List<PointItem> selectItemMain(int no);
 	List<PointItem> selectItemDetail(Map<String,Object> param);
+	List<PointItem> selectMostItem();
 	
 	List<EmoPack> itemPurchaseEmoticon(String name);
 	List<CardPack> itemPurchaseCard(String name);
@@ -23,6 +24,7 @@ public interface StoreService {
 	int itemPurchase(Map<String,Object> param);
 	int memberCardBuy(Map<String,Object> param);
 	int memberEmoticonBuy(Map<String,Object> param);
+	int addExp(Map<String,Object> param);
 	
 	MemberEmoticon memberEmoticonCheck(Map<String,Object> param);
 }

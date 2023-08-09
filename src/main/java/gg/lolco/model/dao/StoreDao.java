@@ -14,6 +14,7 @@ import gg.lolco.model.vo.PointItem;
 public interface StoreDao {
 	List<PointItem> selectItemMain(SqlSession session,int no);
 	List<PointItem> selectItemDetail(SqlSession session,Map<String,Object> param);
+	List<PointItem> selectMostItem(SqlSession session);
 	
 	List<EmoPack> itemPurchaseEmoticon(SqlSession session,String name);
 	List<CardPack> itemPurchaseCard(SqlSession session,String name);
@@ -25,6 +26,7 @@ public interface StoreDao {
 	int itemPurchase(SqlSession session,Map<String,Object> param);
 	int memberCardBuy(SqlSession session,Map<String,Object> param);
 	int memberEmoticonBuy(SqlSession session,Map<String,Object> param);
+	int addExp(SqlSession session,Map<String,Object> param);
 	
 	MemberEmoticon memberEmoticonCheck(SqlSession session,Map<String,Object> param);
 }
