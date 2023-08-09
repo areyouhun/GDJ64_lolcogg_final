@@ -133,7 +133,7 @@
 												</c:if>
 											</c:forEach>
 											<!-- 한 경기 시작 -->
-											<div id="${m.msNo }" class="mpMatchDiv ${m.msDate < today ? 'pointerEvents' : ''} }">
+											<div id="${m.msNo }" class="mpMatchDiv ${m.msDate < today ? 'pointerEvents' : (m.msHome == null || m.msAway == null) ? 'pointerEvents' : ''} }">
 												<div id="${m.msNo }" class="homeDiv ${finishHome } ${ingHome} ${outlineHome}">
 													<div class="logoDiv">
 														<div class="logoImgDiv">
@@ -1402,7 +1402,7 @@ function weekChoice(week){
 				let msTimeP = $('<p>').addClass('content fs-20').text(msTime);
 				statusTimeDiv.append(statusDiv, msTimeP);
 	
-				let mpMatchDiv = $('<div>').attr('id', '${m.msNo }').addClass(date < today ? 'mpMatchDiv pointerEvents' : 'mpMatchDiv');
+				let mpMatchDiv = $('<div>').attr('id', '${m.msNo }').addClass(date < today ? 'mpMatchDiv pointerEvents' : (item.msAway == null || item.msHome == null) ? 'mpMatchDiv pointerEvents' : 'mpMatchDiv');
 
 				let homeDiv = $('<div>').addClass('homeDiv');
 				let logoDiv = $('<div>').addClass('logoDiv');
