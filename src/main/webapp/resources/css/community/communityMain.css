@@ -21,8 +21,15 @@ button:active {
 /* hr 얇은선 */
 .hr-1 {
 	margin-top: 20px;
-
 	height: 1px;
+	border: 0px;
+	background: rgba(217, 217, 217, 0.60);
+}
+/*hr 굵은선*/
+.hr-2 {
+	margin-top: 30px;
+	margin-bottom: 30px;
+	height: 3px;
 	border: 0px;
 	background: rgba(217, 217, 217, 0.60);
 }
@@ -153,22 +160,20 @@ button:active {
 
 /* 커뮤니티 중앙 게시글 */
 .community-center {
-	width: 790px;
-
+	width: 100%;
 	border-radius: 10px;
 	border: 3px solid #2C2C2C;
-
 	background-color: rgba(44, 44, 44, 0.60);
-	margin-left: 10px;
-	margin-right: 10px;
+	
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	
 }
 
 /* 커뮤니티 중앙 게시글 */
 .community-center-list {
 	width: 100%;
+	
 	border-radius: 10px;
 	border: 3px solid #2C2C2C;
 	background-color: rgba(44, 44, 44, 0.60);
@@ -182,10 +187,16 @@ button:active {
 /* 커뮤니티 중앙 게시글 내용 */
 .community-center-size {
 	width: 93%;
-	margin-bottom: 60px;
+	
+}
+.board-content img {
+	 max-width: 1000px;
+	 max-height: 1000px;
+ 
 }
 .pageBar_div{
 	margin-top: 70px;
+	margin-bottom: 50px;
 }
 /* 커뮤니티 카테고리  */
 .board-categories {
@@ -309,8 +320,11 @@ button:active {
 
 /* 게시글 한개 */
 .board-content {
+	
 	margin-top: 20px;
 	margin-left: 10px;
+	font-size: 25px;
+	color: var(--lol-white, #EEE);
 }
 
 /* 게시글 제목 */
@@ -618,29 +632,35 @@ button:active {
 	margin-top: 30px;
 	display: flex;
 	justify-content: end;
-	cursor: pointer;
+	
 	margin-bottom: 50px;
 }
 
 .report-sharing svg {
 	margin-right: 10px;
+	cursor: pointer;
 
 }
 
 .report-sharing span {
 	margin-right: 15px;
+	cursor: pointer;
 }
 
 /* 게시글 댓글 */
 
+.board_comment{
+	margin: auto;
+}
 .board-comment {
-	width: 770px;
-	margin-right: 3px;
+	width: 100%;
 	height: 100%;
+	margin: auto;
 	flex-shrink: 0;
 	border-radius: 10px;
 	border: 3px solid #2C2C2C;
 	background: rgba(44, 44, 44, 0.60);
+	margin-bottom: 50px;
 }
 
 .board-page-margin {
@@ -656,6 +676,7 @@ button:active {
 .contentBlack {
 	font-family: "SUIT";
 	color: var(--lol-white);
+	
 }
 
 .qnaCommentDiv {
@@ -689,7 +710,8 @@ ion-icon {
 	background: #2C2C2C;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	
+	margin-bottom: 30px;
 }
 
 .insertComment {
@@ -698,8 +720,11 @@ ion-icon {
 	width: 85%;
 	height: 120px;
 	padding: 0 20px;
-	overflow: hidden;
+	overflow:scroll;
 	border-radius: 10px;
+}
+.insertComment::-webkit-scrollbar {
+  display: none;
 }
 
 .insertComment:focus {
@@ -729,15 +754,42 @@ ion-icon {
 	font-size: 18px;
 	cursor: pointer;
 }
-
+.replyBtn{
+	border-radius: 10px;
+	background-color: var(--lol-mainblue);
+	height: 33px;
+	width: 70px;
+	color: var(--lol-white);
+	border-style: none;
+	font-size: 18px;
+	cursor: pointer;
+}
+.updateBtn{
+	border-radius: 10px;
+	background-color: var(--lol-mainblue);
+	height: 33px;
+	width: 70px;
+	color: var(--lol-white);
+	border-style: none;
+	font-size: 18px;
+	cursor: pointer;
+}
 .iconBtn {
+	position: relative;
 	width: 120px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	margin: 20px 25px;
 }
-
+.replyIconBtn{
+	position: relative;
+	width: 120px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 20px 25px;
+}
 /* 댓글 리스트 조회 css */
 .commentSort {
 	display: flex;
@@ -890,15 +942,86 @@ ion-icon {
 	padding: 6px;
 	margin-top: 6px;
 	border-radius: 8px;
-	z-index: 10px;
+	z-index: 30px;
 	background-color: #ccc;
 	list-style: none;
 	width: 90px;
 	justify-content: center;
-
 	display: none;
 }
+.openIcon{
+	position: absolute;
+	right: 150px;
+	padding: 6px;
+	margin-top: 6px;
+	border-radius: 8px;
+	z-index: 10px;
+	background-color: #ccc;
+	list-style: none; 
+	width: 350px;
+	display: none;
+	
+	
+}
+.replyOpenIcon{
+	position: absolute;
+	right: 150px;
+	padding: 6px;
+	margin-top: 6px;
+	border-radius: 8px;
+	z-index: 10px;
+	background-color: #ccc;
+	list-style: none; 
+	width: 350px;
+	display: none;
+}
+.replyContent {
+    border: none;
+    background: #2C2C2C;
+    width: 85%;
+    height: 120px;
+    padding: 0 20px;
+    overflow: hidden;
+    border-radius: 10px;
+}
 
+ *:focus { outline:none; }
+ 
+ 
+.replyOpenIcon li{
+	  float: left;
+}
+.openIcon li{
+	  float: left;
+}
+.clip{
+	display: flex;
+}
+.reportbtn{
+	display: flex;
+}
+.reply{
+	margin-right: 20px;
+
+	
+}
+.insertReply{
+	display:none;
+	
+}
+
+.updateComment{
+	display: none;
+}
+.refUpdateComment{
+	display: none;
+}
+.replyContent{
+	overflow:scroll;
+}
+.replyContent::-webkit-scrollbar {
+ display: none;
+}	
 .optionUl button {
 	display: flex;
 	align-items: center;
@@ -920,6 +1043,7 @@ ion-icon {
 }
 
 .board-title-member {
+	margin-top: 15px;
 	display: flex;
 	justify-content: space-between;
 }

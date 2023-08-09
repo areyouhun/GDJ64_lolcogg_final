@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import gg.lolco.model.dao.CommunityDao;
 import gg.lolco.model.vo.CommunityBoard;
+import gg.lolco.model.vo.CommunityBoardComment;
 import gg.lolco.model.vo.Member;
 
 @Service
@@ -30,6 +31,10 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int insertCommunity(Map<String, Object> param) {
 		return dao.insertCommunity(session,param);
+	}
+	@Override
+	public int updateBoard(Map<String, Object> param) {
+		return dao.updateBoard(session,param);
 	}
 
 	@Override
@@ -71,5 +76,113 @@ public class CommunityServiceImpl implements CommunityService {
 	public int searchBoardCount(Map<String, Object> param) {
 		return dao.searchBoardCount(session,param);
 	}
+
+	@Override
+	public CommunityBoard boardDetails(String cmBoardNo) {
+		return dao.boardDetails(session,cmBoardNo);
+	}
+
+	@Override
+	public List<CommunityBoardComment> selectBoardComment(String cmBoardNo) {
+		return dao.selectBoardComment(session,cmBoardNo);
+	}
+
+	@Override
+	public int readCount(String cmBoardNo) {
+		return dao.readCount(session,cmBoardNo);
+	}
+
+	@Override
+	public int insertBuff(Map<String ,Object> param) {
+		return dao.insertBuff(session,param);
+	}
+
+	@Override
+	public int selectBuff(Map<String, Object> param) {
+		return dao.selectBuff(session,param);
+	}
+
+	@Override
+	public int removeBuff(Map<String, Object> param) {
+		return dao.removeBuff(session,param);
+	}
+
+	@Override
+	public int insertNerf(Map<String, Object> param) {
+		return dao.insertNerf(session,param);
+	}
+
+	@Override
+	public int removeNerf(Map<String, Object> param) {
+		return dao.removeNerf(session,param);
+	}
+
+	@Override
+	public int selectNerf(Map<String, Object> param) {
+		return dao.selectNerf(session,param);
+	}
+
+	@Override
+	public int boardRemove(String boardNo) {
+		return dao.boardRemove(session,boardNo);
+	}
+
+	@Override
+	public int insertComment(Map<String, Object> param) {
+			return dao.insertComment(session,param);		
+	}
+	@Override
+	public int commentKey(Map<String, Object> param) {
+		return dao.commentKey(session,param);
+	}
+	@Override
+	public int insertReply(Map<String, Object> param) {
+		return dao.insertReply(session,param);
+	}
+	@Override
+	public int updateReply(Map<String, Object> param) {
+		return dao.updateReply(session,param);
+	}
+
+	@Override
+	public CommunityBoardComment selectComment(String commentNo) {
+		return dao.selectComment(session,commentNo);
+	}
+	@Override
+	public CommunityBoardComment selectCommentNo(Map<String, Object> param) {
+		return dao.selectCommentNo(session,param);
+	}
+
+	@Override
+	public int insertCmBuff(Map<String, Object> param) {
+		return dao.insertCmBuff(session,param);
+	}
+
+	@Override
+	public int removeCmBuff(Map<String, Object> param) {
+		return dao.removeCmBuff(session,param);
+	}
+
+	@Override
+	public int selectCmBuff(Map<String, Object> param) {
+		return dao.selectCmBuff(session,param);
+	}
+
+	@Override
+	public int insertCmNerf(Map<String, Object> param) {
+		return dao.insertCmNerf(session,param);
+	}
+
+	@Override
+	public int removeCmNerf(Map<String, Object> param) {
+		return dao.removeCmNerf(session,param);
+	}
+
+	@Override
+	public int selectCmNerf(Map<String, Object> param) {
+		return dao.selectCmNerf(session,param);
+	}
+
+	
 
 }

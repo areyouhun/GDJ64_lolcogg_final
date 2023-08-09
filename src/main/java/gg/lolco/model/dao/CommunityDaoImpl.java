@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import gg.lolco.model.vo.CommunityBoard;
+import gg.lolco.model.vo.CommunityBoardComment;
 import gg.lolco.model.vo.Member;
 
 @Repository
@@ -24,6 +25,10 @@ public class CommunityDaoImpl implements CommunityDao {
 	@Override
 	public int insertCommunity(SqlSession session, Map<String, Object> param) {
 		return session.insert("community.insertCommunity",param);
+	}
+	@Override
+	public int updateBoard(SqlSession session, Map<String, Object> param) {
+		return session.insert("community.updateBoard",param);
 	}
 
 	@Override
@@ -73,6 +78,113 @@ public class CommunityDaoImpl implements CommunityDao {
 	@Override
 	public int searchBoardCount(SqlSession session, Map<String, Object> param) {
 		return session.selectOne("community.searchBoardCount",param);
+	}
+
+	@Override
+	public CommunityBoard boardDetails(SqlSession session, String cmBoardNo) {
+		return session.selectOne("community.boardDetails",cmBoardNo);
+	}
+
+	@Override
+	public List<CommunityBoardComment> selectBoardComment(SqlSession session, String cmBoardNo) {
+		return session.selectList("community.selectBoardComment",cmBoardNo);
+	}
+	
+	@Override
+	public int readCount(SqlSession session,String cmBoardNo) {
+		return session.update("community.readCount",cmBoardNo);
+	}
+
+	@Override
+	public int insertBuff(SqlSession session, Map<String, Object> param) {
+		return session.insert("community.insertBuff",param);
+	}
+
+	@Override
+	public int selectBuff(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("community.selectBuff",param);
+	}
+
+	@Override
+	public int removeBuff(SqlSession session, Map<String, Object> param) {
+		return session.update("community.removeBuff",param);
+	}
+
+	@Override
+	public int insertNerf(SqlSession session, Map<String, Object> param) {
+		return session.insert("community.insertNerf",param);
+	}
+
+	@Override
+	public int selectNerf(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("community.selectNerf",param);
+	}
+
+	@Override
+	public int removeNerf(SqlSession session, Map<String, Object> param) {
+		return session.update("community.removeNerf",param);
+	}
+
+	@Override
+	public int boardRemove(SqlSession session, String boardNo) {
+		return session.update("community.boardRemove",boardNo);
+	}
+
+	@Override
+	public int insertComment(SqlSession session, Map<String, Object> param) {
+		return session.insert("community.insertComment",param);
+	}
+	@Override
+	public int commentKey(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("community.commentKey",param);
+	}
+	@Override
+	public int insertReply(SqlSession session, Map<String, Object> param) {
+		return session.insert("community.insertReply",param);
+	}
+	@Override
+	public int updateReply(SqlSession session, Map<String, Object> param) {
+		return session.update("community.updateReply",param);
+	}
+
+	@Override
+	public CommunityBoardComment selectComment(SqlSession session,String commentNo) {
+		return session.selectOne("community.selectComment",commentNo);
+	}
+
+	@Override
+	public int insertCmBuff(SqlSession session, Map<String, Object> param) {
+		return session.insert("community.insertCmBuff",param);
+	}
+
+	@Override
+	public int selectCmBuff(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("community.selectCmBuff",param);
+	}
+
+	@Override
+	public int removeCmBuff(SqlSession session, Map<String, Object> param) {
+		return session.update("community.removeCmBuff",param);
+	}
+
+	@Override
+	public int insertCmNerf(SqlSession session, Map<String, Object> param) {
+		return session.insert("community.insertCmNerf",param);
+	}
+
+	@Override
+	public int selectCmNerf(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("community.selectCmNerf",param);
+	}
+
+	@Override
+	public int removeCmNerf(SqlSession session, Map<String, Object> param) {
+		return session.update("community.removeCmNerf",param);
+	}
+
+	@Override
+	public CommunityBoardComment selectCommentNo(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("community.selectCommentNo",param);
 	}
 
 }

@@ -107,12 +107,13 @@
 								<button class="button" onclick="selectPopularityCategoriePage()">
 									<p>인기글</p>
 								</button>
-								<button class="button"  onclick="redirectToCategoriePage()">
+								<button class="button" onclick="redirectToCategoriePage()">
 									<p>최신글</p>
 								</button>
 							</div>
 
-							<form action="${path }/community/searchBoard" id="searchBoardForm">
+							<form action="${path }/community/searchBoard"
+								id="searchBoardForm">
 								<div>
 									<select class="select-div" name="selectValue">
 										<option value="titleContent">제목+내용</option>
@@ -122,7 +123,8 @@
 									</select>
 									<div class="board-search-div">
 										<input placeholder="검색" name="search"> <img
-											src="${path }/resources/images/community/돋보기.svg" alt="돋보기" id="submitImage">
+											src="${path }/resources/images/community/돋보기.svg" alt="돋보기"
+											id="submitImage">
 									</div>
 								</div>
 							</form>
@@ -150,9 +152,10 @@
 						<c:forEach var="b" items="${selectboardList }">
 							<hr class="hr-1">
 							<div class="board-content">
-								<input type="hidden" value="cmBoardNo"> <a href="">
+								<a href="${path }/community/boardDetails?cmBoardNo=${b.cmBoardNo}">
 									<div class="board-title-div">
-										<span class="board-title">${b.cmBoardTitle }</span>
+										<input type="hidden" value="cmBoardNo"> <span
+											class="board-title">${b.cmBoardTitle }</span>
 										<c:if test="${b.cmBoardContent.contains('<img')}">
 											<span><img class="attachmenOn"
 												src="${path }/resources/images/community/사진.png" alt=""

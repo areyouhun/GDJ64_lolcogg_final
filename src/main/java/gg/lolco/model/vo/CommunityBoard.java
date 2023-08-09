@@ -26,7 +26,7 @@ public class CommunityBoard {
 	private int replycut;
 	private int b;
 	private int n;
-	private List<CommunityBoardAttchment> communityBoardAttchment = new ArrayList();
 	private String timeDifference;
+	private List<CommunityBoardComment> cmBoardComment = new ArrayList();
 }
 	

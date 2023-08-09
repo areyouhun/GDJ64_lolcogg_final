@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<c:set var="b" value="${boardDetails}" />
 <jsp:include page="/WEB-INF/views/common/top.jsp" />
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet"
@@ -27,10 +28,13 @@
 						<div class="board-categories-div">
 							<p class="board-categories fs-35">글쓰기</p>
 						</div>
-						<form id="contentForm"
-							action="${path}/community/insertCommunityEnd" method="post">
-							<select class="insert-select-div" name="boardCategories">
-								<option hidden="hidden">카테고리</option>
+
+						<form id="contentForm" action="${path}/community/updateBoard"
+							method="post">
+							<input type="hidden" name="boardNo" value="${b.cmBoardNo }">
+							<select class="insert-select-div" name="boardCategories"
+								value="${b.cmBoardCategories }">
+								<option hidden="hidden" value="${b.cmBoardCategories }">${b.cmBoardCategories }</option>
 								<option value="정보">정보</option>
 								<option value="자유">자유</option>
 								<option value="유머">유머</option>
@@ -38,17 +42,20 @@
 							<div class="insert-title">
 
 								<div>
-									<input type="text" placeholder="제목" name="title" maxlength="20"> <input
-										type="text" id="myInput" placeholder="유튜브동영상만 가능합니다. 주소를 입력해주세요(선택)"
-										oninput="fetchVideoData()" name="video" maxlength="250">
+									<input type="text" placeholder="제목" name="title" maxlength="20"
+										value="${b.cmBoardTitle}"> <input type="text"
+										id="myInput" placeholder="유튜브동영상만 가능합니다. 주소를 입력해주세요(선택)"
+										oninput="fetchVideoData()" name="video" maxlength="250"
+										value="${b.cmVideoAddress!=null?b.cmVideoAddress:"" }">
 
 								</div>
 								<div class="insert-video content"></div>
 							</div>
-							<div class="content1"></div>
-							<input type="hidden" id="content1" name="content1" value="">
+							<div class="content1">${b.cmBoardContent }</div>
+							<input type="hidden" id="content1" name="content1"
+								value="${b.cmBoardContent }">
 							<div class="insert-button-div">
-								<button type="submit" class="writing-button insert-board">작성완료</button>
+								<button type="submit" class="writing-button modifyBoard">작성완료</button>
 								<button type="button" class="writing-button remove-board"
 									onclick="deleteFile(); location.replace('${path}/community/selectboardList');">취소</button>
 							</div>
@@ -57,7 +64,7 @@
 
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 	</section>
@@ -73,7 +80,7 @@
 
 	let isSubmitButtonClicked = false;
 
-	document.querySelector(".insert-board").addEventListener("click", function() {
+	document.querySelector(".modifyBoard").addEventListener("click", function() {
 	    isSubmitButtonClicked = true;
 	});
 
@@ -113,19 +120,12 @@
         alert('카테고리, 제목, 내용을 모두 작성해주세요.');
         return;
     }
-    if (videoUrl && !isValidYouTubeUrl(videoUrl)) {
-        e.preventDefault();
-        alert('유효하지 않은 YouTube 주소입니다. 다시 확인해주세요.');
-    }
+
 });
 	
-	    //유튜브주소 유효성 검사 정규표현식
-	function isValidYouTubeUrl(url) {
-	    const pattern = /^(https?:\/\/)?(www\.youtube\.com|youtu\.?be|music\.youtube\.com)\/.+$/;
-	    return pattern.test(url);
-	}
 	
-	  
+
+
 
 
         // 유튜브 api 제목과 썸네일만가져옴

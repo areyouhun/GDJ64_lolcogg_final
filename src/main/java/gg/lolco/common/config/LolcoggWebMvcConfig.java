@@ -44,6 +44,7 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 		registry.addViewController("/chat/chatroom").setViewName("chat/chatroom");
 		//community ================================================================
 		registry.addViewController("/community/insertCommunity").setViewName("community/insertCommunity");
+		
 	}
 
 	@Override
@@ -54,6 +55,7 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 		registry.addInterceptor(loginChecker).addPathPatterns("/qna/**");
 		registry.addInterceptor(loginChecker).addPathPatterns("/card/**");
 		registry.addInterceptor(loginChecker).addPathPatterns("/community/insertCommunity");
+		
 	
 
 //		registry.addInterceptor(adminChecker).addPathPatterns("");

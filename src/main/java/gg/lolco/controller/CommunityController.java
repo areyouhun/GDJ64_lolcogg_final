@@ -7,12 +7,18 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -29,10 +35,11 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import gg.lolco.common.PageFactory;
 import gg.lolco.model.service.CommunityService;
-import gg.lolco.model.service.MemberService;
 import gg.lolco.model.vo.CommunityBoard;
+import gg.lolco.model.vo.CommunityBoardComment;
 import gg.lolco.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
 
@@ -136,13 +143,24 @@ public class CommunityController {
 			@RequestParam("content1") String content, @RequestParam("title") String title,
 			@RequestParam("video") String video, @SessionAttribute("loginMember") Member member, HttpSession session,
 			Model m) {
+
+		// 유튜브주소 임베드형식으로 변경로직
+		if (!video.trim().isEmpty()) { // video 파라미터가 빈 문자열이 아닐 때만 처리
+			Pattern pattern = Pattern.compile(
+					"(?<=v=|v\\/|\\/videos\\/|embed\\/|\\/youtu.be\\/|\\/\\/music\\.youtube\\.com\\/watch\\?v=|\\/\\/music\\.youtube\\.com\\/watch\\/\\?v=)([^#&?\\n<>]+)");
+			Matcher matcher = pattern.matcher(video);
+			if (matcher.find()) {
+				String videoId = matcher.group(1);
+				video = "https://www.youtube.com/embed/" + videoId; // 임베드 주소 형식으로 video 변수 업데이트
+			}
+		}
+
 		String email = member.getEmail();
 		int insertCommunity = service.insertCommunity(Map.of("boardCategories", boardCategories, "title", title,
 				"video", video, "content", content, "email", email));
 		if (insertCommunity > 0) {
 			m.addAttribute("msg", "게시글작성 완료");
 			m.addAttribute("loc", "/community/selectboardList");
-
 		} else {
 			m.addAttribute("msg", "게시글작성 실패");
 			m.addAttribute("loc", "/community/selectboardList");
@@ -235,45 +253,362 @@ public class CommunityController {
 		}
 		return "/community/communityMain";
 	}
+
 	@GetMapping("/searchBoard")
 	public String searchBoard(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "20") int numPerpage,
 			@RequestParam("selectValue") String selectValue, @RequestParam("search") String search, Model m) {
-				System.out.println(selectValue);
-				System.out.println(search);
-				List<CommunityBoard> searchBoard = service
-						.searchBoard(Map.of("cPage", cPage, "numPerpage", numPerpage, "selectValue", selectValue, "search", search));
-				int totalData = service.searchBoardCount(Map.of("selectValue", selectValue, "search", search));
-				// 이 부분에서는 현재 시간을 LocalDateTime 으로가져오기
-				LocalDateTime now = LocalDateTime.now();
+		System.out.println(selectValue);
+		System.out.println(search);
+		List<CommunityBoard> searchBoard = service.searchBoard(
+				Map.of("cPage", cPage, "numPerpage", numPerpage, "selectValue", selectValue, "search", search));
+		int totalData = service.searchBoardCount(Map.of("selectValue", selectValue, "search", search));
+		// 이 부분에서는 현재 시간을 LocalDateTime 으로가져오기
+		LocalDateTime now = LocalDateTime.now();
 
-				// 리스트 반복문
-				for (CommunityBoard b : searchBoard) {
-					// 현재 게시글의 작성 시간을 LocalDateTime 형태로 가져오고 있습니다.
-					LocalDateTime boardDate = b.getCmBoardDate();
+		// 리스트 반복문
+		for (CommunityBoard b : searchBoard) {
+			// 현재 게시글의 작성 시간을 LocalDateTime 형태로 가져오고 있습니다.
+			LocalDateTime boardDate = b.getCmBoardDate();
 
-					// 게시글의 작성 시간과 현재 시간 사이의 차이를 Duration 객체로 가져기
-					Duration duration = Duration.between(boardDate, now);
+			// 게시글의 작성 시간과 현재 시간 사이의 차이를 Duration 객체로 가져기
+			Duration duration = Duration.between(boardDate, now);
 
-					// 시간의 차이를 분 단위로 변환후 diffMinutes에 저장
-					long diffMinutes = duration.toMinutes();
-					// 분기준
-					if (diffMinutes == 0) {
-						b.setTimeDifference("방금 전");
-					} else if (diffMinutes < 60) {
-						b.setTimeDifference(diffMinutes + "분 전");
+			// 시간의 차이를 분 단위로 변환후 diffMinutes에 저장
+			long diffMinutes = duration.toMinutes();
+			// 분기준
+			if (diffMinutes == 0) {
+				b.setTimeDifference("방금 전");
+			} else if (diffMinutes < 60) {
+				b.setTimeDifference(diffMinutes + "분 전");
 
-						// 하루기준
-					} else if (diffMinutes < 24 * 60) {
-						b.setTimeDifference(duration.toHours() + "시간 전");
-					} else {
-						b.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
-					}
-				}
-				
-				m.addAttribute("selectboardList", searchBoard);
-				m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "searchBoard"));
-				
+				// 하루기준
+			} else if (diffMinutes < 24 * 60) {
+				b.setTimeDifference(duration.toHours() + "시간 전");
+			} else {
+				b.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+			}
+		}
+
+		m.addAttribute("selectboardList", searchBoard);
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "searchBoard"));
+
 		return "/community/communityMain";
 	}
+
+	@GetMapping("/boardDetails")
+	public String boardDetails(@RequestParam("cmBoardNo") String cmBoardNo, Model m, HttpServletRequest request,
+			HttpServletResponse response) {
+		System.out.println(cmBoardNo);
+		CommunityBoard boardDetails = service.boardDetails(cmBoardNo);
+		List<CommunityBoardComment> selectBoardComment = service.selectBoardComment(cmBoardNo);
+
+		// 쿠키를이용한 조회수 제한
+
+		// 현재 시간 가져오기
+		LocalDateTime now = LocalDateTime.now();
+		// 다음날 00시
+		LocalDateTime midnight = LocalDateTime.of(now.toLocalDate().plusDays(1), LocalTime.MIDNIGHT);
+		// 두 시간 사이의 차이 계산 (초 단위)
+		long secondsTillMidnight = Duration.between(now, midnight).getSeconds();
+
+		Cookie oldCookie = null;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("boardView")) {
+					oldCookie = cookie;
+				}
+			}
+		}
+
+		if (oldCookie != null) {
+			if (!oldCookie.getValue().contains("[" + cmBoardNo.toString() + "]")) {
+				int readCount = service.readCount(cmBoardNo);
+				oldCookie.setValue(oldCookie.getValue() + "_[" + cmBoardNo + "]");
+				oldCookie.setPath("/");
+				oldCookie.setMaxAge((int) secondsTillMidnight);
+				response.addCookie(oldCookie);
+			}
+		} else {
+			int readCount = service.readCount(cmBoardNo);
+			Cookie newCookie = new Cookie("boardView", "[" + cmBoardNo + "]");
+			newCookie.setPath("/");
+			newCookie.setMaxAge((int) secondsTillMidnight);
+			response.addCookie(newCookie);
+		}
+
+		// 현재 게시글의 작성 시간을 LocalDateTime 형태로 가져오기
+		LocalDateTime boardDate = boardDetails.getCmBoardDate();
+
+		// 게시글의 작성 시간과 현재 시간 사이의 차이를 Duration 객체로 가져오기
+		Duration duration = Duration.between(boardDate, now);
+
+		// 시간의 차이를 분 단위로 변환후 diffMinutes에 저장
+		long diffMinutes = duration.toMinutes();
+		// 분기준
+		if (diffMinutes == 0) {
+			boardDetails.setTimeDifference("방금 전");
+		} else if (diffMinutes < 60) {
+			boardDetails.setTimeDifference(diffMinutes + "분 전");
+
+			// 하루기준
+		} else if (diffMinutes < 24 * 60) {
+			boardDetails.setTimeDifference(duration.toHours() + "시간 전");
+		} else {
+			boardDetails.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+		}
+
+		// 댓글 날짜 포멧
+		for (CommunityBoardComment b : selectBoardComment) {
+			// 현재 게시글의 작성 시간을 LocalDateTime 형태로 가져오고 있습니다.
+			LocalDateTime commentDate = b.getCmCommentDate();
+
+			// 게시글의 작성 시간과 현재 시간 사이의 차이를 Duration 객체로 가져기
+			Duration commentDuration = Duration.between(commentDate, now);
+
+			// 시간의 차이를 분 단위로 변환후 diffMinutes에 저장
+			long commentDiffMinutes = commentDuration.toMinutes();
+			// 분기준
+			if (commentDiffMinutes == 0) {
+				b.setTimeDifference("방금 전");
+			} else if (commentDiffMinutes < 60) {
+				b.setTimeDifference(commentDiffMinutes + "분 전");
+
+				// 하루기준
+			} else if (commentDiffMinutes < 24 * 60) {
+				b.setTimeDifference(commentDuration.toHours() + "시간 전");
+			} else {
+				b.setTimeDifference(commentDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+			}
+		}
+
+		m.addAttribute("boardDetails", boardDetails);
+		m.addAttribute("selectBoardComment", selectBoardComment);
+		return "/community/communityDetails";
+	}
+
+	@GetMapping("/insertBuff")
+	@ResponseBody
+	public int insertBuff(@RequestParam("boardNo") String boardNo, @SessionAttribute("loginMember") Member member) {
+		String email = member.getEmail();
+		int selectBuff = service.selectBuff(Map.of("boardNo", boardNo, "email", email));
+		if (selectBuff == 0) {
+			int insertBuff = service.insertBuff(Map.of("boardNo", boardNo, "email", email));
+		} else {
+			int removeBuff = service.removeBuff(Map.of("boardNo", boardNo, "email", email));
+		}
+		CommunityBoard boardDetails = service.boardDetails(boardNo);
+		System.out.println(boardDetails);
+		int result = boardDetails.getB();
+
+		return result;
+	}
+
+	@GetMapping("/insertNerf")
+	@ResponseBody
+	public int insertNerf(@RequestParam("boardNo") String boardNo, @SessionAttribute("loginMember") Member member) {
+		String email = member.getEmail();
+		int selectNerf = service.selectNerf(Map.of("boardNo", boardNo, "email", email));
+		if (selectNerf == 0) {
+			int insertNerf = service.insertNerf(Map.of("boardNo", boardNo, "email", email));
+		} else {
+			int removeNerf = service.removeNerf(Map.of("boardNo", boardNo, "email", email));
+		}
+		CommunityBoard boardDetails = service.boardDetails(boardNo);
+		int result = boardDetails.getN();
+
+		return result;
+	}
+
+	@GetMapping("/boardModify")
+	public String boardModify(@RequestParam("boardNo") String boardNo, Model m) {
+		CommunityBoard boardDetails = service.boardDetails(boardNo);
+		m.addAttribute("boardDetails", boardDetails);
+
+		return "/community/modifyBoard";
+	}
+
+	@PostMapping("/updateBoard")
+	public String updateBoard(@RequestParam("boardCategories") String boardCategories,
+			@RequestParam("content1") String content, @RequestParam("title") String title,
+			@RequestParam("video") String video, HttpSession session, @RequestParam("boardNo") int boardNo, Model m) {
+		System.out.println(boardNo);
+		// 유튜브주소 임베드형식으로 변경로직
+		if (!video.trim().isEmpty()) { // video 파라미터가 빈 문자열이 아닐 때만 처리
+			Pattern pattern = Pattern.compile(
+					"(?<=v=|v\\/|\\/videos\\/|embed\\/|\\/youtu.be\\/|\\/\\/music\\.youtube\\.com\\/watch\\?v=|\\/\\/music\\.youtube\\.com\\/watch\\/\\?v=)([^#&?\\n<>]+)");
+			Matcher matcher = pattern.matcher(video);
+			if (matcher.find()) {
+				String videoId = matcher.group(1);
+				video = "https://www.youtube.com/embed/" + videoId; // 임베드 주소 형식으로 video 변수 업데이트
+			}
+		}
+
+		int updateBoard = service.updateBoard(Map.of("boardCategories", boardCategories, "title", title, "video", video,
+				"content", content, "boardNo", boardNo));
+		if (updateBoard > 0) {
+			m.addAttribute("msg", "게시글수정 완료");
+			m.addAttribute("loc", "/community/selectboardList");
+		} else {
+			m.addAttribute("msg", "게시글수정 실패");
+			m.addAttribute("loc", "/community/selectboardList");
+		}
+		return "common/msg";
+	}
+
+	@GetMapping("/boardRemove")
+	public String boardRemove(@RequestParam("boardNo") String boardNo, Model m) {
+		int boardRemove = service.boardRemove(boardNo);
+		if (boardRemove > 0) {
+			m.addAttribute("msg", "게시글삭제 성공");
+			m.addAttribute("loc", "/community/selectboardList");
+		} else {
+			m.addAttribute("msg", "게시글삭제 실패");
+			m.addAttribute("loc", "/community/selectboardList");
+		}
+		return "common/msg";
+	}
+
+	@PostMapping("/insertComment")
+	@ResponseBody
+	public CommunityBoardComment insertComment(@RequestParam("boardNo") String boardNo,
+			@RequestParam("comment") String comment, @SessionAttribute("loginMember") Member member) {
+		String email = member.getEmail();
+		Map<String, Object> params = new HashMap<>();
+		params.put("boardNo", boardNo);
+		params.put("comment", comment);
+		params.put("email", email);
+		int result = service.insertComment(params);
+		String cmCommentNo = String.valueOf(params.get("cmCommentNo"));
+		CommunityBoardComment selectCommentNo = service.selectCommentNo(Map.of("cmCommentNo",cmCommentNo));
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime commentDate = selectCommentNo.getCmCommentDate();
+
+		// 게시글의 작성 시간과 현재 시간 사이의 차이를 Duration 객체로 가져오기
+		Duration duration = Duration.between(commentDate, now);
+
+		// 시간의 차이를 분 단위로 변환후 diffMinutes에 저장
+		long diffMinutes = duration.toMinutes();
+		// 분기준
+		if (diffMinutes == 0) {
+			selectCommentNo.setTimeDifference("방금 전");
+		} else if (diffMinutes < 60) {
+			selectCommentNo.setTimeDifference(diffMinutes + "분 전");
+
+			// 하루기준
+		} else if (diffMinutes < 24 * 60) {
+			selectCommentNo.setTimeDifference(duration.toHours() + "시간 전");
+		} else {
+			selectCommentNo.setTimeDifference(commentDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+		}
+	
+		return selectCommentNo;
+}
+
+
+	@PostMapping("/insertReply")
+	@ResponseBody
+	public CommunityBoardComment insertReply(@RequestParam("boardNo") String boardNo,
+			@RequestParam("comment") String comment, @RequestParam("commentNo") String commentNo,
+			@SessionAttribute("loginMember") Member member) {
+		String email = member.getEmail();
+		System.out.println(boardNo);
+		System.out.println(comment);
+		System.out.println(commentNo);
+
+		service.insertReply(Map.of("boardNo", boardNo, "comment", comment, "email", email, "commentNo", commentNo));
+		CommunityBoardComment selectComment = service.selectComment(commentNo);
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime boardDate = selectComment.getCmCommentDate();
+
+		// 게시글의 작성 시간과 현재 시간 사이의 차이를 Duration 객체로 가져오기
+		Duration duration = Duration.between(boardDate, now);
+
+		// 시간의 차이를 분 단위로 변환후 diffMinutes에 저장
+		long diffMinutes = duration.toMinutes();
+		// 분기준
+		if (diffMinutes == 0) {
+			selectComment.setTimeDifference("방금 전");
+		} else if (diffMinutes < 60) {
+			selectComment.setTimeDifference(diffMinutes + "분 전");
+
+			// 하루기준
+		} else if (diffMinutes < 24 * 60) {
+			selectComment.setTimeDifference(duration.toHours() + "시간 전");
+		} else {
+			selectComment.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+		}
+
+		return selectComment;
+
+	}
+
+	@GetMapping("/insertCb")
+	@ResponseBody
+	public int insertCb(@RequestParam("commentNo") String commentNo, @SessionAttribute("loginMember") Member member) {
+		String email = member.getEmail();
+		int selectCmBuff = service.selectCmBuff(Map.of("commentNo", commentNo, "email", email));
+		if (selectCmBuff == 0) {
+			int insertBuff = service.insertCmBuff(Map.of("commentNo", commentNo, "email", email));
+		} else {
+			int removeBuff = service.removeCmBuff(Map.of("commentNo", commentNo, "email", email));
+		}
+		CommunityBoardComment selectComment = service.selectComment(commentNo);
+
+		int result = selectComment.getCb();
+
+		return result;
+	}
+
+	@GetMapping("/insertCn")
+	@ResponseBody
+	public int insertCn(@RequestParam("commentNo") String commentNo, @SessionAttribute("loginMember") Member member) {
+		String email = member.getEmail();
+		int selectNerf = service.selectCmNerf(Map.of("commentNo", commentNo, "email", email));
+		if (selectNerf == 0) {
+			int insertNerf = service.insertCmNerf(Map.of("commentNo", commentNo, "email", email));
+		} else {
+			int removeNerf = service.removeCmNerf(Map.of("commentNo", commentNo, "email", email));
+		}
+		CommunityBoardComment selectComment = service.selectComment(commentNo);
+		int result = selectComment.getCn();
+
+		return result;
+	}
+
+	@PostMapping("/updateReply")
+	@ResponseBody
+	public CommunityBoardComment updateReply(@RequestParam("boardNo") String boardNo,
+			@RequestParam("comment") String comment, @RequestParam("commentNo") String commentNo,
+			@SessionAttribute("loginMember") Member member) {
+		String email = member.getEmail();
+		service.updateReply(Map.of("boardNo", boardNo, "comment", comment, "email", email, "commentNo", commentNo));
+//		service.insertReply(Map.of("boardNo", boardNo, "comment", comment, "email", email, "commentNo", commentNo));
+		CommunityBoardComment selectComment = service.selectComment(commentNo);
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime boardDate = selectComment.getCmCommentDate();
+
+		// 게시글의 작성 시간과 현재 시간 사이의 차이를 Duration 객체로 가져오기
+		Duration duration = Duration.between(boardDate, now);
+
+		// 시간의 차이를 분 단위로 변환후 diffMinutes에 저장
+		long diffMinutes = duration.toMinutes();
+		// 분기준
+		if (diffMinutes == 0) {
+			selectComment.setTimeDifference("방금 전");
+		} else if (diffMinutes < 60) {
+			selectComment.setTimeDifference(diffMinutes + "분 전");
+
+			// 하루기준
+		} else if (diffMinutes < 24 * 60) {
+			selectComment.setTimeDifference(duration.toHours() + "시간 전");
+		} else {
+			selectComment.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+		}
+
+		return selectComment;
+
+	}
+
 }
