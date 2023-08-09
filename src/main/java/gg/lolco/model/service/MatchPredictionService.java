@@ -5,6 +5,7 @@ import java.util.Map;
 
 import gg.lolco.model.vo.MatchPrediction;
 import gg.lolco.model.vo.MatchPredictionComment;
+import gg.lolco.model.vo.MatchPredictionCommentBn;
 import gg.lolco.model.vo.MatchSchedule;
 import gg.lolco.model.vo.MemberEmoticon;
 
@@ -43,4 +44,10 @@ public interface MatchPredictionService {
 	int commentBnDelete(Map param);
 	
 	MatchPredictionComment countBn(Map param);
+	
+	List<MatchPredictionCommentBn> myBn(String email);
+	
+	MatchPredictionComment selectComment(Map param);
+	
+	int updateComment(Map param);
 }

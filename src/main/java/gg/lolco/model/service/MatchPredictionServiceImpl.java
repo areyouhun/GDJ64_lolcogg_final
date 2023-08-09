@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import gg.lolco.model.dao.MatchPredictionDao;
 import gg.lolco.model.vo.MatchPrediction;
 import gg.lolco.model.vo.MatchPredictionComment;
+import gg.lolco.model.vo.MatchPredictionCommentBn;
 import gg.lolco.model.vo.MatchSchedule;
 import gg.lolco.model.vo.MemberEmoticon;
 
@@ -108,6 +109,21 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 	@Override
 	public MatchPredictionComment countBn(Map param) {
 		return dao.countBn(session, param);
+	}
+
+	@Override
+	public List<MatchPredictionCommentBn> myBn(String email) {
+		return dao.myBn(session, email);
+	}
+
+	@Override
+	public MatchPredictionComment selectComment(Map param) {
+		return dao.selectComment(session, param);
+	}
+
+	@Override
+	public int updateComment(Map param) {
+		return dao.updateComment(session, param);
 	}
 	
 }

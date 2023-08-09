@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import gg.lolco.model.vo.MatchPrediction;
 import gg.lolco.model.vo.MatchPredictionComment;
+import gg.lolco.model.vo.MatchPredictionCommentBn;
 import gg.lolco.model.vo.MatchSchedule;
 import gg.lolco.model.vo.MemberEmoticon;
 
@@ -46,4 +47,10 @@ public interface MatchPredictionDao {
 	int commentBnDelete(SqlSessionTemplate session, Map param);
 	
 	MatchPredictionComment countBn(SqlSessionTemplate session, Map param);
+	
+	List<MatchPredictionCommentBn> myBn(SqlSessionTemplate session, String email);
+	
+	MatchPredictionComment selectComment(SqlSessionTemplate session, Map param);
+	
+	int updateComment(SqlSessionTemplate session, Map param);
 }

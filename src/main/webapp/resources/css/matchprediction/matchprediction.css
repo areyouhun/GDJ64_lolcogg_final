@@ -903,3 +903,46 @@ button:active {
 .mpCommentListDivClone{
 	display: none;
 }
+
+/* myBn(내 버프너프) */
+.myBn{
+	border: 3px solid var(--lol-mainblue);
+}
+
+/* pointer-events */
+.pointerEvents{
+	pointer-events: none;
+}
+
+/* 예측 진행중 배경 */
+.nowRec{
+	background-color: #530100;
+}
+
+/* 내 예측 성공 유무 */
+.finishHome{
+	background-color: #06002F;
+}
+
+.finishAway{
+	background-color: #320100;
+}
+
+.ingHome{
+	background-color: #0D0063;
+	outline: 3px solid var(--lol-teamblue);
+}
+
+.ingAway{
+	background-color: #490000;
+	outline: 3px solid var(--lol-teamred);
+
+}
+
+.outlineAway{
+	outline: 3px solid var(--lol-teamblue);
+}
+
+.outlineHome{
+	outline: 3px solid var(--lol-teamred);
+}

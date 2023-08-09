@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import gg.lolco.model.vo.MatchPrediction;
 import gg.lolco.model.vo.MatchPredictionComment;
+import gg.lolco.model.vo.MatchPredictionCommentBn;
 import gg.lolco.model.vo.MatchSchedule;
 import gg.lolco.model.vo.MemberEmoticon;
 
@@ -104,4 +105,20 @@ public class MatchPredictionDaoImpl implements MatchPredictionDao {
 		return session.selectOne("matchPrediction.countBn", param);
 	}
 
+	@Override
+	public List<MatchPredictionCommentBn> myBn(SqlSessionTemplate session, String email) {
+		return session.selectList("matchPrediction.myBn", email);
+	}
+
+	@Override
+	public MatchPredictionComment selectComment(SqlSessionTemplate session, Map param) {
+		return session.selectOne("matchPrediction.selectComment", param);
+	}
+
+	@Override
+	public int updateComment(SqlSessionTemplate session, Map param) {
+		return session.update("matchPrediction.updateComment", param);
+	}
+
+	
 }

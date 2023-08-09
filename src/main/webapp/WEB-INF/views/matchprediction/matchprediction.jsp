@@ -80,9 +80,7 @@
 						<div class="mpDiv">
 							<c:if test="${not empty ms}">
 								<c:forEach var="m" items="${ms }">
-									<%-- ${ms[1] } --%>
 									<c:if test="${nowWeek == m.msWeek }">
-										<c:if test="${m.msHome != null && m.msAway != null}">
 											<fmt:formatDate value="${today}" pattern="yyyy.MM.dd(E)"
 												var="todayDate" />
 											<fmt:formatDate value="${m.msDate}" pattern="yyyy.MM.dd(E)"
@@ -96,16 +94,47 @@
 											</div>
 
 											<div class="statusTimeDiv">
-												<div class="statusDiv">
-													<p class="content fs-16">미참여</p>
+												<div class="statusDiv ${(m.msDate < today || m.msHome == null || m.msAway == null) ? '' : 'nowRec'}">
+													<p class="content fs-16">${m.msDate < today ? '종료' : (m.msHome == null || m.msAway == null) ? '예정' : '진행중'}</p>
 												</div>
 												<p class="content fs-20">
 													<fmt:formatDate value="${m.msDate}" pattern="HH:mm" />
 												</p>
 											</div>
+											<!-- 내 승부예측 표시 -->
+											<c:set var="finishHome" value=""/>
+											<c:set var="finishAway" value=""/>
+											<c:set var="ingHome" value=""/>
+											<c:set var="ingAway" value=""/>
+											<c:set var="outlineHome" value=""/>
+											<c:set var="outlineAway" value=""/>
+											<c:forEach var="myMpCss" items="${myMp }">
+												<c:if test="${m.msDate < today && m.msHome == myMpCss.mpTeam}">
+													<!-- 홈팀투표(지난 예측) -->
+													<c:set var="finishHome" value="finishHome"/>
+													<c:set var="finishAway" value=""/>
+												</c:if>
+												<c:if test="${m.msDate < today && m.msAway == myMpCss.mpTeam}">
+													<!-- 어웨이투표(지난 예측) -->
+													<c:set var="finishAway" value="finishAway"/>
+													<c:set var="finishHome" value=""/>
+												</c:if>
+												<c:if test="${m.msDate > today && m.msAway == myMpCss.mpTeam}">
+													<!-- 어웨이투표(진행중인 예측) -->
+													<c:set var="outlineHome" value="outlineHome"/>
+													<c:set var="ingAway" value="ingAway"/>
+												</c:if>
+												<c:if test="${m.msDate > today && m.msHome == myMpCss.mpTeam}">
+													<!-- 어웨이투표(진행중인 예측) -->
+													<c:set var="outlineAway" value="outlineAway"/>
+													<c:set var="ingHome" value="ingHome"/>
+													<c:set var="outlineHome" value=""/>
+													<c:set var="ingAway" value=""/>
+												</c:if>
+											</c:forEach>
 											<!-- 한 경기 시작 -->
-											<div id="${m.msNo }" class="mpMatchDiv">
-												<div id="${m.msNo }" class="homeDiv">
+											<div id="${m.msNo }" class="mpMatchDiv ${m.msDate < today ? 'pointerEvents' : ''} }">
+												<div id="${m.msNo }" class="homeDiv ${finishHome } ${ingHome} ${outlineHome}">
 													<div class="logoDiv">
 														<div class="logoImgDiv">
 															<c:if test="${m.msHome != null}">
@@ -116,7 +145,7 @@
 													</div>
 													<div class="homeStatusDiv">
 														<c:if test="${m.msHome != null }">
-															<p class="content">${m.msHome }${m.team.homeRank }위</p>
+															<p class="content">${m.msHome } ${m.team.homeRank }위</p>
 														</c:if>
 														<c:if test="${m.msHome == null }">
 															<p class="content">TBD</p>
@@ -127,7 +156,7 @@
 														<p class="title fs-45">${m.msHomeScore }</p>
 													</div>
 												</div>
-												<div id="${m.msNo }" class="awayDiv">
+												<div id="${m.msNo }" class="awayDiv ${finishAway } ${ingAway} ${outlineAway}">
 													<div class="awayScoreDiv">
 														<p class="title fs-45">${m.msAwayScore }</p>
 													</div>
@@ -152,7 +181,6 @@
 												</div>
 											</div>
 											<!-- 한 경기 끝 -->
-										</c:if>
 									</c:if>
 								</c:forEach>
 							</c:if>
@@ -371,19 +399,31 @@
                   width="100px" height="100px">
               </c:if>
             </div>
+            
             <div class="dateBuffDiv">
 
               <div class='insertReplyDiv'>
                 <span class="dateSpan">
-                  <fmt:formatDate value="${best.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
+                <c:if test="${best.mpcUpDate == null }">
+                	<fmt:formatDate value="${best.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
+                </c:if>
+                <c:if test="${best.mpcUpDate != null }">
+                최근 수정일 <fmt:formatDate value="${best.mpcUpDate }" pattern="yyyy.MM.dd HH:mm" />
+                </c:if>
                 </span>
                 <p id="${best.mpcNo }" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
-                <p class='replyCount insertReply'>답글 29</p>
+                <p class='replyCount insertReply'>답글보기</p>
               </div>
 
               <div id="${best.mpcNo }" class="buffNerfDiv">
                 <div class="buffDiv">
-                  <button class="buffBtn">
+	            <c:set var="myBnSet" value=""/>
+                <c:forEach var="bn" items="${myBn }">
+	                <c:if test="${bn.bnMpcNo == best.mpcNo && bn.bnBn == 'B' }">
+		                <c:set var="myBnSet" value="myBn"/>
+	                </c:if>
+                </c:forEach>
+                  <button class="buffBtn ${myBnSet }">                
                     버프
                     <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
                   </button>
@@ -392,7 +432,13 @@
                   </p>
                 </div>
                 <div class="nerfDiv">
-                  <button class="nerfBtn">
+                  <c:set var="myBnSet" value=""/>
+                <c:forEach var="bn" items="${myBn }">
+	                <c:if test="${bn.bnMpcNo == best.mpcNo && bn.bnBn == 'N' }">
+		                <c:set var="myBnSet" value="myBn"/>
+	                </c:if>
+                </c:forEach>
+                  <button class="nerfBtn ${myBnSet }">         
                     너프
                     <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
                   </button>
@@ -482,8 +528,7 @@
                   </div>
 
                   <div>
-                    <p class="contentBlack fs-20 commentContent">
-                      ${reply.mpcContent }</p>
+                    <p class="contentBlack fs-20 commentContent">${reply.mpcContent }</p>
                     <c:if test="${reply.mpcEmoNo.emoFilename != null}">
                       <img class="emoticon" src="${path }/resources/images/emoticon/${reply.mpcEmoNo.emoFilename}"
                         width="100px" height="100px">
@@ -492,12 +537,23 @@
                   <div class="dateBuffDiv">
                   <div class='insertReplyDiv'>
                     <span class="dateSpan">
-                      <fmt:formatDate value="${reply.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
-                    </span>
-                    </div>
+	                <c:if test="${reply.mpcUpDate == null }">
+	                	<fmt:formatDate value="${reply.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
+	                </c:if>
+	                <c:if test="${reply.mpcUpDate != null }">
+	                최근 수정일 <fmt:formatDate value="${reply.mpcUpDate }" pattern="yyyy.MM.dd HH:mm" />
+	                </c:if>
+	                </span>
+                  </div>
                     <div id="${reply.mpcNo }" class="buffNerfDiv">
                       <div class="buffDiv">
-                        <button class="buffBtn">
+                        <c:set var="myBnSet" value=""/>
+		                <c:forEach var="bn" items="${myBn }">
+			                <c:if test="${bn.bnMpcNo == reply.mpcNo && bn.bnBn == 'B' }">
+				                <c:set var="myBnSet" value="myBn"/>
+			                </c:if>
+		                </c:forEach>
+		                  <button class="buffBtn ${myBnSet }">         
                           버프
                           <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
                         </button>
@@ -506,7 +562,13 @@
                         </p>
                       </div>
                       <div class="nerfDiv">
-                        <button class="nerfBtn">
+                        <c:set var="myBnSet" value=""/>
+                <c:forEach var="bn" items="${myBn }">
+	                <c:if test="${bn.bnMpcNo == reply.mpcNo && bn.bnBn == 'N' }">
+		                <c:set var="myBnSet" value="myBn"/>
+	                </c:if>
+                </c:forEach>
+                  <button class="nerfBtn ${myBnSet }">         
                           너프
                           <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
                         </button>
@@ -566,8 +628,7 @@
             </div>
 
             <div>
-              <p class="contentBlack fs-20 commentContent">
-                ${comment.mpcContent }</p>
+              <p class="contentBlack fs-20 commentContent">${comment.mpcContent }</p>
               <c:if test="${comment.mpcEmoNo.emoFilename != null}">
                 <img class="emoticon" src="${path }/resources/images/emoticon/${comment.mpcEmoNo.emoFilename}"
                   width="100px" height="100px">
@@ -577,15 +638,26 @@
 
               <div class='insertReplyDiv'>
                 <span class="dateSpan">
-                  <fmt:formatDate value="${comment.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
+                <c:if test="${comment.mpcUpDate == null }">
+                	<fmt:formatDate value="${comment.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
+                </c:if>
+                <c:if test="${comment.mpcUpDate != null }">
+                최근 수정일 <fmt:formatDate value="${comment.mpcUpDate }" pattern="yyyy.MM.dd HH:mm" />
+                </c:if>
                 </span>
                 <p id="${comment.mpcNo }" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
-                <p class='replyCount insertReply'>답글 29</p>
+                <p class='replyCount insertReply'>답글보기</p>
               </div>
 
               <div id="${comment.mpcNo }" class="buffNerfDiv">
                 <div class="buffDiv">
-                  <button class="buffBtn">
+                  <c:set var="myBnSet" value=""/>
+                <c:forEach var="bn" items="${myBn }">
+	                <c:if test="${bn.bnMpcNo == comment.mpcNo && bn.bnBn == 'B' }">
+		                <c:set var="myBnSet" value="myBn"/>
+	                </c:if>
+                </c:forEach>
+                  <button class="buffBtn ${myBnSet }">         
                     버프
                     <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
                   </button>
@@ -594,7 +666,13 @@
                   </p>
                 </div>
                 <div class="nerfDiv">
-                  <button class="nerfBtn">
+                  <c:set var="myBnSet" value=""/>
+                <c:forEach var="bn" items="${myBn }">
+	                <c:if test="${bn.bnMpcNo == comment.mpcNo && bn.bnBn == 'N' }">
+		                <c:set var="myBnSet" value="myBn"/>
+	                </c:if>
+                </c:forEach>
+                  <button class="nerfBtn ${myBnSet }">         
                     너프
                     <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
                   </button>
@@ -681,8 +759,7 @@
                   </div>
 
                   <div>
-                    <p class="contentBlack fs-20 commentContent">
-                      ${reply.mpcContent }</p>
+                    <p class="contentBlack fs-20 commentContent">${reply.mpcContent }</p>
                     <c:if test="${reply.mpcEmoNo.emoFilename != null}">
                       <img class="emoticon" src="${path }/resources/images/emoticon/${reply.mpcEmoNo.emoFilename}"
                         width="100px" height="100px">
@@ -691,12 +768,23 @@
                   <div class="dateBuffDiv">
                   <div class='insertReplyDiv'>
                     <span class="dateSpan">
-                      <fmt:formatDate value="${reply.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
-                    </span>
+		                <c:if test="${reply.mpcUpDate == null }">
+		                	<fmt:formatDate value="${reply.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
+		                </c:if>
+		                <c:if test="${reply.mpcUpDate != null }">
+		                최근 수정일 <fmt:formatDate value="${reply.mpcUpDate }" pattern="yyyy.MM.dd HH:mm" />
+		                </c:if>
+	                </span>
                     </div>
                     <div id="${reply.mpcNo }" class="buffNerfDiv">
                       <div class="buffDiv">
-                        <button class="buffBtn">
+                        <c:set var="myBnSet" value=""/>
+                <c:forEach var="bn" items="${myBn }">
+	                <c:if test="${bn.bnMpcNo == reply.mpcNo && bn.bnBn == 'B' }">
+		                <c:set var="myBnSet" value="myBn"/>
+	                </c:if>
+                </c:forEach>
+                  <button class="buffBtn ${myBnSet }">         
                           버프
                           <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
                         </button>
@@ -705,7 +793,13 @@
                         </p>
                       </div>
                       <div class="nerfDiv">
-                        <button class="nerfBtn">
+                        <c:set var="myBnSet" value=""/>
+                <c:forEach var="bn" items="${myBn }">
+	                <c:if test="${bn.bnMpcNo == reply.mpcNo && bn.bnBn == 'N' }">
+		                <c:set var="myBnSet" value="myBn"/>
+	                </c:if>
+                </c:forEach>
+                  <button class="nerfBtn ${myBnSet }">         
                           너프
                           <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
                         </button>
@@ -725,441 +819,7 @@
       </c:if>
     </c:forEach>
   </div>
-	
-<div class="ajaxComment"></div>
-    	
-<div class="mpCommentListDivClone">
-	<!-- 템플릿 -->
-	
-    <!-- === 베스트 댓글 3개 === -->
-    <!-- == 베스트 댓글 1개 => 3번 반복 == -->
-    <div class="bestCommentList commentList">
-      <!-- 프로필 이미지 div -->
-      <div>
-        <!-- [프로필 이미지] -->
-        <img class="proImg" src="" style="width: 70px; height: 70px; border-radius: 70px;">
-      </div>
-      <!-- 프로필 이미지 제외한 댓글창 div -->
-      <div class="detailDiv">
-        <div class="commentDetail">
-          <div class="commentInfo">
-            <!-- [닉네임] -->
-            <p class="bestNickname contentBlack fs-20 nickname">[닉네임]</p>
-            <!-- [티어 이미지] -->
-            <img class="bestTier tierImg" src="">
-
-            <div class="bestDiv">
-              <p class="content fs-20">BEST</p>
-            </div>
-          </div>
-
-          <!-- 수정, 삭제, 신고 버튼 div -->
-          <div class="optionDiv">
-            <button class="moreIconBtn">
-              <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
-            </button>
-            <ul class="bestOption optionUl">
-              <li id="${best.mpcNo}">
-                <!-- 작성자 및 관리자 -->
-                <!-- <c:if test="${best.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}"> -->
-                <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-                <hr class="hr-1Black hr-op">
-                <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
-                <!-- </c:if> -->
-                <!-- 작성자 x -->
-                <!-- <c:if test="${best.mpcWriter.email != loginMember.email}"> -->
-                <button class="repBtn"><ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고</button>
-                <!-- </c:if> -->
-              </li>
-            </ul>
-          </div>
-        </div>
-        <!-- [댓글 내용] -->
-        <div class="bestContent">
-          <p class="contentBlack fs-20 commentContent">[댓글 내용]</p>
-          <!-- [이모티콘] -->
-          <!-- <c:if test="${best.mpcEmoNo.emoFilename != null}"> -->
-          <img class="emoticon" src="" width="100px" height="100px">
-          <!-- </c:if> -->
-        </div>
-        <!-- [날짜, 버프너프 수] -->
-        <div class="dateBuffDiv">
-          <div class='bestBn insertReplyDiv'>
-            <!-- [날짜] -->
-            <span class="dateSpan">
-              <fmt:formatDate value="" pattern="yyyy.MM.dd HH:mm" />
-            </span>
-            <p id="" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
-            <!-- [답글 수] -->
-            <p class='replyCount insertReply'>답글 29</p>
-          </div>
-          <div class="buffNerfDiv">
-            <div class="bestB buffDiv">
-              <button class="buffBtn">
-                버프
-                <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
-              </button>
-              <!-- [버프 수] -->
-              <p class="contentBlack">
-                <fmt:formatNumber value="" type="number" />
-              </p>
-            </div>
-            <div class="bestN nerfDiv">
-              <button class="nerfBtn">
-                너프
-                <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
-              </button>
-              <!-- [너프 수] -->
-              <p class="contentBlack">
-                <fmt:formatNumber value="" type="number" />
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- 답글 입력 창 div -->
-        <div class="replyDiv">
-          <!-- [댓글 번호, 경기 주차 수] -->
-          <form id="" class="replyForm" method="post"
-            onsubmit="return fn_insertComment(${nowWeek}, event);">
-            <div class="insertCommentDiv">
-              <div class="commentDiv">
-                <textarea type="text" class="insertComment contentBlack fs-20" style="resize: none;"></textarea>
-              </div>
-            </div>
-            <div class="countBtnDiv">
-              <div class="countBtn">
-                <span id="letterSpan" class="contentBlack fs-20">0/150</span>
-              </div>
-              <div class="iconBtn">
-                <div class="emoDiv">
-                  <ion-icon name="happy-outline"></ion-icon>
-                  <div class="emo">
-                    <ul class="emoSort">
-                      <!-- [보유 이모티콘] -->
-                      <!-- <c:forEach var="emo" items="${myEmo }"> -->
-                      <li>
-                        <button class="emoBtn" type="button">
-                          <img id=""
-                            src="${path }/resources/images/emoticon/" width="65px"
-                            height="65px">
-                        </button>
-                      </li>
-                      <!-- </c:forEach> -->
-                    </ul>
-                  </div>
-                </div>
-                <button class="commentBtn content">등록</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <hr class="hr-1Black hr-op">
-
-    <!-- == 베스트 댓글 답글 1개 => 수만큼 반복 -->
-    <div class="replyBestAllDiv">
-      <div class="commentList">
-        <div style="width: 80px;"></div>
-        <div>
-          <!-- [프로필 이미지] -->
-          <img src="" style="width: 70px; height: 70px; border-radius: 70px;">
-        </div>
-        <div class="detaildetailDiv">
-          <div class="commentDetail">
-            <div class="commentInfo">
-              <!-- [닉네임] -->
-              <p class="contentBlack fs-20 nickname">[닉네임]</p>
-              <!-- [티어 이미지] -->
-              <img src="" class="tierImg">
-
-              <div class="bestDiv">
-                <p class="content fs-20">BEST</p>
-              </div>
-            </div>
-
-            <!-- 수정, 삭제, 신고 버튼 div -->
-            <div class="optionDiv">
-              <button class="moreIconBtn">
-                <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
-              </button>
-              <ul class="optionUl">
-                <li id="${best.mpcNo}">
-                  <!-- 작성자 및 관리자 -->
-                  <!-- <c:if test="${best.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}"> -->
-                  <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-                  <hr class="hr-1Black hr-op">
-                  <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
-                  <!-- </c:if> -->
-                  <!-- 작성자 x -->
-                  <!-- <c:if test="${best.mpcWriter.email != loginMember.email}"> -->
-                  <button class="repBtn"><ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고</button>
-                  <!-- </c:if> -->
-                </li>
-              </ul>
-            </div>
-          </div>
-          <!-- [댓글 내용] -->
-          <div>
-            <p class="contentBlack fs-20 commentContent">[댓글 내용]</p>
-            <!-- [이모티콘] -->
-            <!-- <c:if test="${best.mpcEmoNo.emoFilename != null}"> -->
-            <img class="emoticon" src="" width="100px" height="100px">
-            <!-- </c:if> -->
-          </div>
-          <!-- [날짜, 버프너프 수] -->
-          <div class="dateBuffDiv">
-            <div class='insertReplyDiv'>
-              <!-- [날짜] -->
-              <span class="dateSpan">
-                <fmt:formatDate value="${best.mpcDate }" pattern="yyyy.MM.dd HH:mm" />
-              </span>
-              <p id="${best.mpcNo }" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
-              <!-- [답글 수] -->
-              <p class='replyCount insertReply'>답글 29</p>
-            </div>
-            <div id="${best.mpcNo }" class="buffNerfDiv">
-              <div class="buffDiv">
-                <button class="buffBtn">
-                  버프
-                  <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
-                </button>
-                <!-- [버프 수] -->
-                <p class="contentBlack">
-                  <fmt:formatNumber value="" type="number" />
-                </p>
-              </div>
-              <div class="nerfDiv">
-                <button class="nerfBtn">
-                  너프
-                  <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
-                </button>
-                <!-- [너프 수] -->
-                <p class="contentBlack">
-                  <fmt:formatNumber value="" type="number" />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr class="hr-1Black hr-op">
-    </div>
-    <!-- *끝*(반복 3번) -->
-
-
-    <!-- === 일반 댓글 === -->
-    <!-- == 일반 댓글 1개 => 수만큼 반복 == -->
-    <div class="commentList">
-      <!-- 프로필 이미지 div -->
-      <div>
-        <!-- [프로필 이미지] -->
-        <img src="" style="width: 70px; height: 70px; border-radius: 70px;">
-      </div>
-      <!-- 프로필 이미지 제외한 댓글창 div -->
-      <div class="detailDiv">
-        <div class="commentDetail">
-          <div class="commentInfo">
-            <!-- [닉네임] -->
-            <p class="contentBlack fs-20 nickname">[닉네임]</p>
-            <!-- [티어 이미지] -->
-            <img src="" class="tierImg">
-          </div>
-
-          <!-- 수정, 삭제, 신고 버튼 div -->
-          <div class="optionDiv">
-            <button class="moreIconBtn">
-              <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
-            </button>
-            <ul class="optionUl">
-              <li id="${best.mpcNo}">
-                <!-- 작성자 및 관리자 -->
-                <!-- <c:if test="${best.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}"> -->
-                <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-                <hr class="hr-1Black hr-op">
-                <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
-                <!-- </c:if> -->
-                <!-- 작성자 x -->
-                <!-- <c:if test="${best.mpcWriter.email != loginMember.email}"> -->
-                <button class="repBtn"><ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고</button>
-                <!-- </c:if> -->
-              </li>
-            </ul>
-          </div>
-        </div>
-        <!-- [댓글 내용] -->
-        <div>
-          <p class="contentBlack fs-20 commentContent">[댓글 내용]</p>
-          <!-- [이모티콘] -->
-          <!-- <c:if test="${best.mpcEmoNo.emoFilename != null}"> -->
-          <img class="emoticon" src="" width="100px" height="100px">
-          <!-- </c:if> -->
-        </div>
-        <!-- [날짜, 버프너프 수] -->
-        <div class="dateBuffDiv">
-          <div class='insertReplyDiv'>
-            <!-- [날짜] -->
-            <span class="dateSpan">
-              <fmt:formatDate value="" pattern="yyyy.MM.dd HH:mm" />
-            </span>
-            <p id="" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
-            <!-- [답글 수] -->
-            <p class='replyCount insertReply'>답글 29</p>
-          </div>
-          <div id="${best.mpcNo }" class="buffNerfDiv">
-            <div class="buffDiv">
-              <button class="buffBtn">
-                버프
-                <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
-              </button>
-              <!-- [버프 수] -->
-              <p class="contentBlack">
-                <fmt:formatNumber value="" type="number" />
-              </p>
-            </div>
-            <div class="nerfDiv">
-              <button class="nerfBtn">
-                너프
-                <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
-              </button>
-              <!-- [너프 수] -->
-              <p class="contentBlack">
-                <fmt:formatNumber value="" type="number" />
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- 답글 입력 창 div -->
-        <div class="replyDiv">
-          <!-- [댓글 번호, 경기 주차 수] -->
-          <form id="" class="replyForm" method="post"
-            onsubmit="return fn_insertComment(${nowWeek}, event);">
-            <div class="insertCommentDiv">
-              <div class="commentDiv">
-                <textarea type="text" class="insertComment contentBlack fs-20" style="resize: none;"></textarea>
-              </div>
-            </div>
-            <div class="countBtnDiv">
-              <div class="countBtn">
-                <span id="letterSpan" class="contentBlack fs-20">0/150</span>
-              </div>
-              <div class="iconBtn">
-                <div class="emoDiv">
-                  <ion-icon name="happy-outline"></ion-icon>
-                  <div class="emo">
-                    <ul class="emoSort">
-                      <!-- [보유 이모티콘] -->
-                      <!-- <c:forEach var="emo" items="${myEmo }"> -->
-                      <li>
-                        <button class="emoBtn" type="button">
-                          <img id=""
-                            src="${path }/resources/images/emoticon/" width="65px"
-                            height="65px">
-                        </button>
-                      </li>
-                      <!-- </c:forEach> -->
-                    </ul>
-                  </div>
-                </div>
-                <button class="commentBtn content">등록</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <hr class="hr-1Black hr-op">
-
-    <!-- == 답글 1개 => 수만큼 반복 -->
-    <div class="replyAllDiv">
-      <div class="commentList">
-        <div style="width: 80px;"></div>
-        <div>
-          <!-- [프로필 이미지] -->
-          <img src="" style="width: 70px; height: 70px; border-radius: 70px;">
-        </div>
-        <div class="detaildetailDiv">
-          <div class="commentDetail">
-            <div class="commentInfo">
-              <!-- [닉네임] -->
-              <p class="contentBlack fs-20 nickname">[닉네임]</p>
-              <!-- [티어 이미지] -->
-              <img src="" class="tierImg">
-
-              <div class="bestDiv">
-                <p class="content fs-20">BEST</p>
-              </div>
-            </div>
-
-            <!-- 수정, 삭제, 신고 버튼 div -->
-            <div class="optionDiv">
-              <button class="moreIconBtn">
-                <ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>
-              </button>
-              <ul class="optionUl">
-                <li id="${best.mpcNo}">
-                  <!-- 작성자 및 관리자 -->
-                  <!-- <c:if test="${best.mpcWriter.email == loginMember.email || loginMember.authority.equals('관리자')}"> -->
-                  <button class="upBtn"><ion-icon class="optionIcon" name="create-outline"></ion-icon>수정</button>
-                  <hr class="hr-1Black hr-op">
-                  <button class="delBtn"><ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제</button>
-                  <!-- </c:if> -->
-                  <!-- 작성자 x -->
-                  <!-- <c:if test="${best.mpcWriter.email != loginMember.email}"> -->
-                  <button class="repBtn"><ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고</button>
-                  <!-- </c:if> -->
-                </li>
-              </ul>
-            </div>
-          </div>
-          <!-- [댓글 내용] -->
-          <div>
-            <p class="contentBlack fs-20 commentContent">[댓글 내용]</p>
-            <!-- [이모티콘] -->
-            <!-- <c:if test="${best.mpcEmoNo.emoFilename != null}"> -->
-            <img class="emoticon" src="" width="100px" height="100px">
-            <!-- </c:if> -->
-          </div>
-          <!-- [날짜, 버프너프 수] -->
-          <div class="dateBuffDiv">
-            <div class='insertReplyDiv'>
-              <!-- [날짜] -->
-              <span class="dateSpan">
-                <fmt:formatDate value="" pattern="yyyy.MM.dd HH:mm" />
-              </span>
-              <p id="" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
-              <!-- [답글 수] -->
-              <p class='replyCount insertReply'>답글 29</p>
-            </div>
-            <div id="${best.mpcNo }" class="buffNerfDiv">
-              <div class="buffDiv">
-                <button class="buffBtn">
-                  버프
-                  <ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>
-                </button>
-                <!-- [버프 수] -->
-                <p class="contentBlack">
-                  <fmt:formatNumber value="" type="number" />
-                </p>
-              </div>
-              <div class="nerfDiv">
-                <button class="nerfBtn">
-                  너프
-                  <ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>
-                </button>
-                <!-- [너프 수] -->
-                <p class="contentBlack">
-                  <fmt:formatNumber value="" type="number" />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr class="hr-1Black hr-op">
-    </div>
-    <!-- *끝* -->
-</div>				
+			
 						
 
 					<!-- 페이지바 -->
@@ -1204,7 +864,9 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 	if(loginMember != ''){
 		if($(e.target).hasClass('homeDiv') || $(e.target).parents('.homeDiv').hasClass('homeDiv')){
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "#0D0063");
-			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "");
+			$(e.target).parents('.mpMatchDiv').find('.awayDiv').removeClass('ingAway');
+			$(e.target).parents('.mpMatchDiv').find('.awayDiv').removeClass('outlineAway');
+			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "transparent");
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamblue)");
 			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamblue)");
 			let choiceNo = $(e.target).parents('.mpMatchDiv').find('.homeDiv').attr('id');
@@ -1227,7 +889,9 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 			})
 		} else if($(e.target).hasClass('awayDiv') || $(e.target).parents('.awayDiv').hasClass('awayDiv')){
 			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "#490000");
-			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "");
+			$(e.target).parents('.mpMatchDiv').find('.homeDiv').removeClass('ingHome');
+			$(e.target).parents('.mpMatchDiv').find('.homeDiv').removeClass('outlineHome');
+			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "transparent");
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamred)");
 			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamred)");
 			let choiceNo = $(e.target).parents('.mpMatchDiv').find('.homeDiv').attr('id');
@@ -1341,7 +1005,7 @@ $(document).on("click", ".replyCount", function(e) {
 /* 베스트 댓글 답글 토글 */
 $(document).on("click", ".replyCount", function(e) {
 	const reply = $(e.target).parent().parent().parent().parent().next().next('.replyBestAllDiv');
-	reply.toggle();
+	reply.toggle(100);
 });
 
 /* chart */
@@ -1414,75 +1078,7 @@ const fn_insertComment=(week, e)=>{
     		},
     		dataType: "json",
     		success : function(data){
-    			$(".mpCommentListDiv").html('');
-    			
-    			const div = $(".ajaxComment");
-    			const $commentSort = $('<div>').addClass('commentSort');
-    			const $new = $('<p>').addClass('contentBlack fs-18 newMargin fw-bolder').text('최신 순');
-    			const $popular = $('<p>').addClass('contentBlack fs-18').text('인기 순');
-    			const $hr = $('<hr>').addClass('hr-1Black hr-op');
-    			$commentSort.append($new, $popular);
-    			div.append($commentSort, $hr);
-    			
-    			/* 베스트 댓글 전체 */
-    			if(data[1].length > 0){
-    				console.log(data[1].length);
-	    			data[1].forEach(function(item) {
-	    				
-	    				let template = $(".bestCommentList").clone();
-	    				const $hr = $('<hr>').addClass('hr-1Black hr-op');
-	    				
-	    				console.log(item);
-	    				
-	    				template.find('.proImg').attr('src', '${path}/resources/upload/profile/' + item.mpcWriter.profile).css({width:'70px', height:'70px', borderRadius:'70px'});
-	    				template.find('.bestNickname').text(item.mpcWriter.nickname);
-	    				template.find('.bestTier').attr('src', '${path}/resources/images/tier/' + item.mpcWriter.tier.tierRulesNo.tierRulesImage);
-	    				if(item.mpcContent != null){
-	    					template.find('.bestContent').children('.contentBlack').text(item.mpcContent);
-	    				}
-	    				if(item.mpcEmoNo != null){
-	    					template.find('.bestContent').children('.emoticon').attr('src', '${path}/resources/images/emoticon/' + item.mpcEmoNo.emoFilename);
-	    				};
-    					template.find('.bestBn').children('.dateSpan').text(item.mpcDate);
-    					template.find('.bestBn').children('.insertReply').attr('id', item.mpcNo);
-    					template.find('.bestB').children('.contentBlack').text(item.buffCount);
-    					template.find('.bestN').children('.contentBlack').text(item.nerfCount);
-	    				
-    					div.append(template);
-    					div.append($hr);
-	    			});
-    			}
-    			
-    			/* 댓글 전체 목록 */
-    			/* if(data[0].length > 0){
-	    			data[0].forEach(function(item) {
-	    				let template = $(".bestCommentList").clone();
-	    				const $hr = $('<hr>').addClass('hr-1Black hr-op');
-	    				
-	    				template.find('.proImg').attr('src', '${path}/resources/upload/profile/' + item.mpcWriter.profile).css({width:'70px', height:'70px', borderRadius:'70px'});
-	    				template.find('.bestNickname').text(item.mpcWriter.nickname);
-	    				template.find('.bestTier').attr('src', '${path}/resources/images/tier/' + item.mpcWriter.tier.tierRulesNo.tierRulesImage);
-	    				template.find('.bestDiv').remove();
-	    				if(item.mpcContent != null){
-	    					template.find('.bestContent').children('.contentBlack').text(item.mpcContent);
-	    				}
-	    				if(item.mpcEmoNo != null){
-	    					template.find('.bestContent').children('.emoticon').attr('src', '${path}/resources/images/emoticon/' + item.mpcEmoNo.emoFilename);
-	    				};
-    					template.find('.bestBn').children('.dateSpan').text(item.mpcDate);
-    					template.find('.bestBn').children('.insertReply').attr('id', item.mpcNo);
-    					template.find('.bestB').children('.contentBlack').text(item.buffCount);
-    					template.find('.bestN').children('.contentBlack').text(item.nerfCount);
-	    				
-    					div.append(template);
-    					div.append($hr);
-	    			});
-    			} */
-    				
-    			$(".insertComment").val('');
-    			$(".emo").css('display', 'none');
-    			$(".insertEmoDiv").css('display', 'none');
-    			
+				location.reload();
     		},
     		error: function(err){
     			console.log("요청 실패", err);
@@ -1494,6 +1090,8 @@ const fn_insertComment=(week, e)=>{
 
 /* 댓글 삭제 */
 $(document).on("click", ".delBtn", function(e) {
+	$(e.target).parents('.optionUl').css('display', 'none');
+
 	const mpcNo = $(e.target).parents('li').attr('id');
 	const removeDiv = $(e.target).parents('.commentList');
 	const hr = $(e.target).parents('.commentList').next('hr');
@@ -1530,12 +1128,158 @@ $(document).on("click", ".delBtn", function(e) {
 
 /* 댓글 수정 */
 $(document).on("click", ".upBtn", function(e) {
+	/* 댓글 번호 */
 	const mpcNo = $(e.target).parents('li').attr('id');
-	const removeDiv = $(e.target).parents('.commentList');
 	
-	console.log(mpcNo);
-	console.log(removeDiv);
+	/* 수정 폼 열기 */
+	$(e.target).parents('.optionUl').css('display', 'none');
+	const updateDiv = $(e.target).parents('.commentList').find('.commentDetail').next();
+	const oriContent = updateDiv.find('p').text();
+	const emoImage = updateDiv.find('img').attr('src');
+	
+	updateDiv.addClass('replyDiv');
+	updateDiv.css({'display':'block', 'margin-bottom':'15px'});
+	updateDiv.html('');	
+	
+	let replyDiv = $('<div>').addClass('replyDiv');
+	
+	let form = $('<form>').attr({
+		class: 'replyForm',
+		method: 'post'
+	});
+		  
+	let insertCommentDiv = $('<div>').addClass('insertCommentDiv');
+	
+	let commentDiv = $('<div>').addClass('commentDiv');
+	
+	let textarea = $('<textarea>').attr({
+		type: 'text',
+		class: 'insertComment contentBlack fs-20',
+		style: 'resize: none;'
+	});
+	textarea.val(oriContent);
+	commentDiv.append(textarea);
+	
+	if(emoImage != undefined){
+		let insertEmoDiv = $('<div>').addClass('insertEmoDiv');
+		insertEmoDiv.css({
+		    'display': 'block',
+		    'backgroundImage': 'url(${path}' + emoImage + ')'
+		}).attr('id', mpcNo);
+		let button = $('<button>').addClass('emoXIcon').attr('type', 'button');
+		let img = $('<img>').attr('src', '${path}/resources/images/matchprediction/xicon.png');
+		
+		button.append(img);
+		insertEmoDiv.append(button);
+		commentDiv.append(insertEmoDiv);
+	}
+		  
+	insertCommentDiv.append(commentDiv);
+
+	let countBtnDiv = $('<div>').addClass('countBtnDiv');
+	
+	let countBtn = $('<div>').addClass('countBtn');
+	
+	let letterSpan = $('<span>').attr({
+	  id: 'letterSpan',
+	  class: 'contentBlack fs-20'
+	}).text('0/150');
+		  
+	countBtn.append(letterSpan);
+	
+	let iconBtn = $('<div>').addClass('iconBtn');
+	iconBtn.css('width', '150px');
+	// let emoDiv = $('<div>').addClass('emoDiv');
+	
+	// let ionIcon = $('<ion-icon>').attr('name', 'happy-outline');
+	
+	// let emo = $('<div>').addClass('emo');
+	
+	/* let ul = $('<ul>').addClass('emoSort');
+		  
+		var li = $('<li>').append(
+			$('<button>').addClass('emoBtn').attr('type', 'button').append(
+				$('<img>').attr({
+					src: '${path }/resources/images/emoticon/${emo.emoticon.emoFilename}',
+					width: '65px',
+					height: '65px'
+				})
+			)
+		);
+		ul.append(li); */
+	
+	// emo.append(ul);
+		  
+	// emoDiv.append(ionIcon, emo);
+	
+	let submitBtn = $('<button>').attr('type', 'button').addClass('commentBtn content').text('등록').on('click', fn_updateComment);
+	
+	let cancelBtn = $('<button>').attr('type', 'button').addClass('commentBtn content').text('취소');
+	
+	iconBtn.append(submitBtn, cancelBtn);
+	countBtnDiv.append(countBtn, iconBtn);
+	form.append(insertCommentDiv, countBtnDiv);
+
+	updateDiv.append(form);
+	
+	/* 최근 수정일로 변경 */
+	const date = commentDiv.parents('.replyDiv').siblings('.dateBuffDiv').find('.dateSpan');
+	
+	/* 이모티콘 삭제 */
+	let emoDelete = 'N';
+	if(emoImage == undefined){
+		let emoDelete = 'Y'; 
+	}
+	
+	/* 댓글 수정 ajax */
+	function fn_updateComment(){
+		$.ajax({
+			type: "POST",
+			url: "/matchprediction/updateComment",
+			data:{
+				"mpcNo" : mpcNo,
+				"email" : '${loginMember.email}',
+				"content" : textarea.val(),
+				"emoDelete" : emoDelete
+			},
+			dataType: "json",
+			success : function(data){
+				/* 날짜  */
+				function getDateFormat() {
+				    let d = new Date(data.mpcDate);
+				    return d.getFullYear() + '.' + ((d.getMonth() + 1) > 9 ? (d.getMonth() + 1).toString() : '0' + (d.getMonth() + 1)) + '.' + (d.getDate() > 9 ? d.getDate().toString() : '0' + d.getDate().toString());
+				}
+				
+				const mpcUpDate = data.mpcUpDate;
+				const newDate = new Date(mpcUpDate);
+				const mpcUpDateTime = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(newDate);
+				
+				commentDiv = $(e.target).parents('.detailDiv').find('.replyDiv:first');
+				commentDiv.find('.replyForm').css('display', 'none');
+				commentDiv.removeClass('replyDiv');
+				let updateContent = $("<p>").addClass('contentBlack fs-20 commentContent').text(data.mpcContent);
+				
+				console.log(${data.mpcEmoNo.emoFilename});
+				commentDiv.append(updateContent);
+				if(data.mpcEmoNo != null){
+					let updateEmo = $('<img>').addClass('emoticon').attr({
+										src: "${path }/resources/images/emoticon/" + data.mpcEmoNo.emoFilename,
+										width: '100px',
+										height: '100px'
+									});
+					commentDiv.append(updateEmo);
+				}
+				date.text('최근 수정일 ' + getDateFormat(data.mpcUpDate) + ' ' + mpcUpDateTime);
+			},
+			error : function(err){
+				console.log("요청 실패", err);
+			}
+		});
+	}
+	
+	
 });
+
 
 /* 댓글 버프 */
 $(document).on("click", ".buffBtn", function(e) {
@@ -1554,15 +1298,12 @@ $(document).on("click", ".buffBtn", function(e) {
 			},
 			dataType: "json",
 			success : function(data){
-				console.log(data);
-				
 				const buffBtn = $(e.target).closest('.buffBtn');
 				const nerfBtn = buffBtn.parent().siblings('.nerfDiv').find('.nerfBtn');
 				buffBtn.css('border', '3px solid var(--lol-mainblue)');
 				nerfBtn.css('border', '2px solid #ccc');
 				buffBtn.siblings('.contentBlack').text(data.buffCount);
 				nerfBtn.siblings('.contentBlack').text(data.nerfCount);
-					
 			},
 			error : function(err){
 				console.log("요청 실패", err);
@@ -1588,8 +1329,6 @@ $(document).on("click", ".nerfBtn", function(e) {
 			},
 			dataType: "json",
 			success : function(data){
-				console.log(data);
-				console.log(e.target);
 				const nerfBtn = $(e.target).closest('.nerfBtn');
 				const buffBtn = nerfBtn.parent().siblings('.buffDiv').find('.buffBtn');
 				nerfBtn.css('border', '3px solid var(--lol-mainblue)');
@@ -1613,14 +1352,16 @@ function weekChoice(week){
 	$.ajax({
 	    type: "POST",
 	    url: "/matchPrediction/week",
-	    data: { week: week }, // 옵션 객체로 전달할 데이터는 key: value 형태로 작성해야 함
+	    data: { week: week },
 	    dataType: "json",
 	    success: function(data) {
 			const mpDiv = $(".mpDiv");
 			mpDiv.html('');
 			let html = '';
 			
-			data.forEach(function(item) {
+			console.log(data);
+			
+			data[0].forEach(function(item) {
 				
 				/* 날짜  */
 				function getDateFormat() {
@@ -1631,50 +1372,120 @@ function weekChoice(week){
 				/* 시간 */
 				const msDate = item.msDate;
 				const date = new Date(msDate);
-				const msTime =  new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+				const msTime = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+				const today = new Date();
 				
-				if(item.msAway != null && item.msHome != null){
-					html += "<div class='mpDateDiv'>";
-					html += "<span class='content fs-20'>" + getDateFormat(item.msDate) + "</span>";
-					html += "<hr class='dateHr'></div>";
-					html += "<div class='statusTimeDiv'>";
-					html += "<div class='statusDiv'>";
-					html += "<p class='content fs-16'>미참여</p>";
-					html += "</div>";
-					html += "<p class='content fs-20'>" + msTime + "</p>";
-					html += "</div>";
-					html += "<div id='${m.msNo }' class='mpMatchDiv'>";
-					html += "<div class='homeDiv'>";
-					html += "<div class='logoDiv'>";
-					html += "<div class='logoImgDiv'>";
-					html += (item.msAway != null) ? "<img src='${path}/resources/images/logo/" + item.msHome +"_big.png'>" : "";
-					html += "</div></div>";
-					html += "<div class='homeStatusDiv'>";
-					html += "<p class='content'>";
-					html += (item.msHome != null) ? (item.msHome + " " + item.team.homeRank + "위") : "TBD";
-					html += "</p>";
-					html += "<p class='content fs-40 fw-bold'>100%</p></div>";
-					html += "<div class='homeScoreDiv'>";
-					html += "<p class='title fs-45'>" + item.msHomeScore + "</p>";
-					html += "</div></div>";
-					
-					html += "<div class='awayDiv'>";
-					html += "<div class='awayScoreDiv'>";
-					html += "<p class='title fs-45'>" + item.msAwayScore + "</p>";
-					html += "</div>";
-					html += "<div class='awayStatusDiv'>";
-					html += "<p class='content awaySort'>";
-					html += (item.msAway != null) ? (item.msAway + " " + item.team.awayRank + "위") : "TBD";
-					html += "</p>";
-					html += "<p class='content fs-40 fw-bold awaySort'>100%</p>";
-					html += "</div>";
-					html += "<div class='awayLogoDiv'>";
-					html += "<div class='logoImgDiv'>";
-					html += (item.msAway != null) ? "<img src='${path}/resources/images/logo/" + item.msAway +"_big.png'>" : "";
-					html += "</div></div></div></div>";
+				let mpDateDiv = $('<div>').addClass('mpDateDiv');
+
+				let dateSpan = $('<span>').addClass('content fs-20').text(getDateFormat(item.msDate));
+				let dateHr = $('<hr>').addClass('dateHr');
+
+				mpDateDiv.append(dateSpan, dateHr);
+
+				let statusTimeDiv = $('<div>').addClass('statusTimeDiv');
+				
+				let statusDiv;
+				if (date < today) {
+					statusDiv = $('<div>').addClass('statusDiv');
+					let statusP = $('<p>').addClass('content fs-16').text('종료');
+				    statusDiv.append(statusP);
+				} else if (item.msHome == null || item.msAway == null) {
+					statusDiv = $('<div>').addClass('statusDiv');
+					let statusP = $('<p>').addClass('content fs-16').text('예정');
+				    statusDiv.append(statusP);
+				} else {
+					statusDiv = $('<div>').addClass('statusDiv nowRec');
+					let statusP = $('<p>').addClass('content fs-16').text('진행중');
+				    statusDiv.append(statusP);
 				}
+
+				let msTimeP = $('<p>').addClass('content fs-20').text(msTime);
+				statusTimeDiv.append(statusDiv, msTimeP);
+	
+				let mpMatchDiv = $('<div>').attr('id', '${m.msNo }').addClass(date < today ? 'mpMatchDiv pointerEvents' : 'mpMatchDiv');
+
+				let homeDiv = $('<div>').addClass('homeDiv');
+				let logoDiv = $('<div>').addClass('logoDiv');
+				let logoImgDiv = $('<div>').addClass('logoImgDiv');
+
+				let homeLogoImg = (item.msAway != null) ? $('<img>').attr('src', '${path}/resources/images/logo/' + item.msHome + '_big.png') : '';
+
+				logoImgDiv.append(homeLogoImg);
+				logoDiv.append(logoImgDiv);
+
+				let homeStatusDiv = $('<div>').addClass('homeStatusDiv');
+				let homeStatusP1 = $('<p>').addClass('content').text((item.msHome != null) ? (item.msHome + ' ' + item.team.homeRank + '위') : 'TBD');
+				let homeStatusP2 = $('<p>').addClass('content fs-40 fw-bold').text('100%');
+				homeStatusDiv.append(homeStatusP1, homeStatusP2);
+
+				let homeScoreDiv = $('<div>').addClass('homeScoreDiv');
+				let homeScoreP = $('<p>').addClass('title fs-45').text(item.msHomeScore);
+				homeScoreDiv.append(homeScoreP);
+
+				homeDiv.append(logoDiv, homeStatusDiv, homeScoreDiv);
+				/*  */
+				let awayDiv = $('<div>').addClass('awayDiv');
+				let awayScoreDiv = $('<div>').addClass('awayScoreDiv');
+				let awayScoreP = $('<p>').addClass('title fs-45').text(item.msAwayScore);
+				awayScoreDiv.append(awayScoreP);
+				
+				let awayStatusDiv = $('<div>').addClass('awayStatusDiv');
+				let awayStatusP1 = $('<p>').addClass('content awaySort').text((item.msAway != null) ? (item.msAway + ' ' + item.team.awayRank + '위') : 'TBD');
+				let awayStatusP2 = $('<p>').addClass('content fs-40 fw-bold awaySort').text('100%');
+				awayStatusDiv.append(awayStatusP1, awayStatusP2);
+				
+				let awayLogoDiv = $('<div>').addClass('awayLogoDiv');
+				let awayLogoImgDiv = $('<div>').addClass('logoImgDiv');
+				let awayLogoImg = (item.msAway != null) ? $('<img>').attr('src', '${path}/resources/images/logo/' + item.msAway + '_big.png') : '';
+				awayLogoImgDiv.append(awayLogoImg);
+				awayLogoDiv.append(awayLogoImgDiv);
+				
+				awayDiv.append(awayScoreDiv, awayStatusDiv, awayLogoDiv);
+
+				mpMatchDiv.append(homeDiv, awayDiv);
+				
+				let finishHome = "";
+				let finishAway = "";
+				let ingHome = "";
+				let ingAway = "";
+				let outlineHome = "";
+				let outlineAway = "";
+
+				data[1].forEach(function(mp) {
+					console.log(mp);
+					console.log(item);
+					if(item.msNo == mp.mpMsNo){
+					    if (date < today && mp.mpTeam == item.msHome) {
+					        finishHome = 'finishHome';
+					        finishAway = '';
+					    } else if (date < today && mp.mpTeam == item.msAway) {
+					        finishAway = 'finishAway';
+					        finishHome = '';
+					    } else if (date > today && mp.mpTeam == item.msHome) {
+					        outlineAway = 'outlineAway';
+					        ingHome = 'ingHome';
+					        outlineHome = '';
+					        ingAway = '';
+					    } else if (date > today && mp.mpTeam == item.msAway) {
+					        outlineHome = 'outlineHome';
+					        ingAway = 'ingAway';
+					        outlineAway = '';
+					        ingHome = '';
+					    } else {
+					    	outlineHome = '';
+					        ingAway = '';
+					        outlineAway = '';
+					        ingHome = '';
+					    }
+				    }
+				});
+
+				homeDiv.addClass(finishHome + ' ' + ingHome + ' ' + outlineHome);
+				awayDiv.addClass(finishAway + ' ' + ingAway + ' ' + outlineAway);
+				mpDiv.append(mpDateDiv);
+				mpDiv.append(statusTimeDiv);
+				mpDiv.append(mpMatchDiv);
 			});
-			mpDiv.append(html);
 			
 			$(".weekDiv").removeClass("weekChoice");
 			$(".weekDiv").each(function() {

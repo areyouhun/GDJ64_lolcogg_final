@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import gg.lolco.model.service.MatchPredictionService;
 import gg.lolco.model.vo.MatchPrediction;
 import gg.lolco.model.vo.MatchPredictionComment;
+import gg.lolco.model.vo.MatchPredictionCommentBn;
 import gg.lolco.model.vo.MatchSchedule;
 import gg.lolco.model.vo.Member;
 import gg.lolco.model.vo.MemberEmoticon;
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @Slf4j
@@ -78,7 +80,6 @@ public class MatchPerdictionController {
 			String nickname = member.getNickname();
 			myMpSuccess = service.mpSuccess(nickname);
 		}
-		log.info("@@@@{}", myMpSuccess);
 		m.addAttribute("mpSuccess", mpSuccess);
 		m.addAttribute("myMpSuccess", myMpSuccess);
 		
@@ -89,16 +90,34 @@ public class MatchPerdictionController {
 		}
 		m.addAttribute("myMp", myMp);
 		
+		// 내 버프 너프
+		List<MatchPredictionCommentBn> myBn = new ArrayList<>();
+		if(member != null) {
+		myBn = service.myBn(member.getEmail());
+		}
+		m.addAttribute("myBn", myBn);
+		
 		return "matchprediction/matchprediction";
 	}
 	
 	// 경기 주차 변경(ajax)
 	@PostMapping("/matchPrediction/week")
 	@ResponseBody
-	public List<MatchSchedule> weekChoice(int week){
+	public List weekChoice(int week, @SessionAttribute(name = "loginMember", required = false) Member member){
+		List weekChoice = new ArrayList<>();
+		
 		int mpYn = service.updateMpYn();
 		List<MatchSchedule> ms = service.matchScheduleByWeek(week);
-		return ms;
+		weekChoice.add(ms);
+		
+		// 내 예측
+		List<MatchPrediction> myMp = new ArrayList<>();
+		if(member != null) {
+			myMp = service.myMp(member.getEmail());
+			weekChoice.add(myMp);
+		}
+		
+		return weekChoice;
 	}
 	
 	// 승부예측 선택(ajax)
@@ -112,18 +131,12 @@ public class MatchPerdictionController {
 	// 댓글 등록(ajax)
 	@PostMapping("/matchprediction/insertComment")
 	@ResponseBody
-	public List<MatchPredictionComment> insertComment(@RequestParam Map param) {
-		List allMpc = new ArrayList<>();
+	public MatchPredictionComment insertComment(@RequestParam Map param) {
 		int result = service.insertComment(param);
 		int week = Integer.parseInt((String.valueOf(param.get("week"))));
-		
+		MatchPredictionComment myComment = service.selectComment(param);
 		if(result > 0) {
-			// 성공(댓글 목록 내보내기)
-			List<MatchPredictionComment> mpc = service.commentListAll(week);
-			List<MatchPredictionComment> bestCommentList = service.bestCommentList(week);
-			allMpc.add(mpc);
-			allMpc.add(bestCommentList);
-			return allMpc;
+			return myComment;
 		} else {
 			return null;
 		}
@@ -144,12 +157,22 @@ public class MatchPerdictionController {
 		int result = service.commentBnDelete(param);
 		result += service.commentBn(param);
 		
-		log.info("@@@@@@@{}", param);
 		// 버프시 너프 카운트, 너프시 버프 카운트
 		MatchPredictionComment countBn = service.countBn(param);
 		return countBn;
 	}
 	
+	// 댓글 수정
+	@PostMapping("/matchprediction/updateComment")
+	@ResponseBody
+	public MatchPredictionComment updateCommnet(@RequestParam Map param) {
+		int result = service.updateComment(param);
+		if(result > 0) {
+			MatchPredictionComment comment = service.selectComment(param);
+			return comment;
+		}
+		return null;
+	}
 	
 	
 }
