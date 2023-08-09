@@ -51,7 +51,6 @@ public class MemberController {
 	public String loginCheck(@RequestParam Map param, Model model, HttpSession session) {
 		Member m= service.selectMemberById(param);
 		System.out.println(m);
-		
 		if(m!=null
 				&&
 //			passwordEncoder.matches((String)param.get("password"), m.getPassword()) //암호화
@@ -86,7 +85,6 @@ public class MemberController {
 			HttpSession session,
 			Model m
 			) {
-		
 		//업로드파일 저장하기
 //		System.out.println(param.get("file"));
 		if(!file.isEmpty()) {
