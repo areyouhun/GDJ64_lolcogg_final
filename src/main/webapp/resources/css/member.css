@@ -7,12 +7,12 @@
 .ff-macho{ font-family: "EF_MACHO";}
 .loginTitle{ display: flex; justify-content: center; margin-top: 10%; margin-bottom: 2.5%;}
 .loginBox{ display: flex; flex-direction: column; /* 수직 정렬을 위해 column 설정 */ padding: 0 30em 0 30em;}
-.loginBox input{color: var(--lol-white); background-color: var(--khy-bg-gray);  border:none; border:0 0 0 0;  border-radius: 5px; padding: 0.7em 2em 0.7em 2em; margin: 0.5em 1em 0.5em 1em;}
+.loginBox input{color: var(--lol-white); background-color: var(--khy-bg-gray);  border:none;  border-radius: 5px; padding: 0.7em 2em 0.7em 2em; margin: 0.5em 1em 0.5em 1em;}
 .autoLoginBox{ display: flex; justify-content: center; padding: 0.2em 13em 1em 0.5em;}
 .autoLoginBox>p{margin-left: 0.5em;}
 .autoLoginBox>input{ cursor: pointer;}
 .loginButton{ display: flex; justify-content: center;}
-.loginButton>input{ color: var(--lol-white); background-color: var(--lol-black); border:solid 0.5px var(--lol-white); border:0 0 0 0;  border-radius: 5px; padding: 0.8em 9.5em 0.8em 9.5em; margin: 0.5em 0em 0.5em 0em; cursor: pointer;}
+.loginButton>input{ color: var(--lol-white); background-color: var(--lol-black); border:solid 0.5px var(--lol-white);  border-radius: 5px; padding: 0.8em 9.5em 0.8em 9.5em; margin: 0.5em 0em 0.5em 0em; cursor: pointer;}
 .memberCheckBox{ display: flex; justify-content: center; margin: 1rem 0 0 0 ;}
 .socialLoginBox{ display: flex; justify-content: center; margin: 1rem 0 0 0 ;}
 .socialLoginBox>div{margin:0 0.5em 0 1em;}
@@ -28,7 +28,6 @@
     color: var(--lol-white); 
     background-color: var(--khy-bg-gray); 
     border:none; 
-    border:0 0 0 0;  
     border-radius: 5px; 
     width: 26.5em;
     padding: 0.7em 1em 0.7em 2em; 
@@ -46,7 +45,7 @@
 
 .abbrCheckBox{ 
     color: var(--lol-white); 
-    border:none; border:0 0 0 0;  
+    border:none; 
     border-radius: 5px; 
     padding: 0.5em 0.75em 0em 0em; 
     margin: 0.1em 0em 0em 1em;
@@ -69,18 +68,28 @@
 .abbrCheckBox>.line>.abbrName{
     margin: 0em 0 0.15em 0.2em ;
 }
-.buttonBox>.duplicationCheck:nth-child(2){
-    margin-top: 6.7em;
+.buttonBox{
+	display: block;
+	width: 7em;
 }
-.buttonBox>.duplicationCheck:nth-child(3){
-    margin-top: 14.1em;
+.buttonBox>:nth-child(1){
+	height: 15em;
 }
-.buttonBox>.duplicationCheck:nth-child(4){
-    /* margin-top: 6.8em; */
+.buttonBox>:nth-child(1)>:nth-child(2){
+    width:7.8em;
+}
+.buttonBox>:nth-child(1)>:nth-child(5)>span{
+	position: absolute; left: 61.3em; top: 22em;
+	/*재설정 필요*/
+}
 
-    /* 추천 이미지 추가하는 경우 */
-    margin-top: 7.8em;
+.buttonBox>:nth-child(2){
+    margin-top: 10.8em
 }
+.buttonBox>:nth-child(2)>:nth-child(2){
+    margin-top: 8.2em;
+}
+
 .v-line {
     margin-top: 1em;
     border-left : 1.5px solid var(--khy-off-gray);
@@ -98,13 +107,13 @@
     margin-left: 0.08em;
   } */
 .duplicationCheck{
+	display: inline-block;
     color: var(--lol-white); 
     background-color: var(--lol-black); 
     border:solid 0.5px var(--lol-white); 
-    border:0 0 0 0;  
     border-radius: 5px; 
-    padding: 0.5em 1em 0.5em 1em; 
-    margin: 0.5em 0em 0.5em 0em; 
+    padding: 0.4em 0.5em 0.4em 0.5em; 
+    margin: 0.4em 0em 0.4em 0em; 
     cursor: pointer;
 }
 .previewBox1{
@@ -166,9 +175,30 @@ cursor: pointer; border-radius: 3px;float: right;}
     color: var(--lol-white); 
     background-color: var(--lol-black); 
     border:solid 0.5px var(--lol-white); 
-    border:0 0 0 0;  
     border-radius: 5px; 
     padding: 0.7em 6em 0.7em 6em; 
     margin: 0.5em 0em 0.5em 0em; 
     cursor: pointer;
+    font-size: 1em;
+}
+/*.email_ok{
+color:#008000;
+display: none;
+}*/
+.email_already{
+	color:crimson; 
+	display: none;
+	margin-top: 1em;
+}
+.nickName_ok{
+	color:#008000;
+	display: none;
+}
+.nickName_already{
+	color:crimson; 
+	display: none;
+}
+.myReferralCode_ok{
+	color:#008000;
+	display: none;	
 }

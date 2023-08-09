@@ -21,24 +21,24 @@
                 <div>
                     <p class="enrollTitle color-white ff-macho fs-25 ">회원가입</p>
                 </div>
-                <form action="" method="post">
+                <form action="${path }/member/insertMember.do" method="post" onsubmit="return checkForm();">
                     <div class="divFlex">
-                        <div class="enrollBox">
+                        <div class="enrollBox ">
                             <div class="line">
-								<p class="color-white ff-suit fw-bold">*이메일</p>
-                                <input type="text" class ="ff-suit" placeholder="ex. abc@lolcogg.com" name="email">
+								<p class="color-white ff-suit fw-bold">*이메일(ID)</p>
+                                <input type="text" class ="ff-suit" placeholder="ex. abc@abc.com" name="email" id="email" oninput = "checkEmail()" required>
                             </div>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">*비밀번호</p>
-                                <input type="password" class ="ff-suit" placeholder="영문, 숫자, 특수문자 포함 8자 이상 입력" name="password_1">
+                                <input type="password" class ="ff-suit" placeholder="영문, 숫자, 특수문자 포함 8자 이상 입력" name="password_1" id="password_1" >
                             </div>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">*비밀번호 확인</p>
-                                <input type="password" class ="ff-suit" placeholder="영문, 숫자, 특수문자 포함 8자 이상 입력" name="password_2">
+                                <input type="password" class ="ff-suit" placeholder="영문, 숫자, 특수문자 포함 8자 이상 입력" name="password_2" id="password_2" >
                             </div>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">*닉네임</p>
-                                <input type="text" class ="ff-suit" placeholder="3자 이상 10자 이내" name="password_2">
+                                <input type="text" class ="ff-suit" placeholder="2자 이상 8자 이내 입력 가능(한글, 영어, 숫자)" name="nickName" id="nickName" oninput = "checkNickName()"  >
                             </div>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">응원팀</p>
@@ -47,75 +47,82 @@
                                         <div class="abbrCheckBoxRow">
                                             <div class="abbrCheckBox">
                                                 <img src="${path}/resources/images/member/enroll_logo/dplus_logo_white.png" alt="" width="35px" height="35px">
-                                                <div class="line">
-                                                    <input type="radio" name="abbr" value="DK" >
-                                                    <p class="color-white ff-suit abbrName">DK</p>
-                                                </div>
+											    <label class="line">
+											        <input type="radio" name="abbr" value="DK" >
+											        <span class="color-white ff-suit abbrName">DK</span>
+											    </label>
                                             </div>
                                             <div class="abbrCheckBox">
                                                 <img src="${path}/resources/images/member/enroll_logo/brion_logo_small.png" alt="" width="35px" height="35px">
-                                                <div class="line">
+                                                <label class="line">
                                                     <input type="radio" name="abbr" value="BRO" >
-                                                    <p class="color-white ff-suit abbrName">BRO</p>
-                                                </div>
+                                                    <span class="color-white ff-suit abbrName">BRO</span>
+                                                </label>
                                             </div>
                                             <div class="abbrCheckBox">
                                                 <img src="${path}/resources/images/member/enroll_logo/redforce_logo_small.png" alt="" width="35px" height="35px">
-                                                <div class="line">
+                                                <label class="line">
                                                     <input type="radio" name="abbr" value="NS" >
-                                                    <p class="color-white ff-suit abbrName">NS</p>
-                                                </div>
+                                                    <span class="color-white ff-suit abbrName">NS</span>
+                                                </label>
                                             </div>
                                             <div class="abbrCheckBox">
                                                 <img src="${path}/resources/images/member/enroll_logo/geng_logo_small.png" alt="" width="35px" height="35px">
-                                                <div class="line">
+                                                <label class="line">
                                                     <input type="radio" name="abbr" value="GEN" >
-                                                    <p class="color-white ff-suit abbrName">GEN</p>
-                                                </div>
+                                                    <span class="color-white ff-suit abbrName">GEN</span>
+                                                </label>
                                             </div>
                                             <div class="abbrCheckBox">
                                                 <img src="${path}/resources/images/member/enroll_logo/t1_logo_small.png" alt="" width="35px" height="35px">
-                                                <div class="line">
+                                                <label class="line">
                                                     <input type="radio" name="abbr" value="T1" >
-                                                    <p class="color-white ff-suit abbrName">T1</p>
-                                                </div>
+                                                    <span class="color-white ff-suit abbrName">T1</span>
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="abbrCheckBoxRow">
                                             <div class="abbrCheckBox">
                                                 <img src="${path}/resources/images/member/enroll_logo/hanwha_logo_small.png" alt="" width="35px" height="35px">
-                                                <div class="line">
+                                                <label class="line">
                                                     <input type="radio" name="abbr" value="HLE" >
-                                                    <p class="color-white ff-suit abbrName">HLE</p>
-                                                </div>
+                                                    <span class="color-white ff-suit abbrName">HLE</span>
+                                                </label>
                                             </div>
                                             <div class="abbrCheckBox">
                                                 <img src="${path}/resources/images/member/enroll_logo/freecs_logo_small.png" alt="" width="35px" height="35px">
-                                                <div class="line">
+                                                <label class="line">
                                                     <input type="radio" name="abbr" value="KDF" >
-                                                    <p class="color-white ff-suit abbrName">KDF</p>
-                                                </div>
+                                                    <span class="color-white ff-suit abbrName">KDF</span>
+                                                </label>
                                             </div>
                                             <div class="abbrCheckBox">
                                                 <img src="${path}/resources/images/member/enroll_logo/drx_logo_small.png" alt="" width="33px" height="35px">
-                                                <div class="line">
+                                                <label class="line">
                                                     <input type="radio" name="abbr" value="DRX" >
-                                                    <p class="color-white ff-suit abbrName">DRX</p>
-                                                </div>
+                                                    <span class="color-white ff-suit abbrName">DRX</span>
+                                                </label>
                                             </div>
                                             <div class="abbrCheckBox">
                                                 <img src="${path}/resources/images/member/enroll_logo/kt_logo_small.png" alt="" width="35px" height="35px">
-                                                <div class="line">
+                                                <label class="line">
                                                     <input type="radio" name="abbr" value="KT" >
-                                                    <p class="color-white ff-suit abbrName">KT</p>
-                                                </div>
+                                                    <span class="color-white ff-suit abbrName">KT</span>
+                                                </label>
                                             </div>
                                             <div class="abbrCheckBox">
                                                 <img src="${path}/resources/images/member/enroll_logo/sandbox_logo_small.png" alt="" width="35px" height="35px">
-                                                <div class="line">
+                                                <label class="line">
                                                     <input type="radio" name="abbr" value="LSB" >
-                                                    <p class="color-white ff-suit abbrName">LSB</p>
-                                                </div>
+                                                    <span class="color-white ff-suit abbrName">LSB</span>
+                                                </label>
+                                            </div>
+                                            <!-- 미선택 오류 방지용 -->
+                                            <div class="abbrCheckBox" style="display:none">
+                                                <label class="line">
+                                                    <input type="radio" name="abbr" value="noChoice" checked="checked" >
+                                                    <span class="color-white ff-suit abbrName" >미선택시 오류 방지용</span>
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -124,9 +131,8 @@
                             <p class="color-white fs-10 info" >[*응원팀 선택 시 가입 기념 카드 + 이모티콘(응원팀 이모티콘 팩) 지급]</p>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">프로필이미지</p>
-                                <input type="file" name="file" id="file" accept="image/*" style="display:none" /> 
-                                
-                                <input type="text" class ="ff-suit fileValue" placeholder="이미지를 선택해주세요" name="nickname" readonly>
+                                <input type="file" name="file" id="file" accept="image/*"  style="display:none" /> 
+                                <input type="text" class ="ff-suit fileValue" placeholder="이미지를 선택해주세요" readonly>
                             </div>
                             <div class="line">
                                 <div class="previewBox1">
@@ -135,25 +141,35 @@
                                 </div>
                                 <div class='v-line'></div>
                                 <div class="previewBox2">
-                                    <p class="color-white ff-macho fs-10">추천 이미지(개발중)</p>
-                                    <img src="${path}/resources/images/member/kakaotalk_logo_icon.png" alt="" width="50px" height="50px" style="border-radius: 25px;" id="preview-image">
-                                    <img src="${path}/resources/images/member/naver_logo_icon.png" alt="" width="50px" height="50px" style="border-radius: 25px;" id="preview-image">
-                                    <img src="${path}/resources/images/member/kakaotalk_logo_icon.png" alt="" width="50px" height="50px" style="border-radius: 25px;" id="preview-image">
+                                    <p class="color-white ff-macho fs-10">추천 이미지(개발전)</p>
+                                    <img src="${path}/resources/images/member/sad.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image">
+                                    <img src="${path}/resources/images/member/smile.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image">
+                                    <img src="${path}/resources/images/member/run.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image">
                                 </div>
                             </div>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">추천인 코드 입력</p>
-                                <input type="text" class ="ff-suit" placeholder="추천인 코드를 입력해주세요" name="abbrCode">
+                                <input type="text" class ="ff-suit" placeholder="추천인 코드를 입력해주세요" name="myReferralCode" id="myReferralCode" oninput = "checkMyReferralCode()">
                             </div>
                             <p class="color-white fs-10 info" >[*추천인 코드 입력 시 웰컴 포인트 지급]</p>
                             <div class='h-line1'></div>
                         </div>
                         <div class="buttonBox">
-                            <div class="duplicationCheck ff-suit">이메일 인증</div>
-                            <div class="duplicationCheck ff-suit">닉네임 확인</div>
-                            <div class="duplicationCheck ff-suit" onclick="onClickUpload();">이미지 선택</div>
-                            <div class="duplicationCheck ff-suit">추천인 확인</div>
-                            <div class='h-line2'></div>
+                        	<div>
+	                            <div class="duplicationCheck ff-suit" id="mail-Check-btn"  >이메일 인증</div>
+	                           	<input class="duplicationCheck mail-check-input" placeholder="인증번호 " disabled="disabled" maxlength="7" onkeyup="checkAuthNumFn()" style="display:none" >
+	                            <span id="mail-check-warn" class="mb-2"></span>
+	                            <!-- <span class="email_ok">사용 가능한 이메일입니다.</span> -->
+								<span class="email_already">사용중인 이메일</span>	
+	                        	<div>
+									<span class="nickName_ok">사용가능 닉네임</span>
+									<span class="nickName_already">사용중 닉네임</span>
+	                        	</div>
+                        	</div>
+                        	<div>
+	                            <div class="duplicationCheck ff-suit" onclick="onClickUpload();">이미지 선택</div>
+	                            <div class="myReferralCode_ok">입력 가능</div>
+                        	</div>
                         </div>
                     </div>
                     <div class="container d-flex flex-column" style="padding-top:1rem;text-align: center; ">
@@ -175,19 +191,21 @@
                                 </label>
                             </div>
                         </div>		
-                        <button type="submit" value="가입하기" class="enrollButton "><p class="ff-suit fs-20">가입하기</p></button> 
+                        <input type="submit" value="가입하기" class="enrollButton" onclick="return test();" >
                         <!-- <input type="button" id="privacy_submit" onclick="alert('약관 동의 후 이용 가능합니다.');" value="가입하기" style="border:1px solid #e3e3e3; color:#e3e3e3; display: none;"/> -->
+               		</div>
                 </form>
-        		<!------------------------------------------------------------------------------>
-            </div>
-        </div>
+			</div>
+		</div>    
     </section>
+<img class="english" src="https://media3.giphy.com/media/l0Ex9w7OHj6M3ieK4/200w.webp?cid=ecf05e47zmh2rpyt75g2cuqh3fddl9zalpfnw5sk9j9cz13p&rid=200w.webp" alt="english" width="20px" height="20px">
+
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
 <script src="${path}/resources/js/member/member.js"></script>
-
 <!-------------------------------------------->
 </body>
 </html>

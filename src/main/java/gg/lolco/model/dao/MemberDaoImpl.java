@@ -21,5 +21,22 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.selectMemberById",param);
 	}
+
+	@Override
+	public int emailCheck(SqlSession session, String email) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.emailCheck",email);
+	}
 	
+	@Override
+	public int nickNameCheck(SqlSession session, String nickName) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.nickNameCheck",nickName);
+	}
+	
+	@Override
+	public int myReferralCodeCheck(SqlSession session, String myReferralCode) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.myReferralCodeCheck",myReferralCode);
+	}
 }
