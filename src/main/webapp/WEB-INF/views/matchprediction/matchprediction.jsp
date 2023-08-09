@@ -1450,35 +1450,35 @@ function weekChoice(week){
 				let ingAway = "";
 				let outlineHome = "";
 				let outlineAway = "";
-
-				data[1].forEach(function(mp) {
-					console.log(mp);
-					console.log(item);
-					if(item.msNo == mp.mpMsNo){
-					    if (date < today && mp.mpTeam == item.msHome) {
-					        finishHome = 'finishHome';
-					        finishAway = '';
-					    } else if (date < today && mp.mpTeam == item.msAway) {
-					        finishAway = 'finishAway';
-					        finishHome = '';
-					    } else if (date > today && mp.mpTeam == item.msHome) {
-					        outlineAway = 'outlineAway';
-					        ingHome = 'ingHome';
-					        outlineHome = '';
-					        ingAway = '';
-					    } else if (date > today && mp.mpTeam == item.msAway) {
-					        outlineHome = 'outlineHome';
-					        ingAway = 'ingAway';
-					        outlineAway = '';
-					        ingHome = '';
-					    } else {
-					    	outlineHome = '';
-					        ingAway = '';
-					        outlineAway = '';
-					        ingHome = '';
+				
+				if(loginMember != ''){
+					data[1].forEach(function(mp) {
+						if(item.msNo == mp.mpMsNo){
+						    if (date < today && mp.mpTeam == item.msHome) {
+						        finishHome = 'finishHome';
+						        finishAway = '';
+						    } else if (date < today && mp.mpTeam == item.msAway) {
+						        finishAway = 'finishAway';
+						        finishHome = '';
+						    } else if (date > today && mp.mpTeam == item.msHome) {
+						        outlineAway = 'outlineAway';
+						        ingHome = 'ingHome';
+						        outlineHome = '';
+						        ingAway = '';
+						    } else if (date > today && mp.mpTeam == item.msAway) {
+						        outlineHome = 'outlineHome';
+						        ingAway = 'ingAway';
+						        outlineAway = '';
+						        ingHome = '';
+						    } else {
+						    	outlineHome = '';
+						        ingAway = '';
+						        outlineAway = '';
+						        ingHome = '';
+						    }
 					    }
-				    }
-				});
+					});
+				}
 
 				homeDiv.addClass(finishHome + ' ' + ingHome + ' ' + outlineHome);
 				awayDiv.addClass(finishAway + ' ' + ingAway + ' ' + outlineAway);
