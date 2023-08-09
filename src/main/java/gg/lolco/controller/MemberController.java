@@ -1,5 +1,10 @@
 package gg.lolco.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.SecureRandom;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import gg.lolco.model.service.MemberService;
 import gg.lolco.model.vo.Member;
@@ -58,7 +64,6 @@ public class MemberController {
 			model.addAttribute("loc","/");
 			return "common/msg";
 		}
-		
 		return "redirect:/";
 	}
 	
@@ -76,20 +81,61 @@ public class MemberController {
 	
 	//회원가입
 	@PostMapping("/insertMember.do")
-	public String insertMember(@RequestParam(value="email") String email,
-			@RequestParam(value="password_1") String password,
-			@RequestParam(value="nickName") String nickName,
-			@RequestParam(value="abbr") String abbr,
-			@RequestParam(value="file") String file,
-			@RequestParam(value="abbrCode") String abbrCode
+	public String insertMember(@RequestParam Map<Object, String> param,
+			@RequestParam(value="file") MultipartFile file,
+			HttpSession session,
+			Model m
 			) {
-		System.out.println(email);
-		System.out.println(password);
-		System.out.println(nickName);
-		System.out.println(abbr);
-		System.out.println(file);
-		System.out.println(abbrCode);
-		return email;
+		
+		//업로드파일 저장하기
+//		System.out.println(param.get("file"));
+		if(!file.isEmpty()) {
+			String path =session.getServletContext().getRealPath("/resources/upload/profile/");
+			String oriName=file.getOriginalFilename();
+			String ext=oriName.substring(oriName.lastIndexOf("."));
+			Date today=new Date(System.currentTimeMillis());
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rdn=(int)(Math.random()*10000)+1;
+			String rename=sdf.format(today)+"_"+rdn+"_"+param.get("email")+ext;
+			try {
+				file.transferTo(new File(path+rename));//import java.io.File;
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			param.put("file", rename);
+			System.out.println(param);
+		}
+        
+        //추천인코드 생성
+        String randomValue = generateRandomValue();
+        System.out.println("Random Value: " + randomValue);
+        
+        //회원가입
+        //널값 유의 : abbr, file, myReferralCode
+        System.out.println(param);
+        Member member = Member.builder()
+        		.email(param.get("email"))
+        		.password(param.get("password_1"))
+        		.nickname(param.get("nickName"))
+        		.profile(param.get("file"))
+        		.teamAbbr(param.get("abbr"))
+        		.titleName("")//칭호
+        		.myTier("브론즈")
+        		.totalExp(0)
+        		.totalPoints(0)
+        		.myReferralCode(randomValue)
+//					.enrollDate(default)//mybatis에서 입력
+//					.withdrawDate(null)//mybatis에서 입력
+        		.authority("일반유저")
+        		.build();
+        System.out.println(member);
+        int result=service.insertMember(member);
+        m.addAttribute("msg",result>0?"저장성공":"저장실패");
+        m.addAttribute("loc","/");
+        return "common/msg";
+        
 	}
 	
 	//회원가입_이메일인증
@@ -102,7 +148,7 @@ public class MemberController {
 	    return ResponseEntity.status(HttpStatus.OK).body(authNum);
 	}
 	
-	
+	//ajax=================================================================
 	//아이디 중복체크
 	@PostMapping("/emailCheck")
 	@ResponseBody
@@ -124,5 +170,20 @@ public class MemberController {
 		int cnt = service.myReferralCodeCheck(myReferralCode);
 		return cnt;
 	}
+	//ajax=================================================================
 	
+	//함수
+	//추천인코드 만들기(8자의 영어,숫자 조합)
+    public static String generateRandomValue() {
+        final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        final int LENGTH = 8;
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(LENGTH);
+        for (int i = 0; i < LENGTH; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            sb.append(randomChar);
+        }
+        return sb.toString();
+    }
 }

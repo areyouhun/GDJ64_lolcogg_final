@@ -21,7 +21,7 @@
                 <div>
                     <p class="enrollTitle color-white ff-macho fs-25 ">회원가입</p>
                 </div>
-                <form action="${path }/member/insertMember.do" method="post" onsubmit="return checkForm();">
+                <form action="${path }/member/insertMember.do" method="post" onsubmit="return checkForm();" enctype="multipart/form-data">
                     <div class="divFlex">
                         <div class="enrollBox ">
                             <div class="line">
@@ -30,15 +30,15 @@
                             </div>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">*비밀번호</p>
-                                <input type="password" class ="ff-suit" placeholder="영문, 숫자, 특수문자 포함 8자 이상 입력" name="password_1" id="password_1" >
+                                <input type="password" class ="ff-suit" placeholder="영문, 숫자, 특수문자 포함 8자 이상 입력" name="password_1" id="password_1" required>
                             </div>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">*비밀번호 확인</p>
-                                <input type="password" class ="ff-suit" placeholder="영문, 숫자, 특수문자 포함 8자 이상 입력" name="password_2" id="password_2" >
+                                <input type="password" class ="ff-suit" placeholder="영문, 숫자, 특수문자 포함 8자 이상 입력" name="password_2" id="password_2" required>
                             </div>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">*닉네임</p>
-                                <input type="text" class ="ff-suit" placeholder="2자 이상 8자 이내 입력 가능(한글, 영어, 숫자)" name="nickName" id="nickName" oninput = "checkNickName()"  >
+                                <input type="text" class ="ff-suit" placeholder="2자 이상 8자 이내 입력 가능(한글, 영어, 숫자)" name="nickName" id="nickName" oninput = "checkNickName()"  required>
                             </div>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">응원팀</p>
@@ -132,7 +132,7 @@
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">프로필이미지</p>
                                 <input type="file" name="file" id="file" accept="image/*"  style="display:none" /> 
-                                <input type="text" class ="ff-suit fileValue" placeholder="이미지를 선택해주세요" readonly>
+                                <input type="text" name="file" class ="ff-suit fileValue" placeholder="이미지를 선택해주세요" readonly>
                             </div>
                             <div class="line">
                                 <div class="previewBox1">

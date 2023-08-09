@@ -32,7 +32,6 @@ public class Member  {
 	private Date enrollDate;
 	private Date withdrawDate;
 	private String authority; 
-	
 
 	private Tier tier;
 	private List<PointHistory> pointHistorys = new ArrayList();

@@ -84,18 +84,20 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int emailCheck(String email) {
-		int cnt = dao.emailCheck(session, email);
-		return cnt;
+		return dao.emailCheck(session, email);
 	}	
 	@Override
 	public int nickNameCheck(String nickName) {
-		int cnt = dao.nickNameCheck(session, nickName);
-		return cnt;
+		return dao.nickNameCheck(session, nickName);
 	}	
 	@Override
 	public int myReferralCodeCheck(String myReferralCode) {
-		int cnt = dao.myReferralCodeCheck(session, myReferralCode);
-		return cnt;
+		return dao.myReferralCodeCheck(session, myReferralCode);
+	}
+
+	@Override
+	public int insertMember(Member member) {
+		 return dao.insertMember(session, member);
 	}	
     
 }

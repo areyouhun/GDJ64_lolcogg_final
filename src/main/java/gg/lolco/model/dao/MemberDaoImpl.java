@@ -39,4 +39,9 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("member.myReferralCodeCheck",myReferralCode);
 	}
+	
+    @Override
+    public int insertMember(SqlSession session, Member member) {
+    	return session.insert("member.insertMember", member);
+    }
 }

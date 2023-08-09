@@ -21,7 +21,7 @@ public interface MemberService {
 	//  메일을 보내는 메소드
 	  void mailSend(String message,String email, String title);
 	  
-	// (중복체크)
+	//(중복체크)
 	// 아이디
 	public int emailCheck(String email);
 	// 닉네임
@@ -29,4 +29,6 @@ public interface MemberService {
 	// 추천인코드
 	public int myReferralCodeCheck(String myReferralCode);
 	
+	//회원가입
+	int insertMember(Member member);
 }

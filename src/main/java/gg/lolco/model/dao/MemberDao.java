@@ -20,4 +20,7 @@ public interface MemberDao {
 	public int nickNameCheck(SqlSession session, String nickName);
 	// 추천인 코드
 	public int myReferralCodeCheck(SqlSession session, String myReferralCode);
+	
+	//회원가입
+	int insertMember(SqlSession session, Member member);
 }
