@@ -54,7 +54,7 @@
 	                    	<img src="${path}/resources/images/tier/${loginMember.tier.tierRulesNo.tierRulesImage}"
 		                    	style="width: 35px; height: 25px; margin-left:0.5em">
                     	</div>
-						<a href="${path }/member/mypage.do?email=${loginMember.email}" >
+						<a href="${path }/member/mypage.do" >
 							내 정보
 		            	</a>
 						<a href="${path }/member/myCard.do?email=${loginMember.email}" >
