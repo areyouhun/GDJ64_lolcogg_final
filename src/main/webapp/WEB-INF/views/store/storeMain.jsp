@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
@@ -143,6 +144,7 @@
 <title>롤코지지-포인트 상점</title>
 </head>
 <body>
+<fmt:formatNumber value="${buyer.totalPoints}"  var="point" pattern="0"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="navBgColor" value="nav-black"/>
 </jsp:include>
@@ -283,6 +285,10 @@
 								<td>상세 설명</td>
 								<td id="modalExplain"></td>
 							</tr>
+							<tr style="display:none">
+								<td>가격</td>
+								<td id="modalPrice"></td>
+							</tr>
 						</table>
 					</div>
 				</div>
@@ -328,7 +334,7 @@
     </section>
     
     
-
+	
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
@@ -356,11 +362,13 @@
 	}
 
 	/*버튼 클릭시 위 함수 콜*/
+	
 	$(function () {
 		$('.checkBuyItem').click(function(e) {
 			$('#modalImg').attr("src",$(e.target).attr("src"));
 			$('#modaltemName').text($(e.target).next('h4').text());
 			$('#modalExplain').text($(e.target).next().next().text());
+			$('#modalPrice').text($(e.target).next().next().next().find('h5').text());
 			document.body.style.overflow = 'hidden';
 			e.preventDefault();
 			wrapWindowByMask();
@@ -373,9 +381,12 @@
 		})
 		$('#modalPurchase').click(function(e){
 			let changename;
-			const name=$(e.target).parent().parent().find('#modaltemName').text();
+			const name=$('#modaltemName').text();
+			const price=$("#modalPrice").text();
 			if(${loginMember==null}){
-				alert("로그인 후 구매가능합니다.")
+				alert("로그인 후 구매가능합니다.");
+			}else if(${point}-price<0){
+				alert("포인트가 부족합니다.");
 			}else{
 				if(name=="닉네임 변경권"){
 						document.body.style.overflow = 'hidden';
@@ -460,6 +471,7 @@
 									"name" : changename
 								},
 								success : function(){
+									alert("닉네임이 변경되었습니다.")
 									location.href='${path}/store/main';
 								},
 								error : function(request, status, error) { 
@@ -475,12 +487,12 @@
 						})
 						
 				}else{
-					location.href='${path}/store/purchase?name='+name;
+					location.href='${path}/store/purchase?name='+name+"&price="+price;
 				}
 			}
 		})
 		$('#storeSearchButton').click(function(){
-			location.href='${path}/store/detail?name='+$("#storeSearch").val()
+			location.replace='${path}/store/detail?name='+$("#storeSearch").val()
 		})
 	});
 

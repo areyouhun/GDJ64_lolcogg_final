@@ -10,6 +10,7 @@ import gg.lolco.model.dao.StoreDao;
 import gg.lolco.model.vo.CardPack;
 import gg.lolco.model.vo.EmoPack;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.MemberEmoticon;
 import gg.lolco.model.vo.PointItem;
 
 @Service
@@ -46,8 +47,31 @@ public class StoreServiceImpl implements StoreService {
 	}
 	
 	@Override
-	public void nickChange(Map<String, Object> param) {
-		dao.nickChange(session,param);
+	public int nickChange(Map<String, Object> param) {
+		return dao.nickChange(session,param);
+	}
+	
+	@Override
+	public int buyerMoney(Map<String, Object> param) {
+		return dao.buyerMoney(session,param);
+	}
+	
+	@Override
+	public int itemPurchase(Map<String, Object> param) {
+		return dao.itemPurchase(session, param);
+	}
+	@Override
+	public int memberCardBuy(Map<String, Object> param) {
+		return dao.memberCardBuy(session, param);
+	}
+	@Override
+	public int memberEmoticonBuy(Map<String, Object> param) {
+		return dao.memberEmoticonBuy(session, param);
+	}
+	
+	@Override
+	public MemberEmoticon memberEmoticonCheck(Map<String, Object> param) {
+		return dao.memberEmoticonCheck(session, param);
 	}
 
 }

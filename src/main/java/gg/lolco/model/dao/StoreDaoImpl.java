@@ -10,6 +10,7 @@ import gg.lolco.model.vo.CardPack;
 import gg.lolco.model.vo.EmoPack;
 import gg.lolco.model.vo.Emoticon;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.MemberEmoticon;
 import gg.lolco.model.vo.PointItem;
 
 @Repository
@@ -39,8 +40,30 @@ public class StoreDaoImpl implements StoreDao {
 	}
 	
 	@Override
-	public void nickChange(SqlSession session, Map<String, Object> param) {
-		session.update("store.nickChange",param);
+	public int nickChange(SqlSession session, Map<String, Object> param) {
+		return session.update("store.nickChange",param);
+	}
+	
+	@Override
+	public int buyerMoney(SqlSession session, Map<String, Object> param) {
+		return session.update("store.buyerMoney",param);
+	}
+	@Override
+	public int itemPurchase(SqlSession session, Map<String, Object> param) {
+		return session.insert("store.itemPurchase",param);
+	}
+	@Override
+	public int memberCardBuy(SqlSession session, Map<String, Object> param) {
+		return session.insert("store.memberCardBuy",param);
+	}
+	@Override
+	public int memberEmoticonBuy(SqlSession session, Map<String, Object> param) {
+		return session.insert("store.memberEmoticonBuy",param);
+	}
+	
+	@Override
+	public MemberEmoticon memberEmoticonCheck(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("store.memberEmoticonCheck",param);
 	}
 
 }

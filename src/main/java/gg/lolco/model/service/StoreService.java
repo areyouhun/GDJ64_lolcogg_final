@@ -5,6 +5,7 @@ import java.util.Map;
 
 import gg.lolco.model.vo.CardPack;
 import gg.lolco.model.vo.EmoPack;
+import gg.lolco.model.vo.MemberEmoticon;
 import gg.lolco.model.vo.PointItem;
 
 public interface StoreService {
@@ -16,5 +17,12 @@ public interface StoreService {
 	
 	String nickCkeck(String name);
 	
-	void nickChange(Map<String,Object> param);
+	int nickChange(Map<String,Object> param);
+	
+	int buyerMoney(Map<String,Object> param);
+	int itemPurchase(Map<String,Object> param);
+	int memberCardBuy(Map<String,Object> param);
+	int memberEmoticonBuy(Map<String,Object> param);
+	
+	MemberEmoticon memberEmoticonCheck(Map<String,Object> param);
 }

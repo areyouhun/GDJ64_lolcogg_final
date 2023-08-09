@@ -1,6 +1,7 @@
 package gg.lolco.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -8,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -16,7 +16,10 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import gg.lolco.model.service.MemberService;
 import gg.lolco.model.service.StoreService;
+import gg.lolco.model.vo.CardPack;
+import gg.lolco.model.vo.EmoPack;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.MemberEmoticon;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -33,17 +36,27 @@ public class StoreController {
 	}
 	
 	@GetMapping("/main")
-	public String storeMain(Model m) {
+	public String storeMain(Model m,@SessionAttribute(name="loginMember", required = false) Member member) {
 		m.addAttribute("itemsEmoticon",service.selectItemMain(2));
 		m.addAttribute("itemsCard",service.selectItemMain(1));
 		m.addAttribute("itemsETC",service.selectItemMain(3));
+		if(member!=null) {
+			Map<String,Object> param=new HashMap<>();
+			String email=member.getEmail();
+			param.put("email", email);
+			m.addAttribute("buyer",serviceMember.selectMemberById(param));
+		}
 		return "store/storeMain";
 	}
 	
 	@GetMapping("/detail")
-	public String storeDetail(Model m,Integer no,String name) {
+	public String storeDetail(Model m,Integer no,String name,@SessionAttribute(name="loginMember", required = false) Member member) {
 		Map<String,Object> param=new HashMap<>();
-		System.out.println(no);
+		if(member!=null) {
+			String email=member.getEmail();
+			param.put("email", email);
+			m.addAttribute("buyer",serviceMember.selectMemberById(param));
+		}
 		param.put("no", no);
 		param.put("itemname","%"+name+"%");
 		m.addAttribute("items",service.selectItemDetail(param));
@@ -51,10 +64,40 @@ public class StoreController {
 		return "store/storeDetail";
 	}
 	
-	@GetMapping("/purchase")
-	public String itemPurchase(Model m,String name) {
-		m.addAttribute("emopack",service.itemPurchaseEmoticon(name));
-		m.addAttribute("cardPack",service.itemPurchaseCard(name));
+	@RequestMapping("/purchase")
+	public String itemPurchase(Model m,String name,@SessionAttribute("loginMember") Member member,int price) {
+		Map<String,Object> param=new HashMap<>();
+		String email=member.getEmail();
+		param.put("email", email);
+		param.put("price", price);
+		param.put("name", name);
+		int result=service.buyerMoney(param);
+		List<EmoPack> emopack= service.itemPurchaseEmoticon(name);
+		List<CardPack> cardPack=service.itemPurchaseCard(name);
+		int puchaseResult=service.itemPurchase(param);
+		if(puchaseResult>0&&result>0) {
+			if(!(cardPack.size()==0)){
+				for(CardPack c:cardPack) {
+					param.put("cardNo", c.getCard().getCardNo());
+					service.memberCardBuy(param);
+				};
+			}
+			if(!(emopack.size()==0)){
+				for(EmoPack e:emopack) {
+					param.put("emoNo", e.getEmoNo().getEmoNo());
+					MemberEmoticon me=service.memberEmoticonCheck(param);
+					if(me==null) {
+						service.memberEmoticonBuy(param);
+					}else {
+						param.put("price", -(price/5));
+						service.buyerMoney(param);
+					}
+
+				};
+			}
+			m.addAttribute("emopack",emopack);
+			m.addAttribute("cardPack",cardPack);
+		}
 		return "store/storePurchase";
 	}
 	
@@ -69,15 +112,18 @@ public class StoreController {
 		return service.nickCkeck(name);
 	}
 	
-	@PostMapping("/nickChange")
+	@RequestMapping("/nickChange")
 	@ResponseBody
 	public void nickChange(Model m,String name,@SessionAttribute("loginMember") Member member,SessionStatus status,  HttpSession session){
 		String email=member.getEmail();
 		Map<String,Object> param=new HashMap<>();
 		param.put("email", email);
-		service.nickChange(Map.of("name",name,"email",email));
-		Member memberupdate=serviceMember.selectMemberById(param);
-		if(!status.isComplete()) status.setComplete();
-		session.setAttribute("loginMember", memberupdate);
+		param.put("name", name);
+		int result=service.nickChange(param);
+		if(result!=0) {
+			Member memberupdate=serviceMember.selectMemberById(param);
+			if(!status.isComplete()) status.setComplete();
+			session.setAttribute("loginMember", memberupdate);
+		}
 	}
 }

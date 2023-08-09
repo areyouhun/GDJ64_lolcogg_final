@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import gg.lolco.model.vo.CardPack;
 import gg.lolco.model.vo.EmoPack;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.MemberEmoticon;
 import gg.lolco.model.vo.PointItem;
 
 public interface StoreDao {
@@ -19,5 +20,11 @@ public interface StoreDao {
 	
 	String nickCkeck(SqlSession session,String name);
 	
-	void nickChange(SqlSession session,Map<String,Object> param);
+	int nickChange(SqlSession session,Map<String,Object> param);
+	int buyerMoney(SqlSession session,Map<String,Object> param);
+	int itemPurchase(SqlSession session,Map<String,Object> param);
+	int memberCardBuy(SqlSession session,Map<String,Object> param);
+	int memberEmoticonBuy(SqlSession session,Map<String,Object> param);
+	
+	MemberEmoticon memberEmoticonCheck(SqlSession session,Map<String,Object> param);
 }
