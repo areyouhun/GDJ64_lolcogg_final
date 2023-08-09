@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChattingMessage {
+public class ChatMessage {
 	private MessageTypes type;
 	private String sender;
 	private String receiver;
 	private String content;
+	private boolean hasVoice;
 }

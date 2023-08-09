@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="loginMember" value="${sessionScope.loginMember}"/>
+<spring:eval var="ttsKey" expression="@environment.getProperty('lolcogg.api.tts')"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,8 +24,8 @@
 				<iframe width="854" height="480" src="https://www.youtube.com/embed/r3ZdT5wIk5k?autoplay=1&mute=1&start=2628" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen >
 				</iframe>
 				<div class="shout-container pos-absolute">
-					<!-- <h4><span class="nickname">김쉐프</span>님의 소리 없는 아우성!</h4>
-					<h5>시시해서 죽고 싶어졌다</h5> -->
+					<!-- <h4><span class="nickname">닉네임</span>님의 소리 없는 아우성!</h4>
+					<h5>메시지 내용</h5> -->
 				</div>
 			</div>
 			<div class="chatroom-left-info">
@@ -35,12 +38,12 @@
 		<section class="chatroom-right">
 			<div class="chatroom-right-chatboard">
 				<div class="chatboard-title">
-					<h4>실시간 채팅 (<span>1018</span>명 참여 중)</h4>
+					<h4>실시간 채팅 (<span>0</span>명 참여 중)</h4>
 				</div>
 				<div class="chatboard-box">
 					<!-- <div class="chatboard-msg">
-						<h6>닉네임1:</h6>
-						<h6>채팅채팅채팅채팅채팅채팅채팅채팅채팅</h6>
+						<h6>닉네임:</h6>
+						<h6>채팅내용</h6>
 					</div> -->
 				</div>
 				<div class="chatboard-send">
@@ -69,20 +72,17 @@
 	const shouts = [];
 	
 	class Message {
-		constructor(type = "", sender = "", receiver = "", content = "") {
+		constructor(type = "", sender = "", receiver = "", content = "", hasVoice = false) {
 			this.type = type;
 			this.sender = sender;
 			this.receiver = receiver;
 			this.content = content;
+			this.hasVoice = hasVoice;
 		}
 	}
 	
 	chattingServer.onopen = data => {
-		chattingServer.send(JSON.stringify(new Message(type = "NOTIFICATION", 
-														sender = me, 
-														receiver = "", 
-														content = "님이 입장하셨습니다.")
-		));
+		chattingServer.send(JSON.stringify(new Message(type = "ENTER", sender = me)));
 	}
 	
 	chattingServer.onmessage = data => {
@@ -95,13 +95,11 @@
 				break;
 			
 			case "MSG": 
-				chat(message, "chatboard-msg", message.sender === me ? "me" : ""); 
+				chat(message, "chatboard-msg", addClassIfValid(message.sender, me, "me"), addClassIfValid(message.sender, "관리자", "admin")); 
 				break;
 				
 			case "SHOUT": 
 				shouts.push(message);
-				console.log(shouts);
-				console.log(shouts.length);
 				if (shouts.length === 1) {
 					shout(shouts[0]);
 				} else {
@@ -110,10 +108,9 @@
 						shout(shouts[0]);
 					}, 8000 * (shouts.length - 1));
 				}
-
 				break;
 				
-			case "SETTINGS":
+			case "COUNT":
 				$(".chatboard-title span").text(message.content);
 				break;
 				
@@ -122,9 +119,12 @@
 				break;
 		}
 	}
-	
-	chattingServer.onclose = data => {
-		// WHEN CLOSING THE CHATROOM
+
+	function addClassIfValid(sender, nickname, className) {
+		if (sender === nickname) {
+			return className;
+		}
+		return "";
 	}
 	
 	$("#sendBtn").click(event => {
@@ -138,11 +138,32 @@
 	});
 
 	$(".btn-shout").click(event => {
-		// check the user's point
+		let target;
+		if ($(event.target).prop("tagName") === "BUTTON") {
+			target = $(event.target);
+		}
 
-		const shout = prompt("채팅방에 외칠 메시지를 적어주세요!");
+		if ($(event.target).prop("tagName") === "SPAN") {
+			target = $(event.target).parent();
+		}
 
-		if (shout !== null) {
+		let shout = prompt("채팅방에 외칠 메시지를 입력해주세요!");
+
+		if (shout.length === 0 || shout === null) {
+			alert("입력된 메시지가 없습니다.");
+			return
+		}
+
+		// after checking the user's point
+		console.log(target.hasClass("voice"));
+		if (target.hasClass("voice")) {
+			chattingServer.send(JSON.stringify(new Message(type = "SHOUT", 
+														sender = me, 
+														receiver = "", 
+														content = shout,
+														hasVoice = true))
+			);
+		} else {
 			chattingServer.send(JSON.stringify(new Message(type = "SHOUT", 
 														sender = me, 
 														receiver = "", 
@@ -153,13 +174,22 @@
 
 	function shout(message) {
 		const shoutContainer = $(".shout-container");
-		const shoutUpper = "<h4><span class='nickname'>" + message.sender + "</span>님의 소리 없는 아우성!</h4>";
+		let shoutUpper = "<h4><span class='nickname'>" + message.sender + "</span>님의 소리 없는 아우성!</h4>";
 		const shoutLower = $("<h5>").text(message.content);
 
 		shoutContainer.html("");
+						
+		if (message.hasVoice === true) {
+			shoutUpper = "<h4><span class='nickname'>" + message.sender + "</span>님의 소리 있는 아우성!</h4>";
+			addVoice(message.content);
+		}
+
 		shoutContainer.append(shoutUpper).append(shoutLower);
+
 		shoutContainer.fadeIn(300);
-		shoutContainer.fadeOut(7000);
+		setTimeout(() => {
+			shoutContainer.fadeOut(2000);
+		}, 5000);
 
 		setTimeout(() => {
 			if (shouts.length === 1) {
@@ -191,6 +221,55 @@
 		});
 		
 		return $div;
+	}
+
+	function addVoice(content) {
+		var data = {    
+				"voice":{
+					"languageCode":"ko-KR"
+				},
+				"input":{
+					"text": content
+				},
+				"audioConfig":{
+					"audioEncoding":"mp3"
+				}
+			}
+
+		$.ajax({
+			type:'POST',
+			url: 'https://texttospeech.googleapis.com/v1/text:synthesize?key=${ttsKey}',
+			data: JSON.stringify(data),
+			dataType: 'JSON',
+			contentType: "application/json; charset=UTF-8",
+			success: function(res) {
+				const audioFile = new Audio();
+				const audioBlob = base64ToBlob(res.audioContent, "mp3");
+				audioFile.src = window.URL.createObjectURL(audioBlob);
+				audioFile.playbackRate = 1;
+				audioFile.play();
+			},
+			error : function(request, status, error) {
+				alert("오류가 발생하였습니다. 관리자에게 문의해주세요.");
+			}
+		});
+	};
+	
+	function base64ToBlob(base64, fileType) {
+		const typeHeader = "data:application/" + fileType + ";base64,";
+		const audioSrc = typeHeader + base64; 
+		const arr = audioSrc.split(",");
+		const array = arr[0].match(/:(.*?);/);
+		const mime = (array && array.length > 1 ? array[1] : type) || type;
+		const bytes = window.atob(arr[1]);
+		const ab = new ArrayBuffer(bytes.length);
+		const ia = new Uint8Array(ab);
+
+		for (let i = 0; i < bytes.length; i++) {
+			ia[i] = bytes.charCodeAt(i);
+		}
+
+		return new Blob([ab], { type: mime });
 	}
 </script>
 </body>

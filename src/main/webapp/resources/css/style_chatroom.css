@@ -154,6 +154,14 @@ img {
     justify-content: end;
 }
 
+.admin>h6:first-of-type {
+    color: #2e2e2e;
+    text-shadow: -1px 0px var(--lol-white), 
+                0px 1px var(--lol-white), 
+                1px 0px var(--lol-white), 
+                0px -1px var(--lol-white);
+}
+
 .notification {
     justify-content: center;
 }
