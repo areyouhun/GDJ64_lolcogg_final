@@ -86,8 +86,11 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 
 	@Override
-	public List<CommunityBoardComment> selectBoardComment(SqlSession session, String cmBoardNo) {
-		return session.selectList("community.selectBoardComment",cmBoardNo);
+	public List<CommunityBoardComment> selectBoardComment(SqlSession session,Map<String, Object> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		return session.selectList("community.selectBoardComment",param,rb);
 	}
 	
 	@Override
@@ -185,6 +188,16 @@ public class CommunityDaoImpl implements CommunityDao {
 	@Override
 	public CommunityBoardComment selectCommentNo(SqlSession session, Map<String, Object> param) {
 		return session.selectOne("community.selectCommentNo",param);
+	}
+
+	@Override
+	public int cmRemoveBtn(SqlSession session, Map<String, Object> param) {
+		return session.update("community.cmRemoveBtn",param);
+	}
+
+	@Override
+	public int selectBoardCommentCount(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("community.selectBoardCommentCount",param);
 	}
 
 }

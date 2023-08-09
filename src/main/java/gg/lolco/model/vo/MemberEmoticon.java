@@ -13,6 +13,5 @@ public class MemberEmoticon {
 	private long meNo;
 	private String meEmail;
 	private long meEmoNo;
-	
 	private Emoticon emoticon;
 }

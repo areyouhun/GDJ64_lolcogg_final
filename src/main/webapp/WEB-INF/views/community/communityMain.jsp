@@ -210,6 +210,9 @@
 	<script src="${path}/resources/js/script_common.js"></script>
 	<!-- Your own script tag or JavaScript file -->
 	<script>
+	
+	
+
 	document.addEventListener("DOMContentLoaded", function() {
 	    let params = new URLSearchParams(window.location.search);
 	    let categoryValue = params.get("categorie");

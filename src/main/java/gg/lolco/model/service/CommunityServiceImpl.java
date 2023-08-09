@@ -83,8 +83,8 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public List<CommunityBoardComment> selectBoardComment(String cmBoardNo) {
-		return dao.selectBoardComment(session,cmBoardNo);
+	public List<CommunityBoardComment> selectBoardComment(Map<String, Object> param) {
+		return dao.selectBoardComment(session,param);
 	}
 
 	@Override
@@ -181,6 +181,16 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int selectCmNerf(Map<String, Object> param) {
 		return dao.selectCmNerf(session,param);
+	}
+
+	@Override
+	public int cmRemoveBtn(Map<String, Object> param) {
+		return dao.cmRemoveBtn(session,param);
+	}
+
+	@Override
+	public int selectBoardCommentCount(Map<String, Object> param) {
+		return dao.selectBoardCommentCount(session,param);
 	}
 
 	

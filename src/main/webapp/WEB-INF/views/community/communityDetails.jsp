@@ -170,17 +170,15 @@
 
 
 							<!-- 댓글 목록 -->
-							<c:if test="${not empty selectBoardComment}">
-								<div class="commentSort">
-									<p class="fs-18 newMargin">최신 순</p>
-									<p class="fs-18">인기 순</p>
-								</div>
-								<div class="qnaCommentListDiv">
+
+							<div class="qnaCommentListDiv">
+								<c:if test="${not empty selectBoardComment}">
 									<!-- 댓글 한 개 -->
 									<c:forEach var="c" items="${selectBoardComment }">
 										<c:if test="${c.cmCommentRefNo==0 }">
-											
-											<hr class="hr-2">
+											<c:if test="${not empty selectBoardComment}">
+												<hr class="hr-2">
+											</c:if>
 											<div class="commentList">
 												<div class="profileImg">
 													<img
@@ -211,7 +209,7 @@
 																			수정
 																		</button>
 																		<hr class="hr-1Black hr-op">
-																		<button class="cmRemoveBtn">
+																		<button class="removeBtn">
 																			<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>
 																			삭제
 																		</button>
@@ -262,8 +260,9 @@
 
 											<!-- 답글작성-->
 											<div class="insertCommentDiv insertReply">
-												<input type="hidden" value="${c.cmCommentNo }"
-													class="commentNo">
+												<input type="hidden" value="${c.cmCommentRefNo }"
+													class="commentRefNo"> <input type="hidden"
+													value="${c.cmCommentNo }" class="commentNo">
 												<div class="replyContent contentBlack fs-20"
 													contenteditable="true" oninput="updateCount1()"></div>
 												<div class="countBtnDiv">
@@ -287,7 +286,8 @@
 											<!-- 수정작성 -->
 											<div class="insertCommentDiv updateComment">
 												<input type="hidden" value="${c.cmCommentNo }"
-													class="commentNo">
+													class="commentNo"> <input type="hidden"
+													value="${c.cmCommentRefNo }" class="refCommentNo">
 												<div class="updateContent contentBlack fs-20 replyContent"
 													"
 													contenteditable="true"
@@ -374,7 +374,8 @@
 												<!--대댓글수정  -->
 												<div class="insertCommentDiv updateComment">
 													<input type="hidden" value="${b.cmCommentNo }"
-														class="commentNo">
+														class="commentNo"> <input type="hidden"
+														value="${b.cmCommentRefNo }" class="refCommentNo">
 
 													<div class="updateContent contentBlack fs-20 replyContent"
 														contenteditable="true" oninput="updateCount1(this)">${ b.cmCommentContent}</div>
@@ -399,18 +400,19 @@
 											</c:if>
 										</c:forEach>
 									</c:forEach>
-								</div>
-
-
-
-							</c:if>
+									<c:if test="${not empty selectBoardComment}">
+										
+									</c:if>
+								</c:if>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div class="pageBar_div">
+				<c:out value="${pageBar }" escapeXml="false" />
+			</div>
 		</div>
-
-
 	</section>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
@@ -418,7 +420,66 @@
 	<script src="${path}/resources/js/script_common.js"></script>
 	<!-- Your own script tag or JavaScript file -->
 
-	<script>	
+	<script>
+
+	
+
+
+	
+	document.body.addEventListener('input', function(e) {
+	    if (e.target.classList.contains('replyContent')) {
+	        const currentCount = updateCount1(e.target);
+	        if (currentCount > 150) {
+	            const lastChild = e.target.lastChild;
+	            if (lastChild.nodeName === "IMG") {
+	                e.target.removeChild(lastChild);
+	            } else {
+	                e.target.innerText = e.target.innerText.slice(0, -1);
+	            }
+	            updateCount1(e.target);
+	            alert('150자를 초과하였습니다.');
+
+	            const selection = window.getSelection();
+	            const range = document.createRange();
+	            range.selectNodeContents(e.target);
+	            range.collapse(false);
+	            selection.removeAllRanges();
+	            selection.addRange(range);
+	        }
+	    } else if (e.target.classList.contains('insertComment')) {
+	        const currentCount = updateCount();
+	        if (currentCount > 150) {
+	            const lastChild = e.target.lastChild;
+	            if (lastChild.nodeName === "IMG") {
+	                e.target.removeChild(lastChild);
+	            } else {
+	                e.target.innerText = e.target.innerText.slice(0, -1);
+	            }
+	            updateCount();
+	            alert('150자를 초과하였습니다.');
+
+	            const selection = window.getSelection();
+	            const range = document.createRange();
+	            range.selectNodeContents(e.target);
+	            range.collapse(false);
+	            selection.removeAllRanges();
+	            selection.addRange(range);
+	        }
+	    }
+	});
+
+	document.body.addEventListener('click', function(e) {
+	    if (e.target.closest('.replyOpenIcon img')) {
+	        const replyContent = e.target.closest('.insertCommentDiv').querySelector('.replyContent');
+	        insertImage1(replyContent, e.target.src);
+	    }
+	    // 이 부분은 원하는 이미지 추가 기능을 `.insertComment`에 대해서도 확장하려면 추가해야 합니다.
+	    // 예를 들면, `e.target.closest('.someSelector img')` 라는 조건을 추가하고, 그 안에서 원하는 이미지 추가 로직을 수행하면 됩니다.
+	});
+
+	
+
+
 	
 	function updateCount1(target) {
 	    const imgCount = target.querySelectorAll('img').length;
@@ -589,51 +650,53 @@
 			}
 
 		}
-
-		$(".moreIconBtn").click(function(e) {
-			const ul=$(e.target).closest('.optionDiv').find(".optionUl");
-			
-			 ul.toggle();
-		});
-		$(".iconOpenBtn").click(function() {
-			$(".openIcon").toggle();
-		});
-
-		$(".replyIconOpenBtn").click(function(e) {
-			$(".replyOpenIcon").toggle();
-
-		});
-		var actions = true;
-		$(".updateCm").click(function(e) {
-			const cm = $(e.target).parent().parent().parent().parent().parent().parent().next().next()
-			console.log(cm)
-			if(actions){				
-			cm.css("display","flex")
-			}else {
-			cm.css("display","none")
-			}
-			actions = !actions;
-			
-		});
-		var actions = true;
-		$(".refUpdateBtn").click(function(e) {
-			const cm = $(e.target).parent().parent().parent().parent().parent().parent().next()
-			console.log(cm)
-			if(actions){				
-			cm.css("display","flex")
-			}else {
-			cm.css("display","none")
-			}
-			actions = !actions;
-			
-		});
-
-			
-		var action = true;
 		
-		$(".reply").click(function(e) {
-		 	const p = $(e.target).parent().parent().parent().parent().next();
-		 	$(".insertReply").css("display", "none");
+		// .moreIconBtn에 대한 클릭 이벤트 위임
+		$(document).on('click', '.moreIconBtn', function(e) {
+		    const ul = $(this).closest('.optionDiv').find(".optionUl");
+		    ul.toggle();
+		});
+
+		// .iconOpenBtn에 대한 클릭 이벤트 위임
+		$(document).on('click', '.iconOpenBtn', function() {
+		    $(".openIcon").toggle();
+		});
+
+		// .replyIconOpenBtn에 대한 클릭 이벤트 위임
+		$(document).on('click', '.replyIconOpenBtn', function() {
+		    $(".replyOpenIcon").toggle();
+		});
+
+		var actions = true;
+		$(document).on('click', '.updateCm', function(e) {
+		    const cm = $(this).closest('.commentList').next().next();
+		    console.log(cm)
+		    if(actions) {				
+		        cm.css("display","flex");
+		    } else {
+		        cm.css("display","none");
+		    }
+		    actions = !actions;
+		});
+		
+		
+		
+		
+		var actions = true;
+		$(document).on('click', '.refUpdateBtn', function(e) {
+		    const cm = $(this).closest('.commentList').next();
+		    if(actions) {				
+		        cm.css("display","flex");
+		    } else {
+		        cm.css("display","none");
+		    }
+		    actions = !actions;
+		});
+
+		var action = true;
+		$(document).on('click', '.reply', function(e) {
+		    const p = $(this).closest('.commentList').next();
+		    $(".insertReply").css("display", "none");
 		 	$(".replyContent").innerText="";
 			const loginMember = '${loginMember}';
 			if (loginMember != "" && action) {
@@ -648,11 +711,10 @@
 				alert("로그인후 이용할수있습니다..");
 			}
 			action = !action;
-			
 		});
 
-
-		
+			
+			
 		const boardNo = $(".boardNo").val();
 
 		$(".boardBuffBtn").click(function() {
@@ -687,45 +749,48 @@
 			});
 		});
 		
-		$(".cb").click(function(e) {
-			const commentNo =  $(e.target).closest('.dateBuffDiv').find(".commentNo").val();
-			const buff =  $(e.target).next();
-			
-			 $.ajax({
-				type : "get",
-				url : "${path}/community/insertCb",
-				data : {
-					commentNo : commentNo,
-				},
-				success : function(data) {
-				
-					buff.text(data);
-				},
-				error : function() {
-					alert("로그인후 이용가능합니다.");
-				}
-			}); 
-		});
 		
-		$(".cn").click(function(e) {
-			const commentNo =  $(e.target).closest('.dateBuffDiv').find(".commentNo").val();
-			const nerf =  $(e.target).next();
-			console.log(nerf)
-			$.ajax({
-				type : "get",
-				url : "${path}/community/insertCn",
-				data : {
-					commentNo : commentNo,
-				},
-				success : function(data) {
-					nerf.text(data);
-				},
-				error : function() {
-					alert("로그인후 이용가능합니다.");
-				}
-			});
-		});
 		
+		// .cb에 대한 클릭 이벤트 위임
+		$(document).on('click', '.cb', function(e) {
+		    const commentNo = $(this).closest('.dateBuffDiv').find(".commentNo").val();
+		    const buff = $(this).next();
+
+		    $.ajax({
+		        type: "get",
+		        url: "${path}/community/insertCb",
+		        data: {
+		            commentNo: commentNo,
+		        },
+		        success: function(data) {
+		            buff.text(data);
+		        },
+		        error: function() {
+		            alert("로그인후 이용가능합니다.");
+		        }
+		    });
+		});
+
+		// .cn에 대한 클릭 이벤트 위임
+		$(document).on('click', '.cn', function(e) {
+		    const commentNo = $(this).closest('.dateBuffDiv').find(".commentNo").val();
+		    const nerf = $(this).next();
+
+		    $.ajax({
+		        type: "get",
+		        url: "${path}/community/insertCn",
+		        data: {
+		            commentNo: commentNo,
+		        },
+		        success: function(data) {
+		            nerf.text(data);
+		        },
+		        error: function() {
+		            alert("로그인후 이용가능합니다.");
+		        }
+		    });
+		});
+
 
 		/* $(".iconOpenBtn").click(function() {
 			$.ajax({
@@ -743,10 +808,9 @@
 				}
 			});
 		}); */
-
+		
 		$(".commentBtn").click(function() {
-		    const comment = $(".insertComment").html();
-	
+		    const comment = $(".insertComment").html();	
 		    $.ajax({
 		        type: "post",
 		        url: "${path}/community/insertComment",
@@ -754,499 +818,227 @@
 		            boardNo: boardNo,
 		            comment: comment
 		        },
-		        success: function test(c) {
-		           
-		        },
-		        error: function() {
+				success : function(c) {
+					const loginMemberNickname = "${loginMember.nickname}";
+		            let html =' ';
+		            html += '<hr class="hr-2">';
+		            html += '<div class="commentList">';
+		            html += '<div class="profileImg">';
+		            html += '<img src="${path}/resources/images/upload/member/' + c.cmCommentWriter.profile + '" style="width: 50px; height: 50px; border-radius: 70px;">';
+		            html += '</div>';
+		            html += '<div class="detailDiv">';
+		            html += '<div class="commentDetail">';
+		            html += '<div class="commentInfo">';
+		            html += '<p class="contentBlack fs-20 nickname">' + c.cmCommentWriter.nickname + '</p>';
+		            html += '<img src="${path}/resources/images/tier/' + c.cmCommentWriter.tier.tierRulesNo.tierRulesImage + '" class="tierImg">';
+		            html += '</div>';
+		            html += '<div class="optionDiv">';
+		            html += '<button class="moreIconBtn">';
+		            html += '<ion-icon class="moreIcon" name="ellipsis-horizontal" style="font-size: 28px;"></ion-icon>';
+		            html += '</button>';
+		            html += '<ul class="optionUl" style="z-index: 1;">';
+		            html += '<li>';
+		            if (loginMemberNickname == c.cmCommentWriter.nickname) {
+		                html += '<button class="updateCm">';
+		                html += '<ion-icon class="optionIcon" name="create-outline"></ion-icon>';
+		                html += '수정</button>';
+		                html += '<hr class="hr-1Black hr-op">';
+		                html += '<button class="removeBtn">';
+		                html += '<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>';
+		                html += '삭제</button>';
+		            } else {
+		                html += '<button>';
+		                html += '<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>';
+		                html += '신고</button>';
+		            }
+		            html += '</li>';
+		            html += '</ul>';
+		            html += '</div>'; 
+		            html += '</div>';  
+		            html += '<p class="contentBlack fs-20 commentContent">' + c.cmCommentContent + '</p>';
+		            html += '<div class="dateBuffDiv">';
+		            html += '<input type="hidden" value="' + c.cmCommentNo + '" class="commentNo">';
+		            html += '<input type="hidden" value="'+ c.cmCommentRefNo + '" class="commentRefNo">';
+		            html += '<span class="dateSpan">' + c.timeDifference + '</span>';
+		            html += '<div class="buffNerfDiv">';
+		            html += '<button class="buffBtn reply">답글</button>';
+		            html += '<div class="buffDiv">';
+		            html += '<button class="buffBtn cb">버프';
+		            html += '<ion-icon name="caret-up-circle-outline" class="bnIcon"></ion-icon>';
+		            html += '</button>';
+		            html += '<p class="contentBlack buff">' + c.cb + '</p>';
+		            html += '</div>';  
+		            html += '<div class="nerfDiv">';
+		            html += '<button class="buffBtn cn">너프';
+		            html += '<ion-icon name="caret-down-circle-outline" class="bnIcon"></ion-icon>';
+		            html += '</button>';
+		            html += '<p class="contentBlack nerf">' + c.cn + '</p>';
+		            html += '</div>';  
+		            html += '</div>';  
+		            html += '</div>';  
+		            html += '</div>';  
+		            html += '</div>';  
+		            html += '</div>';  
+		            
+		            html += '<div class="insertCommentDiv insertReply">';
+		            html += '<input type="hidden" value="'+c.cmCommentNo +'" class="commentNo">';
+		            html += '<input type="hidden" value="'+ c.cmCommentRefNo + '" class="commentRefNo">';
+		            html += '<div class="replyContent contentBlack fs-20" contenteditable="true" oninput="updateCount1()">';
+		            html += '</div>';
+		            html += '<div class="countBtnDiv">';
+		            html += '<div class="countBtn">';
+		            html += '<span class="contentBlack fs-20" id="charCount1">0/150</span>';
+		            html += '</div>';
+		            html += '<div class="replyIconBtn">';
+		            html += '<ul class="replyOpenIcon">';
+		            html += '<li>';
+		            html += '<img src="${path}/resources/images/emoticon/Poro_sticker_angry.png" style="width: 50px; height: 40px; border-radius: 70px;" onclick="insertImage1("${path}/resources/images/emoticon/Poro_sticker_angry.png")">';
+		            html += '</li>';
+		            html += '</ul>';
+		            html += '<ion-icon name="happy-outline" class="replyIconOpenBtn"></ion-icon>';
+		            html += '<button class="content replyBtn" onclick="">등록</button>';
+		            html += '</div>';
+		            html += '</div>';
+		            html += '</div>';
+		            
+		            html += '<div class="insertCommentDiv updateComment">';
+		            html += '<input type="hidden" value="'+c.cmCommentNo +'" class="commentNo">';
+		            html += '<input type="hidden" value="'+ c.cmCommentRefNo + '" class="commentRefNo">';
+		            html += '<div class="updateContent contentBlack fs-20 replyContent" contenteditable="true" oninput="updateCount1(this)">'+c.cmCommentContent+'</div>';
+		            html += '<div class="countBtnDiv">';
+		            html += '<div class="countBtn">';
+		            html += '<span class="contentBlack fs-20" id="charCount1">0/150</span>';
+		            html += '</div>';
+		            html += '<div class="replyIconBtn">';
+		            html += '<ul class="replyOpenIcon">';
+		            html += '<li>';
+		            html += '<img src="${path}/resources/images/emoticon/Poro_sticker_angry.png" style="width: 50px; height: 40px; border-radius: 70px;" onclick="insertImage1("${path}/resources/images/emoticon/Poro_sticker_angry.png")">';
+		            html += '</li>';
+		            html += '</ul>';
+		            html += '<ion-icon name="happy-outline" class="replyIconOpenBtn"></ion-icon>';
+		            html += '<button class="content updateBtn" onclick="">등록</button>';
+		            html += '</div>';
+		            html += '</div>';
+		            html += '</div>';
+		            
+		            
+		            $(".qnaCommentListDiv").prepend(html);
+				
+		            $(".insertComment").text("")
+					
+				},error: function() {
 		            alert("로그인후 이용가능합니다.");
 		        },
-		        complete: function() {
-		        	function updateCount1(target) {
-		        	    const imgCount = target.querySelectorAll('img').length;
-		        	    const textCount = target.innerText.length;
-		        	    const count = textCount + imgCount;
-		        	    const charCountEl = target.parentNode.querySelector('.countBtn .contentBlack');
-		        	    charCountEl.textContent = count + "/150";
-		        	    return count;
-		        	}
-
-		        	function insertImage1(target, imgSrc) {
-		        	    const currentCount = updateCount1(target);
-		        	    if (currentCount >= 150) {
-		        	        alert('150자를 초과하였습니다.');
-		        	        return;
-		        	    }
-
-		        	    const imgElem = document.createElement('img');
-		        	    imgElem.src = imgSrc;
-		        	    imgElem.style.width = '50px';
-		        	    imgElem.style.height = '40px';
-		        	    imgElem.style.borderRadius = '70px';
-		        	    target.appendChild(imgElem);
-		        	    updateCount1(target);
-		        	    target.focus();
-
-		        	    const selection = window.getSelection();
-		        	    const range = document.createRange();
-		        	    range.setStartAfter(imgElem);
-		        	    range.setEndAfter(imgElem);
-		        	    selection.removeAllRanges();
-		        	    selection.addRange(range);
-		        	}
-
-		        	document.querySelectorAll('.replyContent').forEach(replyContent => {
-		        	    replyContent.addEventListener('input', function(e) {
-		        	        const currentCount = updateCount1(e.target);
-		        	        if (currentCount > 150) {
-		        	            const lastChild = e.target.lastChild;
-		        	            if (lastChild.nodeName === "IMG") {
-		        	                e.target.removeChild(lastChild);
-		        	            } else {
-		        	                e.target.innerText = e.target.innerText.slice(0, -1);
-		        	            }
-		        	            updateCount1(e.target);
-		        	            alert('150자를 초과하였습니다.');
-
-		        	            const selection = window.getSelection();
-		        	            const range = document.createRange();
-		        	            range.selectNodeContents(e.target);
-		        	            range.collapse(false);
-		        	            selection.removeAllRanges();
-		        	            selection.addRange(range);
-		        	        }
-		        	    });
-		        	});
-
-		        	document.querySelectorAll('.replyOpenIcon img').forEach(img => {
-		        	    img.addEventListener('click', function(e) {
-		        	        const replyContent = e.target.closest('.insertCommentDiv').querySelector('.replyContent');
-		        	        insertImage1(replyContent, e.target.src);
-		        	    });
-		        	});
-     	
-
-		        		function updateCount() {
-		        			const commentDiv = document.querySelector('.insertComment');
-		        			const imgCount = commentDiv.querySelectorAll('img').length; // 이미지를 한 글자로 취급합니다.
-		        			const textCount = commentDiv.innerText.length;
-		        			const count = textCount + imgCount;
-		        			const charCountEl = document.getElementById('charCount');
-		        			charCountEl.textContent = count + "/150";
-		        			return count;
-		        		}
-
-		        		function insertImage(imgSrc) {
-		        			const currentCount = updateCount();
-		        			if (currentCount >= 150) {
-		        				alert('150자를 초과하였습니다.');
-		        				return;
-		        			}
-		        			const commentDiv = document.querySelector('.insertComment');
-		        			const imgElem = document.createElement('img');
-		        			imgElem.src = imgSrc;
-		        			imgElem.style.width = '50px';
-		        			imgElem.style.height = '40px';
-		        			imgElem.style.borderRadius = '70px';
-		        			commentDiv.appendChild(imgElem);
-		        			updateCount();
-		        			commentDiv.focus();
-		        		}
-
-		        		document.querySelector('.insertComment').addEventListener('input',
-		        				function(e) {
-		        					const currentCount = updateCount();
-		        					if (currentCount > 150) {
-		        						const lastChild = this.lastChild;
-		        						if (lastChild.nodeName === "IMG") {
-		        							this.removeChild(lastChild);
-		        						} else {
-		        							this.innerText = this.innerText.slice(0, -1);
-		        						}
-		        						updateCount();
-		        						alert('150자를 초과하였습니다.');
-
-		        						// 맨 마지막 작성한 글자로 커서를 이동시킵니다.
-		        						const selection = window.getSelection();
-		        						const range = document.createRange();
-		        						range.selectNodeContents(this);
-		        						range.collapse(false); // true로 설정하면 커서가 맨 앞으로 이동합니다. false로 설정하면 커서가 맨 뒤로 이동합니다.
-		        						selection.removeAllRanges();
-		        						selection.addRange(range);
-		        					}
-		        				});
-		        		function insertImage(imgSrc) {
-		        			const currentCount = updateCount();
-		        			if (currentCount >= 150) {
-		        				alert('150자를 초과하였습니다.');
-		        				return;
-		        			}
-		        			const commentDiv = document.querySelector('.insertComment');
-		        			const imgElem = document.createElement('img');
-		        			imgElem.src = imgSrc;
-		        			imgElem.style.width = '50px';
-		        			imgElem.style.height = '40px';
-		        			imgElem.style.borderRadius = '70px';
-		        			commentDiv.appendChild(imgElem);
-		        			updateCount();
-		        			commentDiv.focus();
-
-		        			// Move the cursor to the right of the image
-		        			const selection = window.getSelection();
-		        			const range = document.createRange();
-		        			range.setStartAfter(imgElem);
-		        			range.setEndAfter(imgElem);
-		        			selection.removeAllRanges();
-		        			selection.addRange(range);
-		        		}
-
-		        		function clip() {
-		        			var url = window.location.href;
-		        			var textarea = document.createElement("textarea");
-		        			document.body.appendChild(textarea);
-		        			textarea.value = url;
-		        			textarea.select();
-		        			document.execCommand("copy");
-		        			document.body.removeChild(textarea);
-		        			alert("링크가 복사되었습니다.");
-		        		};
-
-		        		//삭제확인
-		        		function removeCheck() {
-		        			if (confirm("정말 삭제하시겠습니까??") == true) { //확인
-		        				location
-		        						.assign('${path}/community/boardRemove?boardNo=${d.cmBoardNo}');
-
-		        			} else {
-
-		        				return false;
-
-		        			}
-
-		        		}
-
-		        		$(".moreIconBtn").click(function(e) {
-		        			const ul=$(e.target).closest('.optionDiv').find(".optionUl");
-		        			 ul.toggle();
-		        		});
-		        		$(".iconOpenBtn").click(function() {
-		        			$(".openIcon").toggle();
-		        		});
-
-		        		$(".replyIconOpenBtn").click(function(e) {
-		        			$(".replyOpenIcon").toggle();
-
-		        		});
-		        		var actions = true;
-		        		$(".updateCm").click(function(e) {
-		        			const cm = $(e.target).parent().parent().parent().parent().parent().parent().next().next()
-		        			console.log(cm)
-		        			if(actions){				
-		        			cm.css("display","flex")
-		        			}else {
-		        			cm.css("display","none")
-		        			}
-		        			actions = !actions;
-		        			
-		        		});
-		        		var actions = true;
-		        		$(".refUpdateBtn").click(function(e) {
-		        			const cm = $(e.target).parent().parent().parent().parent().parent().parent().next()
-		        			console.log(cm)
-		        			if(actions){				
-		        			cm.css("display","flex")
-		        			}else {
-		        			cm.css("display","none")
-		        			}
-		        			actions = !actions;
-		        			
-		        		});
-
-		        			
-		        		var action = true;
-		        		
-		        		$(".reply").click(function(e) {
-		        		 	const p = $(e.target).parent().parent().parent().parent().next();
-		        		 	$(".insertReply").css("display", "none");
-		        		 	$(".replyContent").innerText="";
-		        			const loginMember = '${loginMember}';
-		        			if (loginMember != "" && action) {
-		        				p.css("display", "flex");
-		        				$(".replyContent").text(" ");
-		        				$(".replyOpenIcon").css("display","none")
-		        			} else if (!action) {
-		        				p.css("display", "none");
-		        				$(".replyContent").text(" ");
-		        				$(".replyOpenIcon").css("display","block")
-		        			} else if (loginMember == "") {
-		        				alert("로그인후 이용할수있습니다..");
-		        			}
-		        			action = !action;
-		        			
-		        		});
-
-
-		        		
-		        		const boardNo = $(".boardNo").val();
-
-		        		$(".boardBuffBtn").click(function() {
-		        			$.ajax({
-		        				type : "get",
-		        				url : "${path}/community/insertBuff",
-		        				data : {
-		        					boardNo : boardNo,
-		        				},
-		        				success : function(data) {
-		        					$(".bf").text(data);
-		        				},
-		        				error : function() {
-		        					alert("로그인후 이용가능합니다.");
-		        				}
-		        			});
-		        		});
-
-		        		$(".boardNerfBtn").click(function() {
-		        			$.ajax({
-		        				type : "get",
-		        				url : "${path}/community/insertNerf",
-		        				data : {
-		        					boardNo : boardNo,
-		        				},
-		        				success : function(data) {
-		        					$(".nf").text(data);
-		        				},
-		        				error : function() {
-		        					alert("로그인후 이용가능합니다.");
-		        				}
-		        			});
-		        		});
-		        		
-		        		$(".cb").click(function(e) {
-		        			const commentNo =  $(e.target).closest('.dateBuffDiv').find(".commentNo").val();
-		        			const buff =  $(e.target).next();
-		        			
-		        			 $.ajax({
-		        				type : "get",
-		        				url : "${path}/community/insertCb",
-		        				data : {
-		        					commentNo : commentNo,
-		        				},
-		        				success : function(data) {
-		        				
-		        					buff.text(data);
-		        				},
-		        				error : function() {
-		        					alert("로그인후 이용가능합니다.");
-		        				}
-		        			}); 
-		        		});
-		        		
-		        		$(".cn").click(function(e) {
-		        			const commentNo =  $(e.target).closest('.dateBuffDiv').find(".commentNo").val();
-		        			const nerf =  $(e.target).next();
-		        			console.log(nerf)
-		        			$.ajax({
-		        				type : "get",
-		        				url : "${path}/community/insertCn",
-		        				data : {
-		        					commentNo : commentNo,
-		        				},
-		        				success : function(data) {
-		        					nerf.text(data);
-		        				},
-		        				error : function() {
-		        					alert("로그인후 이용가능합니다.");
-		        				}
-		        			});
-		        		});
-		        		$(".replyBtn").click(function(e) {
-		        			const comment = $(e.target).parent().parent().parent().find(".replyContent").html();
-		        			const commentNo =  $(e.target).parent().parent().parent().find(".commentNo").val();
-		        			
-		        			console.log(comment);
-		        			console.log(commentNo);
-		        			$.ajax({
-		        				type : "post",
-		        				url : "${path }/community/insertReply",
-		        				data : {
-		        					boardNo : boardNo,
-		        					comment : comment,		
-		        					commentNo : commentNo,
-		        				},
-		        				success : function(data) {
-		        					
-		        					location.reload();
-		        					
-
-		        					
-
-		        				},
-		        				error : function() {
-		        					alert("로그인후 이용가능합니다.");
-		        				}
-		        			});
-		        		});
-		        		
-		        		$(".updateBtn").click(function(e) {
-		        			const comment = $(e.target).parent().parent().parent().find(".updateContent").html();
-		        			const commentNo =  $(e.target).parent().parent().parent().find(".commentNo").val();
-		        			console.log(comment);
-		        			console.log(commentNo);
-		        			$.ajax({
-		        				type : "post",
-		        				url : "${path }/community/updateReply",
-		        				data : {
-		        					boardNo : boardNo,
-		        					comment : comment,		
-		        					commentNo : commentNo,
-		        				},
-		        				success : function(data) {
-		        					location.reload();
-
-		        				},
-		        				error : function() {
-		        					alert("로그인후 이용가능합니다.");
-		        				}
-		        			});
-		        		});
-		        		
-		        		
-		        		$(".cmRemoveBtn").click(function(e) {
-		        			const commentNo =  $(e.target).parent().parent().parent().find(".commentNo").val();
-		        			console.log(commentNo);
-		        			$.ajax({
-		        				type : "post",
-		        				url : "${path }/community/cmRemoveBtn",
-		        				data : {
-		        							
-		        					commentNo : commentNo,
-		        				},
-		        				success : function(data) {
-		        					console.log(data);
-		        					location.reload();     	   
-		        				},
-		        				error : function() {
-		        					alert("로그인후 이용가능합니다.");
-		        				}
-		        			});
-		        		});
-		        		
-		        		$(".removeBtn").click(function(e) {
-		        			const commentNo =  $(e.target).parent().parent().parent().find(".commentNo").val();		
-		        			console.log(commentNo);
-		        			$.ajax({
-		        				type : "post",
-		        				url : "${path }/community/removeBtn",
-		        				data : {
-		        				
-		        					commentNo : commentNo,
-		        				},
-		        				success : function(data) {
-		        					location.reload();
-
-		        				},
-		        				error : function() {
-		        					alert("로그인후 이용가능합니다.");
-		        				}
-		        			});
-		        		});
-		        }
+		       
 		    });
 		});
 		
 		
 
 		//답글작성
-		$(".replyBtn").click(function(e) {
-			const comment = $(e.target).parent().parent().parent().find(".replyContent").html();
-			const commentNo =  $(e.target).parent().parent().parent().find(".commentNo").val();
-			
-			console.log(comment);
-			console.log(commentNo);
-			$.ajax({
-				type : "post",
-				url : "${path }/community/insertReply",
-				data : {
-					boardNo : boardNo,
-					comment : comment,		
-					commentNo : commentNo,
-				},
-				success : function(data) {
-					
-					location.reload();
-					
+		$(document).on('click', '.replyBtn', function(e) {
+    const parentDiv = $(e.target).closest('.insertCommentDiv');
+    const comment = parentDiv.find(".replyContent").html();
+    const commentNo = parentDiv.find(".commentNo").val();
 
-					
+    $.ajax({
+        type: "post",
+        url: "${path}/community/insertReply",
+        data: {
+            boardNo: boardNo,
+            comment: comment,
+            commentNo: commentNo,
+        },
+        success: function(data) {
+        	location.reload();
+        },
+        error: function() {
+            alert("로그인후 이용가능합니다.");
+        }
+    });
+});
 
-				},
-				error : function() {
-					alert("로그인후 이용가능합니다.");
-				}
-			});
-		});
-		
-		$(".updateBtn").click(function(e) {
-			const comment = $(e.target).parent().parent().parent().find(".updateContent").html();
-			const commentNo =  $(e.target).parent().parent().parent().find(".commentNo").val();
-			console.log(comment);
-			console.log(commentNo);
-			$.ajax({
-				type : "post",
-				url : "${path }/community/updateReply",
-				data : {
-					boardNo : boardNo,
-					comment : comment,		
-					commentNo : commentNo,
-				},
-				success : function(data) {
-					location.reload();
+		$(document).on('click', '.updateBtn', function(e) {
+		    const parentDiv = $(e.target).closest('.insertCommentDiv');
+		    const comment = parentDiv.find(".updateContent").html();
+		    const commentNo = parentDiv.find(".commentNo").val();
 
-				},
-				error : function() {
-					alert("로그인후 이용가능합니다.");
-				}
-			});
+		    $.ajax({
+		        type: "post",
+		        url: "${path}/community/updateReply",
+		        data: {
+		            boardNo: boardNo,
+		            comment: comment,
+		            commentNo: commentNo,
+		        },
+		        success: function(data) {
+		            location.reload();
+		        },
+		        error: function() {
+		            alert("로그인후 이용가능합니다.");
+		        }
+		    });
 		});
-		
-		
-		$(".cmRemoveBtn").click(function(e) {
-			const commentNo =  $(e.target).parent().parent().parent().find(".commentNo").val();
-			console.log(commentNo);
-			$.ajax({
-				type : "post",
-				url : "${path }/community/cmRemoveBtn",
-				data : {
-							
-					commentNo : commentNo,
-				},
-				success : function(data) {
-					console.log(data);
-					location.reload();     	   
-				},
-				error : function() {
-					alert("로그인후 이용가능합니다.");
-				}
-			});
-		});
-		
-		$(".removeBtn").click(function(e) {
-			const commentNo =  $(e.target).parent().parent().parent().find(".commentNo").val();		
-			console.log(commentNo);
-			$.ajax({
-				type : "post",
-				url : "${path }/community/removeBtn",
-				data : {
-				
-					commentNo : commentNo,
-				},
-				success : function(data) {
-					location.reload();
 
-				},
-				error : function() {
-					alert("로그인후 이용가능합니다.");
-				}
-			});
-		});
+	
+
+		
+	$(document).on('click', '.removeBtn', function(e) {
+	    const commentRefNo = $(e.target).closest('.commentList').next().find(".refCommentNo").val();
+	    const commentNo = $(e.target).closest('.commentList').next().find(".commentNo").val();
+	    const remove = $(e.target).closest('.commentList');
+	    const remove2 = $(e.target).closest('.commentList').next().next().next();
+	    const remove3 = $(e.target).closest('.commentList').prev();
+	  
+	    
+	    if (commentRefNo != null) { // 대댓글 삭제일 경우
+	        console.log("대댓글");    
+	        if (confirm("정말 삭제하시겠습니까??")) {
+	            $.ajax({
+	                type: "post",
+	                url: "${path }/community/cmRemoveBtn",
+	                data: {
+	                    commentNo: commentNo,
+	                },
+	                success: function(data) {
+	                    remove.remove();
+	                },
+	                error: function() {
+	                    alert("로그인 후 이용 가능합니다.");
+	                }
+	            });
+	        } else {
+	            return false;
+	        }
+	    } else { // 원본 댓글 삭제일 경우
+	      
+
+	        if (confirm("정말 삭제하시겠습니까??")) {        
+	            $.ajax({
+	                type: "post",
+	                url: "${path }/community/cmRemoveBtn",
+	                data: {
+	                    commentNo: commentNo,
+	                },
+	                success: function(data) {
+	                   
+	                    location.reload();
+	                    
+	                },
+	                error: function() {
+	                    alert("로그인 후 이용 가능합니다.");
+	                }
+	            });
+	        } else {
+	            return false;
+	        }
+	    }
+	});
+
+
+
+
+
 	</script>
 	<!-------------------------------------------->
 </body>

@@ -295,13 +295,15 @@ public class CommunityController {
 
 		return "/community/communityMain";
 	}
-
+	
+	
 	@GetMapping("/boardDetails")
-	public String boardDetails(@RequestParam("cmBoardNo") String cmBoardNo, Model m, HttpServletRequest request,
+	public String boardDetails(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "20") int numPerpage,@RequestParam("cmBoardNo") String cmBoardNo, Model m, HttpServletRequest request,
 			HttpServletResponse response) {
-		System.out.println(cmBoardNo);
 		CommunityBoard boardDetails = service.boardDetails(cmBoardNo);
-		List<CommunityBoardComment> selectBoardComment = service.selectBoardComment(cmBoardNo);
+		List<CommunityBoardComment> selectBoardComment = service.selectBoardComment(Map.of("cPage", cPage, "numPerpage", numPerpage, "cmBoardNo", cmBoardNo));
+		int totalData = service.selectBoardCommentCount(Map.of("cmBoardNo", cmBoardNo));
 
 		// 쿠키를이용한 조회수 제한
 
@@ -385,6 +387,7 @@ public class CommunityController {
 
 		m.addAttribute("boardDetails", boardDetails);
 		m.addAttribute("selectBoardComment", selectBoardComment);
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "boardDetails?cmBoardNo="+cmBoardNo));
 		return "/community/communityDetails";
 	}
 
@@ -609,6 +612,13 @@ public class CommunityController {
 
 		return selectComment;
 
+	}
+	@PostMapping("/cmRemoveBtn")
+	@ResponseBody
+	public int cmRemoveBtn(@RequestParam("commentNo") int commentNo) {
+		int cmRemoveBtn = service.cmRemoveBtn(Map.of("commentNo", commentNo));
+
+		return cmRemoveBtn;
 	}
 
 }

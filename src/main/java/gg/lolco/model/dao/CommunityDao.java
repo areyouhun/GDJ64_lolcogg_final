@@ -14,9 +14,10 @@ public interface CommunityDao {
 	List<CommunityBoard> selectBoradCategorie(SqlSession session,Map<String, Object> param);
 	List<CommunityBoard> selectPopularity(SqlSession session,Map<String, Object> param);
 	List<CommunityBoard> searchBoard(SqlSession session,Map<String, Object> param);
-	List<CommunityBoardComment> selectBoardComment(SqlSession session,String cmBoardNo);
+	List<CommunityBoardComment> selectBoardComment(SqlSession session,Map<String, Object> param);
 
 	int readCount(SqlSession session,String cmBoardNo);
+	int selectBoardCommentCount(SqlSession session,Map<String, Object> param);
 	int boardRemove(SqlSession session,String boardNo);
 	int insertCmBuff(SqlSession session,Map<String, Object> param);
 	int insertBuff(SqlSession session,Map<String, Object> param);
@@ -30,6 +31,7 @@ public interface CommunityDao {
 	int selectNerf(SqlSession session,Map<String, Object> param);
 	
 	int selectCmNerf(SqlSession session,Map<String, Object> param);
+	int cmRemoveBtn(SqlSession session,Map<String, Object> param);
 	CommunityBoardComment selectCommentNo(SqlSession session,Map<String, Object> param);
 	int removeBuff(SqlSession session,Map<String, Object> param);
 	int removeCmBuff(SqlSession session,Map<String, Object> param);
