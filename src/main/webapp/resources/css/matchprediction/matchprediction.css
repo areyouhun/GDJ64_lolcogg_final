@@ -44,6 +44,10 @@
 }
 
 /* 승부예측 주차 선택 */
+.closeWeek{
+	color: var(--khy-off-gray);
+}
+
 .weekChoiceDiv {
     display: flex;
     justify-content: center;
@@ -83,11 +87,15 @@
 }
 
 .weekChoice {
-    border: 2px solid var(--lol-mainblue);
+    border: 3px solid var(--lol-mainblue);
 }
 
 .weekChoiceP {
     color: var(--lol-mainblue);
+}
+
+.borderRank{
+	border: 3px solid var(--lol-mainblue);
 }
 
 /* 승부예측 + 적중률 랭킹 + 실시간 채팅 */
@@ -344,7 +352,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: end;
+    justify-content: center;
 }
 
 .myRank {
@@ -354,13 +362,14 @@
 
 /* chart */
 canvas {
-    margin-top: 105px;
     width: 180px;
     height: auto;
     margin: 0 auto;
 }
-.chartInfoDiv{
-    margin-top: 20px;
+
+.chart{
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 /* 댓글 */
@@ -375,7 +384,7 @@ canvas {
     color: var(--lol-black);
 }
 
-.qnaCommentDiv {
+.mpCommentDiv {
     margin-top: 100px;
     border-radius: 10px;
     background-color: var(--lol-white);
@@ -384,12 +393,12 @@ canvas {
     align-items: center;
 }
 
-.qnaCommentDivSize {
+.mpCommentDivSize {
     width: 92%;
     height: 90%;
 }
 
-.qnaCommentTitle {
+.mpCommentTitle {
     margin: 50px 0px 20px 0px;
     font-size: 23px;
 }
@@ -407,14 +416,15 @@ ion-icon {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .insertComment {
     border: none;
     background-color: #cccccc;
-    width: 85%;
+    width: 100%;
     height: 120px;
-    padding: 0 20px;
+    padding: 10px 20px;
     overflow: hidden;
     border-radius: 10px;
 }
@@ -423,7 +433,7 @@ ion-icon {
     outline: none;
 }
 
-.qnaCommentListDiv {
+.mpCommentListDiv {
     margin: 70px 0px 50px 0px;
 }
 
@@ -514,14 +524,19 @@ ion-icon {
 }
 
 .tierImg {
-    width: 50px;
+    max-width: 35px;
+    max-height: 25px;
     margin: 0 20px 0 7px;
 }
 
 .commentContent {
-    margin: 10px 0 25px 0;
+    margin: 0px 0 10px 0;
     font-size: 23px;
     line-height: 34px;
+}
+
+.emoticon{
+	margin-bottom: 15px;
 }
 
 .dateBuffDiv {
@@ -574,6 +589,20 @@ ion-icon {
     margin-right: 5px;
 }
 
+.nerfBtn{
+	width: 55px;
+    height: 25px;
+    outline: none;
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 50px;
+    padding-left: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+}
+
 .preText {
     line-height: 38px;
 }
@@ -584,7 +613,7 @@ ion-icon {
 }
 
 .moreIcon:hover {
-    background-color: #ccc;
+    background-color: #ddd;
     border-radius: 7px;
 }
 
@@ -599,8 +628,8 @@ ion-icon {
     padding: 6px;
     margin-top: 6px;
     border-radius: 8px;
-    z-index: 10px;
-    background-color: #ccc;
+    z-index: 1;
+    background-color: #ddd;
     list-style: none;
     width: 90px;
     justify-content: center;
@@ -757,4 +786,163 @@ button:active {
 
 .awayDiv:hover{
 	background-color: #320100;
+}
+
+/* 댓글 추가 css */
+.insertReplyDiv{
+    display: flex;
+    align-items: center;
+}
+.insertReply{
+    cursor: pointer;
+    margin-left: 10px;
+    color: var(--lol-black);
+}
+
+.replyDiv{
+    border-radius: 10px;
+    background-color: #cccccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    display: none;
+}
+
+.replyForm{
+    display: flex;
+    align-items: center;
+}
+
+.iconBtn{
+    position: relative;
+}
+
+.emoDiv{
+	display: flex;
+	align-items: center;
+}
+
+.emo{
+    position: absolute;
+    right: 85px;
+    top: 40px;
+    overflow: auto;
+    height: 200px;
+    width: 550px;
+    background-color: var(--lol-white);
+    border: 2px solid var(--khy-off-gray);
+    border-radius: 10px;
+    z-index: 1;
+    display: none;
+}
+
+.emoSort{
+    display: grid;
+    grid-template-columns: repeat(6,80px);
+    justify-content: space-between;
+    padding: 8px 18px 18px;
+}
+
+.emoSort li{
+    list-style: none;
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emoSort button{
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.replyBestAllDiv{
+	display: none;
+}
+
+/* 추가 div */
+.commentDiv{
+	width: 100%;
+}
+
+.insertEmoDiv{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2px solid #aaa;
+	border-radius: 10px;
+	background-color: var(--lol-white);
+	width: 68px;
+	height: 68px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	
+	position: relative;
+	display: none;
+	
+	/*background-image: url(/resources/images/emoticon/BROWIN.png);*/
+	background-size: contain;
+	background-position: center;
+}
+
+.emoXIcon{
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background-color: transparent;	
+	border-style: none;
+}
+
+.emoXIcon img{
+	width: 13px;
+	height: 13px;
+}
+
+.mpCommentListDivClone{
+	display: none;
+}
+
+/* myBn(내 버프너프) */
+.myBn{
+	border: 3px solid var(--lol-mainblue);
+}
+
+/* pointer-events */
+.pointerEvents{
+	pointer-events: none;
+}
+
+/* 예측 진행중 배경 */
+.nowRec{
+	background-color: #530100;
+}
+
+/* 내 예측 성공 유무 */
+.finishHome{
+	background-color: #06002F;
+}
+
+.finishAway{
+	background-color: #320100;
+}
+
+.ingHome{
+	background-color: #0D0063;
+	outline: 3px solid var(--lol-teamblue);
+}
+
+.ingAway{
+	background-color: #490000;
+	outline: 3px solid var(--lol-teamred);
+
+}
+
+.outlineAway{
+	outline: 3px solid var(--lol-teamblue);
+}
+
+.outlineHome{
+	outline: 3px solid var(--lol-teamred);
 }

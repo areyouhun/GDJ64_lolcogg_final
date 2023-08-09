@@ -13,11 +13,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MatchPredictionComment {
 	private long mpcNo;
-	private String mpcWriter;
+	private Member mpcWriter;
 	private long mpcRefNo;
-	private long mpcEmoNo;
+	private int mpcWeek;
+	private Emoticon mpcEmoNo;
 	private String mpcContent;
 	private Date mpcDate;
 	private Date mpcUpDate;
-	private MatchPredictionCommentBn matchPredictionCommentBn;
+//	private MatchPredictionCommentBn matchPredictionCommentBn;
+	private int buffCount;
+	private int nerfCount;
 }
