@@ -245,11 +245,6 @@
 								src="${path }/resources/images/matchprediction/arrow.png"
 								width="25px" style="margin-left: 3px;">
 						</button>
-						<button class="content chatBtn fs-20">
-							실시간 채팅 참여하기<img
-								src="${path }/resources/images/matchprediction/arrow.png"
-								width="25px" style="margin-left: 3px;">
-						</button>
 					</div>
 				</div>
 			</div>
@@ -920,23 +915,6 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 });	
 
 
-/* 댓글 글자 수 제한 */
-$(document).on("keyup", ".insertComment", function(e) {
-	let content = $(e.target).val();
-    // 글자수 세기
-    if (content.length == 0 || content == '') {
-    	$('#letterSpan').text('0/150');
-    } else {
-    	$('#letterSpan').text(content.length + '/150');
-    }
-    
-    // 글자수 제한
-    if (content.length > 150) {
-        $(e.target).val($(e.target).val().substring(0, 150));
-        alert('댓글은 150자 이하로 작성해주세요.');
-    };
-});
-
 /* 댓글 - 수정, 삭제 버튼 토글 */
 $(document).on("click", ".moreIconBtn", function(e) {
     const optionUl = $(e.target).closest(".optionDiv").find(".optionUl");
@@ -1505,6 +1483,25 @@ function weekChoice(week){
 $(".chatBtn").click(event => {
 	openPage("${path}/chat/chatroom", 1024, 768);
 });
+
+/* 댓글 글자 수 제한 */
+$(document).on("keyup", ".insertComment", function(e) {
+	let content = $(e.target).val();
+    // 글자수 세기
+    if (content.length == 0 || content == '') {
+    	$(e.target).parents('.replyForm').find('#letterSpan').text('0/150');
+    } else {
+    	$(e.target).parents('.replyForm').find('#letterSpan').text(content.length + '/150');
+    }
+    
+    // 글자수 제한
+    if (content.length > 150) {
+        $(e.target).val($(e.target).val().substring(0, 150));
+        alert('댓글은 150자 이하로 작성해주세요.');
+    };
+});	
+
+>>>>>>> 2b460c9 fix(mp): 답글 글자 수 제한 js 수정
 </script>
 	<!-- icon -->
 	<script type="module"
