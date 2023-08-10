@@ -55,7 +55,13 @@ public class PageFactory {
          
          pageBar.append("<script>");
          pageBar.append("function fn_paging(no){");
-         pageBar.append("location.assign('"+url+"?cPage='+no+'&numPerpage="+numPerpage+"');");
+         if(url.contains("?")) {        	 
+        	 pageBar.append("location.assign('"+url+"&cPage='+no+'&numPerpage="+numPerpage+"');");
+         }else {        	 
+        	 pageBar.append("location.assign('"+url+"?cPage='+no+'&numPerpage="+numPerpage+"');");
+         }
+         
+
          pageBar.append("}");
          pageBar.append("</script>");
          

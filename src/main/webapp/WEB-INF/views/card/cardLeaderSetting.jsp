@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/views/common/top.jsp" />
 <!-- Your own style tag or CSS file -->
 
-<link rel="stylesheet" href="${path }/resources/css/card.css">
+<link rel="stylesheet" href="${path }/resources/css/card/card.css">
 <!------------------------------------>
 <title>cardLeaderSetting</title>
 </head>
@@ -32,7 +32,7 @@
 							<c:set var="cardName2" value="${fn:toLowerCase(cardName1)}" />
 							<div class="leader_card_datail_div">
 								<label class="leader_card_setting_radio"> <input
-									type="radio" name="type" class="report-radio__input" value="${c.card.cardNo }">
+									type="radio" name="type" class="report-radio__input" value="${c.memberCardNo }">
 									<div class="card_img">
 										<div class="smail_achievement_card_content_div">
 											<div class="card_content">

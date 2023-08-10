@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class MemberEmoticon {
-	private long meNo;
-	private String meEmail;
-	private long meEmoNo;
-	private Emoticon emoticon;
+public class CommunityBoardCommentBn {
+	private long bnNo;
+	private String email;
+	private int cmCommentNo;
+	private String bNBn;
+	
+
 }
