@@ -50,4 +50,6 @@ public interface MatchPredictionService {
 	MatchPredictionComment selectComment(Map param);
 	
 	int updateComment(Map param);
+	
+	List<MatchPrediction> mpPercentage();
 }

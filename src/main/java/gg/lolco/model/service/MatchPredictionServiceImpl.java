@@ -125,5 +125,10 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 	public int updateComment(Map param) {
 		return dao.updateComment(session, param);
 	}
+
+	@Override
+	public List<MatchPrediction> mpPercentage() {
+		return dao.mpPercentage(session);
+	}
 	
 }

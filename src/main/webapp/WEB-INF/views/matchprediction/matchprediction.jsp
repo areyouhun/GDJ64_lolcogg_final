@@ -79,7 +79,7 @@
 					<div class="mpAllDiv">
 						<div class="mpDiv">
 							<c:if test="${not empty ms}">
-								<c:forEach var="m" items="${ms }">
+								<c:forEach var="m" items="${ms }" varStatus="status">
 									<c:if test="${nowWeek == m.msWeek }">
 											<fmt:formatDate value="${today}" pattern="yyyy.MM.dd(E)"
 												var="todayDate" />
@@ -150,7 +150,31 @@
 														<c:if test="${m.msHome == null }">
 															<p class="content">TBD</p>
 														</c:if>
-														<p class="content fs-40 fw-bold">100%</p>
+														
+														<c:set var="total" value="0"/>
+														<c:set var="homeP" value="0"/>
+														<c:set var="awayP" value="0"/>
+														<c:forEach var="mmp" items="${mpPercentage }">
+															<c:if test="${mmp.mpMsNo == m.msNo}">
+																<c:if test="${mmp.mpTeam == null }">
+																	<c:set var="total" value="${mmp.count }"/>
+																</c:if>
+																<c:if test="${mmp.mpTeam == m.msHome }">
+																	<c:set var="homeP" value="${mmp.count/total }"/>
+																</c:if>
+																<c:if test="${mmp.mpTeam == m.msAway }">
+																	<c:set var="awayP" value="${mmp.count/total }"/>
+																</c:if>
+																
+															</c:if>
+														</c:forEach>
+														<c:if test="${total == 0 }">
+															<c:set var="homeP" value="0"/>
+														</c:if>
+														<c:if test="${total == 0 }">
+															<c:set var="awayP" value="0"/>
+														</c:if>
+														<p class="content fs-40 fw-bold"><fmt:formatNumber value="${homeP }" type="percent"/></p>
 													</div>
 													<div class="homeScoreDiv">
 														<p class="title fs-45">${m.msHomeScore }</p>
@@ -168,7 +192,7 @@
 														<c:if test="${m.msAway == null }">
 															<p class="content awaySort">TBD</p>
 														</c:if>
-														<p class="content fs-40 fw-bold awaySort">100%</p>
+														<p class="content fs-40 fw-bold awaySort"><fmt:formatNumber value="${awayP }" type="percent"/></p>
 													</div>
 													<div class="awayLogoDiv">
 														<div class="logoImgDiv">
@@ -1161,7 +1185,7 @@ $(document).on("click", ".upBtn", function(e) {
 	let letterSpan = $('<span>').attr({
 	  id: 'letterSpan',
 	  class: 'contentBlack fs-20'
-	}).text('0/150');
+	}).text(textarea.val().length + '/150');
 		  
 	countBtn.append(letterSpan);
 	
@@ -1353,6 +1377,27 @@ function weekChoice(week){
 				const msTime = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
 				const today = new Date();
 				
+				/* 예측 퍼센트 */
+				let total = 0;
+				let homeP = 0;
+				let awayP = 0;
+				
+				data[1].forEach(function(mmp) {
+				    console.log(mmp);
+				    if (item.msNo == mmp.mpMsNo) {
+				        if (mmp.mpTeam == null || mmp.mpTeam == '') {
+				            total = mmp.count;
+				        } else if (total > 0) {
+				            if (mmp.mpTeam == item.msHome) {
+				                homeP = Math.round((mmp.count / total) * 100);
+				            }
+				            if (mmp.mpTeam == item.msAway) {
+				                awayP = Math.round((mmp.count / total) * 100);
+				            }
+				        }
+				    }
+				});
+				
 				let mpDateDiv = $('<div>').addClass('mpDateDiv');
 
 				let dateSpan = $('<span>').addClass('content fs-20').text(getDateFormat(item.msDate));
@@ -1393,7 +1438,7 @@ function weekChoice(week){
 
 				let homeStatusDiv = $('<div>').addClass('homeStatusDiv');
 				let homeStatusP1 = $('<p>').addClass('content').text((item.msHome != null) ? (item.msHome + ' ' + item.team.homeRank + '위') : 'TBD');
-				let homeStatusP2 = $('<p>').addClass('content fs-40 fw-bold').text('100%');
+				let homeStatusP2 = $('<p>').addClass('content fs-40 fw-bold').text(homeP + '%');
 				homeStatusDiv.append(homeStatusP1, homeStatusP2);
 
 				let homeScoreDiv = $('<div>').addClass('homeScoreDiv');
@@ -1409,7 +1454,7 @@ function weekChoice(week){
 				
 				let awayStatusDiv = $('<div>').addClass('awayStatusDiv');
 				let awayStatusP1 = $('<p>').addClass('content awaySort').text((item.msAway != null) ? (item.msAway + ' ' + item.team.awayRank + '위') : 'TBD');
-				let awayStatusP2 = $('<p>').addClass('content fs-40 fw-bold awaySort').text('100%');
+				let awayStatusP2 = $('<p>').addClass('content fs-40 fw-bold awaySort').text(awayP + '%');
 				awayStatusDiv.append(awayStatusP1, awayStatusP2);
 				
 				let awayLogoDiv = $('<div>').addClass('awayLogoDiv');

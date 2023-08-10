@@ -75,7 +75,6 @@ public class MatchPerdictionController {
 		// 내 적중률, 전체 적중률 랭킹
 		List<MatchPrediction> myMpSuccess = new ArrayList<>();
 		List<MatchPrediction> mpSuccess = service.mpSuccess(null);
-		log.info("@@@@{}", myMpSuccess);
 		if(member != null) {
 			String nickname = member.getNickname();
 			myMpSuccess = service.mpSuccess(nickname);
@@ -97,6 +96,10 @@ public class MatchPerdictionController {
 		}
 		m.addAttribute("myBn", myBn);
 		
+		// 예측 퍼센트
+		List<MatchPrediction> mpPercentage = service.mpPercentage();
+		m.addAttribute("mpPercentage", mpPercentage);
+		
 		return "matchprediction/matchprediction";
 	}
 	
@@ -116,6 +119,10 @@ public class MatchPerdictionController {
 			myMp = service.myMp(member.getEmail());
 			weekChoice.add(myMp);
 		}
+		
+		// 예측 퍼센트
+		List<MatchPrediction> mpPercentage = service.mpPercentage();
+		weekChoice.add(mpPercentage);
 		
 		return weekChoice;
 	}

@@ -19,6 +19,7 @@ public class MatchPrediction {
 	private String mpYn;
 	private int mpMsNo;
 	
+	private int count;
 	private List<MatchPredictionComment> matchPredictionComment = new ArrayList<>();
 	private MatchSchedule matchSchedule;
 }
