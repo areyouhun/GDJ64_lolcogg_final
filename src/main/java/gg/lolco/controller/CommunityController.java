@@ -35,12 +35,12 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import gg.lolco.common.PageFactory;
 import gg.lolco.model.service.CommunityService;
 import gg.lolco.model.vo.CommunityBoard;
 import gg.lolco.model.vo.CommunityBoardComment;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.MemberEmoticon;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -90,7 +90,7 @@ public class CommunityController {
 				b.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
 			}
 		}
-
+		System.out.println();
 		m.addAttribute("selectboardList", selectboardList);
 		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectboardList"));
 		return "/community/communityMain";
@@ -295,13 +295,14 @@ public class CommunityController {
 
 		return "/community/communityMain";
 	}
-	
+
 	
 	@GetMapping("/boardDetails")
 	public String boardDetails(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "20") int numPerpage,@RequestParam("cmBoardNo") String cmBoardNo, Model m, HttpServletRequest request,
+			@RequestParam(value = "numPerpage", defaultValue = "500") int numPerpage,@RequestParam("cmBoardNo") String cmBoardNo, Model m, HttpServletRequest request,
 			HttpServletResponse response) {
 		CommunityBoard boardDetails = service.boardDetails(cmBoardNo);
+		
 		List<CommunityBoardComment> selectBoardComment = service.selectBoardComment(Map.of("cPage", cPage, "numPerpage", numPerpage, "cmBoardNo", cmBoardNo));
 		int totalData = service.selectBoardCommentCount(Map.of("cmBoardNo", cmBoardNo));
 
@@ -386,6 +387,7 @@ public class CommunityController {
 		}
 
 		m.addAttribute("boardDetails", boardDetails);
+		m.addAttribute("totalData", totalData);
 		m.addAttribute("selectBoardComment", selectBoardComment);
 		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "boardDetails?cmBoardNo="+cmBoardNo));
 		return "/community/communityDetails";
@@ -483,6 +485,7 @@ public class CommunityController {
 		params.put("comment", comment);
 		params.put("email", email);
 		int result = service.insertComment(params);
+		
 		String cmCommentNo = String.valueOf(params.get("cmCommentNo"));
 		CommunityBoardComment selectCommentNo = service.selectCommentNo(Map.of("cmCommentNo",cmCommentNo));
 		LocalDateTime now = LocalDateTime.now();
@@ -519,7 +522,6 @@ public class CommunityController {
 		System.out.println(boardNo);
 		System.out.println(comment);
 		System.out.println(commentNo);
-
 		service.insertReply(Map.of("boardNo", boardNo, "comment", comment, "email", email, "commentNo", commentNo));
 		CommunityBoardComment selectComment = service.selectComment(commentNo);
 		LocalDateTime now = LocalDateTime.now();
@@ -615,10 +617,16 @@ public class CommunityController {
 	}
 	@PostMapping("/cmRemoveBtn")
 	@ResponseBody
-	public int cmRemoveBtn(@RequestParam("commentNo") int commentNo) {
+	public int cmRemoveBtn(@RequestParam("commentNo") int commentNo,@RequestParam("boardNo") String boardNo) {	
 		int cmRemoveBtn = service.cmRemoveBtn(Map.of("commentNo", commentNo));
-
 		return cmRemoveBtn;
+	}
+	@PostMapping("/memberIcon")
+	@ResponseBody
+	public List<MemberEmoticon> membetIcon(@SessionAttribute("loginMember") Member member){
+		String  email =member.getEmail();
+		List<MemberEmoticon> selectMemberIcon=service.selectMemberIcon(Map.of("email", email));
+		return selectMemberIcon;
 	}
 
 }

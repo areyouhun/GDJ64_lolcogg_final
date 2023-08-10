@@ -6,6 +6,7 @@ import java.util.Map;
 import gg.lolco.model.vo.CommunityBoard;
 import gg.lolco.model.vo.CommunityBoardComment;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.MemberEmoticon;
 
 public interface CommunityService {
 	List<CommunityBoard> selectboardList(Map<String ,Object> param);
@@ -13,9 +14,11 @@ public interface CommunityService {
 	List<CommunityBoard> selectPopularity(Map<String ,Object> param);
 	List<CommunityBoard> searchBoard(Map<String ,Object> param);
 	List<CommunityBoardComment> selectBoardComment(Map<String ,Object> param);
+	List<MemberEmoticon> selectMemberIcon(Map<String ,Object> param);
 	int insertCommunity(Map<String ,Object> param);
 	int updateBoard(Map<String ,Object> param);
 	int insertComment(Map<String ,Object> param);
+	int replycut(Map<String ,Object> param);
 	int selectBoardCommentCount(Map<String ,Object> param);
 	
 
@@ -43,6 +46,7 @@ public interface CommunityService {
 	int selectPopularityCount(String categorie);
 	int searchBoardCount(Map<String ,Object> param);
 	int cmRemoveBtn(Map<String ,Object> param);
+	int removeReplycut(Map<String ,Object> param);
 	CommunityBoard boardDetails(String cmBoardNo);
 	CommunityBoardComment selectComment(String commentKey);
 	CommunityBoardComment selectCommentNo(Map<String ,Object> param);

@@ -10,6 +10,7 @@ import gg.lolco.model.dao.CommunityDao;
 import gg.lolco.model.vo.CommunityBoard;
 import gg.lolco.model.vo.CommunityBoardComment;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.MemberEmoticon;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {
@@ -191,6 +192,21 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int selectBoardCommentCount(Map<String, Object> param) {
 		return dao.selectBoardCommentCount(session,param);
+	}
+
+	@Override
+	public List<MemberEmoticon> selectMemberIcon(Map<String, Object> param) {
+		return dao.selectMemberIcon(session,param);
+	}
+
+	@Override
+	public int replycut(Map<String, Object> param) {
+		return dao.replycut(session,param);
+	}
+
+	@Override
+	public int removeReplycut(Map<String, Object> param) {
+		return dao.removeReplycut(session,param);
 	}
 
 	

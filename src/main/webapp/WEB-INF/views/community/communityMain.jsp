@@ -163,13 +163,13 @@
 
 										</c:if>
 										<c:if
-											test="${b.cmVideoAddress.contains('https://youtu.be/') || b.cmVideoAddress.contains('https://music.youtube.com')}">
+											test="${b.cmVideoAddress.contains('https://www.youtube.com/')}">
 											<img class="attachmenOn"
 												src="${path }/resources/images/community/영상.png" alt=""
 												height="20px">
 										</c:if>
-										<c:if test="${b.replycut!=0 }">
-											<span class="comment fs-25">[${b.replycut }]</span>
+										<c:if test="${b.c!=0 }">
+											<span class="comment fs-25">[${b.c }]</span>
 										</c:if>
 									</div>
 								</a>

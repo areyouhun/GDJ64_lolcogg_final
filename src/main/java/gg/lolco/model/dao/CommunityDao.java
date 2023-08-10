@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import gg.lolco.model.vo.CommunityBoard;
 import gg.lolco.model.vo.CommunityBoardComment;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.MemberEmoticon;
 
 public interface CommunityDao {
 	List<CommunityBoard> selectboardList(SqlSession session,Map<String, Object> param);
@@ -15,8 +16,11 @@ public interface CommunityDao {
 	List<CommunityBoard> selectPopularity(SqlSession session,Map<String, Object> param);
 	List<CommunityBoard> searchBoard(SqlSession session,Map<String, Object> param);
 	List<CommunityBoardComment> selectBoardComment(SqlSession session,Map<String, Object> param);
+	List<MemberEmoticon> selectMemberIcon(SqlSession session,Map<String, Object> param);
 
 	int readCount(SqlSession session,String cmBoardNo);
+	int replycut(SqlSession session,Map<String, Object> param);
+	int removeReplycut(SqlSession session,Map<String, Object> param);
 	int selectBoardCommentCount(SqlSession session,Map<String, Object> param);
 	int boardRemove(SqlSession session,String boardNo);
 	int insertCmBuff(SqlSession session,Map<String, Object> param);

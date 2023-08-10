@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import gg.lolco.model.vo.CommunityBoard;
 import gg.lolco.model.vo.CommunityBoardComment;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.MemberEmoticon;
 
 @Repository
 public class CommunityDaoImpl implements CommunityDao {
@@ -28,7 +29,7 @@ public class CommunityDaoImpl implements CommunityDao {
 	}
 	@Override
 	public int updateBoard(SqlSession session, Map<String, Object> param) {
-		return session.insert("community.updateBoard",param);
+		return session.update("community.updateBoard",param);
 	}
 
 	@Override
@@ -198,6 +199,21 @@ public class CommunityDaoImpl implements CommunityDao {
 	@Override
 	public int selectBoardCommentCount(SqlSession session, Map<String, Object> param) {
 		return session.selectOne("community.selectBoardCommentCount",param);
+	}
+
+	@Override
+	public List<MemberEmoticon> selectMemberIcon(SqlSession session, Map<String, Object> param) {
+		return session.selectList("community.selectMemberIcon",param);
+	}
+
+	@Override
+	public int replycut(SqlSession session, Map<String, Object> param) {
+		return session.update("community.replycut",param);
+	}
+
+	@Override
+	public int removeReplycut(SqlSession session, Map<String, Object> param) {
+		return session.update("community.removeReplycut",param);
 	}
 
 }

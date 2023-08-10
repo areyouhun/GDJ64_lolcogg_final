@@ -46,14 +46,14 @@
 										value="${b.cmBoardTitle}"> <input type="text"
 										id="myInput" placeholder="유튜브동영상만 가능합니다. 주소를 입력해주세요(선택)"
 										oninput="fetchVideoData()" name="video" maxlength="250"
-										value="${b.cmVideoAddress!=null?b.cmVideoAddress:"" }">
+										value="${b.cmVideoAddress!=null?b.cmVideoAddress:''}">
 
 								</div>
 								<div class="insert-video content"></div>
 							</div>
-							<div class="content1">${b.cmBoardContent }</div>
+							<div class="content1" >${b.cmBoardContent }</div>
 							<input type="hidden" id="content1" name="content1"
-								value="${b.cmBoardContent }">
+								value='${b.cmBoardContent }'>
 							<div class="insert-button-div">
 								<button type="submit" class="writing-button modifyBoard">작성완료</button>
 								<button type="button" class="writing-button remove-board"
@@ -114,8 +114,12 @@
     const title = this.title.value;
     const content = this.content1.value;
     const videoUrl = this.video.value;
+    console.log(title)
+    
+    console.log(videoUrl)
 
-    if (category === '카테고리' || title === '' || content === '') {
+
+    if (category === '카테고리' || title === '') {
         e.preventDefault();
         alert('카테고리, 제목, 내용을 모두 작성해주세요.');
         return;
@@ -194,7 +198,7 @@
 
       const editor = new toastui.Editor({
     el: document.querySelector('.content1'),
-    height: '450px',
+    height: '800px',
     initialEditType: 'wysiwyg',
     previewStyle: 'vertical',
     theme: 'dark',

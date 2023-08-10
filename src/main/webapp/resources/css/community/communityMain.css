@@ -17,7 +17,9 @@ button {
 button:active {
 	transform: scale(0.95);
 }
-
+.toastui-editor-dark{
+	z-index: 0;
+}
 /* hr 얇은선 */
 .hr-1 {
 	margin-top: 20px;
@@ -959,10 +961,27 @@ ion-icon {
 	background-color: #ccc;
 	list-style: none; 
 	width: 350px;
+	height: 100px;
+	overflow:scroll;
 	display: none;
-	
-	
+	overflow-x:hidden;	
 }
+
+.openIcon::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+     
+}
+
+.openIcon::-webkit-scrollbar-thumb {
+    height: 27%; /* 스크롤바의 길이 */
+    background: #515151; /* 스크롤바의 색상 */   
+    border-radius: 10px;
+}
+
+.openIcon::-webkit-scrollbar-track {
+    background: var(--bg-gray);  /*스크롤바 뒷 배경 색상*/
+}
+
 .replyOpenIcon{
 	position: absolute;
 	right: 150px;
@@ -973,7 +992,24 @@ ion-icon {
 	background-color: #ccc;
 	list-style: none; 
 	width: 350px;
+	height: 100px;
+	overflow:scroll;
 	display: none;
+	overflow-x:hidden;	
+}
+.replyOpenIcon::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+     
+}
+
+.replyOpenIcon::-webkit-scrollbar-thumb {
+    height: 27%; /* 스크롤바의 길이 */
+    background: #515151; /* 스크롤바의 색상 */   
+    border-radius: 10px;
+}
+
+.replyOpenIcon::-webkit-scrollbar-track {
+    background: var(--bg-gray);  /*스크롤바 뒷 배경 색상*/
 }
 .replyContent {
     border: none;

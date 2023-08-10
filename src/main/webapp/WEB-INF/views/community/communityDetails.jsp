@@ -68,7 +68,7 @@
 								<div class="board-bottom-right">
 									<div>
 										<span>조회 ${d.cmBoardReadCount }</span><span class="Backslash">|</span>
-										<span>댓글 ${d.replycut }</span><span class="Backslash">|</span><span>추천
+										<span>댓글 ${d.c }</span><span class="Backslash">|</span><span>추천
 											${d.b }</span>
 									</div>
 								</div>
@@ -78,7 +78,7 @@
 						<hr class="hr-1">
 						<div class="board-content">
 							<c:if test="${d.cmVideoAddress!=null }">
-								<iframe width="1000" height="500" src="${d.cmVideoAddress }"
+								<iframe width="1160" height="500" src="${d.cmVideoAddress }"
 									title="YouTube video player" frameborder="0"
 									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 									allowfullscreen></iframe>
@@ -156,11 +156,11 @@
 									</div>
 									<div class="iconBtn">
 										<ul class="openIcon">
-											<li><img
-												src="${path}/resources/images/emoticon/Poro_sticker_angry.png"
-												style="width: 50px; height: 40px; border-radius: 70px;"
-												onclick="insertImage('${path}/resources/images/emoticon/Poro_sticker_angry.png')">
+											<li class="memberIcon">
+											
 											</li>
+										
+										
 										</ul>
 										<ion-icon name="happy-outline" class="iconOpenBtn"></ion-icon>
 										<button class="commentBtn content" onclick="">등록</button>
@@ -271,10 +271,8 @@
 													</div>
 													<div class="replyIconBtn">
 														<ul class="replyOpenIcon">
-															<li><img
-																src="${path}/resources/images/emoticon/Poro_sticker_angry.png"
-																style="width: 50px; height: 40px; border-radius: 70px;"
-																onclick="insertImage1('${path}/resources/images/emoticon/Poro_sticker_angry.png')">
+															<li class="replyMemberIcon">
+															<p></p>
 															</li>
 														</ul>
 														<ion-icon name="happy-outline" class="replyIconOpenBtn"></ion-icon>
@@ -298,11 +296,10 @@
 													</div>
 													<div class="replyIconBtn">
 														<ul class="replyOpenIcon">
-															<li><img
-																src="${path}/resources/images/emoticon/Poro_sticker_angry.png"
-																style="width: 50px; height: 40px; border-radius: 70px;"
-																onclick="insertImage1('${path}/resources/images/emoticon/Poro_sticker_angry.png')">
-															</li>
+														<li class="replyMemberIcon">
+															<p></p>
+																</li>
+															
 														</ul>
 														<ion-icon name="happy-outline" class="replyIconOpenBtn"></ion-icon>
 														<button class="content updateBtn" onclick="">등록</button>
@@ -386,11 +383,10 @@
 														</div>
 														<div class="replyIconBtn">
 															<ul class="replyOpenIcon">
-																<li><img
-																	src="${path}/resources/images/emoticon/Poro_sticker_angry.png"
-																	style="width: 50px; height: 40px; border-radius: 70px;"
-																	onclick="insertImage1('${path}/resources/images/emoticon/Poro_sticker_angry.png')">
+																<li class="replyMemberIcon">
+																<p></p>
 																</li>
+																
 															</ul>
 															<ion-icon name="happy-outline" class="replyIconOpenBtn"></ion-icon>
 															<button class="content updateBtn" onclick="">등록</button>
@@ -401,16 +397,13 @@
 										</c:forEach>
 									</c:forEach>
 									<c:if test="${not empty selectBoardComment}">
-										
+
 									</c:if>
 								</c:if>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="pageBar_div">
-				<c:out value="${pageBar }" escapeXml="false" />
 			</div>
 		</div>
 	</section>
@@ -421,11 +414,8 @@
 	<!-- Your own script tag or JavaScript file -->
 
 	<script>
-
 	
 
-
-	
 	document.body.addEventListener('input', function(e) {
 	    if (e.target.classList.contains('replyContent')) {
 	        const currentCount = updateCount1(e.target);
@@ -438,6 +428,8 @@
 	            }
 	            updateCount1(e.target);
 	            alert('150자를 초과하였습니다.');
+	            
+	          
 
 	            const selection = window.getSelection();
 	            const range = document.createRange();
@@ -473,6 +465,10 @@
 	        const replyContent = e.target.closest('.insertCommentDiv').querySelector('.replyContent');
 	        insertImage1(replyContent, e.target.src);
 	    }
+	    if (e.target.closest('.openIcon img')) {
+	        const insertComment = e.target.closest('.insertCommentDiv').querySelector('.insertComment');
+	        insertImage1(insertComment, e.target.src);
+	    }
 	    // 이 부분은 원하는 이미지 추가 기능을 `.insertComment`에 대해서도 확장하려면 추가해야 합니다.
 	    // 예를 들면, `e.target.closest('.someSelector img')` 라는 조건을 추가하고, 그 안에서 원하는 이미지 추가 로직을 수행하면 됩니다.
 	});
@@ -492,10 +488,16 @@
 
 	function insertImage1(target, imgSrc) {
 	    const currentCount = updateCount1(target);
-	    if (currentCount >= 150) {
-	        alert('150자를 초과하였습니다.');
-	        return;
-	    }
+		if (currentCount >= 150) {
+			  alert('150자를 초과할수없습니다.');
+			return;
+		}
+		if(target.querySelectorAll('img').length >= 5){
+			 alert('이모티콘은 5개이상사용 할수없습니다.');
+			 target.lastChild.removeChild
+			 return;
+			 
+		}
 
 	    const imgElem = document.createElement('img');
 	    imgElem.src = imgSrc;
@@ -559,14 +561,20 @@
 			const count = textCount + imgCount;
 			const charCountEl = document.getElementById('charCount');
 			charCountEl.textContent = count + "/150";
+			
 			return count;
 		}
 
 		function insertImage(imgSrc) {
 			const currentCount = updateCount();
 			if (currentCount >= 150) {
-				alert('150자를 초과하였습니다.');
+				  alert('150자를 초과할수없습니다.');
 				return;
+			}
+			if(target.querySelectorAll('img').length >= 5){
+				 alert('이모티콘은 5개이상사용 할수없습니다.');
+				 target.lastChild.removeChild
+				 return;
 			}
 			const commentDiv = document.querySelector('.insertComment');
 			const imgElem = document.createElement('img');
@@ -617,7 +625,7 @@
 			updateCount();
 			commentDiv.focus();
 
-			// Move the cursor to the right of the image
+		
 			const selection = window.getSelection();
 			const range = document.createRange();
 			range.setStartAfter(imgElem);
@@ -625,6 +633,12 @@
 			selection.removeAllRanges();
 			selection.addRange(range);
 		}
+	
+	
+
+		
+	
+		
 
 		function clip() {
 			var url = window.location.href;
@@ -659,12 +673,65 @@
 
 		// .iconOpenBtn에 대한 클릭 이벤트 위임
 		$(document).on('click', '.iconOpenBtn', function() {
-		    $(".openIcon").toggle();
+			$.ajax({
+				type : "post",
+				url : "${path}/community/memberIcon",
+				data : {
+					boardNo : boardNo,
+				},
+				success : function(em) {
+					console.log(em)
+					let html=' ';
+					if(em.size==0){
+						html+='<p class="content">보유한이모티콘이 없습니다.</p>';									
+					}
+					em.forEach(data =>{
+						 html +='<img src="${path}/resources/images/emoticon/'+data.emoticon.emoFilename+'" style="width: 50px; height: 40px; border-radius: 70px;" onclick="insertImage("${path}/resources/images/emoticon/"'+data.emoFilename+'")">'
+						
+					})
+					$(".memberIcon").text("");
+					$(".memberIcon").append(html);
+		    		$(".openIcon").toggle();
+		    		 $(".replyOpenIcon").css("display","none");
+					
+				},
+				error : function() {
+					alert("로그인후 이용가능합니다.");
+				}
+			});
 		});
 
+		
+
 		// .replyIconOpenBtn에 대한 클릭 이벤트 위임
-		$(document).on('click', '.replyIconOpenBtn', function() {
-		    $(".replyOpenIcon").toggle();
+		$(document).on('click', '.replyIconOpenBtn', function() {	
+			$.ajax({
+				type : "post",
+				url : "${path}/community/memberIcon",
+				data : {
+					boardNo : boardNo,
+				},
+				success : function(em) {
+					console.log(em)
+					let html=' ';
+					if(em.size==0){
+						html+='<p class="content">보유한이모티콘이 없습니다.</p>';									
+					}
+					em.forEach(data =>{
+					  html +='<img src="${path}/resources/images/emoticon/'+data.emoticon.emoFilename+'" style="width: 50px; height: 40px; border-radius: 70px;" onclick="insertImage("${path}/resources/images/emoticon/"'+data.emoFilename+'")">'
+						
+					})
+					$(".replyMemberIcon").text("");
+					$(".replyMemberIcon").append(html);
+					  $(".replyOpenIcon").toggle();
+					  $(".openIcon").css("display","none");
+					
+				},
+				error : function() {
+					alert("로그인후 이용가능합니다.");
+				}
+			});
+		  
 		});
 
 		var actions = true;
@@ -792,22 +859,6 @@
 		});
 
 
-		/* $(".iconOpenBtn").click(function() {
-			$.ajax({
-				type : "post",
-				url : "${path }/community/selectIcon",
-				data : {
-					boardNo : boardNo,
-					
-				},
-				success : function(data) {
-					$(".bf").text(data);
-				},
-				error : function() {
-					alert("로그인후 이용가능합니다.");
-				}
-			});
-		}); */
 		
 		$(".commentBtn").click(function() {
 		    const comment = $(".insertComment").html();	
@@ -819,6 +870,8 @@
 		            comment: comment
 		        },
 				success : function(c) {
+					
+					
 					const loginMemberNickname = "${loginMember.nickname}";
 		            let html =' ';
 		            html += '<hr class="hr-2">';
@@ -891,8 +944,8 @@
 		            html += '</div>';
 		            html += '<div class="replyIconBtn">';
 		            html += '<ul class="replyOpenIcon">';
-		            html += '<li>';
-		            html += '<img src="${path}/resources/images/emoticon/Poro_sticker_angry.png" style="width: 50px; height: 40px; border-radius: 70px;" onclick="insertImage1("${path}/resources/images/emoticon/Poro_sticker_angry.png")">';
+		            html += '<li class="replyMemberIcon">';
+		            
 		            html += '</li>';
 		            html += '</ul>';
 		            html += '<ion-icon name="happy-outline" class="replyIconOpenBtn"></ion-icon>';
@@ -911,8 +964,8 @@
 		            html += '</div>';
 		            html += '<div class="replyIconBtn">';
 		            html += '<ul class="replyOpenIcon">';
-		            html += '<li>';
-		            html += '<img src="${path}/resources/images/emoticon/Poro_sticker_angry.png" style="width: 50px; height: 40px; border-radius: 70px;" onclick="insertImage1("${path}/resources/images/emoticon/Poro_sticker_angry.png")">';
+		            html += '<li class="replyMemberIcon">';
+		         
 		            html += '</li>';
 		            html += '</ul>';
 		            html += '<ion-icon name="happy-outline" class="replyIconOpenBtn"></ion-icon>';
@@ -925,6 +978,7 @@
 		            $(".qnaCommentListDiv").prepend(html);
 				
 		            $(".insertComment").text("")
+		            $(".openIcon").css("display","none");
 					
 				},error: function() {
 		            alert("로그인후 이용가능합니다.");
@@ -989,6 +1043,7 @@
 	    const remove = $(e.target).closest('.commentList');
 	    const remove2 = $(e.target).closest('.commentList').next().next().next();
 	    const remove3 = $(e.target).closest('.commentList').prev();
+	    const oardNo="${d.cmBoardNo}";
 	  
 	    
 	    if (commentRefNo != null) { // 대댓글 삭제일 경우
@@ -999,6 +1054,7 @@
 	                url: "${path }/community/cmRemoveBtn",
 	                data: {
 	                    commentNo: commentNo,
+	                    boardNo: boardNo,
 	                },
 	                success: function(data) {
 	                    remove.remove();
@@ -1019,6 +1075,7 @@
 	                url: "${path }/community/cmRemoveBtn",
 	                data: {
 	                    commentNo: commentNo,
+	                    boardNo: boardNo,
 	                },
 	                success: function(data) {
 	                   
@@ -1036,10 +1093,9 @@
 	});
 
 
+</script>
 
-
-
-	</script>
+	
 	<!-------------------------------------------->
 </body>
 </html>

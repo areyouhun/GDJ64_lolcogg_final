@@ -194,7 +194,7 @@
 
       const editor = new toastui.Editor({
     el: document.querySelector('.content1'),
-    height: '450px',
+    height: '800px',
     initialEditType: 'wysiwyg',
     previewStyle: 'vertical',
     theme: 'dark',
