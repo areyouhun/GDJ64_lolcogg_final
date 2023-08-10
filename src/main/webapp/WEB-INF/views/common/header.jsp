@@ -43,9 +43,9 @@
 				<div class="myProfileLogo">
 					<span>	
 						<a href="${path }/member/mypage.do?email=${loginMember.email}" class="img-aTag">
-							<img src="${path}/resources/images/common/${loginMember.profile}"
+							<img src="${path}/resources/upload/profile/${loginMember.profile}"
 		                    	style="width: 40px; height: 40px;">
-		            	</a>
+		            	</a>alerts pointHistorys tier HSOmge2N/bPWt1wTkpBkAw==
 					</span>
 					
 					<div class="myProfileBox color-white center-1280" style="display: none;">
@@ -57,7 +57,7 @@
 						<a href="${path }/member/mypage.do" >
 							내 정보
 		            	</a>
-						<a href="${path }/member/myCard.do?email=${loginMember.email}" >
+						<a href="${path }/member/myCard.do" >
 							내 카드관리
 		            	</a>
 						<a href="${path }/member/logout.do">
@@ -79,3 +79,6 @@
         </div>
     </div>
 </header>
+<script>
+console.log('${loginMember}');
+</script>

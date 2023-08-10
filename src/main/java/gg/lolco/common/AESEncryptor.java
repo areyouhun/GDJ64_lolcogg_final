@@ -15,6 +15,9 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class AESEncryptor {
 	private static final String KEY_FILE_NAME = "cdsx.gd";
 	private static final String ALGORITHM = "AES";

@@ -158,6 +158,11 @@
 			spring-security모듈을 이용해서 암호화처리를 하자.
 			단방향 암호화만 제공
 		 -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>5.2.1.RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>

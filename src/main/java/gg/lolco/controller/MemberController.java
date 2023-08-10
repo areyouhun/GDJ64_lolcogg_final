@@ -5,14 +5,19 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,15 +28,21 @@ import org.springframework.web.multipart.MultipartFile;
 import gg.lolco.common.AESEncryptor;
 import gg.lolco.model.service.MemberService;
 import gg.lolco.model.vo.Member;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/member")
+@Slf4j
 @SessionAttributes({"loginMember"})
 public class MemberController {
-	private final MemberService service;
-	public MemberController(MemberService service) {
-		this.service = service;
-	}
+    private final MemberService service;
+    private final AESEncryptor encryptor; // AESEncryptor 인스턴스 추가
+    private BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+    
+    public MemberController(MemberService service, AESEncryptor encryptor) {
+        this.service = service;
+        this.encryptor = encryptor; // AESEncryptor 인스턴스 초기화
+    }
 //	@Autowired
 //	private BCryptPasswordEncoder passwordEncoder;
 	
@@ -44,11 +55,10 @@ public class MemberController {
 	//로그인
 	@PostMapping("/loginCheck")
 	public String loginCheck(@RequestParam Map<Object,String> param, Model model, HttpSession session) {
-        AESEncryptor encryptor = new AESEncryptor();
         //입력받은 로그인 이메일 값 암호화( AES 암호화는 동일한 평문에 대해 동일한 암호문을 생성[ ECB ] )
         try {
             param.put("email", encryptor.encrypt(param.get("email")));
-            System.out.println(param.get("email"));
+//            System.out.println(param.get("email"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,23 +66,23 @@ public class MemberController {
 		System.out.println(m);
 		//암호화된 이메일인 경우 복호화 진행
         try {
-        	System.out.println(m.getEmail());
+//        	System.out.println(m.getEmail());
             m.setEmail(encryptor.decrypt(m.getEmail()));
-            System.out.println(m.getEmail());
+//            System.out.println(m.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
         }
-		
 		if(m!=null
 				&&
-//			passwordEncoder.matches((String)param.get("password"), m.getPassword()) //암호화
-			m.getPassword().equals(param.get("password"))
+				encoder.matches((String)param.get("password"), m.getPassword()) //암호화
+//			m.getPassword().equals(param.get("password"))
 				) {
+			System.out.println(m.getPassword());
 			model.addAttribute("loginMember", m);//@SessionAttributes({"loginMember"}) 
 			
 		}else {
 			model.addAttribute("msg", "로그인 실패");
-			model.addAttribute("loc","/");
+			model.addAttribute("loc","loginPage");
 			return "common/msg";
 		}
 		
@@ -89,6 +99,16 @@ public class MemberController {
 		if(!status.isComplete()) status.setComplete();
 		
 		return "redirect:/";
+	}
+	
+	//회원가입_이메일인증
+	@PostMapping(value = "/api/mailcheck", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> mailCheck(@RequestBody HashMap<String, Object> user){
+	    String username = (String) user.get("username");
+	    String authNum = service.joinEmail(username);
+	    log.info("email : " + user.get("username"));
+	    log.info("checkNum : " + authNum);
+	    return ResponseEntity.status(HttpStatus.OK).body(authNum);
 	}
 	
 	//회원가입
@@ -128,7 +148,6 @@ public class MemberController {
         //널값 유의 : abbr, file, myReferralCode
         System.out.println(param);
         //이메일 양방향 암호화
-        AESEncryptor encryptor = new AESEncryptor();
         try {
             String encryptedText = encryptor.encrypt(param.get("email"));
             param.put("email", encryptedText);
@@ -137,6 +156,8 @@ public class MemberController {
             e.printStackTrace();
         }
         //비밀번호 단방향 암호화(예정)
+        param.put("password_1", encoder.encode(param.get("password_1")));
+        System.out.println(param.get("password_1"));
         
         Member member = Member.builder()
         		.email(param.get("email"))
@@ -166,7 +187,14 @@ public class MemberController {
 	@PostMapping("/emailCheck")
 	@ResponseBody
 	public int emailCheck(@RequestParam("email") String email) {
-		int cnt = service.emailCheck(email);
+		AESEncryptor encryptor = new AESEncryptor();
+        //입력받은 로그인 이메일 값 암호화( AES 암호화는 동일한 평문에 대해 동일한 암호문을 생성[ ECB ] )
+        try {
+        	email=encryptor.encrypt(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int cnt = service.emailCheck(email);
 		return cnt;
 	}
 	//닉네임 중복체크
