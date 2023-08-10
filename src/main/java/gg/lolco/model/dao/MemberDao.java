@@ -23,4 +23,10 @@ public interface MemberDao {
 	
 	//회원가입
 	int insertMember(SqlSession session, Member member);
+	//계정에 포인트 지급
+	int insertPointToEmail(SqlSession session, Map pointOffer);
+	//추천인 코드 입력 관련 계정 포인트 지급 기록 작성
+	int insertPointHistoryByReferralCode(SqlSession session, Map PointHistoryByReferralCode);
+	//추천인 코드 제공한 계정(암호화상태) 조회
+	String searchEmailByReferralCode(SqlSession session, String myReferralCode);
 }

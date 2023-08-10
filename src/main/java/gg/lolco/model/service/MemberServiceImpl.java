@@ -98,6 +98,22 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int insertMember(Member member) {
 		 return dao.insertMember(session, member);
+	}
+
+	@Override
+	public int insertPointToEmail(Map pointOffer) {
+		return dao.insertPointToEmail(session, pointOffer);
+	}
+
+	
+	@Override
+	public int insertPointHistoryByReferralCode(Map PointHistoryByReferralCode) {
+		return dao.insertPointHistoryByReferralCode(session, PointHistoryByReferralCode);
+	}
+
+	@Override
+	public String searchEmailByReferralCode(String myReferralCode) {
+		return dao.searchEmailByReferralCode(session, myReferralCode);
 	}	
     
 }

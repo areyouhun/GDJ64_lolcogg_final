@@ -43,9 +43,15 @@
 				<div class="myProfileLogo">
 					<span>	
 						<a href="${path }/member/mypage.do?email=${loginMember.email}" class="img-aTag">
-							<img src="${path}/resources/upload/profile/${loginMember.profile}"
-		                    	style="width: 40px; height: 40px;">
-		            	</a>alerts pointHistorys tier HSOmge2N/bPWt1wTkpBkAw==
+							<c:if test="${loginMember.profile!=null}">
+								<img src="${path}/resources/upload/profile/${loginMember.profile}"
+			                    	style="width: 40px; height: 40px;">
+							</c:if>
+							<c:if test="${loginMember.profile==null}">
+								<img src="${path}/resources/upload/profile/sad.png"
+			                    	style="width: 40px; height: 40px;">
+							</c:if>
+		            	</a>
 					</span>
 					
 					<div class="myProfileBox color-white center-1280" style="display: none;">
@@ -57,9 +63,11 @@
 						<a href="${path }/member/mypage.do" >
 							내 정보
 		            	</a>
-						<a href="${path }/member/myCard.do" >
-							내 카드관리
-		            	</a>
+                    	<c:if test="${loginMember.authority=='관리자' }">
+							<a href="${path }/member/myCard.do" >
+								관리자 페이지
+			            	</a>
+                    	</c:if>
 						<a href="${path }/member/logout.do">
 								로그아웃
 						</a>
