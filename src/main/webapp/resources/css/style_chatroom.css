@@ -18,12 +18,15 @@ img {
 }
 
 .pos-absolute {
+    position: absolute;
+}
+
+.shout-layout {
     width: max-content;
     max-width: 300px;
     background-color: rgba(255, 255, 255, 0.5);
     padding: 10px;
     border-radius: 12px;
-    position: absolute;
     bottom: 90px;
     left: 20px;
 }
@@ -133,6 +136,94 @@ img {
     overflow-y: scroll;
     justify-content: end;
     border-bottom: 1px solid #2e2e2e;
+    position: relative;
+}
+
+.nickname-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: var(--lol-white);
+    box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075),
+                0 0 0 1px hsla(0, 0%, 0%, 0.05),
+                0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),
+                0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),
+                0 3.5px 6px hsla(0, 0%, 0%, 0.09);
+    transition: all 0.4s;
+    overflow-y: hidden;
+    z-index: 100 !important;
+}
+
+.nickname-list-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075),
+                0 0 0 1px hsla(0, 0%, 0%, 0.05),
+                0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),
+                0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),
+                0 3.5px 6px hsla(0, 0%, 0%, 0.09);
+}
+
+.nickname-list-title>h5 {
+    color: var(--lol-black);
+}
+
+.nickname-list-title button {
+    width: 12px;
+    margin-left: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+.nickname-list ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.nickname-list ul>li {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.nickname-list ul>li>h5 {
+    color: var(--lol-black);
+    margin-left: 10px;
+}
+
+.nickname-list ul>li>button {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 7px;
+    margin-right: 10px;
+}
+
+.prohibit {
+    background-color: rgb(255, 208, 0);
+    color: var(--lol-black);
+}
+
+.ban {
+    background-color: var(--lol-teamred);
+}
+
+.rotate {
+    transform: rotate(180deg);
+}
+
+.slide {
+    height: 90%;
+    overflow-y: scroll;
 }
 
 .chatboard-msg {

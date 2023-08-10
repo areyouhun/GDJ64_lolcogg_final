@@ -23,7 +23,7 @@
 			<div class="chatroom-left-video">
 				<iframe width="854" height="480" src="https://www.youtube.com/embed/r3ZdT5wIk5k?autoplay=1&mute=1&start=2628" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen >
 				</iframe>
-				<div class="shout-container pos-absolute">
+				<div class="shout-container pos-absolute shout-layout">
 					<!-- <h4><span class="nickname">닉네임</span>님의 소리 없는 아우성!</h4>
 					<h5>메시지 내용</h5> -->
 				</div>
@@ -45,6 +45,15 @@
 						<h6>닉네임:</h6>
 						<h6>채팅내용</h6>
 					</div> -->
+					<c:if test="${loginMember.nickname eq '관리자'}">
+						<div class="nickname-list">
+							<div class="nickname-list-title">
+								<h5>접속자 명단</h5>
+								<button><img src="${path}/resources/images/chat/slide-down.svg"></button>
+							</div>
+							<ul></ul>
+						</div>
+					</c:if>
 				</div>
 				<div class="chatboard-send">
 					<input id="chatMsg" class="flex-grow" type="text" placeholder="메세지 보내기">
@@ -72,12 +81,14 @@
 	const shouts = [];
 	
 	class Message {
-		constructor(type = "", sender = "", receiver = "", content = "", hasVoice = false) {
+		constructor(type = "", sender = "", receiver = "", 
+					content = "", voiced = false, banned = false) {
 			this.type = type;
 			this.sender = sender;
 			this.receiver = receiver;
 			this.content = content;
-			this.hasVoice = hasVoice;
+			this.voiced = voiced;
+			this.banned = banned;
 		}
 	}
 	
@@ -113,9 +124,30 @@
 			case "COUNT":
 				$(".chatboard-title span").text(message.content);
 				break;
+
+			case "BAN":
+				window.close();
+				window.opener.alert("관리자에 의해 강퇴되었습니다. 금일 자정까지 채팅방 이용이 불가능합니다.");
 				
 			case "ADMIN":
-				console.log(message);
+				$(".nickname-list ul").html("");
+
+				message.content.split(",").forEach((nickname, index) => {
+					if (nickname !== "관리자") {
+						const $li = $("<li>");
+						const $h5 = $("<h5>").text(nickname).addClass("fw-bold");
+						const $div = $("<div>").addClass("flex-grow");
+						const btnBan = $("<button>").text("강퇴").addClass("ban");
+						const btnProhibit = $("<button>").text("채금").addClass("prohibit");
+	
+						$li.append($h5)
+							.append($div)
+							.append(btnProhibit)
+							.append(btnBan);
+	
+						$(".nickname-list ul").append($li);
+					}
+				});
 				break;
 		}
 	}
@@ -126,7 +158,7 @@
 		}
 		return "";
 	}
-	
+
 	$("#sendBtn").click(event => {
 		chattingServer.send(JSON.stringify(new Message(type = "MSG", 
 														sender = me, 
@@ -161,7 +193,7 @@
 														sender = me, 
 														receiver = "", 
 														content = shout,
-														hasVoice = true))
+														voiced = true))
 			);
 		} else {
 			chattingServer.send(JSON.stringify(new Message(type = "SHOUT", 
@@ -172,6 +204,30 @@
 		}
 	});
 
+	$(".nickname-list-title button").click(event => {
+		let target;
+		if ($(event.target).prop("tagName") === "BUTTON") {
+			target = $(event.target);
+		}
+
+		if ($(event.target).prop("tagName") === "IMG") {
+			target = $(event.target).parent();
+		}
+
+		target.toggleClass("rotate");
+		$(".nickname-list").toggleClass("slide");
+	});
+
+	$(document).on("click", ".ban", event => {
+		chattingServer.send(JSON.stringify(new Message(type = "BAN", 
+														sender = me, 
+														receiver = $(event.target).siblings("h5").text(),
+														content = "",
+														voiced = "",
+														banned = true))
+		);
+	});
+
 	function shout(message) {
 		const shoutContainer = $(".shout-container");
 		let shoutUpper = "<h4><span class='nickname'>" + message.sender + "</span>님의 소리 없는 아우성!</h4>";
@@ -179,7 +235,7 @@
 
 		shoutContainer.html("");
 						
-		if (message.hasVoice === true) {
+		if (message.voiced === true) {
 			shoutUpper = "<h4><span class='nickname'>" + message.sender + "</span>님의 소리 있는 아우성!</h4>";
 			addVoice(message.content);
 		}

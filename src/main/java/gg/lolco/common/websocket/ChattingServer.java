@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -33,34 +34,54 @@ public class ChattingServer extends TextWebSocketHandler {
 		log.info("현재 접속자 수 : " + clients.size());
 	}
 	
-	private void addSessionInfo(WebSocketSession session, String sender) {
-		session.getAttributes().put("nickname", sender);
-	}
-
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		log.info("Data from a User: " + message.getPayload());
-		final ChatMessage chattingMessage = mapper.readValue(message.getPayload(), ChatMessage.class);
+		final ChatMessage chatMessage = mapper.readValue(message.getPayload(), ChatMessage.class);
 		
-		switch(chattingMessage.getType()) {
+		switch(chatMessage.getType()) {
 			case ENTER:
-				addSessionInfo(session, chattingMessage.getSender());
-				
-				final String notification = chattingMessage.getSender() + "님이 입장하셨습니다.";
-				updateChatroom(String.valueOf(clients.size()), notification);
+				addSessionInfo(session, chatMessage);
+				updateChatroom(String.valueOf(clients.size()), chatMessage.getSender() + "님이 입장하셨습니다.");
 				break;
 				
 			case MSG: 
-				sendToAll(chattingMessage);
+				sendToAll(chatMessage);
 				break;
 				
 			case SHOUT:
-				sendToAll(chattingMessage);
+				sendToAll(chatMessage);
+				break;
+				
+			case BAN:
+				ban(chatMessage);
 				break;
 				
 			default:
 				break;
 		}	
+	}
+	
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		clients.remove(session.getId());
+		String notification = String.valueOf(session.getAttributes().get("nickname"));
+		
+		if ((Boolean) session.getAttributes().get("isBanned")) {
+			log.info("One user has been banned from the chatroom");
+			notification += "님이 강퇴되었습니다.";
+		} else {
+			log.info("One user has left the chatroom");
+			notification += "님이 퇴장하셨습니다.";
+		}
+		
+		log.info("현재 접속자 수 : " + clients.size());
+		updateChatroom(String.valueOf(clients.size()), notification);
+	}
+	
+	private void addSessionInfo(WebSocketSession session, ChatMessage chatMessage) {
+		session.getAttributes().put("nickname", chatMessage.getSender());
+		session.getAttributes().put("isBanned", chatMessage.isBanned());
 	}
 	
 	private void updateChatroom(String userCount, String notification) {
@@ -86,11 +107,11 @@ public class ChattingServer extends TextWebSocketHandler {
 		}
 	}
 	
-	private void sendToOne(String receiver, ChatMessage chattingMessage) {
+	private void sendToOne(String receiver, ChatMessage chatMessage) {
 		try {
 			for (Map.Entry<String, WebSocketSession> client : clients.entrySet()) {
 				if(isSameReceiver(client.getValue(), receiver)) {
-					send(client.getValue(), chattingMessage);
+					send(client.getValue(), chatMessage);
 					break;
 				}
 			}
@@ -101,6 +122,19 @@ public class ChattingServer extends TextWebSocketHandler {
 	
 	private void send(WebSocketSession session, ChatMessage chattingMessage) throws IOException {
 		session.sendMessage(new TextMessage(mapper.writeValueAsString(chattingMessage)));
+	}
+	
+	private void ban(ChatMessage chatMessage) throws IOException {
+		WebSocketSession target = clients.values().stream()
+													.filter(client -> isSameReceiver(client, chatMessage.getReceiver()))
+													.findAny()
+													.orElse(null);
+		
+		if (target != null) {
+			target.getAttributes().put("isBanned", chatMessage.isBanned());
+			sendToOne(chatMessage.getReceiver(), chatMessage);
+			target.close();
+		}
 	}
 	
 	private boolean isSameReceiver(WebSocketSession session, String receiver) {
@@ -116,16 +150,6 @@ public class ChattingServer extends TextWebSocketHandler {
 							.receiver(receiver)
 							.content(content)
 							.build();
-	}
-	
-	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		clients.remove(session.getId());
-		log.info("One user has left the chatroom");
-		log.info("현재 접속자 수 : " + clients.size());
-		
-		final String notification = String.valueOf(session.getAttributes().get("nickname")) + "님이 퇴장하셨습니다.";
-		updateChatroom(String.valueOf(clients.size()), notification);
 	}
 	
 }
