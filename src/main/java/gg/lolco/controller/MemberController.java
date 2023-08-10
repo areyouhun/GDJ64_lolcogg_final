@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import gg.lolco.common.AESEncryptor;
 import gg.lolco.model.service.MemberService;
 import gg.lolco.model.vo.Member;
 
@@ -41,9 +43,25 @@ public class MemberController {
 	
 	//로그인
 	@PostMapping("/loginCheck")
-	public String loginCheck(@RequestParam Map param, Model model, HttpSession session) {
+	public String loginCheck(@RequestParam Map<Object,String> param, Model model, HttpSession session) {
+        AESEncryptor encryptor = new AESEncryptor();
+        //입력받은 로그인 이메일 값 암호화( AES 암호화는 동일한 평문에 대해 동일한 암호문을 생성[ ECB ] )
+        try {
+            param.put("email", encryptor.encrypt(param.get("email")));
+            System.out.println(param.get("email"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		Member m= service.selectMemberById(param);
 		System.out.println(m);
+		//암호화된 이메일인 경우 복호화 진행
+        try {
+        	System.out.println(m.getEmail());
+            m.setEmail(encryptor.decrypt(m.getEmail()));
+            System.out.println(m.getEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		
 		if(m!=null
 				&&
@@ -98,15 +116,28 @@ public class MemberController {
 				e.printStackTrace();
 			}
 			param.put("file", rename);
-			System.out.println(param);
+//			System.out.println(param);
 		}
         
         //추천인코드 생성
 //        String randomValue = generateRandomValue();
 //        System.out.println("Random Value: " + randomValue);
+        String randomValue = generateRandomValue();
+//        System.out.println("Random Value: " + randomValue);
         
         //널값 유의 : abbr, file, myReferralCode
         System.out.println(param);
+        //이메일 양방향 암호화
+        AESEncryptor encryptor = new AESEncryptor();
+        try {
+            String encryptedText = encryptor.encrypt(param.get("email"));
+            param.put("email", encryptedText);
+//            System.out.println(param.get("email"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //비밀번호 단방향 암호화(예정)
+        
         Member member = Member.builder()
         		.email(param.get("email"))
         		.password(param.get("password_1"))
@@ -117,7 +148,7 @@ public class MemberController {
         		.myTier("브론즈")
         		.totalExp(0)
         		.totalPoints(0)
-//        		.myReferralCode(randomValue)
+        		.myReferralCode(randomValue)
 //					.enrollDate(default)//mybatis에서 입력
 //					.withdrawDate(null)//mybatis에서 입력
         		.authority("일반유저")
