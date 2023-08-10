@@ -40,20 +40,27 @@
 				<div class="chatboard-title">
 					<h4>실시간 채팅 (<span>0</span>명 참여 중)</h4>
 				</div>
-				<div class="chatboard-box">
-					<!-- <div class="chatboard-msg">
+				<c:if test="${loginMember.nickname eq '관리자'}">
+					<div class="nickname-list">
+						<div class="nickname-list-title">
+							<h5>접속자 명단</h5>
+							<button><img src="${path}/resources/images/chat/slide-down.svg"></button>
+						</div>
+						<div class="nickname-list-wrapper">
+							<ul></ul>
+						</div>
+					</div>
+				</c:if>
+				<div id="scrollBox" class="chatboard-wrapper ${loginMember.nickname eq '관리자' ? 'mt30' : ''}">
+					<div class="chatboard-box">
+						<!-- <div class="chatboard-msg">
+						<div>
+							<img src="아이콘">
+						</div>
 						<h6>닉네임:</h6>
 						<h6>채팅내용</h6>
 					</div> -->
-					<c:if test="${loginMember.nickname eq '관리자'}">
-						<div class="nickname-list">
-							<div class="nickname-list-title">
-								<h5>접속자 명단</h5>
-								<button><img src="${path}/resources/images/chat/slide-down.svg"></button>
-							</div>
-							<ul></ul>
-						</div>
-					</c:if>
+					</div>
 				</div>
 				<div class="chatboard-send">
 					<input id="chatMsg" class="flex-grow" type="text" placeholder="메세지 보내기">
@@ -77,15 +84,23 @@
 	);
 	
 	const chattingServer = new WebSocket("ws://localhost:7070/chatting");
-	const me = '${loginMember.nickname}';
+	const userTeam = "${loginMember.teamAbbr}";
+	const userEmail = "${loginMember.email}";
+	const userNickname = '${loginMember.nickname}';
 	const shouts = [];
 	
 	class Message {
-		constructor(type = "", sender = "", receiver = "", 
-					content = "", voiced = false, banned = false) {
+		constructor(type = "", teamAbbr="", 
+				senderNickname = "", senderEmail,
+				receiverNickname = "", receiverEmail="",
+				content = "",
+				voiced = false, banned = false) {
 			this.type = type;
-			this.sender = sender;
-			this.receiver = receiver;
+			this.teamAbbr = teamAbbr;
+			this.senderNickname = senderNickname;
+			this.senderEmail = senderEmail;
+			this.receiverNickname = receiverNickname;
+			this.receiverEmail = receiverEmail;
 			this.content = content;
 			this.voiced = voiced;
 			this.banned = banned;
@@ -93,7 +108,7 @@
 	}
 	
 	chattingServer.onopen = data => {
-		chattingServer.send(JSON.stringify(new Message(type = "ENTER", sender = me)));
+		chattingServer.send(JSON.stringify(new Message(type = "ENTER", teamAbbr = userTeam, senderNickname = userNickname, senderEmail = userEmail)));
 	}
 	
 	chattingServer.onmessage = data => {
@@ -103,10 +118,12 @@
 		switch (message.type) {
 			case "NOTIFICATION":
 				notify(message, "chatboard-msg", "notification");
+				$('#scrollBox').scrollTop($('#scrollBox')[0].scrollHeight);
 				break;
 			
 			case "MSG": 
-				chat(message, "chatboard-msg", addClassIfValid(message.sender, me, "me"), addClassIfValid(message.sender, "관리자", "admin")); 
+				chat(message, "chatboard-msg", addClassIfValid(message.senderNickname, userNickname, "me"), addClassIfValid(message.senderNickname, "관리자", "admin")); 
+				$('#scrollBox').scrollTop($('#scrollBox')[0].scrollHeight);
 				break;
 				
 			case "SHOUT": 
@@ -152,17 +169,20 @@
 		}
 	}
 
-	function addClassIfValid(sender, nickname, className) {
-		if (sender === nickname) {
+	function addClassIfValid(senderNickname, nickname, className) {
+		if (senderNickname === nickname) {
 			return className;
 		}
 		return "";
 	}
 
 	$("#sendBtn").click(event => {
-		chattingServer.send(JSON.stringify(new Message(type = "MSG", 
-														sender = me, 
-														receiver = "", 
+		chattingServer.send(JSON.stringify(new Message(type = "MSG",
+		teamAbbr = userTeam,
+														senderNickname = userNickname,
+														senderEmail = userEmail, 
+														receiverNickname = "",
+														receiverEmail = "", 
 														content = $("#chatMsg").val()))
 		);
 		
@@ -190,15 +210,21 @@
 		console.log(target.hasClass("voice"));
 		if (target.hasClass("voice")) {
 			chattingServer.send(JSON.stringify(new Message(type = "SHOUT", 
-														sender = me, 
-														receiver = "", 
+			teamAbbr = "",
+														senderNickname = userNickname,
+														senderEmail = userEmail, 
+														receiverNickname = "",
+														receiverEmail = "", 
 														content = shout,
 														voiced = true))
 			);
 		} else {
 			chattingServer.send(JSON.stringify(new Message(type = "SHOUT", 
-														sender = me, 
-														receiver = "", 
+			teamAbbr = "",
+														senderNickname = userNickname,
+														senderEmail = userEmail, 
+														receiverNickname = "",
+														receiverEmail = "", 
 														content = shout))
 			);
 		}
@@ -220,8 +246,11 @@
 
 	$(document).on("click", ".ban", event => {
 		chattingServer.send(JSON.stringify(new Message(type = "BAN", 
-														sender = me, 
-														receiver = $(event.target).siblings("h5").text(),
+		teamAbbr = "",
+														senderNickname = userNickname,
+														senderEmail = userEmail, 
+														receiverNickname = $(event.target).siblings("h5").text(),
+														receiverEmail = "",
 														content = "",
 														voiced = "",
 														banned = true))
@@ -230,13 +259,13 @@
 
 	function shout(message) {
 		const shoutContainer = $(".shout-container");
-		let shoutUpper = "<h4><span class='nickname'>" + message.sender + "</span>님의 소리 없는 아우성!</h4>";
+		let shoutUpper = "<h4><span class='nickname'>" + message.senderNickname + "</span>님의 소리 없는 아우성!</h4>";
 		const shoutLower = $("<h5>").text(message.content);
 
 		shoutContainer.html("");
 						
 		if (message.voiced === true) {
-			shoutUpper = "<h4><span class='nickname'>" + message.sender + "</span>님의 소리 있는 아우성!</h4>";
+			shoutUpper = "<h4><span class='nickname'>" + message.senderNickname + "</span>님의 소리 있는 아우성!</h4>";
 			addVoice(message.content);
 		}
 
@@ -254,22 +283,52 @@
 		}, 8000);
 	}
 	
+	const colors = {
+		T1: "#E2012D",
+		GEN: "#AA8B2F",
+		KT: "#FF0A07",
+		HLE: "#F37321",
+		DK: "#000000",
+		KDF: "#E63313",
+		BRO: "#004B29",
+		NS: "#901A1E",
+		LSB: "#FFC900",
+		DRX: "#1003A3"
+	};
+
 	function chat(message, ...classes) {
-		const chatBox = generateChatBox(message, classes);
-		const nickname = $("<h6>").addClass("msg-nickname").text(message.sender + ":");
+		const chatBox = generateChatBox(classes);
+		const $div = $("<div>").width("16px").css("marginRight", "3px");
+		const $img = $("<img>").attr("src", "${path}/resources/images/logo/" + message.teamAbbr + "_square.png");
+
+
+		if (message.senderNickname === "관리자") {
+			$img.attr("src", "${path}/resources/images/common/favicon-32.png");
+		}
+
+		const nickname = $("<h6>").addClass("msg-nickname").text(message.senderNickname + ":");
+
+		if (message.senderNickname !== '관리자') {
+			nickname.css("color", colors[message.teamAbbr]);
+		}
+		
 		const content = $("<h6>").addClass("msg-content").text(message.content);
 		
-		$(".chatboard-box").append(chatBox.append(nickname).append(content));
+		chatBox.append($div.append($img))
+				.append(nickname)
+				.append(content);
+
+		$(".chatboard-box").append(chatBox);
 	}
 	
 	function notify(message, ...classes) {
-		const chatBox = generateChatBox(message, classes);
+		const chatBox = generateChatBox(classes);
 		const content = $("<h6>").text(message.content);
 		
 		$(".chatboard-box").append(chatBox.append(content));
 	}
 	
-	function generateChatBox(message, classes) {
+	function generateChatBox(classes) {
 		const $div = $("<div>");
 		
 		classes.forEach((_class, index) => {

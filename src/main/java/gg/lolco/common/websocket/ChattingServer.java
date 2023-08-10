@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -30,19 +29,19 @@ public class ChattingServer extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		clients.put(session.getId(), session);
-		log.info("One user has entered the chatroom");
-		log.info("현재 접속자 수 : " + clients.size());
+		log.info("One user has entered the chatroom.");
+		log.info("[{} users participating now]", clients.size());
 	}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		log.info("Data from a User: " + message.getPayload());
+		log.info("Message: " + message.getPayload());
 		final ChatMessage chatMessage = mapper.readValue(message.getPayload(), ChatMessage.class);
 		
 		switch(chatMessage.getType()) {
 			case ENTER:
 				addSessionInfo(session, chatMessage);
-				updateChatroom(String.valueOf(clients.size()), chatMessage.getSender() + "님이 입장하셨습니다.");
+				updateChatroom(String.valueOf(clients.size()), chatMessage.getSenderNickname() + "님이 입장하셨습니다.");
 				break;
 				
 			case MSG: 
@@ -68,19 +67,20 @@ public class ChattingServer extends TextWebSocketHandler {
 		String notification = String.valueOf(session.getAttributes().get("nickname"));
 		
 		if ((Boolean) session.getAttributes().get("isBanned")) {
-			log.info("One user has been banned from the chatroom");
+			log.info("One user has been banned from the chatroom.");
+			log.info("[{} users participating now]", clients.size());
 			notification += "님이 강퇴되었습니다.";
 		} else {
-			log.info("One user has left the chatroom");
+			log.info("One user has left the chatroom.");
+			log.info("[{} users participating now]", clients.size());
 			notification += "님이 퇴장하셨습니다.";
 		}
 		
-		log.info("현재 접속자 수 : " + clients.size());
 		updateChatroom(String.valueOf(clients.size()), notification);
 	}
 	
 	private void addSessionInfo(WebSocketSession session, ChatMessage chatMessage) {
-		session.getAttributes().put("nickname", chatMessage.getSender());
+		session.getAttributes().put("nickname", chatMessage.getSenderNickname());
 		session.getAttributes().put("isBanned", chatMessage.isBanned());
 	}
 	
@@ -126,13 +126,13 @@ public class ChattingServer extends TextWebSocketHandler {
 	
 	private void ban(ChatMessage chatMessage) throws IOException {
 		WebSocketSession target = clients.values().stream()
-													.filter(client -> isSameReceiver(client, chatMessage.getReceiver()))
+													.filter(client -> isSameReceiver(client, chatMessage.getReceiverNickname()))
 													.findAny()
 													.orElse(null);
 		
 		if (target != null) {
 			target.getAttributes().put("isBanned", chatMessage.isBanned());
-			sendToOne(chatMessage.getReceiver(), chatMessage);
+			sendToOne(chatMessage.getReceiverNickname(), chatMessage);
 			target.close();
 		}
 	}
@@ -146,8 +146,8 @@ public class ChattingServer extends TextWebSocketHandler {
 	{
 		return ChatMessage.builder()
 							.type(type)
-							.sender(sender)
-							.receiver(receiver)
+							.senderNickname(sender)
+							.receiverNickname(receiver)
 							.content(content)
 							.build();
 	}
