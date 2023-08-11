@@ -23,8 +23,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import gg.lolco.model.service.SchedulerService;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class CrawlingScheduler {
 	
 	private final SchedulerService service;
@@ -57,7 +59,7 @@ public class CrawlingScheduler {
 	    		getTeamRanking();
 	    		getRegionalMatch();
 	    		getMatchSchedule();
-	    		System.out.println("스케쥴러 종료!");
+	    		log.debug("크롤링 완료");
 	    	}
         }catch(IOException e) {
         	e.printStackTrace();
