@@ -4,7 +4,8 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <header>
     <div class="nav nav-default <c:out value='${param.navBgColor}'/>">
-        <div class="header-sort">
+        <!-- <div class="header-sort" style="position : relative"> -->
+        <div class="header-sort" >
             <a href="${path}/" class="img-aTag"><img src="${path}/resources/images/common/header_logo.png" style="height: 40px;"></a>
             <nav>
                 <ul class="nav-ul">
@@ -40,7 +41,8 @@
             </nav>
 			<!-- script_common.js - /*프로필 호버*/ 참조 -->
 			<c:if test="${loginMember!=null }">
-				<div class="myProfileLogo">
+				<!-- <div class="myProfileLogo" style="position:absolute ; top:0 ; right:0" > -->
+				<div class="myProfileLogo" >
 					<span>	
 						<a href="${path }/member/mypage.do?email=${loginMember.email}" class="img-aTag">
 							<c:if test="${loginMember.profile!=null}">

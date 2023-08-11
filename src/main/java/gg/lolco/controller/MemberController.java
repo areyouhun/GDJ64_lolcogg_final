@@ -144,7 +144,6 @@ public class MemberController {
         		.profile(param.get("file"))
         		.teamAbbr(param.get("abbr"))
         		.titleName("")//칭호
-//        		.myTier("브론즈")
         		.totalExp(0)
         		.totalPoints(0)
         		.myReferralCode(randomValue)
@@ -167,12 +166,6 @@ public class MemberController {
                     "point", 300
                 );
             result = service.insertPointToEmail(pointOffer);
-        	// 입력인 계정 복호화
-//        	try {
-//        		member.setEmail(encryptor.decrypt(member.getEmail()));
-//        	} catch (Exception e) {
-//        		e.printStackTrace();
-//        	}
         	// 1-2. 입력인 계정(암호화 상태) 포인트 지급 기록 내역 저장
             Map PointHistoryByReferralCode= Map.of(
                     "email", member.getEmail(),
@@ -188,12 +181,6 @@ public class MemberController {
                     "point", 200
                 );
         	result = service.insertPointToEmail(pointOffer);
-    		// 제공인 계정 복호화
-//        	try {
-//        		providerEmail = encryptor.decrypt(providerEmail);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
         	// 2-3. 제공인 계정(암호화 상태) 포인트 지급 내역 저장
         	PointHistoryByReferralCode= Map.of(
                     "email", providerEmail,

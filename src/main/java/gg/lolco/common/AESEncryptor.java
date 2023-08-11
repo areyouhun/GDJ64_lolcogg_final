@@ -19,15 +19,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AESEncryptor {
-	private static final String KEY_FILE_NAME = "cdsx.gd";
+	private static final String KEY_FILE_NAME = "dvc.gd";
 	private static final String ALGORITHM = "AES";
 	private static final String CHARSET = "UTF-8";
+	private static final String BASIC_DIR = "/src/main/resources/";
 	
 	private static SecretKey key;
-	private final String path;
+	private String path;
 	
 	public AESEncryptor() {
-		this.path = AESEncryptor.class.getResource("/").getPath() + KEY_FILE_NAME;
+		this.path = AESEncryptor.class.getResource("/").getPath();
+		this.path = this.path.substring(0,this.path.lastIndexOf("/target"))+ BASIC_DIR + KEY_FILE_NAME;
 		loadKeyBy(this.path);
 	}
 	
