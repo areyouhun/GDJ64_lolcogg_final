@@ -22,14 +22,13 @@ public class AESEncryptor {
 	private static final String KEY_FILE_NAME = "dvc.gd";
 	private static final String ALGORITHM = "AES";
 	private static final String CHARSET = "UTF-8";
-	private static final String BASIC_DIR = "/src/main/resources/";
+	//private static final String BASIC_DIR = ;
 	
 	private static SecretKey key;
 	private String path;
 	
 	public AESEncryptor() {
-		this.path = AESEncryptor.class.getResource("/").getPath();
-		this.path = this.path.substring(0,this.path.lastIndexOf("/target"))+ BASIC_DIR + KEY_FILE_NAME;
+		this.path = System.getProperty("user.dir")+"/"+KEY_FILE_NAME;
 		loadKeyBy(this.path);
 	}
 	
