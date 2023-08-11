@@ -130,5 +130,15 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 	public List<MatchPrediction> mpPercentage() {
 		return dao.mpPercentage(session);
 	}
+
+	@Override
+	public List<MatchPrediction> mpPercentageByNo(int choiceNo) {
+		return dao.mpPercentageByNo(session, choiceNo);
+	}
+
+	@Override
+	public MatchSchedule matchByNo(int choiceNo) {
+		return dao.matchByNo(session, choiceNo);
+	}
 	
 }

@@ -55,4 +55,8 @@ public interface MatchPredictionDao {
 	int updateComment(SqlSessionTemplate session, Map param);
 	
 	List<MatchPrediction> mpPercentage(SqlSessionTemplate session);
+	
+	List<MatchPrediction> mpPercentageByNo(SqlSessionTemplate session, int choiceNo);
+	
+	MatchSchedule matchByNo(SqlSessionTemplate session, int choiceNo);
 }

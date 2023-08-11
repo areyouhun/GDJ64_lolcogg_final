@@ -109,22 +109,22 @@
 											<c:set var="outlineHome" value=""/>
 											<c:set var="outlineAway" value=""/>
 											<c:forEach var="myMpCss" items="${myMp }">
-												<c:if test="${m.msDate < today && m.msHome == myMpCss.mpTeam}">
+												<c:if test="${m.msDate < today && m.msHome == myMpCss.mpTeam && m.msNo == myMpCss.mpMsNo}">
 													<!-- 홈팀투표(지난 예측) -->
 													<c:set var="finishHome" value="finishHome"/>
 													<c:set var="finishAway" value=""/>
 												</c:if>
-												<c:if test="${m.msDate < today && m.msAway == myMpCss.mpTeam}">
+												<c:if test="${m.msDate < today && m.msAway == myMpCss.mpTeam && m.msNo == myMpCss.mpMsNo}">
 													<!-- 어웨이투표(지난 예측) -->
 													<c:set var="finishAway" value="finishAway"/>
 													<c:set var="finishHome" value=""/>
 												</c:if>
-												<c:if test="${m.msDate > today && m.msAway == myMpCss.mpTeam}">
+												<c:if test="${m.msDate > today && m.msAway == myMpCss.mpTeam && m.msNo == myMpCss.mpMsNo}">
 													<!-- 어웨이투표(진행중인 예측) -->
 													<c:set var="outlineHome" value="outlineHome"/>
 													<c:set var="ingAway" value="ingAway"/>
 												</c:if>
-												<c:if test="${m.msDate > today && m.msHome == myMpCss.mpTeam}">
+												<c:if test="${m.msDate > today && m.msHome == myMpCss.mpTeam && m.msNo == myMpCss.mpMsNo}">
 													<!-- 어웨이투표(진행중인 예측) -->
 													<c:set var="outlineAway" value="outlineAway"/>
 													<c:set var="ingHome" value="ingHome"/>
@@ -900,7 +900,26 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 				},
 				dataType: "json",
 				success: function(data){
-					console.log(data);
+					let percentage = $(e.target).parents('.mpMatchDiv').find('.homeDiv').find('.homeStatusDiv').find('p:last-child');
+					let awayPercentage = $(e.target).parents('.mpMatchDiv').find('.awayDiv').find('.awayStatusDiv').find('p:last-child');
+					
+					/* 예측 퍼센트 */
+					let total = 0;
+					let homeP = 0;
+					let awayP = 0;
+					
+					data[0].forEach(function(mpAll){
+						if(mpAll.mpTeam == null || mpAll.mpTeam == ''){
+							total = mpAll.count;							
+						}
+						if(mpAll.mpTeam == data[1].msHome){
+							homeP = Math.round((total / mpAll.count) * 100);
+						}
+						awayP = 100 - homeP;
+					})
+					percentage.text(homeP + '%');
+					awayPercentage.text(awayP + '%');
+					
 				},
 				error: function(err){
 	    			console.log("요청 실패", err);
@@ -925,7 +944,25 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 				},
 				dataType: "json",
 				success: function(data){
-					console.log(data);
+					let percentage = $(e.target).parents('.mpMatchDiv').find('.awayDiv').find('.awayStatusDiv').find('p:last-child');
+					let homePercentage = $(e.target).parents('.mpMatchDiv').find('.homeDiv').find('.homeStatusDiv').find('p:last-child');
+					
+					/* 예측 퍼센트 */
+					let total = 0;
+					let homeP = 0;
+					let awayP = 0;
+					
+					data[0].forEach(function(mpAll){
+						if(mpAll.mpTeam == null || mpAll.mpTeam == ''){
+							total = mpAll.count;							
+						}
+						if(mpAll.mpTeam == data[1].msAway){
+							awayP = Math.round((total / mpAll.count) * 100);
+						}
+						homeP = 100 - awayP;
+					})
+					percentage.text(awayP + '%');
+					homePercentage.text(homeP + '%');
 				},
 				error: function(err){
 	    			console.log("요청 실패", err);

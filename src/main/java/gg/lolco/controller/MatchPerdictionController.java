@@ -130,9 +130,20 @@ public class MatchPerdictionController {
 	// 승부예측 선택(ajax)
 	@PostMapping("/matchprediction/choice")
 	@ResponseBody
-	public int teamChoice(@RequestParam Map param){
+	public List teamChoice(@RequestParam Map param){
+		int choiceNo = Integer.parseInt((String.valueOf(param.get("choiceNo"))));
+		
 		int result = service.teamChoice(param);
-		return result;
+		
+		List mp = new ArrayList<>();
+		// 예측 퍼센트
+		List<MatchPrediction> mpPercentage = service.mpPercentageByNo(choiceNo);
+		MatchSchedule match = service.matchByNo(choiceNo);
+		
+		mp.add(mpPercentage);
+		mp.add(match);
+		
+		return mp;
 	}
 	
 	// 댓글 등록(ajax)

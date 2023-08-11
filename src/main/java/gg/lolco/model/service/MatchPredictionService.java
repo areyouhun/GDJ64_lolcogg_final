@@ -52,4 +52,8 @@ public interface MatchPredictionService {
 	int updateComment(Map param);
 	
 	List<MatchPrediction> mpPercentage();
+	
+	List<MatchPrediction> mpPercentageByNo(int choiceNo);
+	
+	MatchSchedule matchByNo(int choiceNo);
 }

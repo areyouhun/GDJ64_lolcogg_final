@@ -125,5 +125,15 @@ public class MatchPredictionDaoImpl implements MatchPredictionDao {
 		return session.selectList("matchPrediction.mpPercentage");	
 	}
 
+	@Override
+	public List<MatchPrediction> mpPercentageByNo(SqlSessionTemplate session, int choiceNo) {
+		return session.selectList("matchPrediction.mpPercentageByNo", choiceNo);
+	}
+
+	@Override
+	public MatchSchedule matchByNo(SqlSessionTemplate session, int choiceNo) {
+		return session.selectOne("matchPrediction.matchByNo", choiceNo);
+	}
+
 	
 }
