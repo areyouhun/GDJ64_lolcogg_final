@@ -1,8 +1,9 @@
 package gg.lolco.common.websocket;
 
 public enum MessageTypes {
-	ENTER, 
-	LEAVE, 
+	ENTER,
+	BAN,
+	PROHIBIT,
 	NOTIFICATION, 
 	MSG, 
 	SHOUT, 

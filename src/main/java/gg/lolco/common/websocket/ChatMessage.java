@@ -11,8 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChatMessage {
 	private MessageTypes type;
-	private String sender;
-	private String receiver;
+	private String teamAbbr;
+	private String senderNickname;
+	private String senderEmail;
+	private String receiverNickname;
+	private String receiverEmail;
 	private String content;
-	private boolean hasVoice;
+	private boolean voiced;
+	private boolean banned;
 }
