@@ -44,4 +44,6 @@ public interface MemberService {
 	// 카드 제공
 	int insertCardOffer(Map cardOfferValue);
 	
+	// reset both ban and dragon status
+	int updateStatus();
 }

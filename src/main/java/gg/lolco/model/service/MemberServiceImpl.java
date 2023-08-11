@@ -130,8 +130,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int insertCardOffer(Map cardOfferValue) {
 		return dao.insertCardOffer(session, cardOfferValue);
+	}
+
+	@Override
+	public int updateStatus() {
+		return dao.updateStatus(session);
 	}	
 	
-	
-    
 }

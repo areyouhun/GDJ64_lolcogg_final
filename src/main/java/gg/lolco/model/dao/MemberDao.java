@@ -35,4 +35,6 @@ public interface MemberDao {
 	int selectRandomCardnoFromTeamname(SqlSession session, String teamName);
 	// 카드 제공
 	int insertCardOffer(SqlSession session, Map cardOfferValue);
+
+	int updateStatus(SqlSession session);
 }

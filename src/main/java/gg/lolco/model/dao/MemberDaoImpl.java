@@ -75,6 +75,9 @@ public class MemberDaoImpl implements MemberDao {
 		return session.insert("member.insertCardOffer", cardOfferValue);
 	}
 
-	
-	
+	@Override
+	public int updateStatus(SqlSession session) {
+		return session.update("member.updateStatus");
+	}
+
 }
