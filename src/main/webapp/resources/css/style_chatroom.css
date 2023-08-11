@@ -278,6 +278,21 @@ img {
     color: rgb(255, 208, 0) !important;
 }
 
+.chatMsgBox-outer {
+    position: relative;
+}
+
+#chatMsgBox {
+    padding: 5px;
+    margin-right: 10px;
+    background-color: hsla(0, 0%, 100%, 0.075);
+    border-radius: 6px;
+    width: 222px;
+    height: 30px;
+    overflow: hidden;
+	white-space: nowrap;
+}
+
 .chatboard-send {
     width: 100%;
     padding: 0 10px;
@@ -293,24 +308,25 @@ img {
     height: 30px;
 }
 
-.chatboard-send>input:first-child {
-    flex-grow: 5;
-    margin-right: 10px;
-    padding-left: 5px;
-    background-color: hsla(0, 0%, 100%, 0.075);
-    color: var(--lol-white);
+#emoticonBtn {
+    width: 30px;
+    height: 30px;
+    background-image: url("/resources/images/chat/emoticon.svg");
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: center;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
-.chatboard-send>input:first-child::placeholder {
-    color: var(--lol-white);
-}
-
-.chatboard-send>input:last-child {
+#sendBtn:last-child {
     flex-grow: 2;
     background-color: var(--lol-teamblue);
     cursor: pointer;
 }
 
-.chatboard-send>input:last-child:hover {
+#sendBtn:hover {
     background-color: cornflowerblue;
 }
