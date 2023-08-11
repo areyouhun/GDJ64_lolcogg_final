@@ -52,6 +52,10 @@ public class ChattingServer extends TextWebSocketHandler {
 				sendToAll(chatMessage);
 				break;
 				
+			case PROHIBIT:
+				prohibit(chatMessage);
+				break;
+				
 			case BAN:
 				ban(chatMessage);
 				break;
@@ -107,7 +111,7 @@ public class ChattingServer extends TextWebSocketHandler {
 		}
 	}
 	
-	private void sendToOne(String receiver, ChatMessage chatMessage) {
+	public void sendToOne(String receiver, ChatMessage chatMessage) {
 		try {
 			for (Map.Entry<String, WebSocketSession> client : clients.entrySet()) {
 				if(isSameReceiver(client.getValue(), receiver)) {
@@ -122,6 +126,11 @@ public class ChattingServer extends TextWebSocketHandler {
 	
 	private void send(WebSocketSession session, ChatMessage chattingMessage) throws IOException {
 		session.sendMessage(new TextMessage(mapper.writeValueAsString(chattingMessage)));
+	}
+	
+	private void prohibit(ChatMessage chatMessage) {
+		sendToOne(chatMessage.getReceiverNickname(), chatMessage);
+		sendToAll(generateChatMessage(MessageTypes.NOTIFICATION, null, null, chatMessage.getReceiverNickname() + "님이 30초 동안 채팅 금지되었습니다."));
 	}
 	
 	private void ban(ChatMessage chatMessage) throws IOException {

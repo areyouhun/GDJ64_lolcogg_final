@@ -63,7 +63,11 @@
 					</div>
 				</div>
 				<div class="chatboard-send">
-					<input id="chatMsg" class="flex-grow" type="text" placeholder="메세지 보내기">
+					<!-- <input id="chatMsg" class="flex-grow" type="text" placeholder="메세지 보내기"> -->
+					<div class="chatMsgBox-outer">
+						<div id="chatMsgBox" class="flex-grow" contenteditable="true">메세지 보내기</div>
+						<input id="emoticonBtn" type="button">
+					</div>
       				<input id="sendBtn" type="button" value="전송">
 				</div>
 			</div>
@@ -88,6 +92,7 @@
 	const userEmail = "${loginMember.email}";
 	const userNickname = '${loginMember.nickname}';
 	const shouts = [];
+	let sec = 30;
 	
 	class Message {
 		constructor(type = "", teamAbbr="", 
@@ -145,6 +150,23 @@
 			case "BAN":
 				window.close();
 				window.opener.alert("관리자에 의해 강퇴되었습니다. 금일 자정까지 채팅방 이용이 불가능합니다.");
+				break;
+
+			case "PROHIBIT":
+				$("#sendBtn").off("click");
+				$("#sendBtn").on("click", event => {
+					alert("관리자에 의해 30초 동안 채팅이 금지되었습니다. [남은 시간: " + sec + "초]");
+				});
+
+				setInterval(() => {
+					sec -= 1;
+				}, 1000);
+
+				setTimeout(() => {
+					$("#sendBtn").off("click");
+					$("#sendBtn").on("click", sendChatMessage);
+				}, 30000);
+				break;
 				
 			case "ADMIN":
 				$(".nickname-list ul").html("");
@@ -176,7 +198,9 @@
 		return "";
 	}
 
-	$("#sendBtn").click(event => {
+	$("#sendBtn").on("click", sendChatMessage);
+
+	function sendChatMessage() {
 		chattingServer.send(JSON.stringify(new Message(type = "MSG",
 		teamAbbr = userTeam,
 														senderNickname = userNickname,
@@ -186,8 +210,16 @@
 														content = $("#chatMsg").val()))
 		);
 		
-		$("#chatMsg").val("");
-	});
+		// $("#chatMsg").val("");
+
+		$("#chatMsgBox").html("메세지 보내기");
+		$("#chatMsgBox").on("focus", event => {
+			$(event.target).html("");
+			$(event.target).off("focus");
+		});
+	}
+
+
 
 	$(".btn-shout").click(event => {
 		let target;
@@ -245,8 +277,9 @@
 	});
 
 	$(document).on("click", ".ban", event => {
-		chattingServer.send(JSON.stringify(new Message(type = "BAN", 
-		teamAbbr = "",
+		if (confirm($(event.target).siblings("h5").text() + "님을 강퇴하시겠습니까?")) {
+			chattingServer.send(JSON.stringify(new Message(type = "BAN", 
+														teamAbbr = "",
 														senderNickname = userNickname,
 														senderEmail = userEmail, 
 														receiverNickname = $(event.target).siblings("h5").text(),
@@ -254,7 +287,28 @@
 														content = "",
 														voiced = "",
 														banned = true))
-		);
+			);
+		}
+	});
+
+	$(document).on("click", ".prohibit", event => {
+		if (confirm($(event.target).siblings("h5").text() + "님을 30초 동안 채팅 금지 시키겠습니까?")) {
+			chattingServer.send(JSON.stringify(new Message(type = "PROHIBIT", 
+														teamAbbr = "",
+														senderNickname = userNickname,
+														senderEmail = userEmail, 
+														receiverNickname = $(event.target).siblings("h5").text(),
+														receiverEmail = "",
+														content = "",
+														voiced = "",
+														banned = false))
+			);
+		}
+	});
+
+	$("#chatMsgBox").on("focus", event => {
+		$(event.target).html("");
+		$(event.target).off("focus");
 	});
 
 	function shout(message) {
@@ -288,12 +342,12 @@
 		GEN: "#AA8B2F",
 		KT: "#FF0A07",
 		HLE: "#F37321",
-		DK: "#000000",
+		DK: "#d1d1d1",
 		KDF: "#E63313",
 		BRO: "#004B29",
 		NS: "#901A1E",
 		LSB: "#FFC900",
-		DRX: "#1003A3"
+		DRX: "#2f1eeb"
 	};
 
 	function chat(message, ...classes) {
