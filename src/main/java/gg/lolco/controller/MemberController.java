@@ -49,31 +49,32 @@ public class MemberController {
 	@PostMapping("/loginCheck")
 	public String loginCheck(@RequestParam Map<Object,String> param, Model model, HttpSession session) {
         
-		// DB이메일(암호화상태)과 매칭을 위해 로그인 이메일 암호화
+		// EMAIL : DB이메일(암호화상태)과 매칭을 위해 로그인 이메일 암호화
         try {
             param.put("email", encryptor.encrypt(param.get("email")));
-//            System.out.println(param.get("email"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-		
-        // 매칭
+        // EMAIL : param-DB 매칭 
         Member m= service.selectMemberById(param);
-//        System.out.println(m);
-
-		if(m!=null&&encoder.matches((String)param.get("password"), m.getPassword())) {
+        
+        if(m==null){
+        	// EMAIL : 없음 - reject
+			model.addAttribute("msg", "존재하지 않는 아이디입니다.");
+			model.addAttribute("loc","loginPage");
+			return "common/msg";
+        }else if(m.getWithdrawDate()!=null) {
+        	// EMAIL : 탈퇴처리된 이메일 - reject
+        	model.addAttribute("msg", "탈퇴/정지된 이메일입니다.");
+			model.addAttribute("loc","loginPage");
+			return "common/msg";
+        }else if(m!=null&&encoder.matches((String)param.get("password"), m.getPassword())) {
+        	// PASSWORD : 비밀번호 체크 - pass
 			model.addAttribute("loginMember", m);//@SessionAttributes({"loginMember"}) 
-			
-//			// 암호화된 이메일 복호화 진행
-//	        try {
-//	            m.setEmail(encryptor.decrypt(m.getEmail()));
-//	        } catch (Exception e) {
-//	            e.printStackTrace();
-//	        }
-	        // 로그인 뒤 비밀번호 보안
 			m.setPassword("비밀번호 비공개");
-		}else {
-			model.addAttribute("msg", "로그인 실패");
+        }else {
+        	// PASSWORD : 비밀번호 체크 - reject
+			model.addAttribute("msg", "비밀번호 오류입니다.");
 			model.addAttribute("loc","loginPage");
 			return "common/msg";
 		}
