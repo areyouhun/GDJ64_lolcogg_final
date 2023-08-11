@@ -120,7 +120,7 @@
                                             <!-- 미선택 오류 방지용 -->
                                             <div class="abbrCheckBox" style="display:none">
                                                 <label class="line">
-                                                    <input type="radio" name="abbr" value="noChoice" checked="checked" >
+                                                    <input type="radio" name="abbr" value="" checked="checked" >
                                                     <span class="color-white ff-suit abbrName" >미선택시 오류 방지용</span>
                                                 </label>
                                             </div>
@@ -161,7 +161,7 @@
 	                            <span id="mail-check-warn" class="mb-2"></span>
 	                            <!-- <span class="email_ok">사용 가능한 이메일입니다.</span> -->
 								<span class="email_already">사용중인 이메일</span>	
-	                        	<div>
+	                        	<div style="width:200px; position:absolute; top:283px">
 									<span class="nickName_ok">사용가능 닉네임</span>
 									<span class="nickName_already">사용중 닉네임</span>
 	                        	</div>
@@ -191,8 +191,8 @@
                                 </label>
                             </div>
                         </div>		
-                        <input type="submit" value="가입하기" class="enrollButton" onclick="return test();" >
-                        <!-- <input type="button" id="privacy_submit" onclick="alert('약관 동의 후 이용 가능합니다.');" value="가입하기" style="border:1px solid #e3e3e3; color:#e3e3e3; display: none;"/> -->
+                        <input type="submit" value="가입하기" class="enrollButton"  >
+                        <!-- <input type="submit" value="가입하기" class="enrollButton" onclick="return test();" > -->
                		</div>
                 </form>
 			</div>

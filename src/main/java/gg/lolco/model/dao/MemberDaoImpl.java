@@ -44,4 +44,21 @@ public class MemberDaoImpl implements MemberDao {
     public int insertMember(SqlSession session, Member member) {
     	return session.insert("member.insertMember", member);
     }
+
+	@Override
+	public int insertPointToEmail(SqlSession session, Map pointOffer) {
+		return session.insert("member.insertPointToEmail", pointOffer);
+	}
+
+	@Override
+	public int insertPointHistoryByReferralCode(SqlSession session, Map PointHistoryByReferralCode) {
+		return session.insert("member.insertPointHistoryByReferralCode", PointHistoryByReferralCode);
+	}
+
+	@Override
+	public String searchEmailByReferralCode(SqlSession session, String myReferralCode) {
+		return session.selectOne("member.searchEmailByReferralCode", myReferralCode);
+	}
+
+	
 }

@@ -79,8 +79,9 @@
     width:7.8em;
 }
 .buttonBox>:nth-child(1)>:nth-child(5)>span{
-	position: absolute; left: 61.3em; top: 22em;
+	/*position: absolute; left: 61.3em; top: 22em;*/
 	/*재설정 필요*/
+	margin-top: 70px;
 }
 
 .buttonBox>:nth-child(2){

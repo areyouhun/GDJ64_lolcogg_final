@@ -301,14 +301,14 @@
 		}
 	});   
 	
-/*//(가입하기) 
-	 가입하기 체크1 - 비밀번호, 닉네임 정책에 따른 정규식 체크 
+	//(가입하기) 
+	// 가입하기 체크1 - 비밀번호, 닉네임 정책에 따른 정규식 체크 
 	function test(){
 		var email=$("#email");
 		var pw=$("#password_1");
 		var pw2=$("#password_2");
 		var nickName=$("#nickName");
-		 공란 확인 - 이메일, 비밀번호, 비밀번호 확인, 닉네임 
+		// 공란 확인 - 이메일, 비밀번호, 비밀번호 확인, 닉네임 
 		if(email.val()==""){
 			alert("이메일을 입력해주세요.");
 			email.focus();
@@ -330,7 +330,7 @@
 			return false;
 		}
 		
-		 비밀번호 정규식 체크 
+		// 비밀번호 정규식 체크 
 		var regexPw =  /^.*(?=^.{8,99}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
 		if(!regexPw.test(pw.val())) {
 			alert("비밀번호는 8자 이상 영문 대소문자, 숫자, 특수문자를 사용하세요.");
@@ -344,7 +344,7 @@
 			return false;
 		}
 		
-		 닉네임 정규식 체크 
+		// 닉네임 정규식 체크 
 		var regexnickName=  /^[가-힣a-zA-Z0-9]{2,8}$/;
 		if(!regexnickName.test(nickName.val())) {
 			alert("닉네임은 한글, 숫자, 영어로 2자 이상 8자 이내 입력 가능합니다.");
@@ -358,7 +358,7 @@
 			return false;
 		}
 		
-		 중복&인증 여부 체크 
+		// 중복&인증 여부 체크 
 		console.log(duplicatecheck_email); // 이메일 중복 여부
 		console.log(authResult); // 이메일 인증 여부
 		console.log(duplicatecheck_nickName); // 닉네임 중복 여부
@@ -389,7 +389,7 @@
 	        return false;
 	    }
 		return true;
-	}*/
+	}
 	
 	//onsubmit
 	function checkForm() {
