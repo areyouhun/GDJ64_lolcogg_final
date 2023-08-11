@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 
-import org.apache.ibatis.session.SqlSession;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -31,7 +30,6 @@ public class CrawlingScheduler {
 	
 	private final SchedulerService service;
 	private final ServletContext context;
-	private SqlSession session;
 	
 	private final Map<String, String> PARSE_TEAM_NAME = Map.of(
 			"Gen.G eSports", "GEN", "Dplus KIA", "DK", 
@@ -40,10 +38,9 @@ public class CrawlingScheduler {
 			"KT Rolster", "KT", "T1", "T1",
 			"Liiv SANDBOX", "LSB", "Kwangdong Freecs", "KDF");
 	
-	public CrawlingScheduler(SchedulerService controller, ServletContext context, SqlSession session) {
+	public CrawlingScheduler(SchedulerService controller, ServletContext context) {
 		this.service = controller;
 		this.context = context;
-		this.session = session;
 	}
 	
 	@Scheduled(cron = "0 0 1 * * ?")
