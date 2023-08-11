@@ -677,22 +677,26 @@
                                             <div class="main">
                                                 <div class="M8100 rune-category rune-domination hide">
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8112']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8124']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8128']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['9923']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8126']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8139']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8143']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8120']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8136']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8138']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8105']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8134']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8106']}" />
@@ -701,22 +705,26 @@
                                                 </div>
                                                 <div class="M8000 rune-category rune-precision">
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8005']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8008']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8010']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8021']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8009']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['9101']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['9111']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['9103']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['9104']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['9105']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8014']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8017']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8299']}" />
@@ -724,21 +732,25 @@
                                                 </div>
                                                 <div class="M8200 rune-category rune-sorcery">
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8214']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8229']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8230']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8224']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8226']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8275']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8210']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8233']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8234']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8232']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8236']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8237']}" />
@@ -746,21 +758,25 @@
                                                 </div>
                                                 <div class="M8400 rune-category rune-resolve">
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8437']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8439']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8465']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8401']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8463']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8446']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8429']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8444']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8473']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8451']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8453']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8242']}" />
@@ -768,21 +784,25 @@
                                                 </div>
                                                 <div class="M8300 rune-category rune-inspiration">
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8351']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8360']}" />
                                                         <img class="main-rune-layout" src="${runesImgPath}${rune['8369']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8304']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8306']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8313']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8316']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8321']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8345']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8347']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8352']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8410']}" />
@@ -793,16 +813,19 @@
                                             <div class="sub">
                                                 <div class="S8100 rune-category sub-rune-domination">
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8126']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8139']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8143']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8120']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8136']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8138']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8105']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8134']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8106']}" />
@@ -811,16 +834,19 @@
                                                 </div>
                                                 <div class="S8000 rune-category sub-rune-precision">
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8009']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['9101']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['9111']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['9103']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['9104']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['9105']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8014']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8017']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8299']}" />
@@ -828,16 +854,19 @@
                                                 </div>
                                                 <div class="S8200 rune-category sub-rune-sorcery">
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8224']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8226']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8275']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8210']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8233']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8234']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8232']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8236']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8237']}" />
@@ -845,16 +874,19 @@
                                                 </div>
                                                 <div class="S8400 rune-category sub-rune-resolve">
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8401']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8463']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8446']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8429']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8444']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8473']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8451']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8453']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8242']}" />
@@ -862,16 +894,19 @@
                                                 </div>
                                                 <div class="S8300 rune-category rune-inspiration">
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8304']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8306']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8313']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8316']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8321']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8345']}" />
                                                     </div>
                                                     <div class="rune-row">
+                                                        <div class="pos-absolute"></div>
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8347']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8352']}" />
                                                         <img class="sub-rune-layout" src="${runesImgPath}${rune['8410']}" />
@@ -1013,6 +1048,35 @@
             $(event.target).parent('span').addClass('choice');
 
             championRuneInfo($(event.target).attr('alt'), event);
+        });
+
+        $(document).on("mouseenter", ".rune-row img", event => {
+            if($(event.target).prop("tagName") === "IMG") {
+                $.get("${runesInfoPath}")
+                .then(data => {
+                    data.some((rune) => {
+                        rune.slots.some((mainRune) => {
+                            mainRune.runes.some((no) => {
+                                if($(event.target).attr('src').includes(no.icon)) {
+                                    $(event.target).siblings('.pos-absolute').html('')
+                                        .append($('<h4>').text(no.name).addClass('fw-bold rune-title'))
+                                        .append($("<h5>").text(no.shortDesc.replace(/<.*?>/g, ' ')))
+                                        .addClass('show');
+
+                                    $(event.target).siblings('.pos-absolute').css(
+                                        {'top': -($(event.target).height() + 60) + 'px'});
+                                }
+                            });
+                        });
+                    });
+                });
+            }
+        });
+
+        $(document).on('mouseleave', '.rune-row img', event => {
+            if($(event.target).prop('tagName') === 'IMG') {
+                $(event.target).siblings('.pos-absolute').removeClass('show').html('');
+            }
         });
     });
 
