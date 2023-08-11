@@ -124,6 +124,10 @@ public class MatchPerdictionController {
 		List<MatchSchedule> ms = service.matchScheduleByWeek(week);
 		weekChoice.add(ms);
 		
+		// 예측 퍼센트
+		List<MatchPrediction> mpPercentage = service.mpPercentage();
+		weekChoice.add(mpPercentage);
+		
 		// 내 예측
 		List<MatchPrediction> myMp = new ArrayList<>();
 		if(member != null) {
@@ -131,9 +135,6 @@ public class MatchPerdictionController {
 			weekChoice.add(myMp);
 		}
 		
-		// 예측 퍼센트
-		List<MatchPrediction> mpPercentage = service.mpPercentage();
-		weekChoice.add(mpPercentage);
 		
 		return weekChoice;
 	}

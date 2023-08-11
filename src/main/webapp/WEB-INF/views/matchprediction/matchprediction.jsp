@@ -1418,7 +1418,7 @@ function weekChoice(week){
 				let homeP = 0;
 				let awayP = 0;
 				
-				data[2].forEach(function(mmp) {
+				data[1].forEach(function(mmp) {
 				    if (item.msNo == mmp.mpMsNo) {
 				        if (mmp.mpTeam == null || mmp.mpTeam == '') {
 				            total = mmp.count;
@@ -1432,7 +1432,7 @@ function weekChoice(week){
 				        }
 				    }
 				});
-				
+			
 				let mpDateDiv = $('<div>').addClass('mpDateDiv');
 
 				let dateSpan = $('<span>').addClass('content fs-20').text(getDateFormat(item.msDate));
