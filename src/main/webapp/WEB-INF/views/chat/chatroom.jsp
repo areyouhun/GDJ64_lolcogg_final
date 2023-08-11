@@ -63,11 +63,16 @@
 					</div>
 				</div>
 				<div class="chatboard-send">
+					<div class="chatboard-send-emoticon">
+						<!-- <p>이모티콘이 없습니다.</p>
+						<div class="emoticon-box">
+						</div> -->
+					</div>
 					<!-- <input id="chatMsg" class="flex-grow" type="text" placeholder="메세지 보내기"> -->
 					<div class="chatMsgBox-outer">
-						<div id="chatMsgBox" class="flex-grow" contenteditable="true">메세지 보내기</div>
-						<input id="emoticonBtn" type="button">
+						<div id="chatMsgBox" class="flex-grow" contenteditable="true"></div>
 					</div>
+					<input id="emoticonBtn" type="button">
       				<input id="sendBtn" type="button" value="전송">
 				</div>
 			</div>
@@ -207,16 +212,10 @@
 														senderEmail = userEmail, 
 														receiverNickname = "",
 														receiverEmail = "", 
-														content = $("#chatMsg").val()))
+														content = $("#chatMsgBox").html()))
 		);
-		
-		// $("#chatMsg").val("");
 
-		$("#chatMsgBox").html("메세지 보내기");
-		$("#chatMsgBox").on("focus", event => {
-			$(event.target).html("");
-			$(event.target).off("focus");
-		});
+		$("#chatMsgBox").html("");
 	}
 
 
@@ -306,9 +305,58 @@
 		}
 	});
 
-	$("#chatMsgBox").on("focus", event => {
-		$(event.target).html("");
-		$(event.target).off("focus");
+	$("#emoticonBtn").on("click", event => {
+		$.ajax({
+			type:'POST',
+			url: '${path}/community/memberIcon',
+			data: "",
+			contentType: "application/json; charset=UTF-8",
+			success: function(data) {
+				$(".chatboard-send-emoticon").html("");
+
+				if (data.length === 0) {
+					$(".chatboard-send-emoticon").append("<p>이모티콘이 없습니다.</p>");
+				} else {
+					const emoticonBox = $("<div>").addClass("emoticon-box");
+
+					data.forEach(element => {
+						console.log(element);
+						console.log(element.emoticon.emoFilename);
+						const $div = $("<div>");
+						const $img = $("<img>").attr("src", "${path}/resources/images/emoticon/" + element.emoticon.emoFilename);
+						
+						emoticonBox.append($div.append($img));
+						$(".chatboard-send-emoticon").append(emoticonBox);
+					});
+				}
+
+				$(".chatboard-send-emoticon").toggleClass("show");
+			},
+			error : function(request, status, error) {
+				alert("오류가 발생하였습니다. 관리자에게 문의해주세요.");
+			}
+		});
+	});
+
+	$(document).on("click", ".emoticon-box>div", event => {
+		let target;
+		if ($(event.target).prop("tagName") === "DIV") {
+			target = $(event.target).children("img");
+		}
+
+		if ($(event.target).prop("tagName") === "IMG") {
+			target = $(event.target);
+		}
+
+		const emoticon = $("<img>").attr("src", $(event.target).attr("src"));
+		$("#chatMsgBox").append(emoticon).focus();
+
+		const selection = window.getSelection();
+		const range = document.createRange();
+		range.selectNodeContents(document.getElementById("chatMsgBox"));
+		range.collapse(false); 
+		selection.removeAllRanges();
+		selection.addRange(range);
 	});
 
 	function shout(message) {
@@ -352,7 +400,7 @@
 
 	function chat(message, ...classes) {
 		const chatBox = generateChatBox(classes);
-		const $div = $("<div>").width("16px").css("marginRight", "3px");
+		const $div = $("<div>").width("25px").css("marginRight", "3px");
 		let $img = $("<img>").attr("src", "${path}/resources/images/logo/" + message.teamAbbr + "_square.png");
 
 		if (message.teamAbbr === "") {
@@ -370,7 +418,7 @@
 			nickname.css("color", colors[message.teamAbbr]);
 		}
 		
-		const content = $("<h6>").addClass("msg-content").text(message.content);
+		const content = $("<div>").addClass("msg-content").html(message.content);
 		
 		chatBox.append($div.append($img))
 				.append(nickname)

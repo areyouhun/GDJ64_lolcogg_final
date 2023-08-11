@@ -31,6 +31,10 @@ img {
     left: 20px;
 }
 
+.show {
+    display: block !important;
+}
+
 /* ui */
 .chatroom-container {
     width: 100%;
@@ -244,18 +248,27 @@ img {
     padding-bottom: 10px;
     display: flex;
     justify-content: start;
-    align-items: flex-start;
-    font-size: 1.2rem;
+    align-items: start;
+    font-size: 1rem;
 }
 
 .msg-nickname {
-    font-weight: 900;
+    font-weight: 700;
+    font-size: 1rem;
     margin-right: 5px;
 }
 
 .msg-content {
     max-width: 200px;
-    overflow-wrap: break-word
+    display: flex;
+    align-items: start;
+    flex-wrap: wrap;
+    overflow-wrap: break-word;
+}
+
+.msg-content>img {
+    display: inline-block;
+    width: 25px;
 }
 
 .me {
@@ -272,6 +285,7 @@ img {
 
 .notification {
     justify-content: center;
+    font-size: 1.2rem !important;
 }
 
 .notification>h6 {
@@ -279,7 +293,7 @@ img {
 }
 
 .chatMsgBox-outer {
-    position: relative;
+    width: 200px;
 }
 
 #chatMsgBox {
@@ -287,10 +301,15 @@ img {
     margin-right: 10px;
     background-color: hsla(0, 0%, 100%, 0.075);
     border-radius: 6px;
-    width: 222px;
+    width: 100%;
     height: 30px;
     overflow: hidden;
 	white-space: nowrap;
+}
+
+#chatMsgBox>img {
+    width: 9%;
+    display: inline-block;
 }
 
 .chatboard-send {
@@ -299,6 +318,8 @@ img {
     margin: 10px 0;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    position: relative;
 }
 
 .chatboard-send>input {
@@ -308,21 +329,55 @@ img {
     height: 30px;
 }
 
-#emoticonBtn {
-    width: 30px;
-    height: 30px;
-    background-image: url("/resources/images/chat/emoticon.svg");
-    background-repeat: no-repeat;
-    background-size: 30px;
-    background-position: center;
-    background-color: transparent;
+.chatboard-send-emoticon {
+    display: none;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -111px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    background-color: #9E9E9E;
+    overflow-y: scroll;
+    border-left: 1px solid #2e2e2e;
 }
 
-#sendBtn:last-child {
-    flex-grow: 2;
+.emoticon-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+}
+
+.emoticon-box>div {
+    width: 15%;
+    margin-right: 10px;
+}
+
+.emoticon-box>div>img {
+    cursor: pointer;
+}
+
+.chatboard-send-emoticon p {
+    color: #2e2e2e;
+    text-align: center;
+}
+
+#emoticonBtn {
+    width: 25px;
+    height: 25px;
+    background-image: url("/resources/images/chat/emoticon.svg");
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#sendBtn {
+    width: 40px;
     background-color: var(--lol-teamblue);
     cursor: pointer;
 }
