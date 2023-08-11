@@ -119,8 +119,11 @@
 }
 
 .rankInfoDiv{
-    /* height: 18%; */
-    /* width: 49.5%; */
+    height: 140px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     background-color: var(--lol-black);
     border: 4px solid var(--khy-bg-gray);
