@@ -10,7 +10,7 @@
             <nav>
                 <ul class="nav-ul">
                     <li>
-                        <a href="" class="nav-a">LCK</a>
+                        <a href="${path}/schedule" class="nav-a">LCK</a>
                         <ul class="nav-ul-ul">
                             <li><a href="${path}/schedule">일정</a></li>
                             <li><a href="${path}/teamdata">팀 데이터</a></li>
@@ -18,7 +18,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="" class="nav-a">커뮤니티</a>
+                        <a href="${path}/community/selectboardList" class="nav-a">커뮤니티</a>
                         <ul class="nav-ul-ul">
                             <li><a href="${path}/community/selectboardList">게시판</a></li>
                             <li><a href="">공지사항</a></li>
@@ -29,7 +29,7 @@
                         <a href="${path}/store/main"  class="nav-a">포인트상점</a>
                     </li>
                     <li>
-                        <a href="" class="nav-a">플레이</a>
+                        <a href="${path}/card/selectCardById" class="nav-a">플레이</a>
                         <ul class="nav-ul-ul">
                             <li><a href="${path}/card/selectCardById">카드</a></li>
                             <li><a href="">챔피언 예측</a></li>
