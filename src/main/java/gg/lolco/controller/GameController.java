@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import gg.lolco.common.PageFactory;
-import gg.lolco.common.PageFactoryWorldCup;
 import gg.lolco.model.service.GameService;
 import gg.lolco.model.vo.WCImg;
 import lombok.extern.slf4j.Slf4j;
@@ -46,21 +45,10 @@ public class GameController {
 		m.addAttribute("rate",service.worldRate(num));
 		m.addAttribute("rateOTO",service.worldRateOTO(num));
 		m.addAttribute("WCR",WCR);
-		m.addAttribute("pageBar", PageFactoryWorldCup.getPage(cPage, numPerpage, service.worldAllCount(num), "worldcupRanking",gameName,num));
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, service.worldAllCount(num), "worldcupRanking?gameName="+gameName+"&num="+num));
 		m.addAttribute("gameName",gameName);
 		return "game/worldcupRanking";
 	}
-	
-//	@GetMapping("/worldcupRank")
-//	public String worldcupRank(@RequestParam(value="cPage", defaultValue="1") int cPage,@RequestParam(value="numPerpage",defaultValue="5") int numPerpage, Model m,String gameName,int num) {
-//		List<WCImg> WCR=service.selectWCImgAll(Map.of("cPage",cPage, "numPerpage", numPerpage,"num",num));
-//		m.addAttribute("rate",service.worldRate(num));
-//		m.addAttribute("ranking",0);
-//		m.addAttribute("WCR",WCR);
-//		m.addAttribute("pageBar", PageFactoryWorldCup.getPage(cPage, numPerpage, service.worldAllCount(num), "worldcupRanking?num="+num));
-//		m.addAttribute("gameName",gameName);
-//		return "game/worldcupRanking";
-//	}
 	
 	@GetMapping("/worldcupStart")
 	@ResponseBody

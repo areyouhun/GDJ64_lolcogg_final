@@ -151,6 +151,9 @@
 .finalRightText * {
 	margin: 3vh;
 }
+.finalLeftText * {
+	margin: 3vh;
+}
 </style>
 <!------------------------------------>
 <title>롤코지지-${gameName }</title>

@@ -97,6 +97,11 @@
 	    flex-direction: column;
     	align-items: center;
 	}
+	#adventurePlay{
+		display: flex;
+	    flex-direction: column;
+    	align-items: center;
+	}
 	.cupGameBack{
 		background-color: var(--lol-mainblue);
 		border: 4px solid var(--lol-mainblue);
@@ -140,7 +145,116 @@
 	    height: 100%;
     	width: 100%;
 	}
-</style>
+	.adventureMain{
+		display: flex;
+		position: relative;
+		background-color: var(--lol-mainblue);
+	}
+	#adch{
+        position: absolute;
+        width: 200px;
+	    height: 200px;
+        top: 117px;
+    	left: 93px;
+	    display: flex;
+
+	}
+
+	#adtext{
+		position: absolute;
+    	width: 750px;
+	    height: 200px;
+	    bottom: 50px;
+	    left: 130px;
+	    display: flex;
+	}
+	#adtext>div{
+		background-color: var(--lol-mainblue);
+	    width: 100%;
+	    opacity: 0.3;
+	}
+	#adtext>p{
+		position: absolute;
+	    top: 32px;
+    	left: 29px;
+	    font-size: 28px;
+	    color: var(--lol-white);
+	
+	}
+	.adventureMain>img:first-child {
+	    height: 600px;
+   		border: 4px solid var(--lol-mainblue);
+   		width: 1000px;
+	}
+	
+	p.typing-txt{
+	  display: none;
+	}
+	
+	.typing {  
+	/*position: absolute;*/ 
+	  display: inline-block; 
+	 } 
+	 #adname{
+	 	position: absolute;
+	    width: 180px;
+	    height: 60px;
+	    background-color: var(--lol-mainblue);
+	    border-radius: 100px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    bottom: 222px;
+	    left: 150px;
+	 }
+	 #adname>div>p{
+	 	font-size:18px;
+	 	font-family: "EF_MACHO";
+	 	
+	 }
+	 #adchoice{
+	 	position: absolute;
+	    width: 980px;
+	    display: flex;
+	    flex-direction: column;
+	    height: 200px;
+	    align-items: center;
+	    justify-content: space-evenly;
+        top: 144px;
+	 }
+	 #adchoice>button{
+ 	    width: 200px;
+	    height: 50px;
+	    border-radius: 20px;
+	    background-color: var(--lol-white);
+	    font-size: 21px;
+	    border: none;
+	    opacity: 0.9;
+	    cursor: pointer;
+	 }
+	 #adchoice>button:hover {
+		background-color: var(--lol-mainblue);
+	}
+	#adarrow{
+		position: absolute;
+	    bottom: 60px;
+	    right: 138px;
+	    cursor: pointer;
+	}
+	
+	#adsound{
+		position: absolute;
+	    right: 10px;
+	    top: 10px;
+	    cursor: pointer;
+	}
+	
+	.soundimg{
+		width: 36px;
+	}
+
+
+	</style>
 <!------------------------------------>
 <title>롤코지지-게임</title>
 </head>
@@ -195,55 +309,13 @@
 						<div class="cupGameBack">
 							<div>
 								<div>
-		                    		<img src="${path }/resources/images/game/gameMainSkin.png" style="width:400px;height:200px">
+		                    		<img src="${path }/resources/images/game/gameMainChampion.png" style="width:400px;height:200px;border-radius:10px;">
 								</div>
 							</div>
 							<div>
-								<h3 class="gameName">LOL 월드컵</h3>
+								<h3 class="gameName">LOL 롤 챔피언 월드컵</h3>
 	                            <div class="startworld">
 	                                <div class="start cursor goGame" >
-	                                    <img src="${path}/resources/images/game/cupstart.png">
-	                                    <h3>시작하기</h3>
-	                                </div>
-	                                <div class="start cursor goRanking">
-	                                    <img src="${path}/resources/images/game/cuplist.png">
-	                                    <h3>랭킹보기</h3>
-	                                </div>
-	                            </div>
-							</div>
-						</div>
-						<div class="cupGameBack">
-							<div>
-								<div>
-		                    		<img src="${path }/resources/images/game/gameMainSkin.png" style="width:400px;height:200px">
-								</div>
-							</div>
-							<div>
-								<h3 class="gameName">LOL 월드컵</h3>
-	                            <div class="startworld">
-	                                <div class="start cursor goGame">
-	                                    <img src="${path}/resources/images/game/cupstart.png">
-	                                    <h3>시작하기</h3>
-	                                </div>
-	                                <div class="start cursor">
-	                                    <img src="${path}/resources/images/game/cuplist.png">
-	                                    <h3>랭킹보기</h3>
-	                                </div>
-	                            </div>
-							</div>
-						</div>
-					</div>
-					<div>
-						<div class="cupGameBack">
-							<div>
-								<div>
-		                    		<img src="${path }/resources/images/game/gameMainProgamer.png" style="width:400px;height:200px">
-								</div>
-							</div>
-							<div>
-								<h3 class="gameName">LCK 롤 프로게이머 월드컵</h3>
-	                            <div class="startworld">
-	                                <div class="start cursor goGame">
 	                                    <img src="${path}/resources/images/game/cupstart.png">
 	                                    <h3>시작하기</h3>
 	                                </div>
@@ -275,12 +347,87 @@
 							</div>
 						</div>
 					</div>
+					<div>
+						<div class="cupGameBack">
+							<div>
+								<div>
+		                    		<img src="${path }/resources/images/game/gameMainProgamer.png" style="width:400px;height:200px">
+								</div>
+							</div>
+							<div>
+								<h3 class="gameName">LCK 롤 프로게이머 월드컵</h3>
+	                            <div class="startworld">
+	                                <div class="start cursor goGame">
+	                                    <img src="${path}/resources/images/game/cupstart.png">
+	                                    <h3>시작하기</h3>
+	                                </div>
+	                                <div class="start cursor goRanking">
+	                                    <img src="${path}/resources/images/game/cuplist.png">
+	                                    <h3>랭킹보기</h3>
+	                                </div>
+	                            </div>
+							</div>
+						</div>
+						<div class="cupGameBack">
+							<div>
+								<div>
+		                    		<img src="${path }/resources/images/game/rascal.jpg" style="width:400px;height:200px">
+								</div>
+							</div>
+							<div>
+								<h3 class="gameName">개발 중</h3>
+	                            <div class="startworld">
+	                                <div class="start cursor" >
+	                                    <img src="${path}/resources/images/game/cupstart.png">
+	                                    <h3>시작하기</h3>
+	                                </div>
+	                                <div class="start cursor">
+	                                    <img src="${path}/resources/images/game/cuplist.png">
+	                                    <h3>랭킹보기</h3>
+	                                </div>
+	                            </div>
+							</div>
+						</div>
+					</div>
 				</div>
 				
-				
-				
-				
-				
+				<div id="adventurePlay" style="display:none">
+					<p class="mainTitle fs-35">포로의 대모험</p>
+					<div>
+						<div class="adventureMain">
+							<img id="admap" src="${path}/resources/images/game/adventure/빌지워터.png">
+							<div id="adch">
+								<img id="adimg1" src="${path}/resources/images/game/adventure/미스포로.png" style="display:none;">
+								<img id="adimg2" src="${path}/resources/images/game/adventure/갱플포로.png" style="display:none">
+								<img id="adimg3" src="${path}/resources/images/game/adventure/트페포로.png" style="display:none">
+								<img id="adimg3" src="${path}/resources/images/game/adventure/그브포로.png" style="display:none">
+							</div>
+							
+							<div id="adchoice" style="display:none;">
+								<button id="oneclick">따라간다</button>
+								<button id="twoclick">다른 곳을 둘러본다</button>
+							</div>
+							<div id="adname">
+								<div >
+									<p id="namead">김포로</p>
+								</div>
+							</div>
+							<div id="adtext">
+								<div>
+								</div>
+								<p class="typing-txt">여기는 빌지워터, 현상수배범과 현상금 사냥꾼들이 넘쳐나는 도시이다.</p>
+								<p class="typing"></p>
+							</div>
+							<div>
+								<img id="adarrow" src="${path}/resources/images/game/adventure/gamearrow.png"  style="display:none">
+							</div>
+							<div id="adsound">
+								<img class="soundimg" id="sound" src="${path}/resources/images/game/adventure/sound-up.png"  >
+								<img class="soundimg" id="mute" src="${path}/resources/images/game/adventure/sound-mute.png"  style="display:none">
+							</div>
+						</div>
+					</div>
+				</div>
 				
             </div>
         </div>
@@ -289,6 +436,37 @@
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
 <script>
+
+
+function type(){
+	let typingBool = false; 
+	let typingIdx=0; 
+	
+	// 타이핑될 텍스트를 가져온다 
+	let typingTxt = $(".typing-txt").text(); 
+	
+	typingTxt=typingTxt.split(""); // 한글자씩 자른다. 
+	
+	if(typingBool==false){ 
+	  // 타이핑이 진행되지 않았다면 
+	   typingBool=true;     
+	   var tyInt = setInterval(typing,50); // 반복동작 
+	} 
+	     
+	function typing(){ 
+	  if(typingIdx<typingTxt.length){ 
+	    // 타이핑될 텍스트 길이만큼 반복 
+	    $(".typing").append(typingTxt[typingIdx]);
+	    // 한글자씩 이어준다. 
+	    typingIdx++; 
+	   } else{ 
+	     //끝나면 반복종료 
+	    clearInterval(tyInt); 
+	   } 
+	}
+}
+
+
 window.onload=function(){
 	$('#choiceGameBack').attr("src","${path }/resources/images/game/choiceGameBack"+Math.floor(Math.random() * 7)+".gif");
 }
@@ -299,6 +477,7 @@ $(function () {
 		const adventureGame=$('#adventureGame');
 		const worldCupGame=$('#worldCupGame');
 		const worldCupPlay=$('#worldCupPlay');
+		const adventurePlay=$('#adventurePlay');
 	$('.switch').click(function(e) {
 		if(worldcup.css('display')=="none"){
 			worldcup.show();
@@ -314,12 +493,177 @@ $(function () {
 		adventureGame.addClass('load')
 		adventureGame.show();;
 		setTimeout(function(){
-			gameTitle.show();
+			adventurePlay.show();
 		},2000);
 		setTimeout(function(){
-			adventureGame.removeClass('load')
-			adventureGame.hide();
-		},3000);
+			let count=0;
+			type();
+			var typingTxt = $(".typing-txt").text(); 
+			typingTxt=typingTxt.split(""); 
+			var audio = new Audio("${path}/resources/audio/adventure/1.Keyboard Typing by seth-m Id-269713.wav");
+			audio.load();
+			audio.volume = 0.5;
+			audio.play();
+			audio.loop = true;
+			var audio2 = new Audio("${path}/resources/audio/adventure/rogeuin-hwamyeon.wav");
+			audio2.load();
+			audio2.volume = 0.1;
+			audio2.loop=true;
+			audio2.play();
+			
+			$('#sound').click(function(){
+				audio2.pause();
+				$('#mute').show();
+				$('#sound').hide();
+			})
+			$('#mute').click(function(){
+				audio2.play();
+				$('#sound').show();
+				$('#mute').hide();
+			})
+	 		setTimeout(function(){
+	 			audio.pause();
+	 			$('#adarrow').show();
+	 		},typingTxt.length*50)
+	 		$('#adarrow').click(function(){
+				if(count==0){
+		 			audio.play();
+					audio.loop = true;
+					$('#adarrow').hide();
+		 			$('.typing').text('');
+		 			$('.typing-txt').text('갱플포로가 아직 이 마을에 있다는 소문이 있던데 찾아봐야겠어')
+		 			type();
+		 			typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split(""); 
+		 			setTimeout(function(){
+			 			audio.pause();
+			 			$('#adarrow').show();
+			 		},typingTxt.length*50)
+			 		count++;
+				}else if(count==1){
+					audio.play();
+					audio.loop = true;
+					$('#adarrow').hide();
+		 			$('.typing').text('');
+		 			$('.typing-txt').text('일단 마을로 가보자!')
+		 			type();
+		 			typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split(""); 
+		 			setTimeout(function(){
+		 				$('#adarrow').show();
+			 			audio.pause();
+			 		},typingTxt.length*50)
+			 		count++;
+				}else if(count==2){
+					$('#adarrow').hide();
+					$('#admap').attr("src","${path}/resources/images/game/adventure/빌지워터마을.jpg");
+					$('.typing').text('');
+					$('.typing-txt').text('저분이 그 유명한 미스포로인가');
+		 			type();
+		 			audio.play();
+					audio.loop = true;
+					typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split(""); 
+					setTimeout(function(){
+		 				$('#adarrow').show();
+			 			audio.pause();
+			 			count++;
+			 		},typingTxt.length*50)
+				}else if(count==3){
+					audio.play();
+					audio.loop = true;
+					$('#adarrow').hide();
+					$('#adimg1').show();
+					$('#adimg1').css('transform','scaleX(-1)');
+					$('#namead').text('미스포로')
+					$('.typing').text('');
+					$('.typing-txt').text('이 마을에서 처음보는 사람 같은데 무슨일이지?');
+					$('.typing').css('color','wheat')
+					type();
+		 			typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split(""); 
+		 			setTimeout(function(){
+		 				$('#adarrow').show();
+			 			audio.pause();
+			 		},typingTxt.length*50)
+			 		count++;
+				}else if(count==4){
+					audio.play();
+					audio.loop = true;
+					$('#adimg1').hide();
+					$('#adarrow').hide();
+					$('#namead').text('김포로');
+					$('.typing').text('');
+					$('.typing-txt').text('갱플포로를 찾고 있는데 혹시 어디있는지 아시나요?');
+					$('.typing').css('color','var(--lol-white)')
+					type();
+		 			typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split(""); 
+					setTimeout(function(){
+		 				$('#adarrow').show();
+			 			audio.pause();
+			 		},typingTxt.length*50)
+			 		count++;
+				}else if(count==5){
+					audio.play();
+					audio.loop = true;
+					$('#adarrow').hide();
+					$('#adimg1').show();
+					$('#namead').text('미스포로');
+					$('.typing').text('');
+					$('.typing-txt').text('그 새끼는 왜 찾는거지? 너도 죽고싶은거야? 알아서 찾아');
+					$('.typing').css('color','wheat')
+					type();
+		 			typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split(""); 
+					setTimeout(function(){
+			 			audio.pause();
+			 			setTimeout(function(){
+		 					$( '#adimg1' ).hide();
+			 				$('#admap').css('opacity','0.7')
+			 				$('#adchoice').show();
+			 			},500)
+			 		},typingTxt.length*50)
+			 		count++;
+				}
+	 		})
+	 		
+	 		
+	 		$('#oneclick').click(function(){
+	 			$('#admap').css('opacity','1');
+	 			audio.play();
+	 			audio.loop = true;
+	 			$('#adchoice').hide();
+	 			$('#adimg1').hide();
+	 			$('#adimg2').show();
+	 			$('.typing').text('');
+	 			$('#namead').text('갱플포로');
+	 			$('.typing-txt').text('아직이야!!!!')
+	 			type();
+	 			typingTxt = $(".typing-txt").text(); 
+				typingTxt=typingTxt.split("");
+	 			setTimeout(function(){
+	 				audio.pause();
+	 			},typingTxt.length*50)
+	 		})
+	 		$('#twoclick').click(function(){
+	 			$('#admap').css('opacity','1');
+	 			audio.play();
+	 			audio.loop = true;
+	 			$('#adchoice').hide();
+	 			$('#adimg1').hide();
+	 			$('#adimg3').show();
+	 			$('.typing').text('');
+	 			$('#namead').text('트위포로');
+	 			$('.typing-txt').text('시간이 좀더 필요합니다.')
+	 			typingTxt = $(".typing-txt").text(); 
+ 				type();
+				typingTxt=typingTxt.split("");
+				setTimeout(function(){
+	 				audio.pause();
+	 			},typingTxt.length*50)
+	 		})
+		},2900)
 	})
 	$('#worldcupStart').click(function(e){
 		gameTitle.hide();
@@ -336,6 +680,7 @@ $(function () {
 		switch(name){
 			case "LCK 롤 프로게이머 월드컵" : num=1;break;
 			case "LOL 롤 스킨 월드컵" : num=2;break;
+			case "LOL 롤 챔피언 월드컵" : num=3;break;
 		}
 		window.open("${path}/game/worldcup?gameName="+name+"&num="+num) 
 	});
@@ -345,11 +690,17 @@ $(function () {
 		switch(name){
 			case "LCK 롤 프로게이머 월드컵" : num=1;break;
 			case "LOL 롤 스킨 월드컵" : num=2;break;
+			case "LOL 롤 챔피언 월드컵" : num=3;break;
 		}
 		location.assign("${path}/game/worldcupRanking?gameName="+name+"&num="+num) 
 	});
 	
 });
+
+
+
+
+
 
 
 </script>

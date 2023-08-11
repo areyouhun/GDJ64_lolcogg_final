@@ -499,6 +499,7 @@
 			
 
 </script>
+
 <script>
 window.onload = function onloadEvent() {
 	var cards = document.querySelectorAll(".player_img");
