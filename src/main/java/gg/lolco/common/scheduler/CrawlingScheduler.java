@@ -21,6 +21,7 @@ import org.jsoup.select.Elements;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import gg.lolco.model.service.CommunityService;
 import gg.lolco.model.service.SchedulerService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CrawlingScheduler {
 	
 	private final SchedulerService service;
+	private final CommunityService commuService;
 	private final ServletContext context;
 	
 	private final Map<String, String> PARSE_TEAM_NAME = Map.of(
@@ -38,9 +40,11 @@ public class CrawlingScheduler {
 			"KT Rolster", "KT", "T1", "T1",
 			"Liiv SANDBOX", "LSB", "Kwangdong Freecs", "KDF");
 	
-	public CrawlingScheduler(SchedulerService controller, ServletContext context) {
-		this.service = controller;
+	public CrawlingScheduler(SchedulerService service, ServletContext context
+			,CommunityService commuService) {
+		this.service = service;
 		this.context = context;
+		this.commuService = commuService;
 	}
 	
 	@Scheduled(cron = "0 0 1 * * ?")
@@ -48,6 +52,8 @@ public class CrawlingScheduler {
         LocalDate currentDate = LocalDate.now();
         
         LocalDate stopSchedulerDate = LocalDate.of(2023, 8, 27);
+        
+        commuService.deleteDate();
 
         try {
 	    	if(!currentDate.isAfter(stopSchedulerDate)) {
