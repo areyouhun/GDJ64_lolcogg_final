@@ -33,8 +33,15 @@ public interface MemberService {
 	int insertMember(Member member);
 	// 계정에 포인트 지급
 	int insertPointToEmail(Map pointOffer);
-	//추천인 코드 입력 관련 계정 포인트 지급 기록 작성
+	// 추천인 코드 입력 관련 계정 포인트 지급 기록 작성
 	int insertPointHistoryByReferralCode(Map PointHistoryByReferralCode);
-	//추천인 코드를 통한 제공한 계정(암호화상태) 찾기
+	// 추천인 코드를 통한 제공한 계정(암호화상태) 찾기
 	String searchEmailByReferralCode(String myReferralCode);
+	// 응원팀 이모티콘 제공
+	int insertEmotionOffer(Map emotionOfferValue);
+	// 응원팀 랜덤 카드 번호 조회
+	int selectRandomCardnoFromTeamname(String teamName);
+	// 카드 제공
+	int insertCardOffer(Map cardOfferValue);
+	
 }

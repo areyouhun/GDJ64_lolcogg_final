@@ -60,5 +60,21 @@ public class MemberDaoImpl implements MemberDao {
 		return session.selectOne("member.searchEmailByReferralCode", myReferralCode);
 	}
 
+	@Override
+	public int insertEmotionOffer(SqlSession session, Map emotionOfferValue) {
+		return session.insert("member.insertEmotionOffer", emotionOfferValue);
+	}
+
+	@Override
+	public int selectRandomCardnoFromTeamname(SqlSession session, String teamName) {
+		return session.selectOne("member.selectRandomCardnoFromTeamname", teamName);
+	}
+
+	@Override
+	public int insertCardOffer(SqlSession session, Map cardOfferValue) {
+		return session.insert("member.insertCardOffer", cardOfferValue);
+	}
+
+	
 	
 }

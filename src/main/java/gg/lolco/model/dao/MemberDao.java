@@ -29,4 +29,10 @@ public interface MemberDao {
 	int insertPointHistoryByReferralCode(SqlSession session, Map PointHistoryByReferralCode);
 	//추천인 코드 제공한 계정(암호화상태) 조회
 	String searchEmailByReferralCode(SqlSession session, String myReferralCode);
+	// 응원팀 이모티콘 제공
+	int insertEmotionOffer(SqlSession session, Map emotionOfferValue);
+	// 응원팀 랜덤 카드 번호 조회
+	int selectRandomCardnoFromTeamname(SqlSession session, String teamName);
+	// 카드 제공
+	int insertCardOffer(SqlSession session, Map cardOfferValue);
 }

@@ -59,10 +59,9 @@ public class MemberController {
 		
         // 매칭
         Member m= service.selectMemberById(param);
-        System.out.println(m);
+//        System.out.println(m);
 
 		if(m!=null&&encoder.matches((String)param.get("password"), m.getPassword())) {
-			System.out.println(m.getPassword());
 			model.addAttribute("loginMember", m);//@SessionAttributes({"loginMember"}) 
 			
 //			// 암호화된 이메일 복호화 진행
@@ -88,7 +87,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	//회원가입_이메일인증
+	//이메일인증(회원가입)
 	@PostMapping(value = "/api/mailcheck", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> mailCheck(@RequestBody HashMap<String, Object> user){
 	    String email = (String) user.get("username");
@@ -154,11 +153,10 @@ public class MemberController {
 //        		.hasDragon(default)//(추가예정)mybatis에서 입력
         		.build();
         
-        System.out.println(member);
+//        System.out.println(member);
         int result=service.insertMember(member);
         
         // [추천인 코드 입력인&제공인 포인트 지급]
-        System.out.println("[추천인 코드 입력인&제공인 포인트 지급]");
         if(!param.get("myReferralCode").equals("")) {
         	// 1-1. 입력인 계정(암호화 상태) 포인트 지급 - 300포인트
             Map pointOffer= Map.of(
@@ -169,7 +167,7 @@ public class MemberController {
         	// 1-2. 입력인 계정(암호화 상태) 포인트 지급 기록 내역 저장
             Map PointHistoryByReferralCode= Map.of(
                     "email", member.getEmail(),
-                    "phComment", "추천인 코드 입력",
+                    "phComment", "웰컴 포인트(추천인코드 입력)",
                     "phPoint", pointOffer.get("point")
                 );
         	result=service.insertPointHistoryByReferralCode(PointHistoryByReferralCode);
@@ -190,8 +188,48 @@ public class MemberController {
         	result=service.insertPointHistoryByReferralCode(PointHistoryByReferralCode);
         }
         
-        // 가입 기념 카드, 이모티콘 지급(예정)
-        // [응원팀 선택 시 가입 기념 카드 + 이모티콘(응원팀 이모티콘 팩) 지급]
+        // [ 이모티콘(응원팀 이모티콘 팩) 지급]
+        if(!param.get("abbr").equals("")) {
+	        Map teamMapping1 = Map.of(
+	    			"DK", 1, 
+	    			"DRX", 2, 
+	    			"GEN", 3, 
+	    			"HLE", 4, 
+	    			"KDF", 5, 
+	    			"KT", 6, 
+	    			"LSB", 7,
+	    			"NS", 8, 
+	    			"T1", 9, 
+	    			"BRO", 10 //EMOTICON에서 팀 대표카드 조회한 PK(카드번호)
+	    		);
+	        Map emotionOfferValue=Map.of(
+	        		"email",member.getEmail(),
+	        		"emoNo", teamMapping1.get(param.get("abbr"))
+	        	);
+	        result = service.insertEmotionOffer(emotionOfferValue);
+	        // [응원팀 선택 시 가입 기념 카드 ] 
+	        // 응원팀 랜덤 카드 번호 조회
+	        Map teamMapping2 = Map.of(
+	        			"DK", "dplus", 
+	        			"BRO", "brion", 
+	        			"NS", "redforce", 
+	        			"GEN", "geng", 
+	        			"T1", "t1", 
+	        			"HLE", "hanwha", 
+	        			"KDF", "freecs", 
+	        			"DRX", "drx", 
+	        			"KT", "kt", 
+	        			"LSB", "sandbox"
+	        		);
+	        String teamName = (String) teamMapping2.get(param.get("abbr"));
+	        int cardNo = service.selectRandomCardnoFromTeamname(teamName);
+	        // 카드 제공
+	        Map cardOfferValue=Map.of(
+	        			"email", member.getEmail(),
+	        			"cardNo", cardNo
+	        		);
+	        result = service.insertCardOffer(cardOfferValue);
+        }
         
         m.addAttribute("msg",result>0?"회원가입을 환영합니다.":"저장 실패");
         m.addAttribute("loc","/");
