@@ -1,0 +1,72 @@
+.play-champion-group {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.play-champion {
+    filter: grayscale(100%);
+}
+
+.rune-row img:hover {
+    scale: 1.15;
+    transition: all 0.25s;
+}
+
+.play-champion:hover {
+    cursor: pointer;
+    filter: grayscale(0%);
+    transition: all 0.5s;
+}
+
+.choice {
+    filter: none;
+}
+
+.play-champion img {
+    margin: 0 auto;
+}
+
+.division-team {
+    width: 10%;
+}
+
+.rune-group {
+    width: 100%;
+    display: flex;
+    align-items: start;
+}
+
+.main,
+.sub {
+    width: 50%;
+}
+
+.rune-row {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.main-rune,
+.main-rune-layout {
+    width: 75px;
+}
+
+.sub-rune,
+.sub-rune-layout {
+    width: 50px;
+}
+
+.attribute-row {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 35px;
+}
+
+.attribute-layout {
+    width: 30px;
+}

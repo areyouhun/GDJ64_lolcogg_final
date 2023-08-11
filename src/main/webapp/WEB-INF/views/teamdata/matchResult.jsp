@@ -10,11 +10,16 @@
 <spring:eval var="spellInfoPath" expression="@environment.getProperty('lolcogg.datadragon.info.spell')" />
 <spring:eval var="itemImgPath" expression="@environment.getProperty('lolcogg.datadragon.image.item')" />
 <spring:eval var="itemInfoPath" expression="@environment.getProperty('lolcogg.datadragon.info.item')" />
+<spring:eval var="runesImgPath" expression="@environment.getProperty('lolcogg.datadragon.image.rune')" />
+<spring:eval var="runesInfoPath" expression="@environment.getProperty('lolcogg.datadragon.info.rune')" />
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="matchResultSummary" value="${requestScope.matchResultSummary}"/>
 <c:set var="matchResultDetail" value="${requestScope.matchResultDetail}"/>
+<c:set var="matchRuneDetail" value="${requestScope.matchRuneDetail}"/>
+<c:set var="rune" value="${requestScope.rune}"/>
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <link rel="stylesheet" href="${path}/resources/css/teamdata/style_matchResult.css">
+<link rel="stylesheet" href="${path}/resources/css/teamdata/style_runes.css">
 <title>경기 결과</title>
 </head>
 <body>
@@ -633,9 +638,269 @@
                                         <hr class="flex-grow">
                                     </div>
                                     <!-- WRITE YOUR CODE HERE -->
+                                    <div class="rune-container">
+                                        <div class="play-champion-group">
+                                            <span class="play-champion">
+                                                <img class="champion-layout" src="${champImgPath}${set.blueSideTopChamp}.png" alt="blueSideTop" />
+                                            </span>
+                                            <span class="play-champion">
+                                                <img class="champion-layout" src="${champImgPath}${set.blueSideJungleChamp}.png" alt="blueSideJungle" />
+                                            </span>
+                                            <span class="play-champion">
+                                                <img class="champion-layout" src="${champImgPath}${set.blueSideMidChamp}.png" alt="blueSideMid" />
+                                            </span>
+                                            <span class="play-champion">
+                                                <img class="champion-layout" src="${champImgPath}${set.blueSideBotChamp}.png" alt="blueSideBot" />
+                                            </span>
+                                            <span class="play-champion">
+                                                <img class="champion-layout" src="${champImgPath}${set.blueSideSupportChamp}.png" alt="blueSideSupport" />
+                                            </span>
+                                            <div class="division-team"></div>
+                                            <span class="play-champion">
+                                                <img class="champion-layout" src="${champImgPath}${set.redSideSupportChamp}.png" alt="redSideSupport" />
+                                            </span>
+                                            <span class="play-champion">
+                                                <img class="champion-layout" src="${champImgPath}${set.redSideBotChamp}.png" alt="redSideBot" />
+                                            </span>
+                                            <span class="play-champion">
+                                                <img class="champion-layout" src="${champImgPath}${set.redSideMidChamp}.png" alt="redSideMid" />
+                                            </span>
+                                            <span class="play-champion">
+                                                <img class="champion-layout" src="${champImgPath}${set.redSideJungleChamp}.png" alt="redSideJungle" />
+                                            </span>
+                                            <span class="play-champion">
+                                                <img class="champion-layout" src="${champImgPath}${set.redSideTopChamp}.png" alt="redSideTop" />
+                                            </span>
+                                        </div>
+
+                                        <div class="rune-group">
+                                            <div class="main">
+                                                <div class="M8100 rune-category rune-domination hide">
+                                                    <div class="rune-row">
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8112']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8124']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8128']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['9923']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8126']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8139']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8143']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8120']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8136']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8138']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8105']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8134']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8106']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8135']}" />
+                                                    </div>
+                                                </div>
+                                                <div class="M8000 rune-category rune-precision">
+                                                    <div class="rune-row">
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8005']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8008']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8010']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8021']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8009']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['9101']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['9111']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['9103']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['9104']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['9105']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8014']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8017']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8299']}" />
+                                                    </div>
+                                                </div>
+                                                <div class="M8200 rune-category rune-sorcery">
+                                                    <div class="rune-row">
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8214']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8229']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8230']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8224']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8226']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8275']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8210']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8233']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8234']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8232']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8236']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8237']}" />
+                                                    </div>
+                                                </div>
+                                                <div class="M8400 rune-category rune-resolve">
+                                                    <div class="rune-row">
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8437']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8439']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8465']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8401']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8463']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8446']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8429']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8444']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8473']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8451']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8453']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8242']}" />
+                                                    </div>
+                                                </div>
+                                                <div class="M8300 rune-category rune-inspiration">
+                                                    <div class="rune-row">
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8351']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8360']}" />
+                                                        <img class="main-rune-layout" src="${runesImgPath}${rune['8369']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8304']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8306']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8313']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8316']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8321']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8345']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8347']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8352']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8410']}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="sub">
+                                                <div class="S8100 rune-category sub-rune-domination">
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8126']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8139']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8143']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8120']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8136']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8138']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8105']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8134']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8106']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8135']}" />
+                                                    </div>
+                                                </div>
+                                                <div class="S8000 rune-category sub-rune-precision">
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8009']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['9101']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['9111']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['9103']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['9104']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['9105']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8014']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8017']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8299']}" />
+                                                    </div>
+                                                </div>
+                                                <div class="S8200 rune-category sub-rune-sorcery">
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8224']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8226']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8275']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8210']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8233']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8234']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8232']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8236']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8237']}" />
+                                                    </div>
+                                                </div>
+                                                <div class="S8400 rune-category sub-rune-resolve">
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8401']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8463']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8446']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8429']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8444']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8473']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8451']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8453']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8242']}" />
+                                                    </div>
+                                                </div>
+                                                <div class="S8300 rune-category rune-inspiration">
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8304']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8306']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8313']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8316']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8321']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8345']}" />
+                                                    </div>
+                                                    <div class="rune-row">
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8347']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8352']}" />
+                                                        <img class="sub-rune-layout" src="${runesImgPath}${rune['8410']}" />
+                                                    </div>
+                                                </div>
+                                                <div class="attribute-category">
+                                                    <div class="attribute-row first-attribute">
+                                                        <img class="attribute-layout" src="https://opgg-static.akamaized.net/meta/images/lol/perkShard/5008.png" />
+                                                        <img class="attribute-layout" src="https://opgg-static.akamaized.net/meta/images/lol/perkShard/5005.png" />
+                                                        <img class="attribute-layout" src="https://opgg-static.akamaized.net/meta/images/lol/perkShard/5007.png" />
+                                                    </div>
+                                                    <div class="attribute-row second-attribute">
+                                                        <img class="attribute-layout" src="https://opgg-static.akamaized.net/meta/images/lol/perkShard/5008.png" />
+                                                        <img class="attribute-layout" src="https://opgg-static.akamaized.net/meta/images/lol/perkShard/5002.png" />
+                                                        <img class="attribute-layout" src="https://opgg-static.akamaized.net/meta/images/lol/perkShard/5003.png" />
+                                                    </div>
+                                                    <div class="attribute-row third-attribute">
+                                                        <img class="attribute-layout" src="https://opgg-static.akamaized.net/meta/images/lol/perkShard/5001.png" />
+                                                        <img class="attribute-layout" src="https://opgg-static.akamaized.net/meta/images/lol/perkShard/5002.png" />
+                                                        <img class="attribute-layout" src="https://opgg-static.akamaized.net/meta/images/lol/perkShard/5003.png" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End -->
                                 </div>
                             </div>
-                    	</c:forEach>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -679,6 +944,9 @@
 
         $('.set-result').removeClass('show');
         $('.set-result').eq(index).addClass('show');
+
+        $('.rune-category').hide();
+        $('.attribute-category').hide();
     }
 
     $(document).on("mouseenter", ".set-champion-spell img", event => {
@@ -734,6 +1002,100 @@
                             .html("");
         }
     });
+</script>
+<script>
+    $(function() {
+        $('.rune-category').hide();
+        $('.attribute-category').hide();
+        
+        $('.play-champion-group span img').on('click', (event) => {
+            $('.play-champion-group span').removeClass('choice')
+            $(event.target).parent('span').addClass('choice');
+
+            championRuneInfo($(event.target).attr('alt'), event);
+        });
+    });
+
+    function championRuneInfo(role, event) {
+        $.ajax({
+            url: getContextPath() + '/getMatchChampionRune',
+            data: {
+                role:role,
+                matchDate: "${matchResultSummary.MS_DATE}".split(' ')[0],
+                home: "${matchResultSummary.MS_HOME}",
+                away: "${matchResultSummary.MS_AWAY}"
+            },success: (data) => {
+                const SET = $('.active').attr('data-id');
+                const CHAMP_IMG_SRC = $(event.target).attr('src');
+                const CHAMP_NAME = CHAMP_IMG_SRC.split('/').pop().replace('.png', '');
+
+                if(data[SET].champion === CHAMP_NAME) {
+                    $('.rune-category').hide();
+                    $('.attribute-category').hide();
+                    
+                    $('.rune-category img').css('filter', 'grayscale(100%)');
+                    $('.attribute-category img').css('filter', 'grayscale(100%)');
+
+                    // 애니메이션
+                    $('.M' + data[SET].runeCategory).css('opacity', 0).show();
+                    $('.S' + data[SET].subCategory).css('opacity', 0).show();
+                    $('.attribute-category').css('opacity', 0).show();
+
+                    $('.rune-category').animate({
+                        opacity: 1
+                    }, 300);
+
+                    $('.attribute-category').animate({
+                        opacity: 1
+                    }, 300);
+
+                    const MAIN_RUNES = [
+                        data[SET].mainRune,
+                        data[SET].mainRuneFirstRow,
+                        data[SET].mainRuneSecondRow,
+                        data[SET].mainRuneLastRow
+                    ];
+
+                    const SUB_RUNES = [
+                        data[SET].subRuneFirstRow,
+                        data[SET].subRuneLastRow
+                    ];
+
+                    $('.rune-category img').each((index, element) => {
+                        const SRC = $(element).attr('src');
+
+                        if(MAIN_RUNES.some(rune => SRC.includes(rune)) || SUB_RUNES.some(rune => SRC.includes(rune))) {
+                            $(element).css('filter', 'grayscale(0%)');
+                        }
+                    });
+
+                    $('.first-attribute img').each((index, element) => {
+                        const SRC = $(element).attr('src');
+
+                        if(SRC.includes(data[SET].attributeFirstRow)) {
+                            $(element).css('filter', 'grayscale(0%)');
+                        }
+                    });
+
+                    $('.second-attribute img').each((index, element) => {
+                        const SRC = $(element).attr('src');
+
+                        if(SRC.includes(data[SET].attributeSecondRow)) {
+                            $(element).css('filter', 'grayscale(0%)');
+                        }
+                    });
+
+                    $('.third-attribute img').each((index, element) => {
+                        const SRC = $(element).attr('src');
+
+                        if(SRC.includes(data[SET].attributeLastRow)) {
+                            $(element).css('filter', 'grayscale(0%)');
+                        }
+                    });
+                }
+            }
+        });
+    } 
 </script>
 </body>
 </html>
