@@ -98,6 +98,10 @@ public class CommunityDaoImpl implements CommunityDao {
 	public int readCount(SqlSession session,String cmBoardNo) {
 		return session.update("community.readCount",cmBoardNo);
 	}
+	@Override
+	public int readDate(SqlSession session,String cmBoardNo) {
+		return session.insert("community.readDate",cmBoardNo);
+	}
 
 	@Override
 	public int insertBuff(SqlSession session, Map<String, Object> param) {
@@ -214,6 +218,20 @@ public class CommunityDaoImpl implements CommunityDao {
 	@Override
 	public int removeReplycut(SqlSession session, Map<String, Object> param) {
 		return session.update("community.removeReplycut",param);
+	}
+
+	@Override
+	public List<CommunityBoard> realTimePopularity(SqlSession session) {
+		return session.selectList("community.realTimePopularity");
+	}
+	@Override
+	public List<CommunityBoard> weeklyPopularity(SqlSession session) {
+		return session.selectList("community.weeklyPopularity");
+	}
+
+	@Override
+	public int deleteDate(SqlSession session) {
+		return session.delete("community.deleteDate");
 	}
 
 }

@@ -469,6 +469,7 @@
 	        const insertComment = e.target.closest('.insertCommentDiv').querySelector('.insertComment');
 	        insertImage1(insertComment, e.target.src);
 	    }
+	    
 	    // 이 부분은 원하는 이미지 추가 기능을 `.insertComment`에 대해서도 확장하려면 추가해야 합니다.
 	    // 예를 들면, `e.target.closest('.someSelector img')` 라는 조건을 추가하고, 그 안에서 원하는 이미지 추가 로직을 수행하면 됩니다.
 	});
@@ -609,6 +610,8 @@
 						selection.addRange(range);
 					}
 				});
+		
+	
 		function insertImage(imgSrc) {
 			const currentCount = updateCount();
 			if (currentCount >= 150) {

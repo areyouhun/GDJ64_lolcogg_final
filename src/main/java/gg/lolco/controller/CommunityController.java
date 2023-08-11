@@ -63,6 +63,7 @@ public class CommunityController {
 		List<CommunityBoard> selectboardList = service
 				.selectboardList(Map.of("cPage", cPage, "numPerpage", numPerpage));
 		int totalData = service.selectBoardCount();
+		
 
 		// 이 부분에서는 현재 시간을 LocalDateTime 으로가져오기
 		LocalDateTime now = LocalDateTime.now();
@@ -90,7 +91,12 @@ public class CommunityController {
 				b.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
 			}
 		}
-		System.out.println();
+		List<CommunityBoard> realTimePopularity = service.realTimePopularity();
+		List<CommunityBoard> weeklyPopularity = service.weeklyPopularity();
+		
+		
+		m.addAttribute("weeklyPopularity", weeklyPopularity);
+		m.addAttribute("realTimePopularity", realTimePopularity);
 		m.addAttribute("selectboardList", selectboardList);
 		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectboardList"));
 		return "/community/communityMain";
@@ -332,14 +338,17 @@ public class CommunityController {
 				oldCookie.setPath("/");
 				oldCookie.setMaxAge((int) secondsTillMidnight);
 				response.addCookie(oldCookie);
+				service.readDate(cmBoardNo);
 			}
 		} else {
-			int readCount = service.readCount(cmBoardNo);
+			service.readCount(cmBoardNo);
+			service.readDate(cmBoardNo);
 			Cookie newCookie = new Cookie("boardView", "[" + cmBoardNo + "]");
 			newCookie.setPath("/");
 			newCookie.setMaxAge((int) secondsTillMidnight);
 			response.addCookie(newCookie);
 		}
+		
 
 		// 현재 게시글의 작성 시간을 LocalDateTime 형태로 가져오기
 		LocalDateTime boardDate = boardDetails.getCmBoardDate();
@@ -484,7 +493,7 @@ public class CommunityController {
 		params.put("boardNo", boardNo);
 		params.put("comment", comment);
 		params.put("email", email);
-		int result = service.insertComment(params);
+		service.insertComment(params);
 		
 		String cmCommentNo = String.valueOf(params.get("cmCommentNo"));
 		CommunityBoardComment selectCommentNo = service.selectCommentNo(Map.of("cmCommentNo",cmCommentNo));
@@ -628,5 +637,6 @@ public class CommunityController {
 		List<MemberEmoticon> selectMemberIcon=service.selectMemberIcon(Map.of("email", email));
 		return selectMemberIcon;
 	}
+
 
 }

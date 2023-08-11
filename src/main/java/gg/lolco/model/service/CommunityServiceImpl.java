@@ -72,6 +72,14 @@ public class CommunityServiceImpl implements CommunityService {
 	public List<CommunityBoard> searchBoard(Map<String, Object> param) {
 		return dao.searchBoard(session,param);
 	}
+	@Override
+	public List<CommunityBoard> realTimePopularity() {
+		return dao.realTimePopularity(session);
+	}
+	@Override
+	public List<CommunityBoard> weeklyPopularity() {
+		return dao.weeklyPopularity(session);
+	}
 
 	@Override
 	public int searchBoardCount(Map<String, Object> param) {
@@ -91,6 +99,10 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int readCount(String cmBoardNo) {
 		return dao.readCount(session,cmBoardNo);
+	}
+	@Override
+	public int readDate(String cmBoardNo) {
+		return dao.readDate(session,cmBoardNo);
 	}
 
 	@Override
@@ -192,6 +204,11 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int selectBoardCommentCount(Map<String, Object> param) {
 		return dao.selectBoardCommentCount(session,param);
+	}
+	
+	@Override
+	public int deleteDate() {
+		return dao.deleteDate(session);
 	}
 
 	@Override

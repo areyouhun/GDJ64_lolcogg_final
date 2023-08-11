@@ -13,20 +13,24 @@ public interface CommunityService {
 	List<CommunityBoard> selectBoradCategorie(Map<String ,Object> param);
 	List<CommunityBoard> selectPopularity(Map<String ,Object> param);
 	List<CommunityBoard> searchBoard(Map<String ,Object> param);
+	List<CommunityBoard> realTimePopularity();
+	List<CommunityBoard> weeklyPopularity();
 	List<CommunityBoardComment> selectBoardComment(Map<String ,Object> param);
 	List<MemberEmoticon> selectMemberIcon(Map<String ,Object> param);
+	
 	int insertCommunity(Map<String ,Object> param);
 	int updateBoard(Map<String ,Object> param);
 	int insertComment(Map<String ,Object> param);
 	int replycut(Map<String ,Object> param);
 	int selectBoardCommentCount(Map<String ,Object> param);
 	
-
+	int deleteDate();
 	
 	int commentKey(Map<String ,Object> param);
 	int insertReply(Map<String ,Object> param);
 	int updateReply(Map<String ,Object> param);
 	int readCount(String cmBoardNo);
+	int readDate(String cmBoardNo);
 	int boardRemove(String boardNo);
 	int insertBuff(Map<String ,Object> param);
 	int insertCmBuff(Map<String ,Object> param);	
