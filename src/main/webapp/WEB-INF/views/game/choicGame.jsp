@@ -154,8 +154,8 @@
         position: absolute;
         width: 200px;
 	    height: 200px;
-	    top: 150px;
-	    right: 200px;
+        top: 117px;
+    	left: 93px;
 	    display: flex;
 
 	}
@@ -428,11 +428,6 @@
 					</div>
 				</div>
 				
-				
-				
-				
-				
-				
             </div>
         </div>
     </section>
@@ -443,18 +438,18 @@
 
 
 function type(){
-	var typingBool = false; 
-	var typingIdx=0; 
+	let typingBool = false; 
+	let typingIdx=0; 
 	
 	// 타이핑될 텍스트를 가져온다 
-	var typingTxt = $(".typing-txt").text(); 
+	let typingTxt = $(".typing-txt").text(); 
 	
 	typingTxt=typingTxt.split(""); // 한글자씩 자른다. 
 	
 	if(typingBool==false){ 
 	  // 타이핑이 진행되지 않았다면 
 	   typingBool=true;     
-	   var tyInt = setInterval(typing,80); // 반복동작 
+	   var tyInt = setInterval(typing,50); // 반복동작 
 	} 
 	     
 	function typing(){ 
@@ -504,12 +499,12 @@ $(function () {
 			type();
 			var typingTxt = $(".typing-txt").text(); 
 			typingTxt=typingTxt.split(""); 
-			var audio = new Audio("${path}/resources/audio/1.Keyboard Typing by seth-m Id-269713.wav");
+			var audio = new Audio("${path}/resources/audio/adventure/1.Keyboard Typing by seth-m Id-269713.wav");
 			audio.load();
 			audio.volume = 0.5;
 			audio.play();
 			audio.loop = true;
-			var audio2 = new Audio("${path}/resources/audio/rogeuin-hwamyeon.wav");
+			var audio2 = new Audio("${path}/resources/audio/adventure/rogeuin-hwamyeon.wav");
 			audio2.load();
 			audio2.volume = 0.1;
 			audio2.loop=true;
@@ -528,7 +523,7 @@ $(function () {
 	 		setTimeout(function(){
 	 			audio.pause();
 	 			$('#adarrow').show();
-	 		},typingTxt.length*80)
+	 		},typingTxt.length*50)
 	 		$('#adarrow').click(function(){
 				if(count==0){
 		 			audio.play();
@@ -542,7 +537,7 @@ $(function () {
 		 			setTimeout(function(){
 			 			audio.pause();
 			 			$('#adarrow').show();
-			 		},typingTxt.length*80)
+			 		},typingTxt.length*50)
 			 		count++;
 				}else if(count==1){
 					audio.play();
@@ -556,34 +551,29 @@ $(function () {
 		 			setTimeout(function(){
 		 				$('#adarrow').show();
 			 			audio.pause();
-			 		},typingTxt.length*80)
+			 		},typingTxt.length*50)
 			 		count++;
 				}else if(count==2){
 					$('#adarrow').hide();
 					$('#admap').attr("src","${path}/resources/images/game/adventure/빌지워터마을.jpg");
-					$('#adimg1').show();
-					$('#adimg1').css('transform','translate( -150%, 0 )');
-					$( '#adimg1' ).css({'transition':'3s'});
 					$('.typing').text('');
+					$('.typing-txt').text('저분이 그 유명한 미스포로인가');
+		 			type();
+		 			audio.play();
+					audio.loop = true;
+					typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split(""); 
 					setTimeout(function(){
-						$('.typing-txt').text('저분이 그 유명한 미스포로인가');
-			 			type();
-			 			audio.play();
-						audio.loop = true;
-						typingTxt = $(".typing-txt").text(); 
-						typingTxt=typingTxt.split(""); 
-						setTimeout(function(){
-			 				$('#adarrow').show();
-				 			audio.pause();
-				 			count++;
-				 		},typingTxt.length*80)
-			 		},3000)
+		 				$('#adarrow').show();
+			 			audio.pause();
+			 			count++;
+			 		},typingTxt.length*50)
 				}else if(count==3){
 					audio.play();
 					audio.loop = true;
 					$('#adarrow').hide();
-					$('#adimg1').css('transform','matrix(-1, 0, 0, 1, -400, 0)');
-					$( '#adimg1' ).css({'transition':'0s'});
+					$('#adimg1').show();
+					$('#adimg1').css('transform','scaleX(-1)');
 					$('#namead').text('미스포로')
 					$('.typing').text('');
 					$('.typing-txt').text('이 마을에서 처음보는 사람 같은데 무슨일이지?');
@@ -594,11 +584,12 @@ $(function () {
 		 			setTimeout(function(){
 		 				$('#adarrow').show();
 			 			audio.pause();
-			 		},typingTxt.length*80)
+			 		},typingTxt.length*50)
 			 		count++;
 				}else if(count==4){
 					audio.play();
 					audio.loop = true;
+					$('#adimg1').hide();
 					$('#adarrow').hide();
 					$('#namead').text('김포로');
 					$('.typing').text('');
@@ -610,12 +601,13 @@ $(function () {
 					setTimeout(function(){
 		 				$('#adarrow').show();
 			 			audio.pause();
-			 		},typingTxt.length*80)
+			 		},typingTxt.length*50)
 			 		count++;
 				}else if(count==5){
 					audio.play();
 					audio.loop = true;
 					$('#adarrow').hide();
+					$('#adimg1').show();
 					$('#namead').text('미스포로');
 					$('.typing').text('');
 					$('.typing-txt').text('그 새끼는 왜 찾는거지? 너도 죽고싶은거야? 알아서 찾아');
@@ -624,54 +616,51 @@ $(function () {
 		 			typingTxt = $(".typing-txt").text(); 
 					typingTxt=typingTxt.split(""); 
 					setTimeout(function(){
-						$('#adimg1').css('transform','matrix(-1, 0, 0, 1, 0, 0)');
-						$( '#adimg1' ).css({'transition':'3s'});
-		 				$('#adarrow').show();
 			 			audio.pause();
-		 				$('#adarrow').hide();
 			 			setTimeout(function(){
 		 					$( '#adimg1' ).hide();
 			 				$('#admap').css('opacity','0.7')
 			 				$('#adchoice').show();
-			 			},3000)
-			 		},typingTxt.length*80)
+			 			},500)
+			 		},typingTxt.length*50)
 			 		count++;
 				}
 	 		})
 	 		
 	 		
 	 		$('#oneclick').click(function(){
-	 			$('#admap').css('opacity','1')
+	 			$('#admap').css('opacity','1');
 	 			audio.play();
 	 			audio.loop = true;
 	 			$('#adchoice').hide();
 	 			$('#adimg1').hide();
 	 			$('#adimg2').show();
 	 			$('.typing').text('');
-	 			$('#namead').text('박포로');
+	 			$('#namead').text('갱플포로');
 	 			$('.typing-txt').text('아직이야!!!!')
 	 			type();
 	 			typingTxt = $(".typing-txt").text(); 
 				typingTxt=typingTxt.split("");
 	 			setTimeout(function(){
 	 				audio.pause();
-	 			},typingTxt.length*80)
+	 			},typingTxt.length*50)
 	 		})
 	 		$('#twoclick').click(function(){
+	 			$('#admap').css('opacity','1');
 	 			audio.play();
 	 			audio.loop = true;
 	 			$('#adchoice').hide();
 	 			$('#adimg1').hide();
 	 			$('#adimg3').show();
 	 			$('.typing').text('');
-	 			$('#namead').text('최포로');
+	 			$('#namead').text('트위포로');
 	 			$('.typing-txt').text('시간이 좀더 필요합니다.')
 	 			typingTxt = $(".typing-txt").text(); 
  				type();
 				typingTxt=typingTxt.split("");
 				setTimeout(function(){
 	 				audio.pause();
-	 			},typingTxt.length*80)
+	 			},typingTxt.length*50)
 	 		})
 		},2900)
 	})
