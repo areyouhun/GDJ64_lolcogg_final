@@ -140,5 +140,20 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 	public MatchSchedule matchByNo(int choiceNo) {
 		return dao.matchByNo(session, choiceNo);
 	}
+
+	@Override
+	public int mpPoint(String email) {
+		return dao.mpPoint(session, email);
+	}
+
+	@Override
+	public List<MatchPrediction> historyEmail() {
+		return dao.historyEmail(session);
+	}
+
+	@Override
+	public int insertHistory(String email) {
+		return dao.insertHistory(session, email);
+	}
 	
 }

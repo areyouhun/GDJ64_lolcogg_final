@@ -880,6 +880,9 @@ $(document).on("focus", ".insertComment", function(e){
 
 /* 승부예측 */
 $(document).on("click", ".mpMatchDiv", function(e) {
+	console.log($(e.target).parents('.mpMatchDiv'));
+	let choiceNo = $(e.target).parents('.mpMatchDiv').attr('id');
+	console.log(choiceNo);
 	if(loginMember != ''){
 		if($(e.target).hasClass('homeDiv') || $(e.target).parents('.homeDiv').hasClass('homeDiv')){
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "#0D0063");
@@ -888,7 +891,6 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "transparent");
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamblue)");
 			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamblue)");
-			let choiceNo = $(e.target).parents('.mpMatchDiv').find('.homeDiv').attr('id');
 			let team = 'home';
 			$.ajax({
 				type: "POST",
@@ -932,7 +934,6 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "transparent");
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamred)");
 			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamred)");
-			let choiceNo = $(e.target).parents('.mpMatchDiv').find('.homeDiv').attr('id');
 			let team = 'away';
 			$.ajax({
 				type: "POST",
@@ -1398,8 +1399,6 @@ function weekChoice(week){
 			mpDiv.html('');
 			let html = '';
 			
-			console.log(data);
-			
 			data[0].forEach(function(item) {
 				
 				/* 날짜  */
@@ -1419,8 +1418,7 @@ function weekChoice(week){
 				let homeP = 0;
 				let awayP = 0;
 				
-				data[1].forEach(function(mmp) {
-				    console.log(mmp);
+				data[2].forEach(function(mmp) {
 				    if (item.msNo == mmp.mpMsNo) {
 				        if (mmp.mpTeam == null || mmp.mpTeam == '') {
 				            total = mmp.count;
@@ -1462,7 +1460,7 @@ function weekChoice(week){
 				let msTimeP = $('<p>').addClass('content fs-20').text(msTime);
 				statusTimeDiv.append(statusDiv, msTimeP);
 	
-				let mpMatchDiv = $('<div>').attr('id', '${m.msNo }').addClass(date < today ? 'mpMatchDiv pointerEvents' : (item.msAway == null || item.msHome == null) ? 'mpMatchDiv pointerEvents' : 'mpMatchDiv');
+				let mpMatchDiv = $('<div>').attr("id", item.msNo).addClass(date < today ? 'mpMatchDiv pointerEvents' : (item.msAway == null || item.msHome == null) ? 'mpMatchDiv pointerEvents' : 'mpMatchDiv');
 
 				let homeDiv = $('<div>').addClass('homeDiv');
 				let logoDiv = $('<div>').addClass('logoDiv');

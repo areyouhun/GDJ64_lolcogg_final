@@ -69,6 +69,17 @@ public class MatchPerdictionController {
 		}
 		m.addAttribute("myEmo", myEmo);
 		
+		// 업데이트 예정 계정 포인트 지급
+		//int mpPoint = service.mpPoint();
+		List<MatchPrediction> historyEmail = service.historyEmail();
+		if(!historyEmail.isEmpty()) {
+			for(MatchPrediction mp : historyEmail) {
+				String email = mp.getMpEmail();
+				int history = service.insertHistory(email);
+				int mpPoint = service.mpPoint(email);
+			}
+		}
+		
 		// 업데이트
 		int mpYn = service.updateMpYn();
 		
@@ -131,17 +142,18 @@ public class MatchPerdictionController {
 	@PostMapping("/matchprediction/choice")
 	@ResponseBody
 	public List teamChoice(@RequestParam Map param){
-		int choiceNo = Integer.parseInt((String.valueOf(param.get("choiceNo"))));
 		
 		int result = service.teamChoice(param);
 		
 		List mp = new ArrayList<>();
 		// 예측 퍼센트
-		List<MatchPrediction> mpPercentage = service.mpPercentageByNo(choiceNo);
-		MatchSchedule match = service.matchByNo(choiceNo);
-		
-		mp.add(mpPercentage);
-		mp.add(match);
+		if(param.get("choiceNo") != null) {
+			int choiceNo = Integer.parseInt((String.valueOf(param.get("choiceNo"))));
+			List<MatchPrediction> mpPercentage = service.mpPercentageByNo(choiceNo);
+			MatchSchedule match = service.matchByNo(choiceNo);
+			mp.add(mpPercentage);
+			mp.add(match);
+		}
 		
 		return mp;
 	}

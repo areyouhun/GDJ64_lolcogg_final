@@ -56,4 +56,10 @@ public interface MatchPredictionService {
 	List<MatchPrediction> mpPercentageByNo(int choiceNo);
 	
 	MatchSchedule matchByNo(int choiceNo);
+	
+	List<MatchPrediction> historyEmail();
+	
+	int mpPoint(String email);
+	
+	int insertHistory(String email);
 }

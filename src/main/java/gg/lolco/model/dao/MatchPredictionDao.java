@@ -3,6 +3,7 @@ package gg.lolco.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.jdbc.SQL;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import gg.lolco.model.vo.MatchPrediction;
@@ -59,4 +60,10 @@ public interface MatchPredictionDao {
 	List<MatchPrediction> mpPercentageByNo(SqlSessionTemplate session, int choiceNo);
 	
 	MatchSchedule matchByNo(SqlSessionTemplate session, int choiceNo);
+	
+	int mpPoint(SqlSessionTemplate session, String email);
+	
+	List<MatchPrediction> historyEmail(SqlSessionTemplate session);
+	
+	int insertHistory(SqlSessionTemplate session, String email);
 }

@@ -135,5 +135,20 @@ public class MatchPredictionDaoImpl implements MatchPredictionDao {
 		return session.selectOne("matchPrediction.matchByNo", choiceNo);
 	}
 
+	@Override
+	public int mpPoint(SqlSessionTemplate session, String email) {
+		return session.update("matchPrediction.mpPoint", email);
+	}
+
+	@Override
+	public List<MatchPrediction> historyEmail(SqlSessionTemplate session) {
+		return session.selectList("matchPrediction.historyEmail");
+	}
+
+	@Override
+	public int insertHistory(SqlSessionTemplate session, String email) {
+		return session.insert("matchPrediction.insertHistory", email);
+	}
+
 	
 }
