@@ -154,7 +154,7 @@
         position: absolute;
         width: 200px;
 	    height: 200px;
-	    top: 50px;
+	    top: 150px;
 	    right: 200px;
 	    display: flex;
 
@@ -197,7 +197,7 @@
 	 } 
 	 #adname{
 	 	position: absolute;
-	    width: 110px;
+	    width: 180px;
 	    height: 60px;
 	    background-color: var(--lol-mainblue);
 	    border-radius: 100px;
@@ -240,6 +240,17 @@
 	    bottom: 60px;
 	    right: 138px;
 	    cursor: pointer;
+	}
+	
+	#adsound{
+		position: absolute;
+	    right: 10px;
+	    top: 10px;
+	    cursor: pointer;
+	}
+	
+	.soundimg{
+		width: 36px;
 	}
 
 
@@ -409,6 +420,10 @@
 							<div>
 								<img id="adarrow" src="${path}/resources/images/game/adventure/gamearrow.png"  style="display:none">
 							</div>
+							<div id="adsound">
+								<img class="soundimg" id="sound" src="${path}/resources/images/game/adventure/sound-up.png"  >
+								<img class="soundimg" id="mute" src="${path}/resources/images/game/adventure/sound-mute.png"  style="display:none">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -489,11 +504,27 @@ $(function () {
 			type();
 			var typingTxt = $(".typing-txt").text(); 
 			typingTxt=typingTxt.split(""); 
-			var audio = new Audio("${path}/resources/images/game/adventure/1.Keyboard Typing by seth-m Id-269713.wav");
+			var audio = new Audio("${path}/resources/audio/1.Keyboard Typing by seth-m Id-269713.wav");
 			audio.load();
 			audio.volume = 0.5;
 			audio.play();
 			audio.loop = true;
+			var audio2 = new Audio("${path}/resources/audio/rogeuin-hwamyeon.wav");
+			audio2.load();
+			audio2.volume = 0.1;
+			audio2.loop=true;
+			audio2.play();
+			
+			$('#sound').click(function(){
+				audio2.pause();
+				$('#mute').show();
+				$('#sound').hide();
+			})
+			$('#mute').click(function(){
+				audio2.play();
+				$('#sound').show();
+				$('#mute').hide();
+			})
 	 		setTimeout(function(){
 	 			audio.pause();
 	 			$('#adarrow').show();
@@ -504,7 +535,7 @@ $(function () {
 					audio.loop = true;
 					$('#adarrow').hide();
 		 			$('.typing').text('');
-		 			$('.typing-txt').text('갱플포크가 아직 이 마을에 있다는 소문이 있던데 찾아봐야겠어')
+		 			$('.typing-txt').text('갱플포로가 아직 이 마을에 있다는 소문이 있던데 찾아봐야겠어')
 		 			type();
 		 			typingTxt = $(".typing-txt").text(); 
 					typingTxt=typingTxt.split(""); 
@@ -610,7 +641,7 @@ $(function () {
 	 		
 	 		
 	 		$('#oneclick').click(function(){
-	 			$('#admap').css('opacity','0.7')
+	 			$('#admap').css('opacity','1')
 	 			audio.play();
 	 			audio.loop = true;
 	 			$('#adchoice').hide();
@@ -627,15 +658,20 @@ $(function () {
 	 			},typingTxt.length*80)
 	 		})
 	 		$('#twoclick').click(function(){
+	 			audio.play();
+	 			audio.loop = true;
 	 			$('#adchoice').hide();
 	 			$('#adimg1').hide();
 	 			$('#adimg3').show();
 	 			$('.typing').text('');
 	 			$('#namead').text('최포로');
 	 			$('.typing-txt').text('시간이 좀더 필요합니다.')
-	 			setTimeout(function(){
-	 				type();
-	 			},100)
+	 			typingTxt = $(".typing-txt").text(); 
+ 				type();
+				typingTxt=typingTxt.split("");
+				setTimeout(function(){
+	 				audio.pause();
+	 			},typingTxt.length*80)
 	 		})
 		},2900)
 	})
@@ -670,6 +706,9 @@ $(function () {
 	});
 	
 });
+
+
+
 
 
 
