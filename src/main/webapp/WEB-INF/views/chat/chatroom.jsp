@@ -353,7 +353,11 @@
 	function chat(message, ...classes) {
 		const chatBox = generateChatBox(classes);
 		const $div = $("<div>").width("16px").css("marginRight", "3px");
-		const $img = $("<img>").attr("src", "${path}/resources/images/logo/" + message.teamAbbr + "_square.png");
+		let $img = $("<img>").attr("src", "${path}/resources/images/logo/" + message.teamAbbr + "_square.png");
+
+		if (message.teamAbbr === "") {
+			$img = $("<img>").attr("src", "${path}/resources/images/common/icon_profile.png");
+		}
 
 
 		if (message.senderNickname === "관리자") {
