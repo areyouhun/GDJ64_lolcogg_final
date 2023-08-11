@@ -1581,7 +1581,6 @@ $(document).on("keyup", ".insertComment", function(e) {
     };
 });	
 
->>>>>>> 2b460c9 fix(mp): 답글 글자 수 제한 js 수정
 </script>
 	<!-- icon -->
 	<script type="module"

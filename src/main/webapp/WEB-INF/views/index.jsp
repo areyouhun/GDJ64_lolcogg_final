@@ -30,122 +30,7 @@
                     <p class="mainTitle fs-55 centerSort" style="margin-bottom: 50px;">팀 순위</p>
                 </div>
                 <div class="rankAllDiv">
-                    <!-- 1~5등 팀 -->
-                    <div class="rankDiv">
-                        <div class="rankInfoDiv">
-                            <div class="rankOneDiv">
-                                <div class="rank centerSort">
-                                    <p class="title fs-55">1</p>
-                                </div>
-                                <div class="rankTeam centerSort">
-                                    <p class="title fs-55">T1</p>
-                                </div>
-                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/t1_logo_big.png"></div>
-                            </div>
-                        </div>
-                        <div class="rankInfoDiv">
-                            <div class="rankOneDiv">
-                                <div class="rank centerSort">
-                                    <p class="title fs-55">1</p>
-                                </div>
-                                <div class="rankTeam centerSort">
-                                    <p class="title fs-55">T1</p>
-                                </div>
-                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/drx_logo_big2.png"></div>
-                            </div>
-                        </div>
-                        <div class="rankInfoDiv">
-                            <div class="rankOneDiv">
-                                <div class="rank centerSort">
-                                    <p class="title fs-55">1</p>
-                                </div>
-                                <div class="rankTeam centerSort">
-                                    <p class="title fs-55">T1</p>
-                                </div>
-                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/freecs_logo_big.png"></div>
-                            </div>
-                        </div>
-                        <div class="rankInfoDiv">
-                            <div class="rankOneDiv">
-                                <div class="rank centerSort">
-                                    <p class="title fs-55">1</p>
-                                </div>
-                                <div class="rankTeam centerSort">
-                                    <p class="title fs-55">T1</p>
-                                </div>
-                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/geng_logo_big2.png"></div>
-                            </div>
-                        </div>
-                        <div class="rankInfoDiv">
-                            <div class="rankOneDiv">
-                                <div class="rank centerSort">
-                                    <p class="title fs-55">1</p>
-                                </div>
-                                <div class="rankTeam centerSort">
-                                    <p class="title fs-55">T1</p>
-                                </div>
-                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/hanwha_logo_big2.png"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 6~10등 팀 -->
-                    <div class="rankDiv">
-                        <div class="rankInfoDiv">
-                            <div class="rankOneDiv">
-                                <div class="rank centerSort">
-                                    <p class="title fs-55">1</p>
-                                </div>
-                                <div class="rankTeam centerSort">
-                                    <p class="title fs-55">T1</p>
-                                </div>
-                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/kt_logo_big2.png"></div>
-                            </div>
-                        </div>
-                        <div class="rankInfoDiv">
-                            <div class="rankOneDiv">
-                                <div class="rank centerSort">
-                                    <p class="title fs-55">1</p>
-                                </div>
-                                <div class="rankTeam centerSort">
-                                    <p class="title fs-55">T1</p>
-                                </div>
-                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/redforce_logo_big.png"></div>
-                            </div>
-                        </div>
-                        <div class="rankInfoDiv">
-                            <div class="rankOneDiv">
-                                <div class="rank centerSort">
-                                    <p class="title fs-55">1</p>
-                                </div>
-                                <div class="rankTeam centerSort">
-                                    <p class="title fs-55">T1</p>
-                                </div>
-                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/sandbox_logo_big.png"></div>
-                            </div>
-                        </div>
-                        <div class="rankInfoDiv">
-                            <div class="rankOneDiv">
-                                <div class="rank centerSort">
-                                    <p class="title fs-55">1</p>
-                                </div>
-                                <div class="rankTeam centerSort">
-                                    <p class="title fs-55">T1</p>
-                                </div>
-                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/brion_logo_big2.png"></div>
-                            </div>
-                        </div>
-                        <div class="rankInfoDiv">
-                            <div class="rankOneDiv">
-                                <div class="rank centerSort">
-                                    <p class="title fs-55">1</p>
-                                </div>
-                                <div class="rankTeam centerSort">
-                                    <p class="title fs-55">T1</p>
-                                </div>
-                                <div class="rankLogo centerSort"><img src="${path}/resources/images/logo/dplus_logo_white.png"></div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -166,38 +51,91 @@
 		dataType: 'json',
 		success: (data)=>{
 			
-		// 오늘의 경기
-		const todayMatch = data[0];
-		let html = '';
-		const todayMatchAllDiv = $(".todayMatchAllDiv");
-		
-		todayMatch.forEach((tm, i) => {
-			const tmDate = tm.msDate;
-			const date = new Date(tmDate);
-			const tmdate =  new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+			// 오늘의 경기
+			const todayMatch = data[1];
+			let html = '';
+			const todayMatchAllDiv = $(".todayMatchAllDiv");
 			
-			html += "<div class='totayMatchDiv'>";
-			html += "<div class='totayMatch'>";
-			html += "<div class='homeTeamDiv centerSort'>";
-			html += "<div class='imgDiv'><img src='${path}/resources/images/logo/" + tm.msHome + "_big.png'></div>";
-			html += "<p class='title fs-55'>" + tm.msHome + "</p>";
-			html += "</div><div class='timeVsDiv'>";
-			html += "<p class='time fs-20'>" + tmdate + "</p>";
-			html += "<p class='content fs-70 fw-bold'>VS</p>";
-			html += "</div><div class='awayTeamDiv centerSort'>";
-			html += "<p class='title fs-55'>" + tm.msAway + "</p>";
-			html += "<div class='imgDiv'><img src='${path}/resources/images/logo/" + tm.msAway + "_big.png'></div>";
-			html += "</div></div></div>";
-		});
-		todayMatchAllDiv.append(html);
-		
-		// 팀 순위
-		const teamRank = data[1];
-		/* let html = ''; */
-		teamRank.forEach((tr, i) => {
-		          console.log(tr);
-		});
+			if(todayMatch != null){
+				todayMatch.forEach((tm, i) => {
+					const tmDate = tm.msDate;
+					const date = new Date(tmDate);
+					const tmdate =  new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+					
+						html += "<div class='totayMatchDiv'>";
+						html += "<div class='totayMatch'>";
+						html += "<div class='homeTeamDiv centerSort'>";
+						html += "<div class='imgDiv'><img src='${path}/resources/images/logo/" + tm.msHome + "_big.png'></div>";
+						html += "<p class='title fs-55'>" + tm.msHome + "</p>";
+						html += "</div><div class='timeVsDiv'>";
+						html += "<p class='time fs-20'>" + tmdate + "</p>";
+						html += "<p class='content fs-70 fw-bold'>VS</p>";
+						html += "</div><div class='awayTeamDiv centerSort'>";
+						html += "<p class='title fs-55'>" + tm.msAway + "</p>";
+						html += "<div class='imgDiv'><img src='${path}/resources/images/logo/" + tm.msAway + "_big.png'></div>";
+						html += "</div></div></div>";
+				});
+			} else {
+				html += "<div class='totayMatchDiv' style='height:300px'>";
+				html += "<div class='totayMatch'>";
+				html += "</div><div class='timeVsDiv'>";
+				html += "<p class='content fs-25 fw-bold'>오늘의 경기가 없습니다.</p>";
+				html += "</div></div></div>";
+			}
+			todayMatchAllDiv.append(html);
 			
+			
+			const rankAllDiv = $('.rankAllDiv');
+			// 팀 순위
+			const teamRank = data[0];
+			
+			const rankDiv1 = $("<div>").addClass('rankDiv');
+			// 1~5위
+			for (let i = 0; i < 5; i++) {
+			    console.log(teamRank[i]);
+			    
+			    const rankInfoDiv = $("<div>").addClass('rankInfoDiv');
+			    const rankOneDiv = $("<div>").addClass('rankOneDiv');
+			    const rank = $("<div>").addClass('rank centerSort');
+			    const pRank = $("<p>").addClass('title fs-55').text(teamRank[i].teamRank);
+			    rank.append(pRank);
+			    const rankTeam = $("<div>").addClass('rankTeam centerSort');
+			    const pTeam = $("<p>").addClass('title fs-55').text(teamRank[i].teamAbbr);
+			    rankTeam.append(pTeam);
+			    const rankLogo = $("<div>").addClass('rankLogo centerSort');
+			    const logo = $("<img>").attr('src', '${path}/resources/images/logo/' + teamRank[i].teamAbbr + '_big.png');
+			    rankLogo.append(logo);
+			    rankOneDiv.append(rank);
+			    rankOneDiv.append(rankTeam);
+			    rankOneDiv.append(rankLogo);
+			    rankInfoDiv.append(rankOneDiv);
+			    rankDiv1.append(rankInfoDiv);
+			}
+			rankAllDiv.append(rankDiv1);
+			
+			const rankDiv2 = $("<div>").addClass('rankDiv');
+			// 6~10위
+			for (let i = 5; i < 10; i++) {
+			    console.log(teamRank[i]);
+			    
+			    const rankInfoDiv = $("<div>").addClass('rankInfoDiv');
+			    const rankOneDiv = $("<div>").addClass('rankOneDiv');
+			    const rank = $("<div>").addClass('rank centerSort');
+			    const pRank = $("<p>").addClass('title fs-55').text(teamRank[i].teamRank);
+			    rank.append(pRank);
+			    const rankTeam = $("<div>").addClass('rankTeam centerSort');
+			    const pTeam = $("<p>").addClass('title fs-55').text(teamRank[i].teamAbbr);
+			    rankTeam.append(pTeam);
+			    const rankLogo = $("<div>").addClass('rankLogo centerSort');
+			    const logo = $("<img>").attr('src', '${path}/resources/images/logo/' + teamRank[i].teamAbbr + '_big.png');
+			    rankLogo.append(logo);
+			    rankOneDiv.append(rank);
+			    rankOneDiv.append(rankTeam);
+			    rankOneDiv.append(rankLogo);
+			    rankInfoDiv.append(rankOneDiv);
+			    rankDiv2.append(rankInfoDiv);
+			}
+			rankAllDiv.append(rankDiv2);
 		},
 		error: (r, m)=>{
 			console.log(r);

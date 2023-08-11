@@ -29,16 +29,13 @@ public class MainPageController {
 		
 		List mainPage = new ArrayList<>();
 		
-		// 오늘 경기
-		List<MatchSchedule> ms = service.todayMs();
 		// 팀 순위
 		List<Team> t = service.teamRank();
+		// 오늘 경기
+		List<MatchSchedule> ms = service.todayMs();
 		
-		mainPage.add(ms);
 		mainPage.add(t);
-		
-		log.info("@@@@{}", ms);
-		log.info("@@@@{}", t);
+		mainPage.add(ms);
 		
 		return mainPage;
 	}
