@@ -185,4 +185,70 @@ public class MatchHistoryFormatter {
 		setResultFormatted.put(side + position + "Gold", row[4]);
 		setResultFormatted.put(side + position + "Damage", row[5]);
 	}
+	
+	public static List<Map<String, Object>> runeFormat(List<List<String[]>> setResults, String separator)
+	{
+
+		final List<Map<String, Object>> matchHistoryRuneFormatted = new ArrayList<>();
+		
+		setResults.forEach((setResult) -> {
+			final Map<String, Object> setResultFormatted = new HashMap<>();
+			
+			IntStream.range(0, setResult.size()).forEach(index -> {
+				final String[] row = setResult.get(index);
+				
+				switch(index) {
+					case 0:
+						updateRune(setResultFormatted, BLUE_SIDE, TOP, row);
+						break;
+					case 1:
+						updateRune(setResultFormatted, BLUE_SIDE, JUNGLE, row);
+						break;
+					case 2:
+						updateRune(setResultFormatted, BLUE_SIDE, MID, row);
+						break;
+					case 3:
+						updateRune(setResultFormatted, BLUE_SIDE, BOT, row);
+						break;
+					case 4:
+						updateRune(setResultFormatted, BLUE_SIDE, SUPPORT, row);
+						break;
+					case 5:
+						updateRune(setResultFormatted, RED_SIDE, TOP, row);
+						break;
+					case 6:
+						updateRune(setResultFormatted, RED_SIDE, JUNGLE, row);
+						break;
+					case 7:
+						updateRune(setResultFormatted, RED_SIDE, MID, row);
+						break;
+					case 8:
+						updateRune(setResultFormatted, RED_SIDE, BOT, row);
+						break;
+					case 9:
+						updateRune(setResultFormatted, RED_SIDE, SUPPORT, row);
+						break;
+				}
+			});
+			matchHistoryRuneFormatted.add(setResultFormatted);
+		});
+		return matchHistoryRuneFormatted;
+	}
+	
+	private static void updateRune(Map<String, Object> setResultFormatted, String side, String position, String[] row) 
+	{
+		setResultFormatted.put(side + position, row[0]);
+		setResultFormatted.put(side + position + "MainCategory", row[1]);
+		setResultFormatted.put(side + position + "MainRune", row[3]);
+		setResultFormatted.put(side + position + "MainRuneFirstRow", row[5]);
+		setResultFormatted.put(side + position + "MainRuneSecondRow", row[7]);
+		setResultFormatted.put(side + position + "MainRuneLastRow", row[11]);
+		setResultFormatted.put(side + position + "SubCategory", row[2]);
+		setResultFormatted.put(side + position + "SubRuneFirstRow", row[4]);
+		setResultFormatted.put(side + position + "SubRuneLastRow", row[6]);
+		setResultFormatted.put(side + position + "RunAttributeFirstRow", row[8]);
+		setResultFormatted.put(side + position + "RunAttributeSecondRow", row[9]);
+		setResultFormatted.put(side + position + "RunAttributeLastRow", row[10]);
+	}
+	
 }
