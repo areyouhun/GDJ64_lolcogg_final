@@ -397,9 +397,10 @@
 						<div class="adventureMain">
 							<img id="admap" src="${path}/resources/images/game/adventure/빌지워터.png">
 							<div id="adch">
-								<img id="adimg1" src="${path}/resources/images/game/adventure/미스포츈.png" style="display:none;">
-								<img id="adimg2" src="${path}/resources/images/game/adventure/갱플랭크.png" style="display:none">
+								<img id="adimg1" src="${path}/resources/images/game/adventure/미스포로.png" style="display:none;">
+								<img id="adimg2" src="${path}/resources/images/game/adventure/갱플포로.png" style="display:none">
 								<img id="adimg3" src="${path}/resources/images/game/adventure/트페포로.png" style="display:none">
+								<img id="adimg3" src="${path}/resources/images/game/adventure/그브포로.png" style="display:none">
 							</div>
 							
 							<div id="adchoice" style="display:none;">
