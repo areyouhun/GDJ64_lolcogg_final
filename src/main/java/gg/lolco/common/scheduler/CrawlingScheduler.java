@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 
-import org.apache.ibatis.session.SqlSession;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,13 +22,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import gg.lolco.model.service.SchedulerService;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class CrawlingScheduler {
 	
 	private final SchedulerService service;
 	private final ServletContext context;
-	private SqlSession session;
 	
 	private final Map<String, String> PARSE_TEAM_NAME = Map.of(
 			"Gen.G eSports", "GEN", "Dplus KIA", "DK", 
@@ -38,10 +38,9 @@ public class CrawlingScheduler {
 			"KT Rolster", "KT", "T1", "T1",
 			"Liiv SANDBOX", "LSB", "Kwangdong Freecs", "KDF");
 	
-	public CrawlingScheduler(SchedulerService controller, ServletContext context, SqlSession session) {
+	public CrawlingScheduler(SchedulerService controller, ServletContext context) {
 		this.service = controller;
 		this.context = context;
-		this.session = session;
 	}
 	
 	@Scheduled(cron = "0 0 1 * * ?")
@@ -57,7 +56,7 @@ public class CrawlingScheduler {
 	    		getTeamRanking();
 	    		getRegionalMatch();
 	    		getMatchSchedule();
-	    		System.out.println("스케쥴러 종료!");
+	    		log.debug("크롤링 완료");
 	    	}
         }catch(IOException e) {
         	e.printStackTrace();
