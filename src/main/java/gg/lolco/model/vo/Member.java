@@ -24,15 +24,15 @@ public class Member  {
 	private String profile;
 	private String teamAbbr;
 	private String titleName;
-	private String myTier;//삭제가능성있음
+//	private String myTier;//삭제가능성있음
 	private int totalExp;
 	private int totalPoints;
 	private String myReferralCode; 
 	private Date enrollDate;
 	private Date withdrawDate;
 	private String authority;
-//	private String isBanned;
-//	private String hasDragon; //추가예정
+	private String isBanned;
+	private String hasDragon; 
 	
 	private Tier tier;
 	private List<PointHistory> pointHistorys = new ArrayList(); //제거해야할 부분

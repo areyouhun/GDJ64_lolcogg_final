@@ -144,7 +144,7 @@ public class MemberController {
         		.profile(param.get("file"))
         		.teamAbbr(param.get("abbr"))
         		.titleName("")//칭호
-        		.myTier("브론즈")
+//        		.myTier("브론즈")
         		.totalExp(0)
         		.totalPoints(0)
         		.myReferralCode(randomValue)
