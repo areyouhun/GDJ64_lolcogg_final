@@ -258,7 +258,7 @@
 <!------------------------------------>
 <title>롤코지지-게임</title>
 </head>
-<body style="overflow: hidden">
+<body style="overflow-x: hidden">
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="navBgColor" value="nav-black"/>
 </jsp:include>
@@ -507,7 +507,7 @@ $(function () {
 			audio.loop = true;
 			var audio2 = new Audio("${path}/resources/audio/adventure/rogeuin-hwamyeon.wav");
 			audio2.load();
-			audio2.volume = 0.1;
+			audio2.volume = 0.2;
 			audio2.loop=true;
 			audio2.play();
 			
