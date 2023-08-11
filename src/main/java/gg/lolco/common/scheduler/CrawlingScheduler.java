@@ -50,18 +50,17 @@ public class CrawlingScheduler {
         
         LocalDate stopSchedulerDate = LocalDate.of(2023, 8, 27);
 
-        if (currentDate.isAfter(stopSchedulerDate)) {
-            return;
-        }else {
-        	try {
-    			getPlayerData();
-    			getMatchData();
-    			getTeamRanking();
-    			getRegionalMatch();
-        		getMatchSchedule();
-    		}catch(IOException e) {
-    			e.printStackTrace();
-    		}
+        try {
+	    	if(!currentDate.isAfter(stopSchedulerDate)) {
+	    		getPlayerData();
+	    		getMatchData();
+	    		getTeamRanking();
+	    		getRegionalMatch();
+	    		getMatchSchedule();
+	    		System.out.println("스케쥴러 종료!");
+	    	}
+        }catch(IOException e) {
+        	e.printStackTrace();
         }
 	}
 	
@@ -77,13 +76,6 @@ public class CrawlingScheduler {
 		for(String player : playerList) {
 			Map<String, String> playerMap = new HashMap<>();
 			
-			String fileName = player + ".csv";
-			
-			playerMap.put("player", player.toUpperCase());
-			playerMap.put("fileName", fileName);
-			
-			playerData.add(playerMap);
-			
 			// 선수정보 페이지
 			Document playerInfoDoc = 
 					Jsoup.connect("https://lol.fandom.com/wiki/Special:RunQuery/TournamentStatistics?TS%5Bpreload%5D=PlayerByChampion&TS%5Btournament%5D=&TS%5Blink%5D=" + player + "&TS%5Bchampion%5D=&TS%5Brole%5D=&TS%5Bteam%5D=&TS%5Bpatch%5D=&TS%5Byear%5D=2023&TS%5Bregion%5D=LCK&TS%5Btournamentlevel%5D=Primary&TS%5Bwhere%5D=&TS%5Bincludelink%5D%5Bis_checkbox%5D=true&TS%5Bshownet%5D%5Bis_checkbox%5D=true&_run=&pfRunQueryFormName=TournamentStatistics&wpRunQuery=&pf_free_text=").get();
@@ -92,7 +84,14 @@ public class CrawlingScheduler {
 			if(player.contains("(")) {
 				player = player.substring(0, player.indexOf("(")).replace(" ", "");
 			}
-
+			
+			String fileName = player + ".csv";
+			
+			playerMap.put("player", player.toUpperCase());
+			playerMap.put("fileName", fileName);
+			
+			playerData.add(playerMap);
+			
 			BufferedWriter bw = new BufferedWriter(new FileWriter(context.getRealPath("/resources/csv/player/") + fileName, false));
 						
 			// OverAll
@@ -230,12 +229,16 @@ public class CrawlingScheduler {
 						
 						matchData.add(saveMap);
 						
-						File csvFile = new File(context.getRealPath("/resources/csv/match/") + fileName);
+						File csvMatchFile = new File(context.getRealPath("/resources/csv/match/") + fileName);
+						File csvRuneFile = new File(context.getRealPath("/resources/csv/rune/") + fileName);
 						
-						if(!csvFile.exists()) {
+						if(!csvMatchFile.exists() && !csvRuneFile.exists()) {
 							for(int j=0; j<totalGameSetNum; j++) {
-								BufferedWriter bw = 
+								BufferedWriter matchWriter = 
 										new BufferedWriter(new FileWriter(context.getRealPath("/resources/csv/match/") + fileName, true));
+
+								BufferedWriter runeWriter = 
+										new BufferedWriter(new FileWriter(context.getRealPath("/resources/csv/rune/") + fileName, true));
 								
 								// 세트 구분 숫자
 								String divisionGameSet = gameSetResultUrl
@@ -307,22 +310,22 @@ public class CrawlingScheduler {
 											String championName = banpick.substring(banpick.indexOf("icon/") + 5, banpick.indexOf(".png"));
 											
 											switch(championName) {
-											case "Renata Glasc": 
-												championName = "Renata"; 
-												break;
-											case "Wukong": 
-												championName = "MonkeyKing"; 
-												break;
-											case "LeBlanc":
-												championName = "Leblanc";
-												break;
-											case "KhaZix":
-												championName = "Khazix";
-												break;
-											default:
-												if(championName.contains("'")) championName = championName.replace("'", "");
-												
-												if(championName.contains(" ")) championName = championName.replace(" ", "");
+												case "Renata Glasc": 
+													championName = "Renata"; 
+													break;
+												case "Wukong": 
+													championName = "MonkeyKing"; 
+													break;
+												case "LeBlanc":
+													championName = "Leblanc";
+													break;
+												case "KhaZix":
+													championName = "Khazix";
+													break;
+												default:
+													if(championName.contains("'")) championName = championName.replace("'", "");
+													
+													if(championName.contains(" ")) championName = championName.replace(" ", "");
 											}
 											banpickList.add(championName);
 										}
@@ -374,6 +377,28 @@ public class CrawlingScheduler {
 									itemMap.put(championList.get(k), itemList);
 								}
 								
+								// 룬
+								List<String> runeSrcList = gameSetDoc.select("span .perkztab tr img").eachAttr("src");
+								
+								List<String> runeList = new ArrayList<>();
+								
+								for(String src : runeSrcList) {
+									runeList.add(src.substring(src.indexOf("style/") + 6, src.indexOf(".png")));
+								}
+								
+								Map<String, String[]> championRuneMap = new HashMap<>();
+								
+								for(int k=0; k<championList.size(); k++) {
+									String[] runes = 
+										{
+											runeList.get(k * 11), runeList.get(k * 11 + 1), runeList.get(k * 11 + 2),
+											runeList.get(k * 11 + 3), runeList.get(k * 11 + 4), runeList.get(k * 11 + 5),
+											runeList.get(k * 11 + 6), runeList.get(k * 11 + 7), runeList.get(k * 11 + 8),
+											runeList.get(k * 11 + 9), runeList.get(k * 11 + 10)
+										};
+									championRuneMap.put(championList.get(k), runes);
+								}
+								
 								// 팀 구분
 								String[] lineArr = {".blue", ".red"};
 								
@@ -388,10 +413,10 @@ public class CrawlingScheduler {
 									int teamTotalHerald = gameSetDoc.select(line + "_action img[alt=Rift Herald]").size();
 									
 									if(isWinnerTeam) {
-										bw.append(PARSE_TEAM_NAME.get(teamName) + ",VICTORY," + teamTotalKill + "," + teamTotalTour 
+										matchWriter.append(PARSE_TEAM_NAME.get(teamName) + ",VICTORY," + teamTotalKill + "," + teamTotalTour 
 												+ "," + teamTotalDragon + "," + teamTotalBaron + "," + teamTotalHerald + "\n");
 									}else {
-										bw.append(PARSE_TEAM_NAME.get(teamName) + ",DEFEAT," + teamTotalKill + "," + teamTotalTour 
+										matchWriter.append(PARSE_TEAM_NAME.get(teamName) + ",DEFEAT," + teamTotalKill + "," + teamTotalTour 
 												+ "," + teamTotalDragon + "," + teamTotalBaron + "," + teamTotalHerald + "\n");
 									}
 									
@@ -399,17 +424,17 @@ public class CrawlingScheduler {
 									for(int k=0; k<5; k++) {
 										if(line.equals(".blue")) {
 											if(banpickList.get(k).equals("No Ban")) {
-												bw.append("\n");
+												matchWriter.append("\n");
 											}else{
-												bw.append(k == 0 ? banpickList.get(k) : "," + banpickList.get(k));
-												bw.append(k == 4 ? "\n" : "");
+												matchWriter.append(k == 0 ? banpickList.get(k) : "," + banpickList.get(k));
+												matchWriter.append(k == 4 ? "\n" : "");
 											}
 										}else {
 											if(banpickList.get(k+5).equals("No Ban")) {
-												bw.append("\n");
+												matchWriter.append("\n");
 											}else {
-												bw.append(k == 0 ? banpickList.get(k+5) : "," + banpickList.get(k+5));
-												bw.append(k == 4 ? "\n" : "");
+												matchWriter.append(k == 0 ? banpickList.get(k+5) : "," + banpickList.get(k+5));
+												matchWriter.append(k == 4 ? "\n" : "");
 											}
 										}
 									}
@@ -424,7 +449,7 @@ public class CrawlingScheduler {
 									
 									String avg = new DecimalFormat("0.0").format(avgNum);
 									
-									bw.append(playerArr[k] + "\n");
+									matchWriter.append(playerArr[k] + "\n");
 									
 									String championName = championList.get(k);
 									
@@ -432,47 +457,62 @@ public class CrawlingScheduler {
 									
 									List<String> itemList = itemMap.get(championName);
 									
+									String[] rune = championRuneMap.get(championName);
+									
 									switch(championName) {
-									case "Renata Glasc": 
-										championName = "Renata"; 
-										break;
-									case "RenataGlasc":
-										championName = "Renata"; 
-										break;
-									case "Wukong": 
-										championName = "MonkeyKing"; 
-										break;
-									case "LeBlanc":
-										championName = "Leblanc";
-										break;
-									case "KhaZix":
-										championName = "Khazix";
-										break;
-									default:
-										if(championName.contains("'")) championName = championName.replace("'", "");
-										
-										if(championName.contains(" ")) championName = championName.replace(" ", "");
+										case "Renata Glasc": 
+											championName = "Renata"; 
+											break;
+										case "RenataGlasc":
+											championName = "Renata"; 
+											break;
+										case "Wukong": 
+											championName = "MonkeyKing"; 
+											break;
+										case "LeBlanc":
+											championName = "Leblanc";
+											break;
+										case "KhaZix":
+											championName = "Khazix";
+											break;
+										default:
+											if(championName.contains("'")) championName = championName.replace("'", "");
+											
+											if(championName.contains(" ")) championName = championName.replace(" ", "");
 									}
 									
-									bw.append(championName.substring(0, 1).toUpperCase() + championName.substring(1) + ",");
+									runeWriter.append(championName.substring(0, 1).toUpperCase() + championName.substring(1) + ",");
 									
-									bw.append(spell[0] + "," + spell[1] + ",");
+									for(int m=0; m<rune.length; m++) {
+										runeWriter.append(rune[m] + (m == rune.length -1 ? "" : ","));
+									}
+									
+									if(!(j == totalGameSetNum - 1) && k == 9) {
+										runeWriter.append("\n|\n");
+									}else if(k < 9) {
+										runeWriter.append("\n");
+									}
+									
+									matchWriter.append(championName.substring(0, 1).toUpperCase() + championName.substring(1) + ",");
+									
+									matchWriter.append(spell[0] + "," + spell[1] + ",");
 									
 									for(int m=0; m<itemList.size(); m++) {
-										bw.append(itemList.get(m));
-										bw.append(m == itemList.size() - 1 ? "\n" : ",");
+										matchWriter.append(itemList.get(m));
+										matchWriter.append(m == itemList.size() - 1 ? "\n" : ",");
 									}
 									
-									bw.append(killArr[k] + "/" + deathArr[k] + "/" + assistArr[k] + "," + avg + "," + csArr[k]
+									matchWriter.append(killArr[k] + "/" + deathArr[k] + "/" + assistArr[k] + "," + avg + "," + csArr[k]
 											+ "," + cpmArr[k] + "," + goldArr[k] + "," + damageArr[k]);
 									
 									if(!(j == totalGameSetNum - 1) && k == 9) {
-										bw.append("\n|\n");
+										matchWriter.append("\n|\n");
 									}else if(k < 9) {
-										bw.append("\n");
+										matchWriter.append("\n");
 									}
 								}
-								if(bw != null) bw.close();
+								if(matchWriter != null) matchWriter.close();
+								if(runeWriter != null) runeWriter.close();
 								System.out.println(fileName + " 업데이트 되었습니다.");
 							}
 						}
