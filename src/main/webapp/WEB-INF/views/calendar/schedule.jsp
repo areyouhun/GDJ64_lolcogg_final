@@ -4,7 +4,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
-<link rel="stylesheet" href="${path}/resources/css/calendar/schedule.css">
+<link rel="stylesheet" href="${path}/resources/css/calendar/style_schedule.css">
 <!------------------------------------>
 <title>일정</title>
 <body>
