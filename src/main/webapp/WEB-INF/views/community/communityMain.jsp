@@ -4,6 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<c:set var="count" value="1" />
+<c:set var="count1" value="1" />
 <jsp:include page="/WEB-INF/views/common/top.jsp" />
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet"
@@ -25,71 +27,33 @@
 								<p>실시간 인기글</p>
 								<p>최근 24시간 기준</p>
 							</div>
-							<a href="">
-								<div class="realTime-popularity">
-									<p id="realTime1">1</p>
-									<p>[유머]</p>
-									<P>동제동이 우산을 놓고가는영상</P>
-								</div>
-							</a> <a href="">
-								<div class="realTime-popularity">
-									<p>2</p>
-									<p>[유머]</p>
-									<P>동제동이 우산을 놓고가는영상</P>
-								</div>
-							</a> <a href="">
-								<div class="realTime-popularity">
-									<p>3</p>
-									<p>[유머]</p>
-									<P>동제동이 우산을 놓고가는영상</P>
-								</div>
-							</a> <a href="">
-								<div class="realTime-popularity">
-									<p>4</p>
-									<p>[유머]</p>
-									<P>동제동이 우산을 놓고가는영상</P>
-								</div>
-							</a> <a href="">
-								<div class="realTime-popularity">
-									<p>5</p>
-									<P>동제동이 우산을 놓고가는영상</P>
-								</div>
+							
+							<c:forEach var="r" items="${realTimePopularity }">
+								<a href="">
+									<div class="realTime-popularity">
+										<p class="num">${count}</p>
+										<p>[${r.cmBoardCategories}]</p>
+										<P>${r.cmBoardTitle }</P>
+									</div>
+								</a>
+								<c:set var="count" value="${count + 1}" />
+							</c:forEach>
 						</div>
 						<div>
 							<div class="community-right-top">
 								<p>주간 인기글</p>
 								<p>최근 일주일 기준</p>
 							</div>
+							<c:forEach var="w" items="${weeklyPopularity }">
 							<a href="">
 								<div class="realTime-popularity">
-									<p id="realTime1">1</p>
-									<p>[유머]</p>
-									<P>동제동이 우산을 놓고가는영상</P>
+									<p class="num">${count1 }</p>
+									<p>[${w.cmBoardCategories }]</p>
+									<P>${w.cmBoardTitle }</P>
 								</div>
-							</a> <a href="">
-								<div class="realTime-popularity">
-									<p>2</p>
-									<p>[유머]</p>
-									<P>동제동이 우산을 놓고가는영상</P>
-								</div>
-							</a> <a href="">
-								<div class="realTime-popularity">
-									<p>3</p>
-									<p>[유머]</p>
-									<P>동제동이 우산을 놓고가는영상</P>
-								</div>
-							</a> <a href="">
-								<div class="realTime-popularity">
-									<p>4</p>
-									<p>[유머]</p>
-									<P>동제동이 우산을 놓고가는영상</P>
-								</div>
-							</a> <a href="">
-								<div class="realTime-popularity">
-									<p>5</p>
-									<P>동제동이 우산을 놓고가는영상</P>
-								</div>
-							</a>
+							</a> 
+							<c:set var="count1" value="${count1 + 1}" />
+							</c:forEach>
 						</div>
 					</div>
 
@@ -152,7 +116,8 @@
 						<c:forEach var="b" items="${selectboardList }">
 							<hr class="hr-1">
 							<div class="board-content">
-								<a href="${path }/community/boardDetails?cmBoardNo=${b.cmBoardNo}">
+								<a
+									href="${path }/community/boardDetails?cmBoardNo=${b.cmBoardNo}">
 									<div class="board-title-div">
 										<input type="hidden" value="cmBoardNo"> <span
 											class="board-title">${b.cmBoardTitle }</span>
@@ -197,9 +162,11 @@
 								</div>
 							</div>
 						</c:forEach>
-						<div class="pageBar_div">
-							<c:out value="${pageBar }" escapeXml="false" />
-						</div>
+						<c:if test="${selectboardList.size()>20 }">
+							<div class="pageBar_div">
+								<c:out value="${pageBar }" escapeXml="false" />
+							</div>
+						</c:if>
 					</div>
 				</div>
 			</div>
@@ -210,61 +177,65 @@
 	<script src="${path}/resources/js/script_common.js"></script>
 	<!-- Your own script tag or JavaScript file -->
 	<script>
-	
-	
+		document.addEventListener("DOMContentLoaded", function() {
+			let params = new URLSearchParams(window.location.search);
+			let categoryValue = params.get("categorie");
 
-	document.addEventListener("DOMContentLoaded", function() {
-	    let params = new URLSearchParams(window.location.search);
-	    let categoryValue = params.get("categorie");
-
-	    // 카테고리 값에 따라 해당 div에 'active-category' 클래스 추가
-	    if (categoryValue === "정보") {
-	        document.querySelector(".info").classList.add("active-category");
-		     document.querySelector(".board-categories").innerText = "정보";
-	    } else if (categoryValue === "유머") {
-	        document.querySelector(".puny").classList.add("active-category");
-	        document.querySelector(".board-categories").innerText = "유머";
-	    } else if (categoryValue === "자유") {
-	        document.querySelector(".free").classList.add("active-category");
-	        document.querySelector(".board-categories").innerText = "자유";
-	    }else{
-	    	 document.querySelector(".categoriesMain").classList.add("active-category");
-		     document.querySelector(".board-categories").innerText = "전체";
-	    }
-	});
+			// 카테고리 값에 따라 해당 div에 'active-category' 클래스 추가
+			if (categoryValue === "정보") {
+				document.querySelector(".info").classList
+						.add("active-category");
+				document.querySelector(".board-categories").innerText = "정보";
+			} else if (categoryValue === "유머") {
+				document.querySelector(".puny").classList
+						.add("active-category");
+				document.querySelector(".board-categories").innerText = "유머";
+			} else if (categoryValue === "자유") {
+				document.querySelector(".free").classList
+						.add("active-category");
+				document.querySelector(".board-categories").innerText = "자유";
+			} else {
+				document.querySelector(".categoriesMain").classList
+						.add("active-category");
+				document.querySelector(".board-categories").innerText = "전체";
+			}
+		});
 		//주소값 벨류가져오기
-	 function getParameterByName(name, url) {
-	        if (!url) url = window.location.href;
-	        name = name.replace(/[\[\]]/g, '\\$&');
-	        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-	            results = regex.exec(url);
-	        if (!results) return null;
-	        if (!results[2]) return '';
-	        return decodeURIComponent(results[2].replace(/\+/g, ' '));
-	    }
-	
+		function getParameterByName(name, url) {
+			if (!url)
+				url = window.location.href;
+			name = name.replace(/[\[\]]/g, '\\$&');
+			var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'), results = regex
+					.exec(url);
+			if (!results)
+				return null;
+			if (!results[2])
+				return '';
+			return decodeURIComponent(results[2].replace(/\+/g, ' '));
+		}
+
 		//최신순 
-	    function redirectToCategoriePage() {
-	        const currentCategorieValue = getParameterByName('categorie');
-	        const path = "${path}/community/selectBoradCategorie?categorie=" + currentCategorieValue;
-	        location.assign(path);
-	    }
-	    
+		function redirectToCategoriePage() {
+			const currentCategorieValue = getParameterByName('categorie');
+			const path = "${path}/community/selectBoradCategorie?categorie="
+					+ currentCategorieValue;
+			location.assign(path);
+		}
+
 		//인기순
-	    function selectPopularityCategoriePage() {
-	        const currentCategorieValue = getParameterByName('categorie');
-	        const path = "${path}/community/selectPopularity?categorie=" + currentCategorieValue;
-	        location.assign(path);
-	    }
-		
+		function selectPopularityCategoriePage() {
+			const currentCategorieValue = getParameterByName('categorie');
+			const path = "${path}/community/selectPopularity?categorie="
+					+ currentCategorieValue;
+			location.assign(path);
+		}
+
 		//돋보기 클릭시 서밋
-	    document.getElementById("submitImage").addEventListener("click", function() {
-	        document.getElementById("searchBoardForm").submit();
-	    });
-
-
-
-</script>
+		document.getElementById("submitImage").addEventListener("click",
+				function() {
+					document.getElementById("searchBoardForm").submit();
+				});
+	</script>
 
 	<!-------------------------------------------->
 </body>
