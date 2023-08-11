@@ -74,9 +74,9 @@
 								로그아웃
 						</a>
 						<hr style="border: none; height: 1px;  background-color: #EEEEEE">
-						<h3>알림</h3>
-						<p>알림1</p>
-						<p>알림2</p>
+						<h3>정보</h3>
+						<span><img src="${path }/resources/images/store/pointImg.png"></pspan>
+						<span class="color-white">&nbsp;&nbsp;${loginMember.totalPoints} 포인트</span>
 					</div>
 				</div>
 			</c:if>
