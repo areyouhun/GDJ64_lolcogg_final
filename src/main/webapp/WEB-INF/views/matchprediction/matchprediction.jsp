@@ -79,7 +79,7 @@
 					<div class="mpAllDiv">
 						<div class="mpDiv">
 							<c:if test="${not empty ms}">
-								<c:forEach var="m" items="${ms }">
+								<c:forEach var="m" items="${ms }" varStatus="status">
 									<c:if test="${nowWeek == m.msWeek }">
 											<fmt:formatDate value="${today}" pattern="yyyy.MM.dd(E)"
 												var="todayDate" />
@@ -109,22 +109,22 @@
 											<c:set var="outlineHome" value=""/>
 											<c:set var="outlineAway" value=""/>
 											<c:forEach var="myMpCss" items="${myMp }">
-												<c:if test="${m.msDate < today && m.msHome == myMpCss.mpTeam}">
+												<c:if test="${m.msDate < today && m.msHome == myMpCss.mpTeam && m.msNo == myMpCss.mpMsNo}">
 													<!-- 홈팀투표(지난 예측) -->
 													<c:set var="finishHome" value="finishHome"/>
 													<c:set var="finishAway" value=""/>
 												</c:if>
-												<c:if test="${m.msDate < today && m.msAway == myMpCss.mpTeam}">
+												<c:if test="${m.msDate < today && m.msAway == myMpCss.mpTeam && m.msNo == myMpCss.mpMsNo}">
 													<!-- 어웨이투표(지난 예측) -->
 													<c:set var="finishAway" value="finishAway"/>
 													<c:set var="finishHome" value=""/>
 												</c:if>
-												<c:if test="${m.msDate > today && m.msAway == myMpCss.mpTeam}">
+												<c:if test="${m.msDate > today && m.msAway == myMpCss.mpTeam && m.msNo == myMpCss.mpMsNo}">
 													<!-- 어웨이투표(진행중인 예측) -->
 													<c:set var="outlineHome" value="outlineHome"/>
 													<c:set var="ingAway" value="ingAway"/>
 												</c:if>
-												<c:if test="${m.msDate > today && m.msHome == myMpCss.mpTeam}">
+												<c:if test="${m.msDate > today && m.msHome == myMpCss.mpTeam && m.msNo == myMpCss.mpMsNo}">
 													<!-- 어웨이투표(진행중인 예측) -->
 													<c:set var="outlineAway" value="outlineAway"/>
 													<c:set var="ingHome" value="ingHome"/>
@@ -133,7 +133,7 @@
 												</c:if>
 											</c:forEach>
 											<!-- 한 경기 시작 -->
-											<div id="${m.msNo }" class="mpMatchDiv ${m.msDate < today ? 'pointerEvents' : ''} }">
+											<div id="${m.msNo }" class="mpMatchDiv ${m.msDate < today ? 'pointerEvents' : (m.msHome == null || m.msAway == null) ? 'pointerEvents' : ''} }">
 												<div id="${m.msNo }" class="homeDiv ${finishHome } ${ingHome} ${outlineHome}">
 													<div class="logoDiv">
 														<div class="logoImgDiv">
@@ -150,7 +150,31 @@
 														<c:if test="${m.msHome == null }">
 															<p class="content">TBD</p>
 														</c:if>
-														<p class="content fs-40 fw-bold">100%</p>
+														
+														<c:set var="total" value="0"/>
+														<c:set var="homeP" value="0"/>
+														<c:set var="awayP" value="0"/>
+														<c:forEach var="mmp" items="${mpPercentage }">
+															<c:if test="${mmp.mpMsNo == m.msNo}">
+																<c:if test="${mmp.mpTeam == null }">
+																	<c:set var="total" value="${mmp.count }"/>
+																</c:if>
+																<c:if test="${mmp.mpTeam == m.msHome }">
+																	<c:set var="homeP" value="${mmp.count/total }"/>
+																</c:if>
+																<c:if test="${mmp.mpTeam == m.msAway }">
+																	<c:set var="awayP" value="${mmp.count/total }"/>
+																</c:if>
+																
+															</c:if>
+														</c:forEach>
+														<c:if test="${total == 0 }">
+															<c:set var="homeP" value="0"/>
+														</c:if>
+														<c:if test="${total == 0 }">
+															<c:set var="awayP" value="0"/>
+														</c:if>
+														<p class="content fs-40 fw-bold"><fmt:formatNumber value="${homeP }" type="percent"/></p>
 													</div>
 													<div class="homeScoreDiv">
 														<p class="title fs-45">${m.msHomeScore }</p>
@@ -168,7 +192,7 @@
 														<c:if test="${m.msAway == null }">
 															<p class="content awaySort">TBD</p>
 														</c:if>
-														<p class="content fs-40 fw-bold awaySort">100%</p>
+														<p class="content fs-40 fw-bold awaySort"><fmt:formatNumber value="${awayP }" type="percent"/></p>
 													</div>
 													<div class="awayLogoDiv">
 														<div class="logoImgDiv">
@@ -240,11 +264,6 @@
 							<img src="${path }/resources/images/matchprediction/chatting.png"
 								width="25px">
 						</div>
-						<button class="content chatBtn fs-20">
-							실시간 채팅 참여하기<img
-								src="${path }/resources/images/matchprediction/arrow.png"
-								width="25px" style="margin-left: 3px;">
-						</button>
 						<button class="content chatBtn fs-20">
 							실시간 채팅 참여하기<img
 								src="${path }/resources/images/matchprediction/arrow.png"
@@ -861,6 +880,9 @@ $(document).on("focus", ".insertComment", function(e){
 
 /* 승부예측 */
 $(document).on("click", ".mpMatchDiv", function(e) {
+	console.log($(e.target).parents('.mpMatchDiv'));
+	let choiceNo = $(e.target).parents('.mpMatchDiv').attr('id');
+	console.log(choiceNo);
 	if(loginMember != ''){
 		if($(e.target).hasClass('homeDiv') || $(e.target).parents('.homeDiv').hasClass('homeDiv')){
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "#0D0063");
@@ -869,7 +891,6 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("background-color", "transparent");
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamblue)");
 			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamblue)");
-			let choiceNo = $(e.target).parents('.mpMatchDiv').find('.homeDiv').attr('id');
 			let team = 'home';
 			$.ajax({
 				type: "POST",
@@ -881,7 +902,26 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 				},
 				dataType: "json",
 				success: function(data){
-					console.log(data);
+					let percentage = $(e.target).parents('.mpMatchDiv').find('.homeDiv').find('.homeStatusDiv').find('p:last-child');
+					let awayPercentage = $(e.target).parents('.mpMatchDiv').find('.awayDiv').find('.awayStatusDiv').find('p:last-child');
+					
+					/* 예측 퍼센트 */
+					let total = 0;
+					let homeP = 0;
+					let awayP = 0;
+					
+					data[0].forEach(function(mpAll){
+						if(mpAll.mpTeam == null || mpAll.mpTeam == ''){
+							total = mpAll.count;							
+						}
+						if(mpAll.mpTeam == data[1].msHome){
+							homeP = Math.round((total / mpAll.count) * 100);
+						}
+						awayP = 100 - homeP;
+					})
+					percentage.text(homeP + '%');
+					awayPercentage.text(awayP + '%');
+					
 				},
 				error: function(err){
 	    			console.log("요청 실패", err);
@@ -894,7 +934,6 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("background-color", "transparent");
 			$(e.target).parents('.mpMatchDiv').find('.homeDiv').css("outline", "3px solid var(--lol-teamred)");
 			$(e.target).parents('.mpMatchDiv').find('.awayDiv').css("outline", "3px solid var(--lol-teamred)");
-			let choiceNo = $(e.target).parents('.mpMatchDiv').find('.homeDiv').attr('id');
 			let team = 'away';
 			$.ajax({
 				type: "POST",
@@ -906,7 +945,25 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 				},
 				dataType: "json",
 				success: function(data){
-					console.log(data);
+					let percentage = $(e.target).parents('.mpMatchDiv').find('.awayDiv').find('.awayStatusDiv').find('p:last-child');
+					let homePercentage = $(e.target).parents('.mpMatchDiv').find('.homeDiv').find('.homeStatusDiv').find('p:last-child');
+					
+					/* 예측 퍼센트 */
+					let total = 0;
+					let homeP = 0;
+					let awayP = 0;
+					
+					data[0].forEach(function(mpAll){
+						if(mpAll.mpTeam == null || mpAll.mpTeam == ''){
+							total = mpAll.count;							
+						}
+						if(mpAll.mpTeam == data[1].msAway){
+							awayP = Math.round((total / mpAll.count) * 100);
+						}
+						homeP = 100 - awayP;
+					})
+					percentage.text(awayP + '%');
+					homePercentage.text(homeP + '%');
 				},
 				error: function(err){
 	    			console.log("요청 실패", err);
@@ -919,23 +976,6 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 		
 });	
 
-
-/* 댓글 글자 수 제한 */
-$(document).on("keyup", ".insertComment", function(e) {
-	let content = $(e.target).val();
-    // 글자수 세기
-    if (content.length == 0 || content == '') {
-    	$('#letterSpan').text('0/150');
-    } else {
-    	$('#letterSpan').text(content.length + '/150');
-    }
-    
-    // 글자수 제한
-    if (content.length > 150) {
-        $(e.target).val($(e.target).val().substring(0, 150));
-        alert('댓글은 150자 이하로 작성해주세요.');
-    };
-});
 
 /* 댓글 - 수정, 삭제 버튼 토글 */
 $(document).on("click", ".moreIconBtn", function(e) {
@@ -1183,7 +1223,7 @@ $(document).on("click", ".upBtn", function(e) {
 	let letterSpan = $('<span>').attr({
 	  id: 'letterSpan',
 	  class: 'contentBlack fs-20'
-	}).text('0/150');
+	}).text(textarea.val().length + '/150');
 		  
 	countBtn.append(letterSpan);
 	
@@ -1359,8 +1399,6 @@ function weekChoice(week){
 			mpDiv.html('');
 			let html = '';
 			
-			console.log(data);
-			
 			data[0].forEach(function(item) {
 				
 				/* 날짜  */
@@ -1375,6 +1413,26 @@ function weekChoice(week){
 				const msTime = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
 				const today = new Date();
 				
+				/* 예측 퍼센트 */
+				let total = 0;
+				let homeP = 0;
+				let awayP = 0;
+				
+				data[1].forEach(function(mmp) {
+				    if (item.msNo == mmp.mpMsNo) {
+				        if (mmp.mpTeam == null || mmp.mpTeam == '') {
+				            total = mmp.count;
+				        } else if (total > 0) {
+				            if (mmp.mpTeam == item.msHome) {
+				                homeP = Math.round((mmp.count / total) * 100);
+				            }
+				            if (mmp.mpTeam == item.msAway) {
+				                awayP = Math.round((mmp.count / total) * 100);
+				            }
+				        }
+				    }
+				});
+			
 				let mpDateDiv = $('<div>').addClass('mpDateDiv');
 
 				let dateSpan = $('<span>').addClass('content fs-20').text(getDateFormat(item.msDate));
@@ -1402,7 +1460,7 @@ function weekChoice(week){
 				let msTimeP = $('<p>').addClass('content fs-20').text(msTime);
 				statusTimeDiv.append(statusDiv, msTimeP);
 	
-				let mpMatchDiv = $('<div>').attr('id', '${m.msNo }').addClass(date < today ? 'mpMatchDiv pointerEvents' : 'mpMatchDiv');
+				let mpMatchDiv = $('<div>').attr("id", item.msNo).addClass(date < today ? 'mpMatchDiv pointerEvents' : (item.msAway == null || item.msHome == null) ? 'mpMatchDiv pointerEvents' : 'mpMatchDiv');
 
 				let homeDiv = $('<div>').addClass('homeDiv');
 				let logoDiv = $('<div>').addClass('logoDiv');
@@ -1415,7 +1473,7 @@ function weekChoice(week){
 
 				let homeStatusDiv = $('<div>').addClass('homeStatusDiv');
 				let homeStatusP1 = $('<p>').addClass('content').text((item.msHome != null) ? (item.msHome + ' ' + item.team.homeRank + '위') : 'TBD');
-				let homeStatusP2 = $('<p>').addClass('content fs-40 fw-bold').text('100%');
+				let homeStatusP2 = $('<p>').addClass('content fs-40 fw-bold').text(homeP + '%');
 				homeStatusDiv.append(homeStatusP1, homeStatusP2);
 
 				let homeScoreDiv = $('<div>').addClass('homeScoreDiv');
@@ -1431,7 +1489,7 @@ function weekChoice(week){
 				
 				let awayStatusDiv = $('<div>').addClass('awayStatusDiv');
 				let awayStatusP1 = $('<p>').addClass('content awaySort').text((item.msAway != null) ? (item.msAway + ' ' + item.team.awayRank + '위') : 'TBD');
-				let awayStatusP2 = $('<p>').addClass('content fs-40 fw-bold awaySort').text('100%');
+				let awayStatusP2 = $('<p>').addClass('content fs-40 fw-bold awaySort').text(awayP + '%');
 				awayStatusDiv.append(awayStatusP1, awayStatusP2);
 				
 				let awayLogoDiv = $('<div>').addClass('awayLogoDiv');
@@ -1450,35 +1508,35 @@ function weekChoice(week){
 				let ingAway = "";
 				let outlineHome = "";
 				let outlineAway = "";
-
-				data[1].forEach(function(mp) {
-					console.log(mp);
-					console.log(item);
-					if(item.msNo == mp.mpMsNo){
-					    if (date < today && mp.mpTeam == item.msHome) {
-					        finishHome = 'finishHome';
-					        finishAway = '';
-					    } else if (date < today && mp.mpTeam == item.msAway) {
-					        finishAway = 'finishAway';
-					        finishHome = '';
-					    } else if (date > today && mp.mpTeam == item.msHome) {
-					        outlineAway = 'outlineAway';
-					        ingHome = 'ingHome';
-					        outlineHome = '';
-					        ingAway = '';
-					    } else if (date > today && mp.mpTeam == item.msAway) {
-					        outlineHome = 'outlineHome';
-					        ingAway = 'ingAway';
-					        outlineAway = '';
-					        ingHome = '';
-					    } else {
-					    	outlineHome = '';
-					        ingAway = '';
-					        outlineAway = '';
-					        ingHome = '';
+				
+				if(loginMember != ''){
+					data[1].forEach(function(mp) {
+						if(item.msNo == mp.mpMsNo){
+						    if (date < today && mp.mpTeam == item.msHome) {
+						        finishHome = 'finishHome';
+						        finishAway = '';
+						    } else if (date < today && mp.mpTeam == item.msAway) {
+						        finishAway = 'finishAway';
+						        finishHome = '';
+						    } else if (date > today && mp.mpTeam == item.msHome) {
+						        outlineAway = 'outlineAway';
+						        ingHome = 'ingHome';
+						        outlineHome = '';
+						        ingAway = '';
+						    } else if (date > today && mp.mpTeam == item.msAway) {
+						        outlineHome = 'outlineHome';
+						        ingAway = 'ingAway';
+						        outlineAway = '';
+						        ingHome = '';
+						    } else {
+						    	outlineHome = '';
+						        ingAway = '';
+						        outlineAway = '';
+						        ingHome = '';
+						    }
 					    }
-				    }
-				});
+					});
+				}
 
 				homeDiv.addClass(finishHome + ' ' + ingHome + ' ' + outlineHome);
 				awayDiv.addClass(finishAway + ' ' + ingAway + ' ' + outlineAway);
@@ -1505,6 +1563,25 @@ function weekChoice(week){
 $(".chatBtn").click(event => {
 	openPage("${path}/chat/chatroom", 1024, 768);
 });
+
+/* 댓글 글자 수 제한 */
+$(document).on("keyup", ".insertComment", function(e) {
+	let content = $(e.target).val();
+    // 글자수 세기
+    if (content.length == 0 || content == '') {
+    	$(e.target).parents('.replyForm').find('#letterSpan').text('0/150');
+    } else {
+    	$(e.target).parents('.replyForm').find('#letterSpan').text(content.length + '/150');
+    }
+    
+    // 글자수 제한
+    if (content.length > 150) {
+        $(e.target).val($(e.target).val().substring(0, 150));
+        alert('댓글은 150자 이하로 작성해주세요.');
+    };
+});	
+
+>>>>>>> 2b460c9 fix(mp): 답글 글자 수 제한 js 수정
 </script>
 	<!-- icon -->
 	<script type="module"

@@ -125,5 +125,35 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 	public int updateComment(Map param) {
 		return dao.updateComment(session, param);
 	}
+
+	@Override
+	public List<MatchPrediction> mpPercentage() {
+		return dao.mpPercentage(session);
+	}
+
+	@Override
+	public List<MatchPrediction> mpPercentageByNo(int choiceNo) {
+		return dao.mpPercentageByNo(session, choiceNo);
+	}
+
+	@Override
+	public MatchSchedule matchByNo(int choiceNo) {
+		return dao.matchByNo(session, choiceNo);
+	}
+
+	@Override
+	public int mpPoint(String email) {
+		return dao.mpPoint(session, email);
+	}
+
+	@Override
+	public List<MatchPrediction> historyEmail() {
+		return dao.historyEmail(session);
+	}
+
+	@Override
+	public int insertHistory(String email) {
+		return dao.insertHistory(session, email);
+	}
 	
 }

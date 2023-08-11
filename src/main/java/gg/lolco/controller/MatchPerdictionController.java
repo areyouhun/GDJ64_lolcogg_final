@@ -69,13 +69,23 @@ public class MatchPerdictionController {
 		}
 		m.addAttribute("myEmo", myEmo);
 		
+		// 업데이트 예정 계정 포인트 지급
+		//int mpPoint = service.mpPoint();
+		List<MatchPrediction> historyEmail = service.historyEmail();
+		if(!historyEmail.isEmpty()) {
+			for(MatchPrediction mp : historyEmail) {
+				String email = mp.getMpEmail();
+				int history = service.insertHistory(email);
+				int mpPoint = service.mpPoint(email);
+			}
+		}
+		
 		// 업데이트
 		int mpYn = service.updateMpYn();
 		
 		// 내 적중률, 전체 적중률 랭킹
 		List<MatchPrediction> myMpSuccess = new ArrayList<>();
 		List<MatchPrediction> mpSuccess = service.mpSuccess(null);
-		log.info("@@@@{}", myMpSuccess);
 		if(member != null) {
 			String nickname = member.getNickname();
 			myMpSuccess = service.mpSuccess(nickname);
@@ -97,6 +107,10 @@ public class MatchPerdictionController {
 		}
 		m.addAttribute("myBn", myBn);
 		
+		// 예측 퍼센트
+		List<MatchPrediction> mpPercentage = service.mpPercentage();
+		m.addAttribute("mpPercentage", mpPercentage);
+		
 		return "matchprediction/matchprediction";
 	}
 	
@@ -110,6 +124,10 @@ public class MatchPerdictionController {
 		List<MatchSchedule> ms = service.matchScheduleByWeek(week);
 		weekChoice.add(ms);
 		
+		// 예측 퍼센트
+		List<MatchPrediction> mpPercentage = service.mpPercentage();
+		weekChoice.add(mpPercentage);
+		
 		// 내 예측
 		List<MatchPrediction> myMp = new ArrayList<>();
 		if(member != null) {
@@ -117,15 +135,28 @@ public class MatchPerdictionController {
 			weekChoice.add(myMp);
 		}
 		
+		
 		return weekChoice;
 	}
 	
 	// 승부예측 선택(ajax)
 	@PostMapping("/matchprediction/choice")
 	@ResponseBody
-	public int teamChoice(@RequestParam Map param){
+	public List teamChoice(@RequestParam Map param){
+		
 		int result = service.teamChoice(param);
-		return result;
+		
+		List mp = new ArrayList<>();
+		// 예측 퍼센트
+		if(param.get("choiceNo") != null) {
+			int choiceNo = Integer.parseInt((String.valueOf(param.get("choiceNo"))));
+			List<MatchPrediction> mpPercentage = service.mpPercentageByNo(choiceNo);
+			MatchSchedule match = service.matchByNo(choiceNo);
+			mp.add(mpPercentage);
+			mp.add(match);
+		}
+		
+		return mp;
 	}
 	
 	// 댓글 등록(ajax)
