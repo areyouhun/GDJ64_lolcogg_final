@@ -36,6 +36,101 @@ img {
 }
 
 /* ui */
+.modal { 
+    position:absolute; 
+    width: 400px; 
+    height: 250px; 
+    padding: 15px 10px;
+    padding-top: 25px;
+    background: var(--lol-black); 
+    border-radius: 12px;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200; 
+    display: none;
+}
+
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-container>* {
+    margin-bottom: 15px;
+}
+
+.modal-mid {
+    width: 90%;
+}
+
+.textLengthWrap {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    font-size: 0.8rem;
+}
+
+#textBox {
+    color: var(--lol-black);
+    font-weight: 700;
+    width: 100%;
+    padding: 2px 5px;
+    resize: none;
+}
+
+.modal-btn>button,
+.voice-btn-cancel {
+    border: none;
+    width: 40px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.voice-btn-cancel {
+    width: 60px;
+    background-color: #2e2e2e;
+}
+
+.modal-btn-send {
+    background-color: var(--lol-teamblue);
+    margin-right: 10px;
+}
+
+.modal-btn-close {
+    background-color: var(--lol-teamred);
+}
+
+.voice {
+    width: 90%;
+}
+
+.voice-title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.voice-title>div {
+    width: 10%;
+}
+
+.voice-lineup {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.voice-lineup>div {
+    margin-right: 10px;
+    font-size: 0.8rem;
+}
+
 .chatroom-container {
     width: 100%;
     height: 100%;
@@ -71,9 +166,9 @@ img {
 
 .btn-shout {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    width: 130px;
+    width: 150px;
     background-color: var(--lol-white);
     border: none;
     border-radius: 12px;
@@ -87,11 +182,12 @@ img {
 
 .btn-shout>span {
     color: var(--lol-black);
+    margin-right: 5px;
     font-weight: 700;
 }
 
 .btn-shout>img {
-    width: 15%;
+    width: 20%;
 }
 
 .info-title {
@@ -253,22 +349,21 @@ img {
 }
 
 .msg-nickname {
+    max-width: 100px;
     font-weight: 700;
     font-size: 1rem;
     margin-right: 5px;
 }
 
 .msg-content {
-    max-width: 200px;
-    display: flex;
-    align-items: start;
-    flex-wrap: wrap;
+    max-width: 160px;
+    line-height: 20px;
     overflow-wrap: break-word;
 }
 
 .msg-content>img {
     display: inline-block;
-    width: 25px;
+    width: 20px;
 }
 
 .me {
@@ -285,11 +380,11 @@ img {
 
 .notification {
     justify-content: center;
-    font-size: 1.2rem !important;
 }
 
 .notification>h6 {
     color: rgb(255, 208, 0) !important;
+    font-size: 0.8rem !important;
 }
 
 .chatMsgBox-outer {

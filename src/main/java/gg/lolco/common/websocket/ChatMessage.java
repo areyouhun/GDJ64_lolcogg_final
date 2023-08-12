@@ -17,6 +17,6 @@ public class ChatMessage {
 	private String receiverNickname;
 	private String receiverEmail;
 	private String content;
-	private boolean voiced;
+	private String voice;
 	private boolean banned;
 }
