@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
@@ -80,7 +81,14 @@
                 		<c:forEach var="r" items="${WCR }">
                 		<tr>
                 			<td>${r.rownum}</td>
-                			<td><img src="${path }/resources/images/game/worldcup/${r.wcImgFilename }" style="width:130px;height:130px;"></td>
+                			<c:choose>
+                				<c:when test="${number==4 }">
+                					<c:set var="url" value="${r.wcImgFilename }" />
+									<c:set var="lastPart" value="${fn:substringAfter(url, 'embed/')}" />
+                					<td><img src="https://img.youtube.com/vi/${lastPart }/0.jpg" style="width:130px;height:130px;"></td>
+                				</c:when>
+                				<c:otherwise><td><img src="${path }/resources/images/game/worldcup/${r.wcImgFilename }" style="width:130px;height:130px;"></td></c:otherwise>
+                			</c:choose>
                 			<td>${r.wcImgName }</td>
                 			<td>
                 				<fmt:formatNumber var="num" value="${r.wcWinNo/(rate==0?1:rate)*100 }" pattern="0.00" />
@@ -108,24 +116,7 @@
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
-<script>
-	/* window.onload = function(){
-		$.ajax({
-			type : 'GET',
-			url : '${path}/game/worldcupRank',
-			dataType : 'json',
-			data :{
-				"num" : ${num}
-			},success : function(data){
-				for(let i=0;i<data.length;i+=4){
-					
-				}
-			},error : (request, status, error) { 
-		        console.log(error)
-		    }
-		})
-	} */
-</script>
+
 <!-------------------------------------------->
 </body>
 </html>

@@ -74,15 +74,15 @@
 }
 
 .round {
-	position: absolute;
-	color: var(--lol-white);
-	top: 5.9%;
-	width: 75%;
-	display: flex;
-	justify-content: center;
-	background-color: rgb(0, 0, 0, 0.6);
-	font-size: 3vh;
-	z-index: 3;
+    position: absolute;
+    color: var(--lol-white);
+    top: 57px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(0, 0, 0, 0.6);
+    font-size: 3vh;
+    z-index: 3;
 }
 
 .fight {
@@ -102,6 +102,7 @@
 	left: 41%;
 	background-size: contain;
 	background-position: center top;
+	pointer-events: none;
 }
 
 .fight>div {
@@ -153,6 +154,73 @@
 }
 .finalLeftText * {
 	margin: 3vh;
+}
+.roundMain{
+    width: 100%;
+    height: 62px;
+    display: flex;
+    justify-content: center;
+}
+
+.firstVideo, .secondVideo{
+	width: 100vh;
+    height: 57%;
+    background-size: contain;
+}
+.videoSetting{
+    position: absolute;
+    top: 6vh;
+    left: 4vh;
+    height: 128vh;
+    display: flex;
+}
+.choicemain{
+    left: 4vh;
+    height: 8vh;
+    width: 97%;
+    display: flex;
+    position: absolute;
+    top: 79vh;
+}
+.leftchoice, .rightchoice{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: EF_MACHO;
+    font-size: 4vh;
+}
+.leftchoice{
+	background-color: red;
+}
+.rightchoice{
+	background-color: blue;
+}
+.videofight>div{
+    position: absolute;
+    display: flex;
+    top: 67%;
+    width: 200vh;
+    left: 4vh;
+    justify-content: space-around;
+    color: var(--lol-white);
+    -webkit-text-stroke: 1.5px;
+    font-size: 3vh;
+    -webkit-text-stroke-color: var(--lol-mainblue);
+}
+.videofight>div>h2{
+    display: flex;
+    width: 50%;
+    justify-content: center;
+}
+.videofight>img{
+        position: absolute;
+    height: 28%;
+    top: 44%;
+    left: 41%;
+    background-size: contain;
+    background-position: center top;
+    pointer-events: none;
 }
 </style>
 <!------------------------------------>
@@ -218,223 +286,334 @@
 		    		quarterfinalsplayerImg.push(i.wcImgFilename);
 		    		quarterfinalsplayerName.push(i.wcImgName);
 		    	})
-		    	if($("#roundselect").val()==128){
-		    		round128();
-			    	quarterfinalsplayerImg=[]
-			   	 	quarterfinalsplayerName=[]
-			    	choiceClick();
-			    	  $('.finalImgLO,.finalNameLO').click(function(){
-		    		  	setTimeout(function(){
-			    		gameround=0;
-			    		round64();
+		    	if(${num}==4){
+		    		if($("#roundselect").val()==32){
+		    			roundvideo32();
+				    	quarterfinalsplayerImg=[]
+				   	 	quarterfinalsplayerName=[]
+				    	choiceClickVideo();
+				    	  $('.leftchoiceTT,.rightchoiceTT').click(function(){
+				    		 setTimeout(function(){
+				    			 gameround=0;
+				    			 roundvideo16();
+				    			 quarterfinalsplayerImg=[]
+				 		   	 	 quarterfinalsplayerName=[]
+				    			 choiceClickVideo();
+						    	  $('.leftchoiceST,.rightchoiceST').click(function(){
+						    		 setTimeout(function(){
+						    			 gameround=0;
+						    			 roundvideo8();
+						    			 quarterfinalsplayerImg=[]
+						 		   	 	 quarterfinalsplayerName=[]
+						    			 choiceClickVideo();
+						 		    	$('.leftchoiceE,.rightchoiceE').click(function(){
+								    		 setTimeout(function(){
+								    			 gameround=0;
+								    			 roundvideo4();
+								    			 quarterfinalsplayerImg=[]
+								 		   	 	 quarterfinalsplayerName=[]
+								    			 choiceClickVideo();
+								 		    	$('.leftchoiceF,.rightchoiceF').click(function(){
+										    		 setTimeout(function(){
+										    			 gameround=0;
+										    			 roundvideo2();
+										    			 finalClickVideo();
+										    		 },500);
+								 		    	})
+								    		 },500);
+						 		    	})
+						    		 },500);
+						    		
+						    	 })
+				    		 },500);
+				    	 })
+			    	}else if($("#roundselect").val()==16){
+				    			 gameround=0;
+				    			 roundvideo16();
+				    			 quarterfinalsplayerImg=[]
+				 		   	 	 quarterfinalsplayerName=[]
+				    			 choiceClickVideo();
+						    	  $('.leftchoiceST,.rightchoiceST').click(function(){
+						    		 setTimeout(function(){
+						    			 gameround=0;
+						    			 roundvideo8();
+						    			 quarterfinalsplayerImg=[]
+						 		   	 	 quarterfinalsplayerName=[]
+						    			 choiceClickVideo();
+						 		    	$('.leftchoiceE,.rightchoiceE').click(function(){
+								    		 setTimeout(function(){
+								    			 gameround=0;
+								    			 roundvideo4();
+								    			 quarterfinalsplayerImg=[]
+								 		   	 	 quarterfinalsplayerName=[]
+								    			 choiceClickVideo();
+								 		    	$('.leftchoiceF,.rightchoiceF').click(function(){
+										    		 setTimeout(function(){
+										    			 gameround=0;
+										    			 roundvideo2();
+										    			 finalClickVideo();
+										    		 },500);
+								 		    	})
+								    		 },500);
+						 		    	})
+						    		 },500);
+						    		
+						    	 })
+			    	}else if($("#roundselect").val()==8){
+				    			 gameround=0;
+				    			 roundvideo8();
+				    			 quarterfinalsplayerImg=[]
+				 		   	 	 quarterfinalsplayerName=[]
+				    			 choiceClickVideo();
+				 		    	$('.leftchoiceE,.rightchoiceE').click(function(){
+						    		 setTimeout(function(){
+						    			 gameround=0;
+						    			 roundvideo4();
+						    			 quarterfinalsplayerImg=[]
+						 		   	 	 quarterfinalsplayerName=[]
+						    			 choiceClickVideo()
+						 		    	$('.leftchoiceF,.rightchoiceF').click(function(){
+								    		 setTimeout(function(){
+								    			 gameround=0;
+								    			 roundvideo2();
+								    			 finalClickVideo();
+								    		 },500);
+						 		    	})
+						    		 },500);
+				    	 })
+	    			}else{
+		    			 gameround=0;
+		    			 roundvideo4();
+		    			 quarterfinalsplayerImg=[]
+		 		   	 	 quarterfinalsplayerName=[]
+		    			 choiceClickVideo();
+		 		    	$('.leftchoiceF,.rightchoiceF').click(function(){
+				    		 setTimeout(function(){
+				    			 gameround=0;
+				    			 roundvideo2();
+				    			 finalClickVideo();
+				    		 },500);
+					 	})
+	    			}
+		    	}else{
+			    	if($("#roundselect").val()==128){
+			    		round128();
 				    	quarterfinalsplayerImg=[]
 				   	 	quarterfinalsplayerName=[]
 				    	choiceClick();
-				    	  $('.finalImgSF,.finalNameSF').click(function(){
+				    	  $('.finalImgLO,.finalNameLO').click(function(){
 			    		  	setTimeout(function(){
 				    		gameround=0;
-				    		round32();
+				    		round64();
 					    	quarterfinalsplayerImg=[]
 					   	 	quarterfinalsplayerName=[]
 					    	choiceClick();
-					    	  $('.finalImgTT,.finalNameTT').click(function(){
-					    		 setTimeout(function(){
-					    			 gameround=0;
-					    			 round16();
-					    			 quarterfinalsplayerImg=[]
-					 		   	 	 quarterfinalsplayerName=[]
-					    			 choiceClick();
-							    	  $('.finalImgST,.finalNameST').click(function(){
-							    		 setTimeout(function(){
-							    			 gameround=0;
-							    			 round8();
-							    			 quarterfinalsplayerImg=[]
-							 		   	 	 quarterfinalsplayerName=[]
-							    			 choiceClick();
-							 		    	$('.finalImgE,.finalNameE').click(function(){
-									    		 setTimeout(function(){
-									    			 gameround=0;
-									    			 round4();
-									    			 quarterfinalsplayerImg=[]
-									 		   	 	 quarterfinalsplayerName=[]
-									    			 choiceClick();
-									 		    	$('.finalImgF,.finalNameF').click(function(){
-											    		 setTimeout(function(){
-											    			 gameround=0;
-											    			 round2();
-											    			 finalClick();
-											    		 },500);
-									 		    	})
-									    		 },500);
-							 		    	})
-							    		 },500);
-							    	 })
+					    	  $('.finalImgSF,.finalNameSF').click(function(){
+				    		  	setTimeout(function(){
+					    		gameround=0;
+					    		round32();
+						    	quarterfinalsplayerImg=[]
+						   	 	quarterfinalsplayerName=[]
+						    	choiceClick();
+						    	  $('.finalImgTT,.finalNameTT').click(function(){
+						    		 setTimeout(function(){
+						    			 gameround=0;
+						    			 round16();
+						    			 quarterfinalsplayerImg=[]
+						 		   	 	 quarterfinalsplayerName=[]
+						    			 choiceClick();
+								    	  $('.finalImgST,.finalNameST').click(function(){
+								    		 setTimeout(function(){
+								    			 gameround=0;
+								    			 round8();
+								    			 quarterfinalsplayerImg=[]
+								 		   	 	 quarterfinalsplayerName=[]
+								    			 choiceClick();
+								 		    	$('.finalImgE,.finalNameE').click(function(){
+										    		 setTimeout(function(){
+										    			 gameround=0;
+										    			 round4();
+										    			 quarterfinalsplayerImg=[]
+										 		   	 	 quarterfinalsplayerName=[]
+										    			 choiceClick();
+										 		    	$('.finalImgF,.finalNameF').click(function(){
+												    		 setTimeout(function(){
+												    			 gameround=0;
+												    			 round2();
+												    			 finalClick();
+												    		 },500);
+										 		    	})
+										    		 },500);
+								 		    	})
+								    		 },500);
+								    	 })
+						    		 },500);
+						    	 })
 					    		 },500);
 					    	 })
 				    		 },500);
 				    	 })
-			    		 },500);
-			    	 })
-		    	}else if($("#roundselect").val()==64){
-			    		round64();
-				    	quarterfinalsplayerImg=[]
-				   	 	quarterfinalsplayerName=[]
-				    	choiceClick();
-				    	  $('.finalImgSF,.finalNameSF').click(function(){
-			    		  	setTimeout(function(){
-				    		gameround=0;
-				    		round32();
+			    	}else if($("#roundselect").val()==64){
+				    		round64();
 					    	quarterfinalsplayerImg=[]
 					   	 	quarterfinalsplayerName=[]
 					    	choiceClick();
-					    	  $('.finalImgTT,.finalNameTT').click(function(){
-					    		 setTimeout(function(){
-					    			 gameround=0;
-					    			 round16();
-					    			 quarterfinalsplayerImg=[]
-					 		   	 	 quarterfinalsplayerName=[]
-					    			 choiceClick();
-							    	  $('.finalImgST,.finalNameST').click(function(){
-							    		 setTimeout(function(){
-							    			 gameround=0;
-							    			 round8();
-							    			 quarterfinalsplayerImg=[]
-							 		   	 	 quarterfinalsplayerName=[]
-							    			 choiceClick();
-							 		    	$('.finalImgE,.finalNameE').click(function(){
-									    		 setTimeout(function(){
-									    			 gameround=0;
-									    			 round4();
-									    			 quarterfinalsplayerImg=[]
-									 		   	 	 quarterfinalsplayerName=[]
-									    			 choiceClick();
-									 		    	$('.finalImgF,.finalNameF').click(function(){
-											    		 setTimeout(function(){
-											    			 gameround=0;
-											    			 round2();
-											    			 finalClick();
-											    		 },500);
-									 		    	})
-									    		 },500);
-							 		    	})
-							    		 },500);
-							    	 })
+					    	  $('.finalImgSF,.finalNameSF').click(function(){
+				    		  	setTimeout(function(){
+					    		gameround=0;
+					    		round32();
+						    	quarterfinalsplayerImg=[]
+						   	 	quarterfinalsplayerName=[]
+						    	choiceClick();
+						    	  $('.finalImgTT,.finalNameTT').click(function(){
+						    		 setTimeout(function(){
+						    			 gameround=0;
+						    			 round16();
+						    			 quarterfinalsplayerImg=[]
+						 		   	 	 quarterfinalsplayerName=[]
+						    			 choiceClick();
+								    	  $('.finalImgST,.finalNameST').click(function(){
+								    		 setTimeout(function(){
+								    			 gameround=0;
+								    			 round8();
+								    			 quarterfinalsplayerImg=[]
+								 		   	 	 quarterfinalsplayerName=[]
+								    			 choiceClick();
+								 		    	$('.finalImgE,.finalNameE').click(function(){
+										    		 setTimeout(function(){
+										    			 gameround=0;
+										    			 round4();
+										    			 quarterfinalsplayerImg=[]
+										 		   	 	 quarterfinalsplayerName=[]
+										    			 choiceClick();
+										 		    	$('.finalImgF,.finalNameF').click(function(){
+												    		 setTimeout(function(){
+												    			 gameround=0;
+												    			 round2();
+												    			 finalClick();
+												    		 },500);
+										 		    	})
+										    		 },500);
+								 		    	})
+								    		 },500);
+								    	 })
+						    		 },500);
+						    	 })
 					    		 },500);
 					    	 })
+			    		
+			    	}else if($("#roundselect").val()==32){
+			    		round32();
+				    	quarterfinalsplayerImg=[]
+				   	 	quarterfinalsplayerName=[]
+				    	choiceClick();
+				    	  $('.finalImgTT,.finalNameTT').click(function(){
+				    		 setTimeout(function(){
+				    			 gameround=0;
+				    			 round16();
+				    			 quarterfinalsplayerImg=[]
+				 		   	 	 quarterfinalsplayerName=[]
+				    			 choiceClick();
+						    	  $('.finalImgST,.finalNameST').click(function(){
+						    		 setTimeout(function(){
+						    			 gameround=0;
+						    			 round8();
+						    			 quarterfinalsplayerImg=[]
+						 		   	 	 quarterfinalsplayerName=[]
+						    			 choiceClick();
+						 		    	$('.finalImgE,.finalNameE').click(function(){
+								    		 setTimeout(function(){
+								    			 gameround=0;
+								    			 round4();
+								    			 quarterfinalsplayerImg=[]
+								 		   	 	 quarterfinalsplayerName=[]
+								    			 choiceClick();
+								 		    	$('.finalImgF,.finalNameF').click(function(){
+										    		 setTimeout(function(){
+										    			 gameround=0;
+										    			 round2();
+										    			 finalClick();
+										    		 },500);
+								 		    	})
+								    		 },500);
+						 		    	})
+						    		 },500);
+						    		
+						    	 })
 				    		 },500);
 				    	 })
-		    		
-		    	}else if($("#roundselect").val()==32){
-		    		round32();
-			    	quarterfinalsplayerImg=[]
-			   	 	quarterfinalsplayerName=[]
-			    	choiceClick();
-			    	  $('.finalImgTT,.finalNameTT').click(function(){
-			    		 setTimeout(function(){
-			    			 gameround=0;
-			    			 round16();
-			    			 quarterfinalsplayerImg=[]
-			 		   	 	 quarterfinalsplayerName=[]
-			    			 choiceClick();
-					    	  $('.finalImgST,.finalNameST').click(function(){
-					    		 setTimeout(function(){
-					    			 gameround=0;
-					    			 round8();
-					    			 quarterfinalsplayerImg=[]
-					 		   	 	 quarterfinalsplayerName=[]
-					    			 choiceClick();
-					 		    	$('.finalImgE,.finalNameE').click(function(){
-							    		 setTimeout(function(){
-							    			 gameround=0;
-							    			 round4();
-							    			 quarterfinalsplayerImg=[]
-							 		   	 	 quarterfinalsplayerName=[]
-							    			 choiceClick();
-							 		    	$('.finalImgF,.finalNameF').click(function(){
-									    		 setTimeout(function(){
-									    			 gameround=0;
-									    			 round2();
-									    			 finalClick();
-									    		 },500);
-							 		    	})
-							    		 },500);
-					 		    	})
-					    		 },500);
-					    		
-					    	 })
-			    		 },500);
-			    	 })
-		    	}else if($("#roundselect").val()==16){
-			    			 gameround=0;
-			    			 round16();
-			    			 quarterfinalsplayerImg=[]
-			 		   	 	 quarterfinalsplayerName=[]
-			    			 choiceClick();
-					    	  $('.finalImgST,.finalNameST').click(function(){
-					    		 setTimeout(function(){
-					    			 gameround=0;
-					    			 round8();
-					    			 quarterfinalsplayerImg=[]
-					 		   	 	 quarterfinalsplayerName=[]
-					    			 choiceClick();
-					 		    	$('.finalImgE,.finalNameE').click(function(){
-							    		 setTimeout(function(){
-							    			 gameround=0;
-							    			 round4();
-							    			 quarterfinalsplayerImg=[]
-							 		   	 	 quarterfinalsplayerName=[]
-							    			 choiceClick();
-							 		    	$('.finalImgF,.finalNameF').click(function(){
-									    		 setTimeout(function(){
-									    			 gameround=0;
-									    			 round2();
-									    			 finalClick();
-									    		 },500);
-							 		    	})
-							    		 },500);
-					 		    	})
-					    		 },500);
-					    		
-					    	 })
-		    	}else if($("#roundselect").val()==8){
-			    			 gameround=0;
-			    			 round8();
-			    			 quarterfinalsplayerImg=[]
-			 		   	 	 quarterfinalsplayerName=[]
-			    			 choiceClick();
-			 		    	$('.finalImgE,.finalNameE').click(function(){
-					    		 setTimeout(function(){
-					    			 gameround=0;
-					    			 round4();
-					    			 quarterfinalsplayerImg=[]
-					 		   	 	 quarterfinalsplayerName=[]
-					    			 choiceClick()
-					 		    	$('.finalImgF,.finalNameF').click(function(){
-							    		 setTimeout(function(){
-							    			 gameround=0;
-							    			 round2();
-							    			 finalClick();
-							    		 },500);
-					 		    	})
-					    		 },500);
-			    	 })
-    			}else{
-	    			 gameround=0;
-	    			 round4();
-	    			 quarterfinalsplayerImg=[]
-	 		   	 	 quarterfinalsplayerName=[]
-	    			 choiceClick();
-	 		    	$('.finalImgF,.finalNameF').click(function(){
-			    		 setTimeout(function(){
-			    			 gameround=0;
-			    			 round2();
-			    			 finalClick();
-			    		 },500);
-				 	})
-    			}
-				
-		    	
-		    	
+			    	}else if($("#roundselect").val()==16){
+				    			 gameround=0;
+				    			 round16();
+				    			 quarterfinalsplayerImg=[]
+				 		   	 	 quarterfinalsplayerName=[]
+				    			 choiceClick();
+						    	  $('.finalImgST,.finalNameST').click(function(){
+						    		 setTimeout(function(){
+						    			 gameround=0;
+						    			 round8();
+						    			 quarterfinalsplayerImg=[]
+						 		   	 	 quarterfinalsplayerName=[]
+						    			 choiceClick();
+						 		    	$('.finalImgE,.finalNameE').click(function(){
+								    		 setTimeout(function(){
+								    			 gameround=0;
+								    			 round4();
+								    			 quarterfinalsplayerImg=[]
+								 		   	 	 quarterfinalsplayerName=[]
+								    			 choiceClick();
+								 		    	$('.finalImgF,.finalNameF').click(function(){
+										    		 setTimeout(function(){
+										    			 gameround=0;
+										    			 round2();
+										    			 finalClick();
+										    		 },500);
+								 		    	})
+								    		 },500);
+						 		    	})
+						    		 },500);
+						    		
+						    	 })
+			    	}else if($("#roundselect").val()==8){
+				    			 gameround=0;
+				    			 round8();
+				    			 quarterfinalsplayerImg=[]
+				 		   	 	 quarterfinalsplayerName=[]
+				    			 choiceClick();
+				 		    	$('.finalImgE,.finalNameE').click(function(){
+						    		 setTimeout(function(){
+						    			 gameround=0;
+						    			 round4();
+						    			 quarterfinalsplayerImg=[]
+						 		   	 	 quarterfinalsplayerName=[]
+						    			 choiceClick()
+						 		    	$('.finalImgF,.finalNameF').click(function(){
+								    		 setTimeout(function(){
+								    			 gameround=0;
+								    			 round2();
+								    			 finalClick();
+								    		 },500);
+						 		    	})
+						    		 },500);
+				    	 })
+	    			}else{
+		    			 gameround=0;
+		    			 round4();
+		    			 quarterfinalsplayerImg=[]
+		 		   	 	 quarterfinalsplayerName=[]
+		    			 choiceClick();
+		 		    	$('.finalImgF,.finalNameF').click(function(){
+				    		 setTimeout(function(){
+				    			 gameround=0;
+				    			 round2();
+				    			 finalClick();
+				    		 },500);
+					 	})
+	    			}
+					
+			    	
+			    	
+			    }
 		    },
 		    error : function(request, status, error) { 
 		        console.log(error)
@@ -457,7 +636,7 @@
 		$('#worldcupAll').empty();
 		for(let i=0;i<128;i+=2){
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
-			shape.append('<div class="round"><h2>${gameName } 128강 '+count+'/64</h2></div>');
+			shape.append('<div class="roundMain"><div class="round"><h2>${gameName } 128강 '+count+'/64</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
 			const firstImg=$('<img class="firstImg'+(i!=126?'"':' finalImgLO" ')+'src="${path }'+($("#roundselect").val()==128?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
 			const secondImg=$('<img class="secondImg'+(i!=126?'"':' finalImgLO" ')+'src="${path }'+($("#roundselect").val()==128?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
@@ -479,7 +658,7 @@
 		$('#worldcupAll').empty();
 		for(let i=0;i<64;i+=2){
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
-			shape.append('<div class="round"><h2>${gameName } 64강 '+count+'/32</h2></div>');
+			shape.append('<div class="roundMain"><div class="round"><h2>${gameName } 64강 '+count+'/32</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
 			const firstImg=$('<img class="firstImg'+(i!=62?'"':' finalImgSF" ')+'src="${path }'+($("#roundselect").val()==64?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
 			const secondImg=$('<img class="secondImg'+(i!=62?'"':' finalImgSF" ')+'src="${path }'+($("#roundselect").val()==64?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
@@ -501,7 +680,7 @@
 		$('#worldcupAll').empty();
 		for(let i=0;i<32;i+=2){
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
-			shape.append('<div class="round"><h2>${gameName } 32강 '+count+'/16</h2></div>');
+			shape.append('<div class="roundMain"><div class="round"><h2>${gameName } 32강 '+count+'/16</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
 			const firstImg=$('<img class="firstImg'+(i!=30?'"':' finalImgTT" ')+'src="${path }'+($("#roundselect").val()==32?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
 			const secondImg=$('<img class="secondImg'+(i!=30?'"':' finalImgTT" ')+'src="${path }'+($("#roundselect").val()==32?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
@@ -523,7 +702,7 @@
 		count=1;
 		for(let i=0;i<16;i+=2){
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
-			shape.append('<div class="round"><h2>${gameName} 16강 '+count+'/8</h2></div>');
+			shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 16강 '+count+'/8</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
 			const firstImg=$('<img class="firstImg'+(i!=14?'"':' finalImgST" ')+'src="${path }'+($("#roundselect").val()==16?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
 			const secondImg=$('<img class="secondImg'+(i!=14?'"':' finalImgST" ')+'src="${path }'+($("#roundselect").val()==16?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
@@ -546,7 +725,7 @@
 		count=1;
 		for(let i=0;i<8;i+=2){
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
-			shape.append('<div class="round"><h2>${gameName} 8강 '+count+'/4</h2></div>');
+			shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 8강 '+count+'/4</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
 			const firstImg=$('<img class="firstImg'+(i!=6?'"':' finalImgE" ')+'src="${path }'+($("#roundselect").val()==8?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
 			const secondImg=$('<img class="secondImg'+(i!=6?'"':' finalImgE" ')+'src="${path }'+($("#roundselect").val()==8?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
@@ -568,7 +747,7 @@
 		count=1;
 		for(let i=0;i<4;i+=2){
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
-			shape.append('<div class="round"><h2>${gameName} 4강 '+count+'/2</h2></div>');
+			shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 4강 '+count+'/2</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
 			const firstImg=$('<img class="firstImg'+(i!=2?'"':' finalImgF" ')+'src="${path }'+($("#roundselect").val()==4?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
 			const secondImg=$('<img class="secondImg'+(i!=2?'"':' finalImgF" ')+'src="${path }'+($("#roundselect").val()==4?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
@@ -588,7 +767,7 @@
 	function round2(){
 		$('#worldcupAll').empty();
 		const shape=$('<div class="worldcupStart">');
-		shape.append('<div class="round"><h2>${gameName} 결승전</h2></div>');
+		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 결승전</h2></div></div>');
 		const imgsetting=$('<div class="imgSetting">')
 		const firstImg=$('<img class="firstImg" src="${path }'+quarterfinalsplayerImg[0]+'">')
 		const secondImg=$('<img class="secondImg" src="${path }'+quarterfinalsplayerImg[1]+'">')
@@ -689,7 +868,6 @@
  		$( '.secondImg' ).css({'transition':'0.5s'});
  		$( '.fight' ).hide();
  		OTOWinner($(e.target).parent().next().find('div').children(":first").text());
- 		console.log($(e.target).parent().next().find('div').children(":first").text());
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		quarterfinalsplayerImg.push($(e.target).attr("src"));
@@ -712,7 +890,6 @@
  		$( '.secondImg' ).css({'transition':'0.5s'});
  		$( '.fight' ).hide();
  		OTOWinner($(e.target).text());
- 		console.log($(e.target).text())
  		$(".firstImg").css({ 'pointer-events': 'none' });
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.firstImg').attr("src"));
@@ -737,7 +914,6 @@
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		$( '.fight' ).hide();
  		OTOWinner($(e.target).parent().next().find('div').children(":last").text());
- 		console.log($(e.target).parent().next().find('div').children(":last").text());
  		quarterfinalsplayerImg.push($(e.target).attr("src"));
  		quarterfinalsplayerName.push($(e.target).parent().next().find('div').children(":last").text());
  		setTimeout(function(){
@@ -760,7 +936,6 @@
  		$(".secondImg").css({ 'pointer-events': 'none' });
  		$( '.fight' ).hide();
  		OTOWinner($(e.target).text());
- 		console.log($(e.target).text())
  		quarterfinalsplayerImg.push($(e.target).parent().parent().parent().find('.imgSetting').find('.secondImg').attr("src"));
  		quarterfinalsplayerName.push($(e.target).text());
  		setTimeout(function(){
@@ -785,6 +960,251 @@
 	 
 	 
 	 
+</script>
+	
+<script>
+function roundvideo32(){
+	count=1;
+	$('#worldcupAll').empty();
+	for(let i=0;i<32;i+=2){
+		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
+		shape.append('<div class="roundMain"><div class="round"><h2>${gameName } 32강 '+count+'/16</h2></div></div>');
+		const imgsetting=$('<div class="videoSetting">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const fight=$('<div class="videofight">');
+		const versus=$('<img src="${path }/resources/images/game/versus.png">');
+		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
+		const choice=$('<div class="choicemain"><div class="leftchoice' +(i!=30?'"':' leftchoiceTT" ')+'>선택</div><div class="rightchoice' +(i!=30?'"':' rightchoiceTT" ')+'>선택</div><div>')
+		imgsetting.append(firstImg);
+		imgsetting.append(secondImg);
+		shape.append(imgsetting);
+		fight.append(versus);
+		fight.append(name);
+		shape.append(fight);
+		shape.append(choice);
+		$('#worldcupAll').append(shape);
+		count++;
+	}
+}
+function roundvideo16(){
+	$('#worldcupAll').empty();
+	count=1;
+	for(let i=0;i<16;i+=2){
+		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
+		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 16강 '+count+'/8</h2></div></div>');
+		const imgsetting=$('<div class="imgSetting">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const fight=$('<div class="videofight">');
+		const versus=$('<img src="${path }/resources/images/game/versus.png">');
+		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
+		const choice=$('<div class="choicemain"><div class="leftchoice' +(i!=14?'"':' leftchoiceST" ')+'>선택</div><div class="rightchoice' +(i!=14?'"':' rightchoiceST" ')+'>선택</div><div>')
+		imgsetting.append(firstImg);
+		imgsetting.append(secondImg);
+		shape.append(imgsetting);
+		fight.append(versus);
+		fight.append(name);
+		shape.append(fight);
+		shape.append(choice);
+		$('#worldcupAll').append(shape);
+		count++;
+	}
+} 
+
+function roundvideo8(){
+	$('#worldcupAll').empty();
+	count=1;
+	for(let i=0;i<8;i+=2){
+		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
+		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 8강 '+count+'/4</h2></div></div>');
+		const imgsetting=$('<div class="imgSetting">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const fight=$('<div class="videofight">');
+		const versus=$('<img src="${path }/resources/images/game/versus.png">');
+		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
+		const choice=$('<div class="choicemain"><div class="leftchoice' +(i!=6?'"':' leftchoiceE" ')+'>선택</div><div class="rightchoice' +(i!=6?'"':' rightchoiceE" ')+'>선택</div><div>')
+		imgsetting.append(firstImg);
+		imgsetting.append(secondImg);
+		shape.append(imgsetting);
+		fight.append(versus);
+		fight.append(name);
+		shape.append(fight);
+		shape.append(choice);
+		$('#worldcupAll').append(shape);
+		count++;
+	}
+}
+function roundvideo4(){
+	$('#worldcupAll').empty();
+	count=1;
+	for(let i=0;i<4;i+=2){
+		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
+		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 4강 '+count+'/2</h2></div></div>');
+		const imgsetting=$('<div class="imgSetting">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const fight=$('<div class="videofight">');
+		const versus=$('<img src="${path }/resources/images/game/versus.png">');
+		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
+		const choice=$('<div class="choicemain"><div class="leftchoice' +(i!=2?'"':' leftchoiceF" ')+'>선택</div><div class="rightchoice' +(i!=2?'"':' rightchoiceF" ')+'>선택</div><div>')
+		imgsetting.append(firstImg);
+		imgsetting.append(secondImg);
+		shape.append(imgsetting);
+		fight.append(versus);
+		fight.append(name);
+		shape.append(fight);
+		shape.append(choice);
+		$('#worldcupAll').append(shape);
+		count++;
+	}
+}
+function roundvideo2(){
+	$('#worldcupAll').empty();
+	const shape=$('<div class="worldcupStart">');
+	shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 결승전</h2></div></div>');
+	const imgsetting=$('<div class="imgSetting">')
+	const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[0]+'" frameborder="0">')
+	const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[1]+'" frameborder="0">')
+	const fight=$('<div class="videofight">');
+	const versus=$('<img src="${path }/resources/images/game/versus.png">');
+	const name=$('<div><h2 class="leftName finalLeft">'+quarterfinalsplayerName[0]+'</h2><h2 class="rightName finalRight">'+quarterfinalsplayerName[1]+'</h2></div>')
+	const choice=$('<div class="choicemain"><div class="leftchoice">선택</div><div class="rightchoice">선택</div><div>')
+	imgsetting.append(firstImg);
+	imgsetting.append(secondImg);
+	shape.append(imgsetting);
+	fight.append(versus);
+	fight.append(name);
+	shape.append(fight);
+	shape.append(choice);
+	$('#worldcupAll').append(shape);
+}
+
+function choiceClickVideo(){
+	 $( '.leftchoice' ).click(function(e){
+		$( '.firstVideo' ).css({'transform':'translate(50%,0)'});
+		$( '.firstVideo' ).css({'transition':'0.5s'});
+		$( '.secondVideo' ).css({'transform':'translate(200%,0)'});
+		$( '.secondVideo' ).css({'transition':'0.5s'});
+		$( '.videofight' ).hide();
+		$( '.choicemain' ).hide();
+		OTOWinner($(e.target).parent().parent().find('.leftName').text());
+		$(".leftchoice").css({ 'pointer-events': 'none' });
+		$(".rightchoice").css({ 'pointer-events': 'none' });
+		quarterfinalsplayerImg.push($(e.target).parent().parent().find('.firstVideo').attr('src'));
+		quarterfinalsplayerName.push($(e.target).parent().parent().find('.leftName').text());  
+		setTimeout(function(){
+			$(".leftchoice").css({ 'pointer-events': 'auto' });
+			$(".rightchoice").css({ 'pointer-events': 'auto' });
+			$( '.firstVideo' ).css({'transform':'translate(0,0)'});
+			$( '.secondVideo' ).css({'transform':'translate(0,0)'});
+			$( '.worldcupStart'+(gameround+2) ).show();
+			$( '.worldcupStart'+gameround ).hide();
+			$( '.videofight' ).show();
+			$( '.choicemain' ).show();
+			setTimeout(function(){
+				$(e.target).parent().parent().find('.firstVideo').attr('src','');
+				$(e.target).parent().parent().find('.secondVideo').attr('src','');
+			},100)
+			gameround+=2;
+		},500); 
+	 })
+	 $( '.rightchoice' ).click(function(e){
+		$( '.secondVideo' ).css({'transform':'translate(-50%,0)'});
+		$( '.secondVideo' ).css({'transition':'0.5s'});
+		$( '.firstVideo' ).css({'transform':'translate(-200%,0)'});
+		$( '.firstVideo' ).css({'transition':'0.5s'});
+		$(".leftchoice").css({ 'pointer-events': 'none' });
+		$(".rightchoice").css({ 'pointer-events': 'none' });
+		$( '.videofight' ).hide();
+		$( '.choicemain' ).hide();
+		OTOWinner($(e.target).parent().parent().find('.rightName').text()); 
+		quarterfinalsplayerImg.push($(e.target).parent().parent().find('.secondVideo').attr('src'));
+		quarterfinalsplayerName.push($(e.target).parent().parent().find('.rightName').text());
+		setTimeout(function(){
+			$(".leftchoice").css({ 'pointer-events': 'auto' });
+			$(".rightchoice").css({ 'pointer-events': 'auto' });
+			$( '.firstVideo' ).css({'transform':'translate(0,0)'});
+			$( '.secondVideo' ).css({'transform':'translate(0,0)'});
+			$( '.worldcupStart'+(gameround+2) ).show();
+			$('.worldcupStart'+gameround ).hide();
+			$( '.videofight' ).show();
+			$( '.choicemain' ).show();
+			setTimeout(function(){
+				$(e.target).parent().parent().find('.firstVideo').attr('src','');
+				$(e.target).parent().parent().find('.secondVideo').attr('src','');
+			},100)
+			gameround+=2;
+		},500);
+	 })
+
+	}
+function finalClickVideo(){
+	 $( '.leftchoice' ).click(function(e){
+			$( '.firstVideo' ).css({'transform':'scale(0.8)'});
+	 		$( '.firstVideo' ).css({'transition':'0.5s'});
+	 		$( '.secondVideo' ).css({'transform':'translate(200%,0)'});
+	 		$( '.secondVideo' ).css({'transition':'0.5s'});
+	 		winnerwinnerChickemDinner($(e.target).parent().parent().find('.leftName').text());
+	 		OTOWinner($(e.target).parent().parent().find('.leftName').text());
+	 		$( '.videofight' ).hide();
+	 		$( '.choicemain' ).hide();
+	 		$( '.round' ).hide();
+	 		const finalText=$('<div class="finalLeftText" style="width:50vh;">');
+	 		const winner=$('<h2>당신의 선택은</h2>');
+	 		const winnerName=$('<h3>'+$(e.target).parent().parent().find('.leftName').text()+'</h3>')
+	 		const finalchoice=$('<div class="finalCenter gameChoice"><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하러가기</h3></div><div class="finalCenter retry"><img src="${path}/resources/images/game/retry.png"><h3>다시 시도</h3></div><div class="finalCenter goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
+	 		finalText.append(winner);
+	 		finalText.append(winnerName);
+	 		finalText.append(finalchoice);
+	 		$('#worldcupAll').after(finalText);
+	 		$(".goRanking").click(function(){
+	 			location.assign("${path}/game/worldcupRanking?gameName=${gameName }&num=${num}") 
+	 		});
+	 		$(".retry").click(function(){
+	 			location.replace("${path}/game/worldcup?gameName=${gameName }&num=${num}") 
+	 		});
+	 		$(".gameChoice").click(function(){
+	 			location.replace('${path }/game/choice');
+	 		})
+	 		setTimeout(function(){
+				$(e.target).parent().parent().find('.secondVideo').attr('src','');
+			},100)
+	 	 })
+	 	 $( '.rightchoice' ).click(function(e){
+	 		$( '.secondVideo' ).css({'transform':'scale(0.8)'});
+	 		$( '.secondVideo' ).css({'transition':'0.5s'})
+	 		$( '.firstVideo' ).css({'transform':'translate(-200%,0)'});
+	 		$( '.firstVideo' ).css({'transition':'0.5s'});
+	 		winnerwinnerChickemDinner($(e.target).parent().parent().find('.rightName').text());
+	 		OTOWinner($(e.target).parent().parent().find('.rightName').text()); 
+	 		$( '.videofight' ).hide();
+	 		$( '.choicemain' ).hide();
+	 		$( '.round' ).hide();
+	 		const finalText=$('<div class="finalRightText style="width:50vh;"">');
+	 		const winner=$('<h2>당신의 선택은</h2>');
+	 		const winnerName=$('<h3>'+$(e.target).parent().parent().find('.rightName').text()+'</h3>')
+	 		const finalchoice=$('<div class="finalCenter gameChoice"><img src="${path}/resources/images/game/cupstart.png"><h3>게임 선택하러가기</h3></div><div class="finalCenter retry"><img src="${path}/resources/images/game/retry.png"><h3>다시 시도</h3></div><div class="finalCenter goRanking"><img src="${path}/resources/images/game/cuplist.png"><h3>랭킹보기</h3></div>');
+	 		finalText.append(winner);
+	 		finalText.append(winnerName);
+	 		finalText.append(finalchoice);
+	 		$('#worldcupAll').after(finalText);
+	 		$(".goRanking").click(function(){
+	 			location.assign("${path}/game/worldcupRanking?gameName=${gameName }&num=${num}");
+	 		});
+	 		$(".retry").click(function(){
+	 			location.replace("${path}/game/worldcup?gameName=${gameName }&num=${num}");
+	 		});
+	 		$(".gameChoice").click(function(){
+	 			location.replace('${path }/game/choice');
+	 		})
+	 		setTimeout(function(){
+				$(e.target).parent().parent().find('.firstVideo').attr('src','');
+			},100)
+	 	 })
+}
+
 </script>
 	<!-------------------------------------------->
 </body>
