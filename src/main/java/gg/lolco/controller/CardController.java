@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import gg.lolco.common.PageFactory;
 import gg.lolco.model.service.CardService;
 import gg.lolco.model.vo.Card;
+import gg.lolco.model.vo.CardAchievementComplete;
 import gg.lolco.model.vo.Member;
 import gg.lolco.model.vo.MemberCard;
+import gg.lolco.model.vo.MemberCardAchievement;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -138,6 +140,68 @@ public class CardController {
 
 		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "searchPlayer"));
 		return searchPlayer;
+		
+	}
+	@RequestMapping("/cardAchievement")
+	public String cardAchievement(@SessionAttribute("loginMember") Member member,Model m) {
+		String email=member.getEmail();
+		List<CardAchievementComplete> cardAchievement =service.cardAchievement(Map.of("email",email));
+		List<MemberCard> selectCardById =service.selectCardById(Map.of("cPage", 1, "numPerpage", 500,"email",email));
+		List<MemberCardAchievement>	selectMemberAchievement=service.selectMemberAchievement(Map.of("email",email));
+		
+			m.addAttribute("selectMemberAchievement",selectMemberAchievement);
+			m.addAttribute("cardAchievement",cardAchievement);
+			m.addAttribute("selectCardById",selectCardById);
+	      return "card/cardAchievement";    
+	}
+	@RequestMapping("/achievementCompensation")
+	public String achievementCompensation(@SessionAttribute("loginMember") Member member,Model m, 
+			@RequestParam("compensation") String compensation,@RequestParam("ach") String ach) {
+		String email=member.getEmail();
+		service.insertCompensation(Map.of("compensation", compensation,"email",email));
+			System.out.println(compensation);
+			System.out.println(ach);
+			int result=service.insertAchievementById(Map.of("ach", ach,"email",email));
+			if(result>0) {		
+				m.addAttribute("msg", "보상받기 완료");
+				m.addAttribute("loc", "/card/cardAchievement");
+				
+			}else {
+				m.addAttribute("msg", "보상받기 실패");
+				m.addAttribute("loc", "/card/cardAchievement");
+				
+			}
+		
+	      return "common/msg";    
+	}
+	@GetMapping("/selectAchievement")
+	public String selectAchievement(@SessionAttribute("loginMember") Member member,
+            Model m) {
+		String email=member.getEmail();
+			  
+		List<MemberCardAchievement>	selectMemberAchievement=service.selectMemberAchievement(Map.of("email",email));
+		List<MemberCard> selectCardById =service.selectCardById(Map.of("cPage", 1, "numPerpage", 500,"email",email));
+		List<CardAchievementComplete> cardAchievementAll =service.cardAchievementAll(Map.of("email",email));
+		
+		m.addAttribute("selectMemberAchievement",selectMemberAchievement);
+		m.addAttribute("cardAchievement",cardAchievementAll);
+		System.out.println(cardAchievementAll);
+		m.addAttribute("selectCardById",selectCardById);
+		return "card/cardAchievement";
+		
+	}
+	@GetMapping("/achievementUnsatisfaction")
+	public String achievementUnsatisfaction(@SessionAttribute("loginMember") Member member,
+            Model m) {
+		String email=member.getEmail();
+		List<MemberCardAchievement>	selectMemberAchievement=service.selectMemberAchievement(Map.of("email",email));
+		List<MemberCard> selectCardById =service.selectCardById(Map.of("cPage", 1, "numPerpage", 500,"email",email));
+		List<CardAchievementComplete> achievementUnsatisfaction =service.achievementUnsatisfaction(Map.of("email",email));
+		
+		m.addAttribute("selectMemberAchievement",selectMemberAchievement);
+		m.addAttribute("cardAchievement",achievementUnsatisfaction);
+		m.addAttribute("selectCardById",selectCardById);
+		return "card/cardAchievement";
 		
 	}
 	

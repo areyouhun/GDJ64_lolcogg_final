@@ -45,7 +45,7 @@
 								<p>최근 일주일 기준</p>
 							</div>
 							<c:forEach var="w" items="${weeklyPopularity }">
-							<a href="${path }/community/boardDetails?cmBoardNo=${r.cmBoardNo}">
+							<a href="${path }/community/boardDetails?cmBoardNo=${w.cmBoardNo}">
 								<div class="realTime-popularity">
 									<p class="num">${count1 }</p>
 									<p>[${w.cmBoardCategories }]</p>

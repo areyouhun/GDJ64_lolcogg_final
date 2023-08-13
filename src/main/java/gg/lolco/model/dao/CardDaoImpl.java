@@ -8,7 +8,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import gg.lolco.model.vo.Card;
+import gg.lolco.model.vo.CardAchievementComplete;
 import gg.lolco.model.vo.MemberCard;
+import gg.lolco.model.vo.MemberCardAchievement;
 
 @Repository
 public class CardDaoImpl implements CardDao {
@@ -69,6 +71,56 @@ public class CardDaoImpl implements CardDao {
 	@Override
 	public MemberCard selectLeaderCard(SqlSession session, String email) {
 		return session.selectOne("card.selectLeaderCard",email);
+	}
+
+
+
+	@Override
+	public List<CardAchievementComplete> cardAchievement(SqlSession session,Map<String, Object> param) {
+		return session.selectList("card.cardAchievement",param);
+	}
+
+
+
+	@Override
+	public int insertCompensation(SqlSession session, Map<String, Object> param) {
+		return session.insert("card.insertCompensation",param);
+	}
+
+
+
+	@Override
+	public int insertAchievementById(SqlSession session, Map<String, Object> param) {
+		return session.insert("card.insertAchievementById",param);
+	}
+
+
+
+	@Override
+	public List<MemberCardAchievement> selectMemberAchievement(SqlSession session, Map<String, Object> param) {
+		return session.selectList("card.selectMemberAchievement",param);
+	}
+	@Override
+	public List<CardAchievementComplete> achievementUnsatisfaction(SqlSession session, Map<String, Object> param) {
+		return session.selectList("card.achievementUnsatisfaction",param);
+	}
+	@Override
+	public List<MemberCardAchievement> selectMemberAchievementAll(SqlSession session, Map<String, Object> param) {
+		return session.selectList("card.selectMemberAchievementAll",param);
+	}
+
+
+
+	@Override
+	public int insertPointById(SqlSession session, Map<String, Object> param) {
+		return session.update("card.insertPointById",param);
+	}
+
+
+
+	@Override
+	public List<CardAchievementComplete> cardAchievementAll(SqlSession session, Map<String, Object> param) {
+		return session.selectList("card.cardAchievementAll",param);
 	}
 
 

@@ -28,9 +28,7 @@
 					<div class="card_catalog">
 						<a href="${path }/card/selectCardById"><span class="content"
 							onclick="">MY CARD</span></a> <a><span class="content">CARD
-								CATALOG</span></a> <a><span class="content">ACHIEVEMENT</span></a> <span
-							class="content">COMING SOON</span> <span class="content">COMING
-							SOON</span>
+								CATALOG</span></a> <a href="${path }/card/cardAchievement"><span class="content">ACHIEVEMENT</span></a>
 					</div>
 					<div class="card_categorie_title">
 						<div class="">
@@ -125,7 +123,7 @@
 																			alt="" class="player" width="170px" height="250px">
 																		<img
 																			src="${path }/resources/images/logo/${l.card.teamName }_logo_small.png"
-																			class="player_team_logo" width="45px" height="25px">
+																			class="player_team_logo" >
 																		<img
 																			src="${path }/resources/images/card/${l.card.cardPosition }.svg"
 																			alt="" class="player_position_img" width="20px"
@@ -145,7 +143,7 @@
 								<div class="card_img_name">
 									<img
 										src="${path }/resources/images/logo/${l.card.teamName }_logo_small.png"
-										alt="" width="60px" height="25px"> <span class="title">${l.card.cardName }</span>
+										alt="" > <span class="title">${l.card.cardName }</span>
 								</div>
 								<hr>
 
@@ -238,7 +236,7 @@
 							<option value="JGL">JGL</option>
 							<option value="MID">MID</option>
 							<option value="BOT">BOT</option>
-							<option value="SPT">SPT</option>
+							<option value="SUP">SUP</option>
 						</select> <img src="${path }/resources/images/card/새로고침.svg" alt=""
 							onclick="test();" class="refresh">
 					</div>
