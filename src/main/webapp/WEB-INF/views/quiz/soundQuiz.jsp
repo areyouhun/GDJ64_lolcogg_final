@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="loginMember" scope="session" value="${loginMember }" />
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path}/resources/css/quiz/soundQuiz.css">
@@ -52,20 +53,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class='answerAll'>
-                                        <!-- <div class='answer'>
-                                            <img src="//www.arealme.com/lol-knowledge-test/imgs/3-1.png">
-                                        </div>
-                                        <div class='answer'>
-                                            <img src="//www.arealme.com/lol-knowledge-test/imgs/3-1.png">
-                                        </div>
-                                        <div class='answer'>
-                                            <img src="//www.arealme.com/lol-knowledge-test/imgs/3-1.png">
-                                        </div>
-                                        <div class='answer'>
-                                            <img src="//www.arealme.com/lol-knowledge-test/imgs/3-1.png">
-                                        </div> -->
-                                    </div>
+                                    <div class='answerAll'></div>
                                 </div>
                             </li>
                         </ul>
@@ -84,6 +72,10 @@
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
 <script>
+/* 로그인 세션값 */
+const loginMember = "${sessionScope.loginMember}";
+
+/* 문제 목록 */
 const questions = [
 	{
 		audioSrc: '101 제라스',
@@ -479,7 +471,11 @@ const questions = [
 
 /* 시작하기 버튼 클릭 */
 $('.startBtn').click(e=>{
-	startQuiz();
+	if(loginMember != '') {
+		startQuiz();
+	} else {
+		alert("로그인 후 이용 가능한 서비스입니다.");
+	}
 })
 
 
@@ -489,7 +485,6 @@ let nowQuizIndex = 0;
 
 function startQuiz() {
 	randomQuestions = shuffleArray(questions);
-	console.log(randomQuestions);
 	nowQuizIndex = 0;
 	loadQuestion(nowQuizIndex);
 	$('.info').addClass('hidden');
@@ -529,26 +524,17 @@ $('.audioBtn').click(e=> {
 let count = 0;
 function checkAnswer(selectedOption, correctOption) {
 	
-	console.log(selectedOption);
-	console.log(correctOption);
-	
 	if (selectedOption == correctOption) {
-		  count++;
+		count++;
 	} else {
-	  
+	  	
 	}
-	console.log(count);
-	
 	nextQuestion();
 }
 
 /* 다음 문제 */
 let percentage = 0;
 function nextQuestion() {
-	//$('.quizQue').addClass('hidden');
-	
-	console.log('다음 문제');
-	
 	nowQuizIndex++;
 	if (nowQuizIndex < 4) {
   		loadQuestion(nowQuizIndex);
@@ -558,6 +544,43 @@ function nextQuestion() {
 		percentage = percentage + 25;
 		$('.progressBg').css('width', percentage + '%');
   		/* 종료되고 화면전환 및 포인트 지급 코드 작성 */
+  		
+  		$('.quizView').addClass('hidden');
+  		
+  		let resultDiv = $('<div>').addClass('resultDiv');
+  		let correctP = $('<p>').addClass('title fw-bold fs-60').text(count + '문제 정답!');
+  		
+  		let pointDiv = $('<div>').addClass('pointDiv');
+  		let point = $('<span>').addClass('content fs-30 fw-bold blue').text(count * 25 + 'P');
+  		let pointInfo = $('<span>').addClass('content fs-30 fw-bold').text('를 획득하였습니다.');
+  		pointDiv.append(point, pointInfo);
+  		
+  		let btnDiv = $('<div>').addClass('startBtnDiv centerAll');
+  		let button = $('<button>').addClass('title finishBtn').text('처음으로');
+  		btnDiv.append(button);
+  		
+  		resultDiv.append(correctP);
+  		resultDiv.append(pointDiv);
+  		resultDiv.append(btnDiv);
+  		$('.quizQue').prepend(resultDiv);
+  		
+  		$('.progress').css('top', '159px');
+
+
+  		/* 포인트 지급 */
+  		$.ajax({
+  		    type: "POST",
+  		    url: "/quiz/finish",
+  		    data: { email : '${loginMember.email}',
+  		    	point : count*25},
+  		    dataType: "json",
+  		    success: function(data) {
+  		    	console.log('응답완료');
+  		    },
+  		    error: function(err){
+  		    	console.log(err);	
+  		    }
+  		});
 	}
 }
 
@@ -570,6 +593,11 @@ function shuffleArray(array) {
 	}
 	return shuffled;
 }
+
+/* 돌아가기 버튼 클릭 */
+$(document).on("click", ".finishBtn", function(e) {
+	location.replace('${path}/quiz');
+})
 
 </script>
 <!-------------------------------------------->

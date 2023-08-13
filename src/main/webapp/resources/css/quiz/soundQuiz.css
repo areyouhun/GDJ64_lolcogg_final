@@ -61,6 +61,18 @@ button:active {
     margin-top: 40px;
 }
 
+.finishBtn{
+	border-style: none;
+    background-color: var(--lol-mainblue);
+	width: 200px;
+	height: 50px;
+	color: var(--lol-white);
+	border-radius: 25px;
+    font-size: 19px;
+
+    margin-top: 40px;
+}
+
 .quizP{
     line-height: 40px;
     margin: 15px;
@@ -171,4 +183,23 @@ ion-icon{
 
 .hidden{
 	display: none;
+}
+
+/* 게임 결과 */
+.resultDiv{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.pointDiv{
+	margin-top: 30px;	
+}
+
+.blue{
+	color: var(--lol-mainblue);
+}
+.fs-60{
+	font-size: 60px;
 }
