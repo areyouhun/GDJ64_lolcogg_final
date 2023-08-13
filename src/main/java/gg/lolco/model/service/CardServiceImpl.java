@@ -32,10 +32,24 @@ public class CardServiceImpl implements CardService {
 		return dao.selectCardCountById(session,email);
 		
 	}
+	
+	@Override
+	public int selectCardCount() {
+		return dao.selectCardCount(session);
+		
+	}
 
 	@Override
 	public List<MemberCard> selectCategorie(Map<String, Object> param) {
 		return dao.selectCategorie(session,param);
+	}
+	@Override
+	public List<Card> selectCategorieAll(Map<String, Object> param) {
+		return dao.selectCategorieAll(session,param);
+	}
+	@Override
+	public List<Card> searchPlayerAll(Map<String, Object> param) {
+		return dao.searchPlayerAll(session,param);
 	}
 	@Override
 	public List<MemberCard> searchPlayer(Map<String, Object> param) {
@@ -95,6 +109,11 @@ public class CardServiceImpl implements CardService {
 	@Override
 	public List<CardAchievementComplete> cardAchievementAll(Map<String, Object> param) {
 		return dao.cardAchievementAll(session,param);
+	}
+
+	@Override
+	public List<MemberCard> selectCard(Map<String, Object> param) {
+		return dao.selectCard(session,param);
 	}
 
 	

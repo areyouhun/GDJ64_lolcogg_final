@@ -22,9 +22,9 @@
 			<div class="width-1280 ">
 				<div class="card_main_size">
 					<div class="card_catalog">
-						<a href="${path }/card/selectCardById"><span class="content">MY
-								CARD</span></a> <a><span class="content">CARD CATALOG</span></a> <a
-							href="${path }/card/cardAchievement"><span class="content">ACHIEVEMENT</span></a>
+						<a href="${path }/card/selectCardById"><span class="content"
+							onclick="">MY CARD</span></a> <a href="${path }/card/selectCard"><span class="content">CARD
+								CATALOG</span></a> <a href="${path }/card/cardAchievement"><span class="content">ACHIEVEMENT</span></a>
 					</div>
 					<div class="card_categorie_title">
 						<div class="">

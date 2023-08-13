@@ -13,8 +13,13 @@ import gg.lolco.model.vo.MemberCardAchievement;
 public interface CardDao {
 	List<MemberCard> selectCardById(SqlSession session,Map<String, Object> param);
 	int selectCardCountById(SqlSession session,String email);
+	int selectCardCount(SqlSession session);
 	List<MemberCard> selectCategorie(SqlSession session,Map<String, Object> param);
+	List<Card> selectCategorieAll(SqlSession session,Map<String, Object> param);
+	List<Card> searchPlayerAll(SqlSession session,Map<String, Object> param);
+
 	List<MemberCard> searchPlayer(SqlSession session,Map<String, Object> param);
+	List<MemberCard> selectCard(SqlSession session,Map<String, Object> param);
 	List<Card> selectCardName(SqlSession session);
 	List<CardAchievementComplete> cardAchievement(SqlSession session,Map<String, Object> param);
 	List<CardAchievementComplete> cardAchievementAll(SqlSession session,Map<String, Object> param);

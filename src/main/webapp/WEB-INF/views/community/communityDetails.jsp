@@ -62,7 +62,11 @@
 								<div>
 									<span>${d.cmBoardCategories}</span><span class="Backslash">|</span>
 									<input type="hidden" value="${d.cmBoardNo }" class="boardNo">
-									<span><span class="designation">[${d.cmBoardWriter.titleName }]</span>${d.cmBoardWriter.nickname }</span>
+									<span>
+									<c:if test="${d.cmBoardWriter.titleName !=null}">
+									<span class="designation">[${d.cmBoardWriter.titleName }]</span>
+									</c:if>
+									${d.cmBoardWriter.nickname }</span>
 									<span class="Backslash">|</span><span>${d.timeDifference }</span>
 								</div>
 								<div class="board-bottom-right">
@@ -188,6 +192,9 @@
 												<div class="detailDiv">
 													<div class="commentDetail">
 														<div class="commentInfo">
+														<c:if test="${c.cmCommentWriter.titleName!=null }">
+														<span class="designation">[${c.cmCommentWriter.titleName }]</span>
+														</c:if>
 															<p class="contentBlack fs-20 nickname">${c.cmCommentWriter.nickname }</p>
 
 															<img
@@ -324,6 +331,9 @@
 													<div class="detaildetailDiv">
 														<div class="commentDetail">
 															<div class="commentInfo">
+															<c:if test="${b.cmCommentWriter.titleName!=null }">
+														<span class="designation">[${b.cmCommentWriter.titleName }]</span>
+														</c:if>
 																<p class="contentBlack fs-20 nickname">${b.cmCommentWriter.nickname }</p>
 																<img
 																	src="${path }/resources/images/tier/${b.cmCommentWriter.tier.tierRulesNo.tierRulesImage }"

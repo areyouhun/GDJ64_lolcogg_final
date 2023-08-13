@@ -29,6 +29,10 @@ public class CardDaoImpl implements CardDao {
 	public int selectCardCountById(SqlSession session,String email) {
 		return session.selectOne("card.selectCardCountById",email);
 	}
+	@Override
+	public int selectCardCount(SqlSession session) {
+		return session.selectOne("card.selectCardCount");
+	}
 
 
 
@@ -41,11 +45,27 @@ public class CardDaoImpl implements CardDao {
 		return session.selectList("card.selectCategorie",param,rb);
 	}
 	@Override
+	public List<Card> selectCategorieAll(SqlSession session, Map<String, Object> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		
+		return session.selectList("card.selectCategorieAll",param,rb);
+	}
+	@Override
+	public List<Card> searchPlayerAll(SqlSession session, Map<String, Object> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		
+		return session.selectList("card.searchPlayerAll",param,rb);
+	}
+	@Override
 	public List<MemberCard> searchPlayer(SqlSession session, Map<String, Object> param) {
 		int cPage=(int)param.get("cPage");
 		int numPerpage=(int)param.get("numPerpage");
 		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
-		return session.selectList("card.searchPlayer",param,rb);
+		return session.selectList("card.searchPlayerAll",param,rb);
 	}
 
 
@@ -121,6 +141,16 @@ public class CardDaoImpl implements CardDao {
 	@Override
 	public List<CardAchievementComplete> cardAchievementAll(SqlSession session, Map<String, Object> param) {
 		return session.selectList("card.cardAchievementAll",param);
+	}
+
+
+
+	@Override
+	public List<MemberCard> selectCard(SqlSession session, Map<String, Object> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		return session.selectList("card.selectCard",param,rb);
 	}
 
 
