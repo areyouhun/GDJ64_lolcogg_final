@@ -489,7 +489,8 @@
 						url : '${path}/store/addExp',
 						data : {
 							"exp" : addExpNum,
-							"price" : price
+							"price" : price,
+							"name" : name
 						},
 						success : function(){
 							alert(addExpNum+"의 경험치를 얻었습니다.");

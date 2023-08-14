@@ -127,10 +127,12 @@ public class StoreController {
 		String email=member.getEmail();
 		Map<String,Object> param=new HashMap<>();
 		param.put("email", email);
-		param.put("name", name);
+		param.put("changename", name);
 		param.put("price", price);
+		param.put("name", "닉네임 변경권");
 		int result=service.buyerMoney(param);
 		int resultChange=service.nickChange(param);
+		int puchaseResult=service.itemPurchase(param);
 		if(resultChange>0&&result>0) {
 			Member memberupdate=serviceMember.selectMemberById(param);
 			if(!status.isComplete()) status.setComplete();
@@ -140,13 +142,15 @@ public class StoreController {
 	
 	@RequestMapping("addExp")
 	@ResponseBody
-	public void addExp(@SessionAttribute("loginMember") Member member, int exp,SessionStatus status,  HttpSession session,int price) {
+	public void addExp(@SessionAttribute("loginMember") Member member, int exp,SessionStatus status,  HttpSession session,int price,String name) {
 		String email=member.getEmail();
 		int memberExp=member.getTotalExp();
 		Map<String,Object> param=new HashMap<>();
 		param.put("email", email);
 		param.put("price", price);
+		param.put("name", name);
 		int result=service.buyerMoney(param);
+		int puchaseResult=service.itemPurchase(param);
 		if(memberExp+exp<0) {
 			exp=-memberExp;
 		}
