@@ -258,7 +258,7 @@
 <!------------------------------------>
 <title>롤코지지-게임</title>
 </head>
-<body style="overflow: hidden">
+<body style="overflow-x: hidden">
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="navBgColor" value="nav-black"/>
 </jsp:include>
@@ -371,17 +371,17 @@
 						<div class="cupGameBack">
 							<div>
 								<div>
-		                    		<img src="${path }/resources/images/game/rascal.jpg" style="width:400px;height:200px">
+		                    		<img src="${path }/resources/images/game/lolBGM.png" style="width:400px;height:200px">
 								</div>
 							</div>
 							<div>
-								<h3 class="gameName">개발 중</h3>
+								<h3 class="gameName">LOL 롤 BGM 음악 월드컵</h3>
 	                            <div class="startworld">
-	                                <div class="start cursor" >
+	                                <div class="start cursor goGame" >
 	                                    <img src="${path}/resources/images/game/cupstart.png">
 	                                    <h3>시작하기</h3>
 	                                </div>
-	                                <div class="start cursor">
+	                                <div class="start cursor goRanking">
 	                                    <img src="${path}/resources/images/game/cuplist.png">
 	                                    <h3>랭킹보기</h3>
 	                                </div>
@@ -400,7 +400,7 @@
 								<img id="adimg1" src="${path}/resources/images/game/adventure/미스포로.png" style="display:none;">
 								<img id="adimg2" src="${path}/resources/images/game/adventure/갱플포로.png" style="display:none">
 								<img id="adimg3" src="${path}/resources/images/game/adventure/트페포로.png" style="display:none">
-								<img id="adimg3" src="${path}/resources/images/game/adventure/그브포로.png" style="display:none">
+								<img id="adimg4" src="${path}/resources/images/game/adventure/그브포로.png" style="display:none">
 							</div>
 							
 							<div id="adchoice" style="display:none;">
@@ -419,7 +419,7 @@
 								<p class="typing"></p>
 							</div>
 							<div>
-								<img id="adarrow" src="${path}/resources/images/game/adventure/gamearrow.png"  style="display:none">
+								<img id="adarrow" class="adarrow" src="${path}/resources/images/game/adventure/gamearrow.png"  style="display:none">
 							</div>
 							<div id="adsound">
 								<img class="soundimg" id="sound" src="${path}/resources/images/game/adventure/sound-up.png"  >
@@ -450,7 +450,7 @@ function type(){
 	if(typingBool==false){ 
 	  // 타이핑이 진행되지 않았다면 
 	   typingBool=true;     
-	   var tyInt = setInterval(typing,50); // 반복동작 
+	   var tyInt = setInterval(typing,30); // 반복동작 
 	} 
 	     
 	function typing(){ 
@@ -496,6 +496,7 @@ $(function () {
 			adventurePlay.show();
 		},2000);
 		setTimeout(function(){
+			let choice=0;
 			let count=0;
 			type();
 			var typingTxt = $(".typing-txt").text(); 
@@ -510,7 +511,12 @@ $(function () {
 			audio2.volume = 0.1;
 			audio2.loop=true;
 			audio2.play();
-			
+			var audio3 = new Audio("${path}/resources/audio/adventure/실내 웅성웅성BG.wav");
+			audio3.load();
+			audio3.volume = 1;
+			var audio7 = new Audio("${path}/resources/audio/adventure/MP_Shotgun Blast.mp3");
+			audio7.load();
+			audio7.volume = 0.2;
 			$('#sound').click(function(){
 				audio2.pause();
 				$('#mute').show();
@@ -524,8 +530,8 @@ $(function () {
 	 		setTimeout(function(){
 	 			audio.pause();
 	 			$('#adarrow').show();
-	 		},typingTxt.length*50)
-	 		$('#adarrow').click(function(){
+	 		},typingTxt.length*40)
+	 		$('.adarrow').click(function(){
 				if(count==0){
 		 			audio.play();
 					audio.loop = true;
@@ -538,7 +544,7 @@ $(function () {
 		 			setTimeout(function(){
 			 			audio.pause();
 			 			$('#adarrow').show();
-			 		},typingTxt.length*50)
+			 		},typingTxt.length*40)
 			 		count++;
 				}else if(count==1){
 					audio.play();
@@ -552,7 +558,7 @@ $(function () {
 		 			setTimeout(function(){
 		 				$('#adarrow').show();
 			 			audio.pause();
-			 		},typingTxt.length*50)
+			 		},typingTxt.length*40)
 			 		count++;
 				}else if(count==2){
 					$('#adarrow').hide();
@@ -568,7 +574,7 @@ $(function () {
 		 				$('#adarrow').show();
 			 			audio.pause();
 			 			count++;
-			 		},typingTxt.length*50)
+			 		},typingTxt.length*40)
 				}else if(count==3){
 					audio.play();
 					audio.loop = true;
@@ -585,7 +591,7 @@ $(function () {
 		 			setTimeout(function(){
 		 				$('#adarrow').show();
 			 			audio.pause();
-			 		},typingTxt.length*50)
+			 		},typingTxt.length*40)
 			 		count++;
 				}else if(count==4){
 					audio.play();
@@ -602,7 +608,7 @@ $(function () {
 					setTimeout(function(){
 		 				$('#adarrow').show();
 			 			audio.pause();
-			 		},typingTxt.length*50)
+			 		},typingTxt.length*40)
 			 		count++;
 				}else if(count==5){
 					audio.play();
@@ -611,8 +617,12 @@ $(function () {
 					$('#adimg1').show();
 					$('#namead').text('미스포로');
 					$('.typing').text('');
-					$('.typing-txt').text('그 새끼는 왜 찾는거지? 너도 죽고싶은거야? 알아서 찾아');
+					$('.typing-txt').text('뭐? 갱플포로? 입 조심해 꼬맹아, 흑백화면 보기 싫으면 말이지 꺼저버려');
 					$('.typing').css('color','wheat')
+					var audio4 = new Audio("${path}/resources/audio/adventure/MP_미스 포츈 도발 4198.wav");
+					audio4.load();
+					audio4.volume = 0.5;
+					audio4.play();
 					type();
 		 			typingTxt = $(".typing-txt").text(); 
 					typingTxt=typingTxt.split(""); 
@@ -623,46 +633,147 @@ $(function () {
 			 				$('#admap').css('opacity','0.7')
 			 				$('#adchoice').show();
 			 			},500)
-			 		},typingTxt.length*50)
+			 		},typingTxt.length*40)
 			 		count++;
+				}else if(count==200){
+					audio.play();
+					audio.loop = true;
+					$('#namead').text('김포로');
+		 			$('.twoclick').hide();
+		 			audio3.pause();
+		 			$('.typing').text('');
+		 			$('.typing-txt').text('주점에서 싸움난건가? 왜들 모여있지 구경해 봐야지')
+		 			type();
+		 			typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split(""); 
+		 			setTimeout(function(){
+			 			audio.pause();
+			 			$('#adarrow').show();
+			 		},typingTxt.length*40)
+			 		count++;
+				}else if(count==201){
+					audio.play();
+					audio.loop = true;
+					$('#namead').text('그브포로');
+					$('#adarrow').hide();
+					$('#admap').attr("src","${path}/resources/images/game/adventure/그브트페싸움.jpg");
+					$('#adimg4').show();
+		 			$('.twoclick').hide();
+		 			var audio5 = new Audio("${path}/resources/audio/adventure/MP_그레이브즈 도발 CA87 (mp3cut.net).wav");
+					audio5.load();
+					audio5.volume = 0.4;
+					audio5.play();
+		 			$('.typing').text('');
+		 			$('.typing-txt').text('늙어 죽는게 소원은 아니었길 바래')
+		 			type();
+		 			typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split(""); 
+		 			setTimeout(function(){
+			 			audio.pause();
+			 			$('#adarrow').show();
+			 		},typingTxt.length*40)
+			 		count++;
+				}else if(count==202){
+					audio.play();
+					audio.loop = true;
+					$('#namead').text('트페포로');
+					$('#adimg4').hide();
+					$('#adimg3').show();
+					$('#adarrow').hide();
+					var audio6 = new Audio("${path}/resources/audio/adventure/트위스티드 페이트 한국어 음성 (mp3cut.net).wav");
+					audio6.load();
+					audio6.volume = 0.4;
+					audio6.play();
+		 			$('.typing').text('');
+		 			$('.typing-txt').text('진정 하라고 친구, 우리 말로 해결을 보자고')
+		 			type();
+		 			typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split("");
+					$('#oneclick').text('말린다')
+					$('#twoclick').text('지켜본다')
+					setTimeout(function(){
+			 			audio.pause();
+			 			setTimeout(function(){
+			 				choice=200;
+		 					$( '#adimg3' ).hide();
+			 				$('#admap').css('opacity','0.7')
+			 				$('#adchoice').show();
+			 			},500)
+			 		},typingTxt.length*40)
 				}
 	 		})
 	 		
 	 		
 	 		$('#oneclick').click(function(){
-	 			$('#admap').css('opacity','1');
-	 			audio.play();
-	 			audio.loop = true;
-	 			$('#adchoice').hide();
-	 			$('#adimg1').hide();
-	 			$('#adimg2').show();
-	 			$('.typing').text('');
-	 			$('#namead').text('갱플포로');
-	 			$('.typing-txt').text('아직이야!!!!')
-	 			type();
-	 			typingTxt = $(".typing-txt").text(); 
-				typingTxt=typingTxt.split("");
-	 			setTimeout(function(){
-	 				audio.pause();
-	 			},typingTxt.length*50)
+	 			if(choice==0){
+		 			$('#admap').css('opacity','1');
+		 			audio.play();
+		 			audio.loop = true;
+		 			$('#adchoice').hide();
+		 			$('#adimg1').show();
+					$('#namead').text('미스포로');
+		 			$('.typing').text('');
+		 			$('.typing-txt').text('......................')
+		 			type();
+		 			typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split("");
+		 			setTimeout(function(){
+		 				audio.pause();
+		 			},typingTxt.length*40)
+	 			}else if(choice=200){
+	 				audio.play();
+		 			audio.loop = true;
+	 				$('#adchoice').hide();
+	 				$('#admap').css('opacity','1');
+		 			$('#adchoice').hide();
+		 			$('.typing').text('');
+		 			$('#namead').text('');
+		 			$('.typing-txt').text('김포로는 말리려다 총을 대신 맞아버렸다... THE END................')
+	 				audio7.play();
+		 			type();
+		 			typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split("");
+					setTimeout(function(){
+		 				audio.pause();
+		 			},typingTxt.length*40)
+	 			}
 	 		})
 	 		$('#twoclick').click(function(){
-	 			$('#admap').css('opacity','1');
-	 			audio.play();
-	 			audio.loop = true;
-	 			$('#adchoice').hide();
-	 			$('#adimg1').hide();
-	 			$('#adimg3').show();
-	 			$('.typing').text('');
-	 			$('#namead').text('트위포로');
-	 			$('.typing-txt').text('시간이 좀더 필요합니다.')
-	 			typingTxt = $(".typing-txt").text(); 
- 				type();
-				typingTxt=typingTxt.split("");
-				setTimeout(function(){
-	 				audio.pause();
-	 			},typingTxt.length*50)
+	 			if(choice==0){
+		 			$('#admap').css('opacity','1');
+		 			$('#adchoice').hide();
+		 			$('.typing').text('');
+		 			$('#namead').text('');
+		 			
+					audio3.play();
+					audio3.loop=true;
+		 			$('.typing-txt').text('웅성웅성웅성웅성웅성웅성')
+		 			typingTxt = $(".typing-txt").text(); 
+	 				type();
+					typingTxt=typingTxt.split("");
+					setTimeout(function(){
+						$('#adarrow').show();
+				 		count=200;
+		 			},typingTxt.length*40)
+	 			}else if(choice==200){
+	 				audio.play();
+		 			audio.loop = true;
+	 				$('#adchoice').hide();
+	 				$('#admap').css('opacity','1');
+		 			$('#adchoice').hide();
+		 			$('.typing').text('');
+		 			$('#namead').text('');
+		 			$('.typing-txt').text('김포로는 말리려다 총을 대신 맞아버렸다... THE END................')
+	 				audio7.play();
+		 			type();
+		 			typingTxt = $(".typing-txt").text(); 
+					typingTxt=typingTxt.split("");
+					setTimeout(function(){
+		 				audio.pause();
+		 			},typingTxt.length*40)
+	 			}
 	 		})
+	 		
 		},2900)
 	})
 	$('#worldcupStart').click(function(e){
@@ -681,6 +792,7 @@ $(function () {
 			case "LCK 롤 프로게이머 월드컵" : num=1;break;
 			case "LOL 롤 스킨 월드컵" : num=2;break;
 			case "LOL 롤 챔피언 월드컵" : num=3;break;
+			case "LOL 롤 BGM 음악 월드컵" : num=4;break;
 		}
 		window.open("${path}/game/worldcup?gameName="+name+"&num="+num) 
 	});
@@ -691,6 +803,7 @@ $(function () {
 			case "LCK 롤 프로게이머 월드컵" : num=1;break;
 			case "LOL 롤 스킨 월드컵" : num=2;break;
 			case "LOL 롤 챔피언 월드컵" : num=3;break;
+			case "LOL 롤 BGM 음악 월드컵" : num=4;break;
 		}
 		location.assign("${path}/game/worldcupRanking?gameName="+name+"&num="+num) 
 	});

@@ -45,6 +45,7 @@ public class GameController {
 		m.addAttribute("rate",service.worldRate(num));
 		m.addAttribute("rateOTO",service.worldRateOTO(num));
 		m.addAttribute("WCR",WCR);
+		m.addAttribute("number",num);
 		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, service.worldAllCount(num), "worldcupRanking?gameName="+gameName+"&num="+num));
 		m.addAttribute("gameName",gameName);
 		return "game/worldcupRanking";
