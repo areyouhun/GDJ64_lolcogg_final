@@ -456,192 +456,192 @@
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
 <script>
-	/*center 함수 재정의*/
-	jQuery.fn.center = function () {
-		this.css('top', Math.max(0,(($(window).height()-$(this).outerHeight())/2) + $(window).scrollTop())+'px');
-		this.css('left', Math.max(0,(($(window).width()-$(this).outerWidth())/2) + $(window).scrollLeft())+'px');
-		return this;
-	}
+/*center 함수 재정의*/
+jQuery.fn.center = function () {
+	this.css('top', Math.max(0,(($(window).height()-$(this).outerHeight())/2) + $(window).scrollTop())+'px');
+	this.css('left', Math.max(0,(($(window).width()-$(this).outerWidth())/2) + $(window).scrollLeft())+'px');
+	return this;
+}
 
-	/*모달 활성화 및 팝업 활성화*/
-	function wrapWindowByMask (){
-		var maskHeight = $(document).height();
-		var maskWidth = $(window).width();
-		
-		$('#mask').css({'width':maskWidth, 'height':maskHeight});
-		$('#mask').fadeTo(10,0.8);
-		
-		$('.storeModal').show();
-		$('.storeModal').center();
-	}
-
-	/*버튼 클릭시 위 함수 콜*/
+/*모달 활성화 및 팝업 활성화*/
+function wrapWindowByMask (){
+	var maskHeight = $(document).height();
+	var maskWidth = $(window).width();
 	
-	$(function () {
-		$('.checkBuyItem').click(function(e) {
-			$('#modalImg').attr("src",$(e.target).attr("src"));
-			$('#modaltemName').text($(e.target).next('h4').text());
-			$('#modalExplain').text($(e.target).next().next().text());
-			$('#modalPrice').text($(e.target).next().next().next().find('h5').text());
-			document.body.style.overflow = 'hidden';
-			e.preventDefault();
-			wrapWindowByMask();
-		});
-		$('#modalClose').click(function(e){
-			document.body.style.overflow = "scroll";
-			$('#modalImg').attr("src","")
-			$('#mask').hide();
-			$('.storeModal').hide();
-		})
-		$('#modalPurchase').click(function(e){
-			let changename;
-			const name=$('#modaltemName').text();
-			const price=$("#modalPrice").text();
-			if(${loginMember==null}){
-				alert("로그인 후 구매가능합니다.");
-				location.href='${path }/member/loginPage'
-			}else if(${point}-price<0){
-				alert("포인트가 부족합니다.");
-			}else{
-				if(name=="닉네임 변경권"){
-						document.body.style.overflow = 'hidden';
-						$('#modalImg').attr("src","")
-						$('.storeModal').hide();
-						$('.nickName').show();
-						$('.nickName').center();
-						$('#wantNick').keyup(function(){
-							$('#nickCkeck').css({"background-color":"var(--lol-mainblue)","border":"none","cursor":"pointer",'pointer-events': 'auto'})
-							if($('#wantNick').val().length==0){
-								$('#nickCkeck').css({"background-color":"var(--lol-black)","border":"2px solid var(--lol-white)","cursor":"default",'pointer-events': 'none'});
-								$('#nickResult').css("visibility","hidden");
-								$('#check1+label').css('pointer-events','none');
-								$('#check1').prop("checked",false);
-								$('#nickChangeButton').css({"opacity":"0.5","cursor":"default",'pointer-events': 'none'})
-								$('#nickChangeButtonAccept').css({"border":"2px solid var(--lol-white)"})
-							}
-						})
-						$('#check1').click(function(){
-							if($('#check1').is(':checked')){
-								$('#nickChangeButton').css({"opacity":"1","cursor":"pointer",'pointer-events': 'auto'})
-								$('#nickChangeButtonAccept').css({"border":"2px solid var(--lol-mainblue)"})
-							}else{
-								$('#nickChangeButton').css({"opacity":"0.5","cursor":"default",'pointer-events': 'none'})
-								$('#nickChangeButtonAccept').css({"border":"2px solid var(--lol-white)"})
-							}
-						})
-						$('#nickCkeck').click(function(){
-								$.ajax({
-									type : 'GET',
-									url : '${path}/store/nickCkeck',
-									dataType : 'text',
-									data : {
-										"name" : $('#wantNick').val()
-									},
-									success : function(data){
-										if(data.length==0){
-											const regex=new RegExp('^[가-힣a-zA-Z0-9]{2,8}$');
-											if(regex.test($('#wantNick').val())){
-												$('#checkImg').attr("src","${path}/resources/images/store/correct.png")
-												$('#checkMsg').text("축하합니다. 선택한 닉네임을 사용할 수 있습니다!")
-												$('#checkMsg').css("color","#63DD61")
-												$('#nickResult').css("visibility","visible")
-												$('#check1+label').css('pointer-events','auto');
-												changename=$("#wantNick").val()
-												$('#wantNick').keyup(function(){
-													$('#nickResult').css("visibility","hidden");
-													$('#check1+label').css('pointer-events','none');
-													$('#check1').prop("checked",false);
-													$('#nickChangeButton').css({"opacity":"0.5","cursor":"default",'pointer-events': 'none'})
-													$('#nickChangeButtonAccept').css({"border":"2px solid var(--lol-white)"})
-												})
-											}else{
-												$('#checkImg').attr("src","${path}/resources/images/store/reject.png")
-												$('#checkMsg').text("2자 이상 8자 이내 한글,영어,숫자만 가능합니다.")
-												$('#checkMsg').css("color","var(--lol-teamred)")
-												$('#nickResult').css("visibility","visible")
+	$('#mask').css({'width':maskWidth, 'height':maskHeight});
+	$('#mask').fadeTo(10,0.8);
+	
+	$('.storeModal').show();
+	$('.storeModal').center();
+}
+
+/*버튼 클릭시 위 함수 콜*/
+
+$(function () {
+	$('.checkBuyItem').click(function(e) {
+		$('#modalImg').attr("src",$(e.target).attr("src"));
+		$('#modaltemName').text($(e.target).next('h4').text());
+		$('#modalExplain').text($(e.target).next().next().text());
+		$('#modalPrice').text($(e.target).next().next().next().find('h5').text());
+		document.body.style.overflow = 'hidden';
+		e.preventDefault();
+		wrapWindowByMask();
+	});
+	$('#modalClose').click(function(e){
+		document.body.style.overflow = "scroll";
+		$('#modalImg').attr("src","")
+		$('#mask').hide();
+		$('.storeModal').hide();
+	})
+	$('#modalPurchase').click(function(e){
+		let changename;
+		const name=$('#modaltemName').text();
+		const price=$("#modalPrice").text();
+		if(${loginMember==null}){
+			alert("로그인 후 구매가능합니다.");
+			location.href='${path }/member/loginPage'
+		}else if(${point}-price<0){
+			alert("포인트가 부족합니다.");
+		}else{
+			if(name=="닉네임 변경권"){
+					document.body.style.overflow = 'hidden';
+					$('#modalImg').attr("src","")
+					$('.storeModal').hide();
+					$('.nickName').show();
+					$('.nickName').center();
+					$('#wantNick').keyup(function(){
+						$('#nickCkeck').css({"background-color":"var(--lol-mainblue)","border":"none","cursor":"pointer",'pointer-events': 'auto'})
+						if($('#wantNick').val().length==0){
+							$('#nickCkeck').css({"background-color":"var(--lol-black)","border":"2px solid var(--lol-white)","cursor":"default",'pointer-events': 'none'});
+							$('#nickResult').css("visibility","hidden");
+							$('#check1+label').css('pointer-events','none');
+							$('#check1').prop("checked",false);
+							$('#nickChangeButton').css({"opacity":"0.5","cursor":"default",'pointer-events': 'none'})
+							$('#nickChangeButtonAccept').css({"border":"2px solid var(--lol-white)"})
+						}
+					})
+					$('#check1').click(function(){
+						if($('#check1').is(':checked')){
+							$('#nickChangeButton').css({"opacity":"1","cursor":"pointer",'pointer-events': 'auto'})
+							$('#nickChangeButtonAccept').css({"border":"2px solid var(--lol-mainblue)"})
+						}else{
+							$('#nickChangeButton').css({"opacity":"0.5","cursor":"default",'pointer-events': 'none'})
+							$('#nickChangeButtonAccept').css({"border":"2px solid var(--lol-white)"})
+						}
+					})
+					$('#nickCkeck').click(function(){
+							$.ajax({
+								type : 'GET',
+								url : '${path}/store/nickCkeck',
+								dataType : 'text',
+								data : {
+									"name" : $('#wantNick').val()
+								},
+								success : function(data){
+									if(data.length==0){
+										const regex=new RegExp('^[가-힣a-zA-Z0-9]{2,8}$');
+										if(regex.test($('#wantNick').val())){
+											$('#checkImg').attr("src","${path}/resources/images/store/correct.png")
+											$('#checkMsg').text("축하합니다. 선택한 닉네임을 사용할 수 있습니다!")
+											$('#checkMsg').css("color","#63DD61")
+											$('#nickResult').css("visibility","visible")
+											$('#check1+label').css('pointer-events','auto');
+											changename=$("#wantNick").val()
+											$('#wantNick').keyup(function(){
+												$('#nickResult').css("visibility","hidden");
 												$('#check1+label').css('pointer-events','none');
 												$('#check1').prop("checked",false);
 												$('#nickChangeButton').css({"opacity":"0.5","cursor":"default",'pointer-events': 'none'})
 												$('#nickChangeButtonAccept').css({"border":"2px solid var(--lol-white)"})
-											}
+											})
 										}else{
-											$('#checkImg').attr("src","${path}/resources/images/store/reject.png");
-											$('#checkMsg').text("중복된 닉네임이 있습니다.");
-											$('#checkMsg').css("color","var(--lol-teamred)");
-											$('#nickResult').css("visibility","visible");
+											$('#checkImg').attr("src","${path}/resources/images/store/reject.png")
+											$('#checkMsg').text("2자 이상 8자 이내 한글,영어,숫자만 가능합니다.")
+											$('#checkMsg').css("color","var(--lol-teamred)")
+											$('#nickResult').css("visibility","visible")
+											$('#check1+label').css('pointer-events','none');
+											$('#check1').prop("checked",false);
+											$('#nickChangeButton').css({"opacity":"0.5","cursor":"default",'pointer-events': 'none'})
+											$('#nickChangeButtonAccept').css({"border":"2px solid var(--lol-white)"})
 										}
-									},
-								    error : function(request, status, error) { 
-								        console.log(error)
-								    }
-								})
-								
-
-							})
-						$('#nickChangeButton').click(function(){
-							$.ajax({
-								type : 'POST',
-								url : '${path}/store/nickChange',
-								data : {
-									"name" : changename,
-									"price" : 200
+									}else{
+										$('#checkImg').attr("src","${path}/resources/images/store/reject.png");
+										$('#checkMsg').text("중복된 닉네임이 있습니다.");
+										$('#checkMsg').css("color","var(--lol-teamred)");
+										$('#nickResult').css("visibility","visible");
+									}
 								},
-								success : function(){
-									alert("닉네임이 변경되었습니다.")
-									location.href='${path}/store/main';
-								},
-								error : function(request, status, error) { 
+							    error : function(request, status, error) { 
 							        console.log(error)
 							    }
 							})
+							
+
 						})
-						$('.nickClose').click(function(e){
-							document.body.style.overflow = "scroll";
-							$('#modalImg').attr("src","")
-							$('#mask').hide();
-							$('.nickName').hide();
+					$('#nickChangeButton').click(function(){
+						$.ajax({
+							type : 'POST',
+							url : '${path}/store/nickChange',
+							data : {
+								"name" : changename,
+								"price" : 200
+							},
+							success : function(){
+								alert("닉네임이 변경되었습니다.")
+								location.href='${path}/store/main';
+							},
+							error : function(request, status, error) { 
+						        console.log(error)
+						    }
 						})
-						
-				}else if(name.includes('물약')){
-					let addExpNum;
-					if(name.includes('일반')){
-						addExpNum=Math.floor(Math.random() * 50)
-					}else if(name.includes('서사')){
-						addExpNum=Math.floor(Math.random() * 100)
-					}else if(name.includes('행운')){
-						if(Math.floor(Math.random() * 2)==0){
-							addExpNum=-Math.floor(Math.random() * 200)
-						}else{
-							addExpNum=Math.floor(Math.random() * 200)
-						}
+					})
+					$('.nickClose').click(function(e){
+						document.body.style.overflow = "scroll";
+						$('#modalImg').attr("src","")
+						$('#mask').hide();
+						$('.nickName').hide();
+					})
+					
+			}else if(name.includes('물약')){
+				let addExpNum;
+				if(name.includes('일반')){
+					addExpNum=Math.floor(Math.random() * 50)
+				}else if(name.includes('서사')){
+					addExpNum=Math.floor(Math.random() * 100)
+				}else if(name.includes('행운')){
+					if(Math.floor(Math.random() * 2)==0){
+						addExpNum=-Math.floor(Math.random() * 200)
 					}else{
 						addExpNum=Math.floor(Math.random() * 200)
 					}
-					$.ajax({
-						type : 'POST',
-						url : '${path}/store/addExp',
-						data : {
-							"exp" : addExpNum,
-							"price" : price,
-							"name" : name
-						},
-						success : function(){
-							alert(addExpNum+"의 경험치를 얻었습니다.");
-							location.href='${path}/store/main';
-						},
-						error : function(request, status, error) { 
-					        console.log(error)
-					    }
-					})
 				}else{
-					location.replace('${path}/store/purchase?name='+name+"&price="+price);
+					addExpNum=Math.floor(Math.random() * 200)
 				}
+				$.ajax({
+					type : 'POST',
+					url : '${path}/store/addExp',
+					data : {
+						"exp" : addExpNum,
+						"price" : price,
+						"name" : name
+					},
+					success : function(){
+						alert(addExpNum+"의 경험치를 얻었습니다.");
+						location.href='${path}/store/main';
+					},
+					error : function(request, status, error) { 
+				        console.log(error)
+				    }
+				})
+			}else{
+				location.replace('${path}/store/purchase?name='+name+"&price="+price);
 			}
-		})
-		$('#storeSearchButton').click(function(){
-			location.href='${path}/store/detail?name='+$("#storeSearch").val()
-		})
-	});
+		}
+	})
+	$('#storeSearchButton').click(function(){
+		location.href='${path}/store/detail?name='+$("#storeSearch").val()
+	})
+});
 
 </script>
 <!-------------------------------------------->

@@ -412,7 +412,7 @@
 				controls = new TrackballControls( camera, renderer.domElement );
 				controls.minDistance = 300;
 				controls.maxDistance = 10000;
-				controls.rotateSpeed = 15;
+				controls.rotateSpeed = 8;
 				controls.addEventListener( 'change', render );
 
 				
@@ -444,7 +444,7 @@
 					controls = new TrackballControls( camera, renderer.domElement );
 					controls.minDistance = 300;
 					controls.maxDistance = 10000;
-					controls.rotateSpeed = 15;
+					controls.rotateSpeed = 8;
 					controls.addEventListener( 'change', render );
 
 				} );
