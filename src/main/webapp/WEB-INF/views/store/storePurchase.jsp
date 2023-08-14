@@ -46,6 +46,9 @@
 				border: 0px;
 				padding: 5px 10px;
 				cursor: pointer;
+			    width: 200px;
+			    height: 50px;
+			    font-size: 20px;
 			}
 
 			button:hover {
@@ -192,43 +195,48 @@
         transform: rotateZ(360deg);
     }
 }
+.clickinfo{
+    position: absolute;
+    top: 40px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.clickinfo>div{
+	margin: 50px;
+	font-size: 20px;
+	color : var(--lol-white);
+}
 
 </style>
 <!------------------------------------>
 <title>롤코지지</title>
 </head>
-<body>
+<body oncontextmenu="return false">
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="navBgColor" value="nav-black"/>
 </jsp:include>
     <section>
-    	<%-- <div>
+    	<div class="clickinfo">
     		<div>
-    			<div style="background-color: white">
-    				<img id="searchImg" src="${path}/resources/images/store/좌클릭.png" style="width:50px;height: 50px ">
-    			</div>
     			<p>좌클릭 : 회전</p>
     		</div>
     		<div>
-    			<div style="background-color: white">
-    				<img id="searchImg" src="${path}/resources/images/store/우클릭.png" style="width:50px;height: 50px ">
-    			</div>
     			<p>우클릭 : 이동</p>
     		</div>
     		<div>
-    			<div style="background-color: white">
-    				<img id="searchImg" src="${path}/resources/images/store/휠클릭.png" style="width:50px;height: 50px ">
-    			</div>
     			<p>휠 : 확대,축소</p>
     		</div>
-    		
-    	</div> --%>
+    		<div>
+    			<p>위치 초기화 후 클릭 시 원위치</p>
+    		</div>
+    	</div> 
 	    <div id="container"></div>
-	    <button>돌아가기</button>
 		<div id="menu">
-			<button id="table">TABLE</button>
-			<button id="helix">HELIX</button>
+			<button id="helix">둥글게보기</button>
+			<button id="table">일자로 보기</button>
 			<button id="reset">위치 초기화</button>
+			<button id="store">상점으로</button>
 		</div>
     </section>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
@@ -332,7 +340,7 @@
 
 
 					const object = new THREE.Object3D();
-					object.position.x = ( table[ i + 6 ] * 300 ) - 1320;
+					object.position.x = ( table[ i + 6 ] * 300 ) - 890;
 					object.position.y = - ( table[ i + 7 ] * 180 ) + 190;
 
 					targets.table.push( object );
@@ -362,7 +370,7 @@
 
 
 					const object = new THREE.Object3D();
-					object.position.x = ( table[ i + 1 ] * 300 ) - 1320;
+					object.position.x = ( table[ i + 1 ] * 300 ) - 890;
 					object.position.y = - ( table[ i + 2 ] * 180 ) + 190;
 
 					targets.table.push( object );
@@ -404,6 +412,7 @@
 				controls = new TrackballControls( camera, renderer.domElement );
 				controls.minDistance = 300;
 				controls.maxDistance = 10000;
+				controls.rotateSpeed = 15;
 				controls.addEventListener( 'change', render );
 
 				
@@ -431,11 +440,17 @@
 				const buttonreset = document.getElementById( 'reset' );
 				buttonreset.addEventListener( 'click', function () {
 					camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
-					camera.position.z = 2200;
+					camera.position.z = 1300;
 					controls = new TrackballControls( camera, renderer.domElement );
 					controls.minDistance = 300;
 					controls.maxDistance = 10000;
+					controls.rotateSpeed = 15;
 					controls.addEventListener( 'change', render );
+
+				} );
+				const buttonStore = document.getElementById( 'store' );
+				buttonStore.addEventListener( 'click', function () {
+					location.replace('${path}/store/main');
 
 				} );
 
@@ -519,6 +534,11 @@ function noRefresh()
 {
     /* CTRL + N키 막음. */
     if ((event.keyCode == 78) && (event.ctrlKey == true))
+    {
+        event.keyCode = 0;
+        return false;
+    }
+    if ((event.keyCode == 82) && (event.ctrlKey == true))
     {
         event.keyCode = 0;
         return false;

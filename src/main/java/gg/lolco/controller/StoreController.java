@@ -59,6 +59,9 @@ public class StoreController {
 			param.put("email", email);
 			m.addAttribute("buyer",serviceMember.selectMemberById(param));
 		}
+		if(name==null){
+			 name="";
+		}
 		param.put("no", no);
 		param.put("sort", sort);
 		param.put("order", order);

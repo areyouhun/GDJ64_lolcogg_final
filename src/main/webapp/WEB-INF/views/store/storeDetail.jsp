@@ -499,6 +499,7 @@
 			const price=$("#modalPrice").text();
 			if(${loginMember==null}){
 				alert("로그인 후 구매가능합니다.");
+				location.href='${path }/member/loginPage'
 			}else if(${point}-price<0){
 				alert("포인트가 부족합니다.");
 			}else{
@@ -583,7 +584,7 @@
 								url : '${path}/store/nickChange',
 								data : {
 									"name" : changename,
-									"price" : price
+									"price" : 200
 								},
 								success : function(){
 									alert("닉네임이 변경되었습니다.")
@@ -604,17 +605,17 @@
 				}else if(name.includes('물약')){
 					let addExpNum;
 					if(name.includes('일반')){
-						addExpNum=Math.floor(Math.random() * 500)
+						addExpNum=Math.floor(Math.random() * 50)
 					}else if(name.includes('서사')){
-						addExpNum=Math.floor(Math.random() * 1000)
+						addExpNum=Math.floor(Math.random() * 100)
 					}else if(name.includes('행운')){
 						if(Math.floor(Math.random() * 2)==0){
-							addExpNum=-Math.floor(Math.random() * 1000)
+							addExpNum=-Math.floor(Math.random() * 200)
 						}else{
-							addExpNum=Math.floor(Math.random() * 1000)
+							addExpNum=Math.floor(Math.random() * 200)
 						}
 					}else{
-						addExpNum=Math.floor(Math.random() * 2000)
+						addExpNum=Math.floor(Math.random() * 200)
 					}
 					$.ajax({
 						type : 'POST',
@@ -639,7 +640,6 @@
 		$('#storeSearchButton').click(function(){
 			location.href='${path}/store/detail?name='+$("#storeSearch").val()
 		})
-
 	});
 
 </script>
