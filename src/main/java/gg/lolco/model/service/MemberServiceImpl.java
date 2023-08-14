@@ -114,6 +114,27 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String searchEmailByReferralCode(String myReferralCode) {
 		return dao.searchEmailByReferralCode(session, myReferralCode);
+	}
+
+	@Override
+	public int insertEmotionOffer(Map emotionOfferValue) {
+		// TODO Auto-generated method stub
+		return dao.insertEmotionOffer(session, emotionOfferValue);
+	}
+
+	@Override
+	public int selectRandomCardnoFromTeamname(String teamName) {
+		return dao.selectRandomCardnoFromTeamname(session, teamName);
+	}
+
+	@Override
+	public int insertCardOffer(Map cardOfferValue) {
+		return dao.insertCardOffer(session, cardOfferValue);
+	}
+
+	@Override
+	public int updateStatus() {
+		return dao.updateStatus(session);
 	}	
-    
+	
 }

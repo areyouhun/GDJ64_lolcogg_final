@@ -128,7 +128,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="color-white fs-10 info" >[*응원팀 선택 시 가입 기념 카드 + 이모티콘(응원팀 이모티콘 팩) 지급]</p>
+                            <p class="color-white fs-10 info" >[*응원팀 선택 시 응원팀 랜덤 카드 + 응원팀 대표 이모티콘 지급]</p>
                             <div class="line">
                                 <p class="color-white ff-suit fw-bold">프로필이미지</p>
                                 <input type="file" name="file" id="file" accept="image/*"  style="display:none" /> 
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class='v-line'></div>
                                 <div class="previewBox2">
-                                    <p class="color-white ff-macho fs-10">추천 이미지(개발전)</p>
+                                    <p class="color-white ff-macho fs-10">추천 이미지</p>
                                     <img src="${path}/resources/images/member/sad.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image">
                                     <img src="${path}/resources/images/member/smile.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image">
                                     <img src="${path}/resources/images/member/run.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image">
@@ -191,8 +191,8 @@
                                 </label>
                             </div>
                         </div>		
-                        <input type="submit" value="가입하기" class="enrollButton"  >
-                        <!-- <input type="submit" value="가입하기" class="enrollButton" onclick="return test();" > -->
+                        <!-- <input type="submit" value="가입하기" class="enrollButton"  > -->
+                        <input type="submit" value="가입하기" class="enrollButton" onclick="return test();" >
                		</div>
                 </form>
 			</div>
