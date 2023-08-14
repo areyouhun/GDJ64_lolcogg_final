@@ -150,8 +150,8 @@ public class MemberController {
 //					.enrollDate(default)//mybatis에서 입력
 //					.withdrawDate(null)//mybatis에서 입력
         		.authority("일반유저")
-//        		.isBanned(default)//(추가예정)mybatis에서 입력
-//        		.hasDragon(default)//(추가예정)mybatis에서 입력
+//        		.isBanned(default)//mybatis에서 입력
+//        		.hasDragon(default)//mybatis에서 입력
         		.build();
         
 //        System.out.println(member);
