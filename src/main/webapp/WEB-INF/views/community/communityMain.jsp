@@ -28,6 +28,9 @@
 								<p>최근 24시간 기준</p>
 							</div>
 							
+							<%-- <c:if test="${realTimePopularity empty}">
+									<p class="content">글좀 봐주세요ㅠㅠ</p>
+							</c:if> --%>
 							<c:forEach var="r" items="${realTimePopularity }">
 								<a href="${path }/community/boardDetails?cmBoardNo=${r.cmBoardNo}">
 									<div class="realTime-popularity">
@@ -44,8 +47,11 @@
 								<p>주간 인기글</p>
 								<p>최근 일주일 기준</p>
 							</div>
+							<%-- <c:if test="${weeklyPopularity empty}">
+									<p class="content">글좀 봐주세요ㅠㅠ</p>
+							</c:if> --%>
 							<c:forEach var="w" items="${weeklyPopularity }">
-							<a href="${path }/community/boardDetails?cmBoardNo=${r.cmBoardNo}">
+							<a href="${path }/community/boardDetails?cmBoardNo=${w.cmBoardNo}">
 								<div class="realTime-popularity">
 									<p class="num">${count1 }</p>
 									<p>[${w.cmBoardCategories }]</p>
@@ -141,7 +147,10 @@
 								<div class="board-bottom">
 									<div>
 										<span>${b.cmBoardCategories }</span><span class="Backslash">|</span>
-										<span><span class="designation">[${b.cmBoardWriter.titleName }]</span>
+										<span>
+										<c:if test="${b.cmBoardWriter.titleName !=null}">
+										<span class="designation">[${b.cmBoardWriter.titleName }]</span>
+										</c:if>
 											${b.cmBoardWriter.nickname }</span> <span class="Backslash">|</span><span>${b.timeDifference}</span>
 									</div>
 

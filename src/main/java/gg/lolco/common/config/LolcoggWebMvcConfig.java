@@ -45,6 +45,7 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 		//community ================================================================
 		registry.addViewController("/community/insertCommunity").setViewName("community/insertCommunity");
 		registry.addViewController("/quiz").setViewName("quiz/choiceQuiz");
+		
 	}
 
 	@Override

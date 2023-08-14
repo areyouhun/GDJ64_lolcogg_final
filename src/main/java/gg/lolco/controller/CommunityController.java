@@ -213,6 +213,12 @@ public class CommunityController {
 					b.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
 				}
 			}
+			List<CommunityBoard> realTimePopularity = service.realTimePopularity();
+			List<CommunityBoard> weeklyPopularity = service.weeklyPopularity();
+			
+			
+			m.addAttribute("weeklyPopularity", weeklyPopularity);
+			m.addAttribute("realTimePopularity", realTimePopularity);
 			m.addAttribute("selectboardList", selectBoradCategorie);
 			m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectBoradCategorie"));
 		}
@@ -253,6 +259,12 @@ public class CommunityController {
 			} else {
 				b.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
 			}
+			List<CommunityBoard> realTimePopularity = service.realTimePopularity();
+			List<CommunityBoard> weeklyPopularity = service.weeklyPopularity();
+			
+			
+			m.addAttribute("weeklyPopularity", weeklyPopularity);
+			m.addAttribute("realTimePopularity", realTimePopularity);
 
 			m.addAttribute("selectboardList", selectPopularity);
 			m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectBoradCategorie"));
@@ -295,6 +307,12 @@ public class CommunityController {
 				b.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
 			}
 		}
+		List<CommunityBoard> realTimePopularity = service.realTimePopularity();
+		List<CommunityBoard> weeklyPopularity = service.weeklyPopularity();
+		
+		
+		m.addAttribute("weeklyPopularity", weeklyPopularity);
+		m.addAttribute("realTimePopularity", realTimePopularity);
 
 		m.addAttribute("selectboardList", searchBoard);
 		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "searchBoard"));

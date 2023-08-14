@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import gg.lolco.common.PageFactory;
 import gg.lolco.model.service.CardService;
 import gg.lolco.model.vo.Card;
+import gg.lolco.model.vo.CardAchievementComplete;
 import gg.lolco.model.vo.Member;
 import gg.lolco.model.vo.MemberCard;
+import gg.lolco.model.vo.MemberCardAchievement;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -39,11 +41,12 @@ public class CardController {
 		MemberCard selectLeaderCard=service.selectLeaderCard(email);
 		List<Card> selectCardName=service.selectCardName();
 		int totalData = service.selectCardCountById(email);
+		
 		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectCardById"));
 		m.addAttribute("selectCardName",selectCardName);
 		m.addAttribute("cardList",selectCardById);
-		System.out.println(selectLeaderCard);
 		m.addAttribute("l",selectLeaderCard);
+		
 			
 		return "/card/Mycard";
 	}
@@ -138,6 +141,133 @@ public class CardController {
 
 		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "searchPlayer"));
 		return searchPlayer;
+		
+	}
+	@RequestMapping("/cardAchievement")
+	public String cardAchievement(@SessionAttribute("loginMember") Member member,Model m) {
+		String email=member.getEmail();
+		List<CardAchievementComplete> cardAchievement =service.cardAchievement(Map.of("email",email));
+		List<MemberCard> selectCardById =service.selectCardById(Map.of("cPage", 1, "numPerpage", 500,"email",email));
+		List<MemberCardAchievement>	selectMemberAchievement=service.selectMemberAchievement(Map.of("email",email));
+		
+			m.addAttribute("selectMemberAchievement",selectMemberAchievement);
+			m.addAttribute("cardAchievement",cardAchievement);
+			m.addAttribute("selectCardById",selectCardById);
+	      return "card/cardAchievement";    
+	}
+	@RequestMapping("/achievementCompensation")
+	public String achievementCompensation(@SessionAttribute("loginMember") Member member,Model m, 
+			@RequestParam("compensation") String compensation,@RequestParam("ach") String ach) {
+		String email=member.getEmail();
+		service.insertCompensation(Map.of("compensation", compensation,"email",email));
+			System.out.println(compensation);
+			System.out.println(ach);
+			int result=service.insertAchievementById(Map.of("ach", ach,"email",email));
+			if(result>0) {		
+				m.addAttribute("msg", "보상받기 완료");
+				m.addAttribute("loc", "/card/cardAchievement");
+				
+			}else {
+				m.addAttribute("msg", "보상받기 실패");
+				m.addAttribute("loc", "/card/cardAchievement");
+				
+			}
+		
+	      return "common/msg";    
+	}
+	@GetMapping("/selectAchievement")
+	public String selectAchievement(@SessionAttribute("loginMember") Member member,
+            Model m) {
+		String email=member.getEmail();
+			  
+		List<MemberCardAchievement>	selectMemberAchievement=service.selectMemberAchievement(Map.of("email",email));
+		List<MemberCard> selectCardById =service.selectCardById(Map.of("cPage", 1, "numPerpage", 500,"email",email));
+		List<CardAchievementComplete> cardAchievementAll =service.cardAchievementAll(Map.of("email",email));
+		
+		m.addAttribute("selectMemberAchievement",selectMemberAchievement);
+		m.addAttribute("cardAchievement",cardAchievementAll);
+		System.out.println(cardAchievementAll);
+		m.addAttribute("selectCardById",selectCardById);
+		return "card/cardAchievement";
+		
+	}
+	@GetMapping("/achievementUnsatisfaction")
+	public String achievementUnsatisfaction(@SessionAttribute("loginMember") Member member,
+            Model m) {
+		String email=member.getEmail();
+		List<MemberCardAchievement>	selectMemberAchievement=service.selectMemberAchievement(Map.of("email",email));
+		List<MemberCard> selectCardById =service.selectCardById(Map.of("cPage", 1, "numPerpage", 500,"email",email));
+		List<CardAchievementComplete> achievementUnsatisfaction =service.achievementUnsatisfaction(Map.of("email",email));
+		
+		m.addAttribute("selectMemberAchievement",selectMemberAchievement);
+		m.addAttribute("cardAchievement",achievementUnsatisfaction);
+		m.addAttribute("selectCardById",selectCardById);
+		return "card/cardAchievement";
+		
+	}
+	@RequestMapping("/selectCard")
+	public String selectCard(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "12") int numPerpage,Member member,Model m) {
+		String email=member.getEmail();
+		List<MemberCard> selectCard=service.selectCard(Map.of("cPage", cPage, "numPerpage", numPerpage));
+		List<Card> selectCardName=service.selectCardName();
+		int totalData = service.selectCardCount();
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectCard"));
+		m.addAttribute("selectCardName",selectCardName);
+		m.addAttribute("cardList",selectCard);
+		
+		
+			
+		return "/card/cardCatalog";
+	}
+	
+	@GetMapping("/selectCategorieAll")
+	@ResponseBody
+	public List<Card> selectCategorieAll(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+            @RequestParam(value = "numPerpage", defaultValue = "12") int numPerpage,
+            @SessionAttribute("loginMember") Member member,
+            @RequestParam("rating") String ratingVal,
+            @RequestParam("team") String teamVal,
+            @RequestParam("player") String playerVal,
+            @RequestParam("season") String seasonVal,
+            @RequestParam("position") String positionVal,
+            Model m) {
+		String email=member.getEmail();
+		  Map<String, Object> params = new HashMap<>();
+		    params.put("cPage", cPage);
+		    params.put("numPerpage", numPerpage);
+		    params.put("email", email);
+		    params.put("rating", ratingVal);
+		    params.put("team", teamVal);
+		    params.put("player", playerVal);
+		    params.put("season", seasonVal);
+		    params.put("position", positionVal);
+		List<Card> selectCategorieAll = service.selectCategorieAll(params);
+		int totalData = selectCategorieAll.size();
+
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectCategorieAll"));
+		return selectCategorieAll;
+		
+	
+	}
+	@GetMapping("/searchPlayerAll")
+	@ResponseBody
+	public List<Card> searchPlayerAll(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+            @RequestParam(value = "numPerpage", defaultValue = "12") int numPerpage,
+            @SessionAttribute("loginMember") Member member,
+            @RequestParam("search") String search,
+            Model m) {
+		String email=member.getEmail();
+		  Map<String, Object> params = new HashMap<>();
+		    params.put("cPage", cPage);
+		    params.put("numPerpage", numPerpage);
+		    params.put("email", email);
+		    params.put("search", search);		  
+		List<Card> searchPlayerAll = service.searchPlayerAll(params);
+		int totalData = searchPlayerAll.size();
+
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "searchPlayerAll"));
+		return searchPlayerAll;
 		
 	}
 	

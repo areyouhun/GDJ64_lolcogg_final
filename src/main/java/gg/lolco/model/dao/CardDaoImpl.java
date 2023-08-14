@@ -8,7 +8,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import gg.lolco.model.vo.Card;
+import gg.lolco.model.vo.CardAchievementComplete;
 import gg.lolco.model.vo.MemberCard;
+import gg.lolco.model.vo.MemberCardAchievement;
 
 @Repository
 public class CardDaoImpl implements CardDao {
@@ -27,6 +29,10 @@ public class CardDaoImpl implements CardDao {
 	public int selectCardCountById(SqlSession session,String email) {
 		return session.selectOne("card.selectCardCountById",email);
 	}
+	@Override
+	public int selectCardCount(SqlSession session) {
+		return session.selectOne("card.selectCardCount");
+	}
 
 
 
@@ -39,11 +45,27 @@ public class CardDaoImpl implements CardDao {
 		return session.selectList("card.selectCategorie",param,rb);
 	}
 	@Override
+	public List<Card> selectCategorieAll(SqlSession session, Map<String, Object> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		
+		return session.selectList("card.selectCategorieAll",param,rb);
+	}
+	@Override
+	public List<Card> searchPlayerAll(SqlSession session, Map<String, Object> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		
+		return session.selectList("card.searchPlayerAll",param,rb);
+	}
+	@Override
 	public List<MemberCard> searchPlayer(SqlSession session, Map<String, Object> param) {
 		int cPage=(int)param.get("cPage");
 		int numPerpage=(int)param.get("numPerpage");
 		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
-		return session.selectList("card.searchPlayer",param,rb);
+		return session.selectList("card.searchPlayerAll",param,rb);
 	}
 
 
@@ -69,6 +91,66 @@ public class CardDaoImpl implements CardDao {
 	@Override
 	public MemberCard selectLeaderCard(SqlSession session, String email) {
 		return session.selectOne("card.selectLeaderCard",email);
+	}
+
+
+
+	@Override
+	public List<CardAchievementComplete> cardAchievement(SqlSession session,Map<String, Object> param) {
+		return session.selectList("card.cardAchievement",param);
+	}
+
+
+
+	@Override
+	public int insertCompensation(SqlSession session, Map<String, Object> param) {
+		return session.insert("card.insertCompensation",param);
+	}
+
+
+
+	@Override
+	public int insertAchievementById(SqlSession session, Map<String, Object> param) {
+		return session.insert("card.insertAchievementById",param);
+	}
+
+
+
+	@Override
+	public List<MemberCardAchievement> selectMemberAchievement(SqlSession session, Map<String, Object> param) {
+		return session.selectList("card.selectMemberAchievement",param);
+	}
+	@Override
+	public List<CardAchievementComplete> achievementUnsatisfaction(SqlSession session, Map<String, Object> param) {
+		return session.selectList("card.achievementUnsatisfaction",param);
+	}
+	@Override
+	public List<MemberCardAchievement> selectMemberAchievementAll(SqlSession session, Map<String, Object> param) {
+		return session.selectList("card.selectMemberAchievementAll",param);
+	}
+
+
+
+	@Override
+	public int insertPointById(SqlSession session, Map<String, Object> param) {
+		return session.update("card.insertPointById",param);
+	}
+
+
+
+	@Override
+	public List<CardAchievementComplete> cardAchievementAll(SqlSession session, Map<String, Object> param) {
+		return session.selectList("card.cardAchievementAll",param);
+	}
+
+
+
+	@Override
+	public List<MemberCard> selectCard(SqlSession session, Map<String, Object> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		return session.selectList("card.selectCard",param,rb);
 	}
 
 
