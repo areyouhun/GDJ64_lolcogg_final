@@ -638,8 +638,8 @@
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 			shape.append('<div class="roundMain"><div class="round"><h2>${gameName } 128강 '+count+'/64</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
-			const firstImg=$('<img class="firstImg'+(i!=126?'"':' finalImgLO" ')+'src="${path }'+($("#roundselect").val()==128?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
-			const secondImg=$('<img class="secondImg'+(i!=126?'"':' finalImgLO" ')+'src="${path }'+($("#roundselect").val()==128?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
+			const firstImg=$('<img class="firstImg'+(i!=126?'"':' finalImgLO" ')+'src="'+($("#roundselect").val()==128?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
+			const secondImg=$('<img class="secondImg'+(i!=126?'"':' finalImgLO" ')+'src="'+($("#roundselect").val()==128?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
 			const name=$('<div><h2 class="leftName'+(i!=126?'">':' finalNameLO">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=126?'">':' finalNameLO">')+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -660,8 +660,8 @@
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 			shape.append('<div class="roundMain"><div class="round"><h2>${gameName } 64강 '+count+'/32</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
-			const firstImg=$('<img class="firstImg'+(i!=62?'"':' finalImgSF" ')+'src="${path }'+($("#roundselect").val()==64?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
-			const secondImg=$('<img class="secondImg'+(i!=62?'"':' finalImgSF" ')+'src="${path }'+($("#roundselect").val()==64?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
+			const firstImg=$('<img class="firstImg'+(i!=62?'"':' finalImgSF" ')+'src="'+($("#roundselect").val()==64?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
+			const secondImg=$('<img class="secondImg'+(i!=62?'"':' finalImgSF" ')+'src="'+($("#roundselect").val()==64?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
 			const name=$('<div><h2 class="leftName'+(i!=62?'">':' finalNameSF">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=62?'">':' finalNameSF">')+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -682,8 +682,8 @@
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 			shape.append('<div class="roundMain"><div class="round"><h2>${gameName } 32강 '+count+'/16</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
-			const firstImg=$('<img class="firstImg'+(i!=30?'"':' finalImgTT" ')+'src="${path }'+($("#roundselect").val()==32?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
-			const secondImg=$('<img class="secondImg'+(i!=30?'"':' finalImgTT" ')+'src="${path }'+($("#roundselect").val()==32?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
+			const firstImg=$('<img class="firstImg'+(i!=30?'"':' finalImgTT" ')+'src="'+($("#roundselect").val()==32?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
+			const secondImg=$('<img class="secondImg'+(i!=30?'"':' finalImgTT" ')+'src="'+($("#roundselect").val()==32?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
 			const name=$('<div><h2 class="leftName'+(i!=30?'">':' finalNameTT">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=30?'">':' finalNameTT">')+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -704,8 +704,8 @@
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 			shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 16강 '+count+'/8</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
-			const firstImg=$('<img class="firstImg'+(i!=14?'"':' finalImgST" ')+'src="${path }'+($("#roundselect").val()==16?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
-			const secondImg=$('<img class="secondImg'+(i!=14?'"':' finalImgST" ')+'src="${path }'+($("#roundselect").val()==16?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
+			const firstImg=$('<img class="firstImg'+(i!=14?'"':' finalImgST" ')+'src="'+($("#roundselect").val()==16?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
+			const secondImg=$('<img class="secondImg'+(i!=14?'"':' finalImgST" ')+'src="'+($("#roundselect").val()==16?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
 			const name=$('<div><h2 class="leftName'+(i!=14?'">':' finalNameST">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=14?'">':' finalNameST">')+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -727,8 +727,8 @@
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 			shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 8강 '+count+'/4</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
-			const firstImg=$('<img class="firstImg'+(i!=6?'"':' finalImgE" ')+'src="${path }'+($("#roundselect").val()==8?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
-			const secondImg=$('<img class="secondImg'+(i!=6?'"':' finalImgE" ')+'src="${path }'+($("#roundselect").val()==8?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
+			const firstImg=$('<img class="firstImg'+(i!=6?'"':' finalImgE" ')+'src="'+($("#roundselect").val()==8?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
+			const secondImg=$('<img class="secondImg'+(i!=6?'"':' finalImgE" ')+'src="'+($("#roundselect").val()==8?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
 			const name=$('<div><h2 class="leftName'+(i!=6?'">':' finalNameE">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=6?'">':' finalNameE">')+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -749,8 +749,8 @@
 			const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 			shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 4강 '+count+'/2</h2></div></div>');
 			const imgsetting=$('<div class="imgSetting">')
-			const firstImg=$('<img class="firstImg'+(i!=2?'"':' finalImgF" ')+'src="${path }'+($("#roundselect").val()==4?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
-			const secondImg=$('<img class="secondImg'+(i!=2?'"':' finalImgF" ')+'src="${path }'+($("#roundselect").val()==4?"/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
+			const firstImg=$('<img class="firstImg'+(i!=2?'"':' finalImgF" ')+'src="'+($("#roundselect").val()==4?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i]+'">')
+			const secondImg=$('<img class="secondImg'+(i!=2?'"':' finalImgF" ')+'src="'+($("#roundselect").val()==4?"${path }/resources/images/game/worldcup/":"")+quarterfinalsplayerImg[i+1]+'">')
 			const fight=$('<div class="fight">');
 			const versus=$('<img src="${path }/resources/images/game/versus.png">');
 			const name=$('<div><h2 class="leftName'+(i!=2?'">':' finalNameF">')+quarterfinalsplayerName[i]+'</h2><h2 class="rightName'+(i!=2?'">':' finalNameF">')+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -769,8 +769,8 @@
 		const shape=$('<div class="worldcupStart">');
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 결승전</h2></div></div>');
 		const imgsetting=$('<div class="imgSetting">')
-		const firstImg=$('<img class="firstImg" src="${path }'+quarterfinalsplayerImg[0]+'">')
-		const secondImg=$('<img class="secondImg" src="${path }'+quarterfinalsplayerImg[1]+'">')
+		const firstImg=$('<img class="firstImg" src="'+quarterfinalsplayerImg[0]+'">')
+		const secondImg=$('<img class="secondImg" src="'+quarterfinalsplayerImg[1]+'">')
 		const fight=$('<div class="fight">');
 		const versus=$('<img src="${path }/resources/images/game/versus.png">');
 		const name=$('<div><h2 class="leftName finalLeft">'+quarterfinalsplayerName[0]+'</h2><h2 class="rightName finalRight">'+quarterfinalsplayerName[1]+'</h2></div>')
