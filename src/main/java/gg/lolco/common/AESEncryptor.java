@@ -25,14 +25,17 @@ public class AESEncryptor {
 	private static final String KEY_FILE_NAME = "dvc.gd";
 	private static final String ALGORITHM = "AES";
 	private static final String CHARSET = "UTF-8";
-	//private static final String BASIC_DIR = ;
 	
 	private static SecretKey key;
 	private String path;
 	
 	public AESEncryptor() {
+		// Server path
 		this.path = System.getProperty("user.dir")+"/webapps/GDJ64_lolcogg_final/WEB-INF/"+KEY_FILE_NAME;
-		log.info("path: " + this.path);
+		
+		// Local path
+		//
+		
 		loadKeyBy(this.path);
 	}
 	
