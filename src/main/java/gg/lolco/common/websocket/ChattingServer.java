@@ -13,16 +13,19 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import gg.lolco.model.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
 public class ChattingServer extends TextWebSocketHandler {
 	private final ObjectMapper mapper;
+	private final MemberService service;
 	private final Map<String, WebSocketSession> clients;
 	
-	public ChattingServer(ObjectMapper mapper) {
+	public ChattingServer(ObjectMapper mapper, MemberService service) {
 		this.mapper = mapper;
+		this.service = service;
 		clients = new HashMap<>();
 	}
 	
@@ -73,6 +76,7 @@ public class ChattingServer extends TextWebSocketHandler {
 		if ((Boolean) session.getAttributes().get("isBanned")) {
 			log.info("One user has been banned from the chatroom.");
 			log.info("[{} users participating now]", clients.size());
+			service.ban(String.valueOf(session.getAttributes().get("nickname")));
 			notification += "님이 강퇴되었습니다.";
 		} else {
 			log.info("One user has left the chatroom.");

@@ -82,7 +82,23 @@
 <script src="${path}/resources/js/teamdata/script_teamlist.js"></script>
 <script>
 $(".chatBtn").click(event => {
-	openPage("${path}/chat/chatroom", 1200, 550);
+    const loginMember = "${sessionScope.loginMember}";
+
+    if (loginMember === null || loginMember === "") {
+        alert("로그인 이후 이용할 수 있습니다.");
+        return;
+    }
+
+    $.get("${path}/member/checkIfBanned")
+        .then(data => {
+            console.log(data);
+            if (data === "Y") {
+                alert("채팅방에서 강퇴 당한 회원은 금일 자정까지 입장이 불가능합니다.");
+                return;
+            }
+
+            openPage("${path}/chat/chatroom", 1200, 550);
+        });
 });
 </script>
 </body>
