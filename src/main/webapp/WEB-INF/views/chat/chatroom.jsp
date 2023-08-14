@@ -133,7 +133,10 @@
 			}
 	);
 	
-	const chattingServer = new WebSocket("ws://localhost:7070/chatting");
+	let path = "localhost:7070"; // local
+	path = "14.36.141.71:10005/GDJ64_lolcogg_final"; // server
+
+	const chattingServer = new WebSocket("ws://" + path + "/chatting");
 	const userTeam = "${loginMember.teamAbbr}";
 	const userEmail = "${loginMember.email}";
 	const userNickname = '${loginMember.nickname}';
@@ -570,6 +573,8 @@
 
 		return new Blob([ab], { type: mime });
 	}
+
+	$("#emoticonBtn").css("backgroundImage", "url('/resources/images/chat/emoticon.svg')");
 </script>
 </body>
 </html>
