@@ -475,6 +475,7 @@ $('.startBtn').click(e=>{
 		startQuiz();
 	} else {
 		alert("로그인 후 이용 가능한 서비스입니다.");
+		location.assign('${path}/member/loginPage');
 	}
 })
 

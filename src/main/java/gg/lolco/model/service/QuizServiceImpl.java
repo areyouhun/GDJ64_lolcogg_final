@@ -20,7 +20,13 @@ public class QuizServiceImpl implements QuizService {
 	}
 	@Override
 	public int finishQuiz(Map param) {
-		return dao.finishQuiz(session, param);
+		int result = dao.finishQuiz(session, param);
+		
+		if(result > 0) {
+			result += dao.pointHistory(session, param);
+		}
+		
+		return result;
 	}
 
 }

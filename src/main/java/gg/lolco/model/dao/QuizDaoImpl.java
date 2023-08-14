@@ -12,5 +12,10 @@ public class QuizDaoImpl implements QuizDao {
 	public int finishQuiz(SqlSessionTemplate session, Map param) {
 		return session.update("quiz.finishQuiz", param);
 	}
+
+	@Override
+	public int pointHistory(SqlSessionTemplate session, Map param) {
+		return session.insert("quiz.pointHistory", param);
+	}
 	
 }
