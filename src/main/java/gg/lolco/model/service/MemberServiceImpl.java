@@ -139,6 +139,11 @@ public class MemberServiceImpl implements MemberService {
 	
 	public int ban(String nickname) {
 		return dao.ban(session, nickname);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMemberAll() {
+		return dao.selectMemberAll(session);
 	}	
 	
 }

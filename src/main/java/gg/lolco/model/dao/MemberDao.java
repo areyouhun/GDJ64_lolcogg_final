@@ -40,4 +40,6 @@ public interface MemberDao {
 	
 	// ban a user kicked out from the chatroom
 	int ban(SqlSession session, String nickname);
+	
+	List<Map<String, Object>> selectMemberAll(SqlSession session);
 }

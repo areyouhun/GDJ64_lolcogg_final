@@ -83,4 +83,9 @@ public class MemberDaoImpl implements MemberDao {
 	public int ban(SqlSession session, String nickname) {
 		return session.update("member.ban", nickname);
 	}
+
+	@Override
+	public List<Map<String, Object>> selectMemberAll(SqlSession session) {
+		return session.selectList("member.selectMemberAll");
+	}
 }

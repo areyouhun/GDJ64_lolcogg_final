@@ -17,10 +17,7 @@ import javax.crypto.SecretKey;
 
 import org.springframework.stereotype.Component;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Component
-@Slf4j
 public class AESEncryptor {
 	private static final String KEY_FILE_NAME = "dvc.gd";
 	private static final String ALGORITHM = "AES";
@@ -34,7 +31,7 @@ public class AESEncryptor {
 		this.path = System.getProperty("user.dir")+"/webapps/GDJ64_lolcogg_final/WEB-INF/"+KEY_FILE_NAME;
 		
 		// Local path
-		// this.path = System.getProperty("user.dir") + "/" + KEY_FILE_NAME;
+		this.path = System.getProperty("user.dir") + "/" + KEY_FILE_NAME;
 		
 		loadKeyBy(this.path);
 	}
