@@ -1,6 +1,5 @@
 * {
     color: var(--lol-white, #EEE);
-    font-family: "EF_MACHO";
     list-style: none;
     margin: 0;
 }
@@ -17,6 +16,8 @@
 	display:flex;
     flex-direction: column;
     align-items: center;
+    
+    margin: 30px;
 }
 
 .choice-quiz {
@@ -32,17 +33,19 @@
     width: 75%;
     justify-content: space-evenly;
     margin-bottom: 4rem;
-    height: 353px;
+    height: 400px;
 }
 
 .choice-thema{
 	display: flex;
-    border: 4px solid var(--lol-teamblue);
+    border: 4px solid var(--lol-mainblue);
     border-radius: 10px 10px 10px 10px;
     flex-direction: column;
     align-items: center;
     height: 100%;
     width: 660px;
+    
+    overflow: hidden;
 }
 
 .choice-thema > div:last-child > div {
@@ -81,6 +84,8 @@
 	align-items: center;
 	border-radius: 25px;
     transition: background-color 0.2s, background-color 0.2s ease-in-out;
+    
+    font-family: "EF_MACHO";
 }
 
 .start-quiz:hover {

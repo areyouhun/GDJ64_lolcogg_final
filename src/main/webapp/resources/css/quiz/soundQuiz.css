@@ -1,0 +1,205 @@
+@charset "UTF-8";
+
+@import url('common.css');
+
+#backgroundImg {
+	width: 100%;
+    height: 100%;
+    opacity: 0.2;
+    position: absolute;
+    z-index: -10;
+}
+
+/* flex, center, center */
+.centerAll{
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+}
+
+/* 버튼 설정 */
+button{
+    transition: ease-out 0.2s;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* ****** 설명 페이지 ****** */
+.quiz{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 퀴즈 타이틀 */
+#quizTitle{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+
+/* 퀴즈 설명 */
+.quizInfo p{
+    text-align: center;  
+}
+
+.startBtn{
+    border-style: none;
+    background-color: var(--lol-mainblue);
+	width: 200px;
+	height: 50px;
+	color: var(--lol-white);
+	border-radius: 25px;
+    font-size: 19px;
+
+    margin-top: 40px;
+}
+
+.finishBtn{
+	border-style: none;
+    background-color: var(--lol-mainblue);
+	width: 200px;
+	height: 50px;
+	color: var(--lol-white);
+	border-radius: 25px;
+    font-size: 19px;
+
+    margin-top: 40px;
+}
+
+.quizP{
+    line-height: 40px;
+    margin: 15px;
+}
+
+.fs-30{
+	font-size: 30px;
+}
+
+
+/* ****** 문제 페이지 ****** */
+.questionAll{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.question{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.quizBg{
+    height: 550px;
+    width: 80%;
+    background-color: var(--lol-black);
+    border: 3px solid var(--khy-bg-gray);
+    border-radius: 10px;
+    margin-bottom: 50px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.quizView{
+    display: list-item;
+}
+
+.answer{
+    border-radius: 5px;
+    font-size: 1em;
+    margin: 20px 8px;
+    padding: 9px;
+    cursor: pointer;
+    border: 2px solid var(--lol-white);
+    border-width: 1px;
+    border-color: var(--lol-white);
+    display: inline-block;
+}
+
+.fs-28{
+    font-size: 28px;
+}
+
+/* 소리듣기 버튼 */
+.audioBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-style: none;
+    background-color: var(--lol-mainblue);
+	width: 150px;
+	height: 45px;
+	color: var(--lol-white);
+	border-radius: 25px;
+    font-size: 19px;
+    
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+ion-icon{
+    font-size: 30px;
+}
+
+/* 막대 */
+.progress{
+    visibility: visible;
+    background: var(--khy-off-gray);
+    height: 5px;
+    font-size: 1em;
+    text-align: center;
+    position: relative;
+    top: 115px;
+    width: 100%;
+}
+
+.progressBg{
+    background: var(--lol-mainblue);
+    width: 0;
+    height: 5px;
+    position: absolute;
+    transition: all .2s ease-out;
+    width: 0%;
+}
+
+.progressCount{
+    display: none;
+}
+
+.hidden{
+	display: none;
+}
+
+/* 게임 결과 */
+.resultDiv{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.pointDiv{
+	margin-top: 30px;	
+}
+
+.blue{
+	color: var(--lol-mainblue);
+}
+.fs-60{
+	font-size: 60px;
+}
