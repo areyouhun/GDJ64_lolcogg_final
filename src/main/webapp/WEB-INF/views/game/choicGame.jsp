@@ -252,7 +252,9 @@
 	.soundimg{
 		width: 36px;
 	}
-
+	footer{
+		margin-top: 180px;
+	}
 
 	</style>
 <!------------------------------------>
@@ -264,12 +266,12 @@
 </jsp:include>
     <section>
     	<div id="adventureGame" style="display:none">
-    		<img src="${path}/resources/images/game/poro_adventure_loading.jpg"  style="width:100%;height:100vh">
+    		<img src="${path}/resources/images/game/poro_adventure_loading.jpg"  style="width:100%;height:100%">
     	</div>
     	<div id="worldCupGame" style="display:none">
-    		<img src="${path}/resources/images/game/worldcup_loading.jpg" style="width:100%;height:100vh">
+    		<img src="${path}/resources/images/game/worldcup_loading.jpg" style="width:100%;height:100%">
     	</div>
-    	<img id="choiceGameBack" >
+    	<img id="choiceGameBack" style="height: 100%;">
         <div class="center-1280 background-img mainpage mainHeight">
             <div class="width-1280 page-margin" style="height:551px">	
             
@@ -432,6 +434,7 @@
             </div>
         </div>
     </section>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
