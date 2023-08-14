@@ -127,7 +127,7 @@
     top: 13vh;
     right: 43vh;
     font-size: 3vh;
-    width: 42vh;
+    width: 53vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -138,7 +138,7 @@
     top: 13vh;
     left: 43vh;
     font-size: 3vh;
-    width: 42vh;
+    width: 53vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -214,7 +214,7 @@
     justify-content: center;
 }
 .videofight>img{
-        position: absolute;
+    position: absolute;
     height: 28%;
     top: 44%;
     left: 41%;
@@ -970,8 +970,8 @@ function roundvideo32(){
 		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName } 32강 '+count+'/16</h2></div></div>');
 		const imgsetting=$('<div class="videoSetting">')
-		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
-		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0" loading = "lazy">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0" loading = "lazy">')
 		const fight=$('<div class="videofight">');
 		const versus=$('<img src="${path }/resources/images/game/versus.png">');
 		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -994,8 +994,8 @@ function roundvideo16(){
 		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 16강 '+count+'/8</h2></div></div>');
 		const imgsetting=$('<div class="imgSetting">')
-		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
-		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0" loading = "lazy">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0" loading = "lazy">')
 		const fight=$('<div class="videofight">');
 		const versus=$('<img src="${path }/resources/images/game/versus.png">');
 		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -1019,8 +1019,8 @@ function roundvideo8(){
 		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 8강 '+count+'/4</h2></div></div>');
 		const imgsetting=$('<div class="imgSetting">')
-		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
-		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0" loading = "lazy">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0" loading = "lazy">')
 		const fight=$('<div class="videofight">');
 		const versus=$('<img src="${path }/resources/images/game/versus.png">');
 		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -1043,8 +1043,8 @@ function roundvideo4(){
 		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 4강 '+count+'/2</h2></div></div>');
 		const imgsetting=$('<div class="imgSetting">')
-		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
-		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0" loading = "lazy">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0" loading = "lazy">')
 		const fight=$('<div class="videofight">');
 		const versus=$('<img src="${path }/resources/images/game/versus.png">');
 		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -1065,8 +1065,8 @@ function roundvideo2(){
 	const shape=$('<div class="worldcupStart">');
 	shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 결승전</h2></div></div>');
 	const imgsetting=$('<div class="imgSetting">')
-	const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[0]+'" frameborder="0">')
-	const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[1]+'" frameborder="0">')
+	const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[0]+'" frameborder="0" loading = "lazy">')
+	const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[1]+'" frameborder="0" loading = "lazy">')
 	const fight=$('<div class="videofight">');
 	const versus=$('<img src="${path }/resources/images/game/versus.png">');
 	const name=$('<div><h2 class="leftName finalLeft">'+quarterfinalsplayerName[0]+'</h2><h2 class="rightName finalRight">'+quarterfinalsplayerName[1]+'</h2></div>')

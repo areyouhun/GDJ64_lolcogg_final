@@ -266,12 +266,12 @@
 </jsp:include>
     <section>
     	<div id="adventureGame" style="display:none">
-    		<img src="${path}/resources/images/game/poro_adventure_loading.jpg"  style="width:100%;height:100%">
+    		<img src="${path}/resources/images/game/poro_adventure_loading.jpg"  style="width:100%;height:1700px">
     	</div>
     	<div id="worldCupGame" style="display:none">
-    		<img src="${path}/resources/images/game/worldcup_loading.jpg" style="width:100%;height:100%">
+    		<img src="${path}/resources/images/game/worldcup_loading.jpg" style="width:100%;height:1700px">
     	</div>
-    	<img id="choiceGameBack" style="height: 100%;">
+    	<img id="choiceGameBack" style="height: 927px;">
         <div class="center-1280 background-img mainpage mainHeight">
             <div class="width-1280 page-margin" style="height:551px">	
             
@@ -620,7 +620,7 @@ $(function () {
 					$('#adimg1').show();
 					$('#namead').text('미스포로');
 					$('.typing').text('');
-					$('.typing-txt').text('뭐? 갱플포로? 입 조심해 꼬맹아, 흑백화면 보기 싫으면 말이지 꺼저버려');
+					$('.typing-txt').text('뭐? 갱플포로? 입 조심해 꼬맹아, 꺼저버려');
 					$('.typing').css('color','wheat')
 					var audio4 = new Audio("${path}/resources/audio/adventure/MP_미스 포츈 도발 4198.wav");
 					audio4.load();
@@ -667,7 +667,7 @@ $(function () {
 					audio5.volume = 0.4;
 					audio5.play();
 		 			$('.typing').text('');
-		 			$('.typing-txt').text('늙어 죽는게 소원은 아니었길 바래')
+		 			$('.typing-txt').text('트페!!!!!! 늙어 죽는게 소원은 아니었길')
 		 			type();
 		 			typingTxt = $(".typing-txt").text(); 
 					typingTxt=typingTxt.split(""); 
