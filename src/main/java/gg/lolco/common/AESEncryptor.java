@@ -34,7 +34,7 @@ public class AESEncryptor {
 		this.path = System.getProperty("user.dir")+"/webapps/GDJ64_lolcogg_final/WEB-INF/"+KEY_FILE_NAME;
 		
 		// Local path
-		//
+		// this.path = System.getProperty("user.dir") + "/" + KEY_FILE_NAME;
 		
 		loadKeyBy(this.path);
 	}
