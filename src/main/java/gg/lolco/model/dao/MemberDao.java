@@ -37,4 +37,7 @@ public interface MemberDao {
 	int insertCardOffer(SqlSession session, Map cardOfferValue);
 
 	int updateStatus(SqlSession session);
+	
+	// ban a user kicked out from the chatroom
+	int ban(SqlSession session, String nickname);
 }

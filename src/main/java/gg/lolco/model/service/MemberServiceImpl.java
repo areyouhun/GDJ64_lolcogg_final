@@ -135,6 +135,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updateStatus() {
 		return dao.updateStatus(session);
+	}
+	
+	public int ban(String nickname) {
+		return dao.ban(session, nickname);
 	}	
 	
 }

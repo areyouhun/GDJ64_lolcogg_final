@@ -79,5 +79,8 @@ public class MemberDaoImpl implements MemberDao {
 	public int updateStatus(SqlSession session) {
 		return session.update("member.updateStatus");
 	}
-
+	
+	public int ban(SqlSession session, String nickname) {
+		return session.update("member.ban", nickname);
+	}
 }

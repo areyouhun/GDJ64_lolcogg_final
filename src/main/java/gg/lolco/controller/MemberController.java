@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -265,6 +266,14 @@ public class MemberController {
 	public int myReferralCodeCheck(@RequestParam("myReferralCode") String myReferralCode) {
 		int cnt = service.myReferralCodeCheck(myReferralCode);
 		return cnt;
+	}
+	
+	// check if banned
+	@GetMapping("/checkIfBanned")
+	@ResponseBody
+	public String checkIfBanned(HttpSession session) {
+		Member member = service.selectMemberById(Map.of("email", ((Member) session.getAttribute("loginMember")).getEmail()));
+		return member.getIsBanned();
 	}
 	
 	//함수=================================================================

@@ -18,6 +18,47 @@
 <title>실시간 채팅</title>
 </head>
 <body>
+	<div class="modal">
+		<div class="modal-container">
+			<h4 class="title"> 외칠 메시지를 입력해주세요!</h4>
+			<div class="modal-mid">
+				<input type="text" id="textBox">	
+				<div class="textLengthWrap">
+					<p class="textCount">0</p>
+					<p class="textTotal">/30자</p>
+				</div>
+			</div>
+			<div class="voice">
+				<div class="voice-title">
+					<p>소리 있는 아우성</p>
+					<div>
+						<img src="${path}/resources/images/chat/sound.png">
+					</div>
+				</div>
+				<div class="voice-lineup">
+					<div>
+						<input type="radio" id="voiceA" name="voice" value="ko-KR-Neural2-A"/>
+						<label for="voiceA"><span>VOICE A</span></label>
+					</div>
+					<div>
+						<input type="radio" id="voiceB" name="voice" value="ko-KR-Wavenet-B"/>
+						<label for="voiceB"><span>VOICE B</span></label>
+					</div>
+					<div>
+						<input type="radio" id="voiceC" name="voice" value="ko-KR-Standard-C"/>
+						<label for="voiceC"><span>VOICE C</span></label>
+					</div>
+					<div>
+						<button class="voice-btn-cancel">선택 해제</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-btn">
+				<button class="modal-btn-send">전송</button>
+				<button class="modal-btn-close">닫기</button>
+			</div>
+		</div>
+	</div>
 	<div class="chatroom-container">
 		<section class="chatroom-left">
 			<div class="chatroom-left-video">
@@ -32,7 +73,6 @@
 				<h3 class="info-title fw-bold"></h3>
 				<div class="flex-grow"></div>
 				<button class="btn-shout"><span>소리 없는 아우성</span><img src="${path}/resources/images/chat/chatting.png"></button>
-				<button class="btn-shout voice"><span>소리 있는 아우성</span><img src="${path}/resources/images/chat/sound.png"></button>
 			</div>
 		</section>
 		<section class="chatroom-right">
@@ -58,16 +98,21 @@
 							<img src="아이콘">
 						</div>
 						<h6>닉네임:</h6>
-						<h6>채팅내용</h6>
+						<div>채팅내용</div>
 					</div> -->
 					</div>
 				</div>
 				<div class="chatboard-send">
+					<div class="chatboard-send-emoticon">
+						<!-- <p>이모티콘이 없습니다.</p>
+						<div class="emoticon-box">
+						</div> -->
+					</div>
 					<!-- <input id="chatMsg" class="flex-grow" type="text" placeholder="메세지 보내기"> -->
 					<div class="chatMsgBox-outer">
-						<div id="chatMsgBox" class="flex-grow" contenteditable="true">메세지 보내기</div>
-						<input id="emoticonBtn" type="button">
+						<div id="chatMsgBox" class="flex-grow" contenteditable="true"></div>
 					</div>
+					<input id="emoticonBtn" type="button">
       				<input id="sendBtn" type="button" value="전송">
 				</div>
 			</div>
@@ -75,6 +120,7 @@
 	</div>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
+<script src="${path}/resources/js/chat/script_message.js"></script>
 <script>
 	$.getJSON(
 		'https://noembed.com/embed',
@@ -93,24 +139,6 @@
 	const userNickname = '${loginMember.nickname}';
 	const shouts = [];
 	let sec = 30;
-	
-	class Message {
-		constructor(type = "", teamAbbr="", 
-				senderNickname = "", senderEmail,
-				receiverNickname = "", receiverEmail="",
-				content = "",
-				voiced = false, banned = false) {
-			this.type = type;
-			this.teamAbbr = teamAbbr;
-			this.senderNickname = senderNickname;
-			this.senderEmail = senderEmail;
-			this.receiverNickname = receiverNickname;
-			this.receiverEmail = receiverEmail;
-			this.content = content;
-			this.voiced = voiced;
-			this.banned = banned;
-		}
-	}
 	
 	chattingServer.onopen = data => {
 		chattingServer.send(JSON.stringify(new Message(type = "ENTER", teamAbbr = userTeam, senderNickname = userNickname, senderEmail = userEmail)));
@@ -198,6 +226,13 @@
 		return "";
 	}
 
+	$("#chatMsgBox").keyup(event => {
+		if (window.event.keyCode === 13) {
+			$("br").remove();
+			$("#sendBtn").click();
+		}
+	});
+
 	$("#sendBtn").on("click", sendChatMessage);
 
 	function sendChatMessage() {
@@ -207,40 +242,58 @@
 														senderEmail = userEmail, 
 														receiverNickname = "",
 														receiverEmail = "", 
-														content = $("#chatMsg").val()))
+														content = $("#chatMsgBox").html()))
 		);
-		
-		// $("#chatMsg").val("");
 
-		$("#chatMsgBox").html("메세지 보내기");
-		$("#chatMsgBox").on("focus", event => {
-			$(event.target).html("");
-			$(event.target).off("focus");
-		});
+		$("#chatMsgBox").html("");
 	}
 
 
 
 	$(".btn-shout").click(event => {
-		let target;
-		if ($(event.target).prop("tagName") === "BUTTON") {
-			target = $(event.target);
-		}
+		$(".modal").fadeIn();
+	});
 
-		if ($(event.target).prop("tagName") === "SPAN") {
-			target = $(event.target).parent();
+	$('#textBox').keyup(function (event) {
+		let content = $(this).val();
+		
+		if (content.length == 0 || content == '') {
+			$('.textCount').text('0');
+		} else {
+			$('.textCount').text(content.length);
 		}
+		
+		if (content.length > 30) {
+			$(this).val($(this).val().substring(0, 30));
+			$('.textCount').text('30');
+		};
+	});
 
-		let shout = prompt("채팅방에 외칠 메시지를 입력해주세요!");
+	$(".modal-btn-close").click(event => {
+		$(".modal").fadeOut();
+		$("#textBox").val("");
+		$(".voice-btn-cancel").click();
+		$('.textCount').text('0');
+	});
+
+	$(".modal-btn-send").click(event => {
+		const shout = $("#textBox").val();
+		let voiceOption = "";
 
 		if (shout.length === 0 || shout === null) {
 			alert("입력된 메시지가 없습니다.");
-			return
+			return;
 		}
 
-		// after checking the user's point
-		console.log(target.hasClass("voice"));
-		if (target.hasClass("voice")) {
+
+		$("input[name=voice]").each((index, element) => {
+			if ($(element).is(':checked')) {
+				voiceOption = $(element).val();
+			}
+		});
+
+		console.log(voiceOption);
+		if (voiceOption.length !== 0) {
 			chattingServer.send(JSON.stringify(new Message(type = "SHOUT", 
 			teamAbbr = "",
 														senderNickname = userNickname,
@@ -248,7 +301,7 @@
 														receiverNickname = "",
 														receiverEmail = "", 
 														content = shout,
-														voiced = true))
+														voice = voiceOption))
 			);
 		} else {
 			chattingServer.send(JSON.stringify(new Message(type = "SHOUT", 
@@ -260,6 +313,15 @@
 														content = shout))
 			);
 		}
+
+
+
+		alert("메시지가 전송됐습니다. 화면에 메시지가 등장하는 데 약간의 시간이 걸립니다.");
+		$(".modal-btn-close").click();
+	});
+
+	$(".voice-btn-cancel").click(event => {
+		$("input[type=radio][name=voice]").prop('checked', false);
 	});
 
 	$(".nickname-list-title button").click(event => {
@@ -306,9 +368,58 @@
 		}
 	});
 
-	$("#chatMsgBox").on("focus", event => {
-		$(event.target).html("");
-		$(event.target).off("focus");
+	$("#emoticonBtn").on("click", event => {
+		$.ajax({
+			type:'POST',
+			url: '${path}/community/memberIcon',
+			data: "",
+			contentType: "application/json; charset=UTF-8",
+			success: function(data) {
+				$(".chatboard-send-emoticon").html("");
+
+				if (data.length === 0) {
+					$(".chatboard-send-emoticon").append("<p>이모티콘이 없습니다.</p>");
+				} else {
+					const emoticonBox = $("<div>").addClass("emoticon-box");
+
+					data.forEach(element => {
+						console.log(element);
+						console.log(element.emoticon.emoFilename);
+						const $div = $("<div>");
+						const $img = $("<img>").attr("src", "${path}/resources/images/emoticon/" + element.emoticon.emoFilename);
+						
+						emoticonBox.append($div.append($img));
+						$(".chatboard-send-emoticon").append(emoticonBox);
+					});
+				}
+
+				$(".chatboard-send-emoticon").toggleClass("show");
+			},
+			error : function(request, status, error) {
+				alert("오류가 발생하였습니다. 관리자에게 문의해주세요.");
+			}
+		});
+	});
+
+	$(document).on("click", ".emoticon-box>div", event => {
+		let target;
+		if ($(event.target).prop("tagName") === "DIV") {
+			target = $(event.target).children("img");
+		}
+
+		if ($(event.target).prop("tagName") === "IMG") {
+			target = $(event.target);
+		}
+
+		const emoticon = $("<img>").attr("src", $(event.target).attr("src"));
+		$("#chatMsgBox").append(emoticon).focus();
+
+		const selection = window.getSelection();
+		const range = document.createRange();
+		range.selectNodeContents(document.getElementById("chatMsgBox"));
+		range.collapse(false); 
+		selection.removeAllRanges();
+		selection.addRange(range);
 	});
 
 	function shout(message) {
@@ -318,9 +429,9 @@
 
 		shoutContainer.html("");
 						
-		if (message.voiced === true) {
+		if (message.voice.length !== 0) {
 			shoutUpper = "<h4><span class='nickname'>" + message.senderNickname + "</span>님의 소리 있는 아우성!</h4>";
-			addVoice(message.content);
+			addVoice(message.content, message.voice);
 		}
 
 		shoutContainer.append(shoutUpper).append(shoutLower);
@@ -352,7 +463,7 @@
 
 	function chat(message, ...classes) {
 		const chatBox = generateChatBox(classes);
-		const $div = $("<div>").width("16px").css("marginRight", "3px");
+		const $div = $("<div>").width("25px").css("marginRight", "3px");
 		let $img = $("<img>").attr("src", "${path}/resources/images/logo/" + message.teamAbbr + "_square.png");
 
 		if (message.teamAbbr === "") {
@@ -369,8 +480,8 @@
 		if (message.senderNickname !== '관리자') {
 			nickname.css("color", colors[message.teamAbbr]);
 		}
-		
-		const content = $("<h6>").addClass("msg-content").text(message.content);
+
+		const content = $("<div>").addClass("msg-content").html(message.content);
 		
 		chatBox.append($div.append($img))
 				.append(nickname)
@@ -396,35 +507,50 @@
 		return $div;
 	}
 
-	function addVoice(content) {
-		var data = {    
-				"voice":{
-					"languageCode":"ko-KR"
-				},
-				"input":{
-					"text": content
-				},
-				"audioConfig":{
-					"audioEncoding":"mp3"
-				}
-			}
-
-		$.ajax({
-			type:'POST',
-			url: 'https://texttospeech.googleapis.com/v1/text:synthesize?key=${ttsKey}',
-			data: JSON.stringify(data),
-			dataType: 'JSON',
-			contentType: "application/json; charset=UTF-8",
-			success: function(res) {
-				const audioFile = new Audio();
-				const audioBlob = base64ToBlob(res.audioContent, "mp3");
-				audioFile.src = window.URL.createObjectURL(audioBlob);
-				audioFile.playbackRate = 1;
-				audioFile.play();
+	function addVoice(content, voiceOption) {
+		const voiceSet = {
+			"ko-KR-Neural2-A": 'FEMALE',
+			"ko-KR-Wavenet-B": 'FEMALE',
+			"ko-KR-Standard-C": 'MALE'
+		};
+		
+		const url = "https://texttospeech.googleapis.com/v1/text:synthesize?key=${ttsKey}";
+		
+		const data = {
+			input: {
+				text: content,
 			},
-			error : function(request, status, error) {
-				alert("오류가 발생하였습니다. 관리자에게 문의해주세요.");
+			voice: {
+				languageCode: 'ko-KR',
+				name: voiceOption,
+				ssmlGender: voiceSet[voiceOption],
+			},
+			audioConfig: {
+				audioEncoding: "MP3"
 			}
+		};
+
+		const otherparam = {
+			headers: {
+				"content-type": "application/json; charset=UTF-8",
+			},
+			body: JSON.stringify(data),
+			method: "POST",
+		};
+
+		fetch(url, otherparam)
+		.then((data) => {
+			return data.json();
+		})
+		.then((res) => {
+			const audioFile = new Audio();
+			const audioBlob = base64ToBlob(res.audioContent, "mp3");
+			audioFile.src = window.URL.createObjectURL(audioBlob);
+			audioFile.playbackRate = 1;
+			audioFile.play();
+		})
+		.catch((error) => {
+			alert("오류가 발생하였습니다. 관리자에게 문의해주세요.");
 		});
 	};
 	

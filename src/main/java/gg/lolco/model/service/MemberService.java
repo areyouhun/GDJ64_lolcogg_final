@@ -46,4 +46,7 @@ public interface MemberService {
 	
 	// reset both ban and dragon status
 	int updateStatus();
+	
+	// ban a user kicked out from the chatroom
+	int ban(String nickname);
 }
