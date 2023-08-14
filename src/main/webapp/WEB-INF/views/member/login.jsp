@@ -8,11 +8,13 @@
 <link rel="stylesheet" href="${path}/resources/css/member.css">
 <!------------------------------------>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+
 <title>로그인</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="navBgColor" value="nav-black"/>
+	<jsp:param name="navsBgColor" value="nav-black"/>
 </jsp:include>
     <section>
         <div class="center-1280 background-img mainpage mainHeight">
@@ -34,12 +36,12 @@
                     </div>
                 </form>
                 <div class="memberCheckBox">
-                    <a href="/member/enrollMember.do" class="ff-suit">회원가입</a>
+                    <a href="${path }/member/enrollMember.do" class="ff-suit">회원가입</a>
                     <p class="color-white">&nbsp;&nbsp;|&nbsp;&nbsp;</p>
-                    <a href="/lolco/find-password.html" class="ff-suit">비밀번호 찾기</a>
+                    <a href="${path }/lolco/find-password.html" class="ff-suit">비밀번호 찾기</a>
                 </div>
                 <div class="socialLoginBox">
-                    <a href="javascript:kakaoLogin()"><img src="${path}/resources/images/member/naver_logo_icon.png" ></a>
+                    <a href="${path }/login/naver/callback"><img src="${path}/resources/images/member/naver_logo_icon.png" ></a>
                     <div></div>
                     <img src="${path}/resources/images/member/kakaotalk_logo_icon.png" onclick="return kakaologin();">
                     <div></div>

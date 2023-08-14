@@ -1,8 +1,16 @@
 package gg.lolco.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.util.Map;
 
+import org.apache.tomcat.util.json.JSONParser;
+import org.apache.tomcat.util.json.ParseException;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,8 +39,8 @@ public class LoginController {
 	private final Environment env;
 	private final RestTemplate restTemplate = new RestTemplate();
 	private final AESEncryptor encryptor; // AESEncryptor 인스턴스 추가
-//   private String CLIENT_ID = "TR_SQ2GAJzrrTPobWiSh"; //네이버 애플리케이션 클라이언트 아이디값;
-//   private String CLI_SECRET = "KzSC54sFgk"; //네이버 애플리케이션 클라이언트 시크릿값;
+   private String CLIENT_ID = "dNio2a8IwW1bwAeDTYAA"; //네이버 애플리케이션 클라이언트 아이디값;
+   private String CLI_SECRET = "l3RVViZgBW"; //네이버 애플리케이션 클라이언트 시크릿값;
 
 	private final MemberService service;
 
@@ -104,6 +112,90 @@ public class LoginController {
 		model.addAttribute("loginMember", member);
 		return "redirect:/";
 	}
+	
+	//네이버로그인처리
+	   @RequestMapping("/naver/callback")
+	   public String naverLogin(String code, String state, Model model) throws IOException, ParseException {
+//		   System.out.println(code);
+//		   System.out.println(state);
+	      String redirectURI = URLEncoder.encode("http://localhost:7070/login/naverLoginCheck", "UTF-8");
+	      String apiURL;
+	      apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
+	      apiURL += "client_id=" + CLIENT_ID;
+	      apiURL += "&client_secret=" + CLI_SECRET;
+	      apiURL += "&redirect_uri=" + redirectURI;
+	      apiURL += "&code=" + code;
+	      apiURL += "&state=" + state;
+	      //System.out.println("apiURL=" + apiURL);
+	      String res = requestToServer(apiURL);
+	      if (res != null && !res.equals("")) {
+	         System.out.println(res);
+	         model.addAttribute("res", res);
+	         Map<String, Object> parsedJson = new JSONParser(res).parseObject();
+//	         System.out.println(parsedJson);
+	         String accessToken = (String) parsedJson.get("access_token");
+	         // 액세스 토큰으로 네이버에서 프로필 받기
+	         String apiURL2 = "https://openapi.naver.com/v1/nid/me";
+	         String headerStr = "Bearer " + accessToken; // Bearer 다음에 공백 추가
+	         String res2 = requestToServer(apiURL2, headerStr);
+	         System.out.println(res2);
+//	         if (res2 != null && !res.equals("")) {
+////	            System.out.println(res2);
+//	            model.addAttribute("res", res2);
+//	            // Map<String, Object> parsedJson2 = new JSONParser(res2).parseObject();
+//	            JsonObject obj = JsonParser.parseString(res2.toString()).getAsJsonObject();
+//	            JsonObject arr = (JsonObject) obj.get("response");
+////	            System.out.println("arr : " + arr);
+//	            String memberNickname = arr.get("nickname").getAsString();
+//	            String memberImage = arr.get("profile_image").getAsString();
+//	            String memberEmail = arr.get("email").getAsString();
+//	            Member member = service.selectByEmail(memberEmail);
+////	            System.out.println(member);
+//	            if(member==null) {
+//	            Member m = Member.builder().memberNickname(memberNickname)
+//	                  .memberImage(memberImage)
+//	                  .memberEmail(memberEmail).memberCategory("N").build();
+//	            service.insertMember(m);
+//	            }
+//	            model.addAttribute("loginMember",member);
+//	         }
+//	      } else {
+//	         model.addAttribute("res", "Login failed!");
+	      }
+	      return "redirect:/";
+	   }
+
+	   private String requestToServer(String apiURL, String headerStr) throws IOException {
+	      URL url = new URL(apiURL);
+	      HttpURLConnection con = (HttpURLConnection) url.openConnection();
+	      con.setRequestMethod("GET");
+//	      System.out.println("header Str: " + headerStr);
+	      if (headerStr != null && !headerStr.equals("")) {
+	         con.setRequestProperty("Authorization", headerStr);
+	      }
+	      int responseCode = con.getResponseCode();
+	      BufferedReader br;
+//	      System.out.println("responseCode=" + responseCode);
+	      if (responseCode == 200) { // 정상 호출
+	         br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	      } else { // 에러 발생
+	         br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+	      }
+	      String inputLine;
+	      StringBuffer res = new StringBuffer();
+	      while ((inputLine = br.readLine()) != null) {
+	         res.append(inputLine);
+	      }
+	      br.close();
+	      if (responseCode == 200) {
+	         return res.toString();
+	      } else {
+	         return null;
+	      }
+	   }
+	   private String requestToServer(String apiURL) throws IOException {
+	      return requestToServer(apiURL, "");
+	   }
 
 	// 함수=================================================================
 	// 추천인코드 만들기(8자의 영어,숫자 조합)
