@@ -48,10 +48,7 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 		registry.addViewController("/notice/insertNotice").setViewName("notice/insertNotice");
 		// admin ==================================================================
 		registry.addViewController("/admin").setViewName("admin/adminList");
-
-
-
-		
+		registry.addViewController("/predict").setViewName("predict/predictMain");
 	}
 
 	@Override
