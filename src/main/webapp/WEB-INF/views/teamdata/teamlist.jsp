@@ -5,6 +5,9 @@
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <link rel="stylesheet" href="${path}/resources/css/teamdata/style_teamlist.css">
 <title>팀 데이터</title>
+<style>
+    
+</style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -100,6 +103,13 @@ $(".chatBtn").click(event => {
             openPage("${path}/chat/chatroom", 1200, 550);
         });
 });
+
+$(".match-banner").css("backgroundImage", "url(${path}/resources/images/common/img_banner.png)");
+
+$(".team-btn_up_left").css("backgroundImage", "url(${path}/resources/images/common/team_btn_up.svg)");
+$(".team-btn_up_right").css("backgroundImage", "url(${path}/resources/images/common/team_btn_up.svg)");
+$(".team-btn_down_left").css("backgroundImage", "url(${path}/resources/images/common/team_btn_down.svg)");
+$(".team-btn_down_right").css("backgroundImage", "url(${path}/resources/images/common/team_btn_down.svg)");
 </script>
 </body>
 </html>

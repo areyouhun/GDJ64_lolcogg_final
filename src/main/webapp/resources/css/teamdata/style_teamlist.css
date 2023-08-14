@@ -86,7 +86,6 @@ img {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-image: url("/resources/images/common/img_banner.png");
     background-color:transparent;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -141,14 +140,6 @@ img {
     cursor: pointer;
     display: block;
     width: 220px;
-}
-
-.team-btn_up_left, .team-btn_up_right {
-    background-image: url("/resources/images/common/team_btn_up.svg");
-}
-
-.team-btn_down_left, .team-btn_down_right {
-    background-image: url("/resources/images/common/team_btn_down.svg");
 }
 
 .match-content_wrapper {
