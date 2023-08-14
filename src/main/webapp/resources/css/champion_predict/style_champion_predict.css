@@ -1,0 +1,30 @@
+* {
+    color: var(--lol-white, #EEE);
+    font-family: "EF_MACHO";
+    list-style: none;
+    margin: 0;
+}
+
+/* 타이틀 */
+.background-img {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(15, 15, 15, 0.6),
+    rgba(15, 15, 15, 1)),url("/resources/images/champion_predict/champion_predict_title_img.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.title-margin {
+    height: 35vh;
+}
+
+.title-container {
+    margin-bottom: 140px;
+    text-align: center;
+}
+
+.mainTitle {
+    font-size: 50px;
+}
