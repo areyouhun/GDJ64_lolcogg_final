@@ -79,6 +79,7 @@
                               dataType:"text",
                               success: data=>{
                                  console.log(data, typeof data);
+                                 console.log(data=='')
                                     if(data==''){
                                          location.assign("../login/Kakaoenroll?memberEmail="+email+"&memberNickname="+nickname+"&memberImage="+image);
                                     }else{

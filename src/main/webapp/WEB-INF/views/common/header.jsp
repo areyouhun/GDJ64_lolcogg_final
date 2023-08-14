@@ -44,14 +44,18 @@
 				<!-- <div class="myProfileLogo" style="position:absolute ; top:0 ; right:0" > -->
 				<div class="myProfileLogo" >
 					<span>	
-						<a href="${path }/member/mypage.do?email=${loginMember.email}" class="img-aTag">
-							<c:if test="${loginMember.profile!=null}">
-								<img src="${path}/resources/upload/profile/${loginMember.profile}"
-			                    	style="width: 40px; height: 40px;">
+						<a href="${path }/member/mypage.do" class="img-aTag">
+							<c:if test="${loginMember.profile!=null && loginMember.password!='비밀번호 비공개'}"><!-- 소셜 로그인 -->
+								<img src="${loginMember.profile}"
+			                    	style="width: 40px; height: 40px; border-radius: 20px;" >
 							</c:if>
-							<c:if test="${loginMember.profile==null}">
+							<c:if test="${loginMember.profile!=null && loginMember.password=='비밀번호 비공개'}"> <!-- 일반 로그인 -->
+								<img src="${path}/resources/upload/profile/${loginMember.profile}"
+			                    	style="width: 40px; height: 40px; border-radius: 20px;">
+							</c:if>
+							<c:if test="${loginMember.profile==null}"> <!-- 프로필 미등록 -->
 								<img src="${path}/resources/upload/profile/sad.png"
-			                    	style="width: 40px; height: 40px;">
+			                    	style="width: 40px; height: 40px; border-radius: 20px;">
 							</c:if>
 		            	</a>
 					</span>

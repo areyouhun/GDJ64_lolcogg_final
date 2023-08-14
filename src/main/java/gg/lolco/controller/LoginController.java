@@ -60,12 +60,12 @@ public class LoginController {
 
 	@GetMapping("/Kakaoenroll")
 	public String Kakaoenroll(@RequestParam Map<Object, String> param, Model model) {
-		String memberEmail = (String) param.get("memberEmail");
 		try {
 			param.put("email", encryptor.encrypt(param.get("memberEmail")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		String memberEmail = (String) param.get("email");
 		String memberNickname = (String) param.get("memberNickname");
 		String memberImage = (String) param.get("memberImage");
 
@@ -92,12 +92,12 @@ public class LoginController {
 
 	@GetMapping("KakaoLogin")
 	public String KakaoLogin(@RequestParam Map<Object, String> param, Model model) {
-		String memberEmail = (String) param.get("memberEmail");
 		try {
 			param.put("email", encryptor.encrypt(param.get("memberEmail")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		String memberEmail = (String) param.get("email");
 		String memberNickname = (String) param.get("memberNickname");//업데이트문 처리필요
 		String memberImage = (String) param.get("memberImage");//업데이트문 처리필요
 		Member member = service.selectMemberById(param);
