@@ -17,10 +17,7 @@ import javax.crypto.SecretKey;
 
 import org.springframework.stereotype.Component;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Component
-@Slf4j
 public class AESEncryptor {
 	private static final String KEY_FILE_NAME = "dvc.gd";
 	private static final String ALGORITHM = "AES";

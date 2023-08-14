@@ -1,9 +1,7 @@
 package gg.lolco.model.service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
-
 
 import gg.lolco.model.vo.Member;
 
@@ -49,4 +47,7 @@ public interface MemberService {
 	
 	// ban a user kicked out from the chatroom
 	int ban(String nickname);
+	
+	// get all members
+	List<Map<String, Object>> selectMemberAll();
 }
