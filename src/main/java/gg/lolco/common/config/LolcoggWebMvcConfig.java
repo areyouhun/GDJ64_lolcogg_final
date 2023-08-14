@@ -19,7 +19,6 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 	private final LoginChecker loginChecker;
 	private final AdminChecker adminChecker;
 	private final ChattingServer chattingServer;
-//	private final Logger logger;
 
 	public LolcoggWebMvcConfig(LoginChecker loginChecker,
 								AdminChecker adminChecker,
@@ -45,21 +44,17 @@ public class LolcoggWebMvcConfig implements WebMvcConfigurer, WebSocketConfigure
 		//community ================================================================
 		registry.addViewController("/community/insertCommunity").setViewName("community/insertCommunity");
 		registry.addViewController("/quiz").setViewName("quiz/choiceQuiz");
+		// admin ==================================================================
+		registry.addViewController("/admin").setViewName("admin/adminList");
 		
 	}
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(loggerInterceptor)
-//				.addPathPatterns("");
-//		
 		registry.addInterceptor(loginChecker).addPathPatterns("/qna/**");
 		registry.addInterceptor(loginChecker).addPathPatterns("/card/**");
 		registry.addInterceptor(loginChecker).addPathPatterns("/community/insertCommunity");
-		
-	
-
-//		registry.addInterceptor(adminChecker).addPathPatterns("");
+		registry.addInterceptor(adminChecker).addPathPatterns("/admin/**");
 	}
 
 	@Override

@@ -70,7 +70,7 @@
 							내 정보
 		            	</a>
                     	<c:if test="${loginMember.authority=='관리자' }">
-							<a href="${path }/member/myCard.do" >
+							<a href="${path }/admin" >
 								관리자 페이지
 			            	</a>
                     	</c:if>
