@@ -4,6 +4,52 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- CSS -->
+<style>
+#chart{
+	margin-top: 8vh;
+}
+#tableContainer>table{
+		width: 100%;
+	    border-top: 3px solid var(--lol-white);
+	    border-bottom: 3px solid var(--lol-white);
+	    border-collapse: collapse;
+	    color:var(--lol-white);
+	    text-align: center;
+	    margin-top: 5vh;
+	}
+	#tableContainer{
+		width:100%;
+	}
+	
+	#tableContainer>table th{
+		border-top: 3px solid var(--lol-white);
+		border-bottom: 3px solid var(--lol-white);
+	}
+	#tableContainer>table td{
+		border-bottom: 1px solid var(--lol-white);
+	}
+#tableContainer button{
+	width: 80%;
+    height: 35px;
+    border-radius: 12px;
+    border: 1px solid #FFF;
+    background: var(--lol-black, #0F0F0F);
+    cursor: pointer;
+    color: var(--lol-white);
+}
+#tableContainer button:hover {
+	background: var(--lol-mainblue);
+	color: var(--lol-white);
+}
+.changePrice{
+	background-color: var(--lol-black);
+    border: 1px solid var(--lol-mainblue);
+    height: 2rem;
+    color: var(--lol-white);
+    font-size: 18px;
+    text-indent: 0.5rem;
+}
+</style>
 <title>신고관리</title>
 </head>
 <body>
@@ -22,8 +68,34 @@
 							<a class="title" href="${path}/admin/memberManagement">회원관리</a>
 						</div>
 					</div>
-
 					<!-- WRITE YOUR CODE HERE -->
+					<div>
+						<div id="chart">
+							<canvas id="myChart"></canvas>
+						</div>
+						<div id="tableContainer">
+							<table>
+								<tr style="height: 5vh;">
+									<th style="width:20%;">아이템 번호</th>
+									<th>아이템 이름</th>
+									<th>아이템 가격</th>
+									<th>수정가격</th>
+									<th>가격 수정</th>
+								</tr>
+								<c:if test="${not empty saleListAll}">
+		                        	<c:forEach var="s" items="${saleListAll }">
+			                        	<tr style="height: 5vh;">
+											<td>${s.itemNo }</td>
+											<td>${s.itemName}</td>
+											<td>${s.itemPrice }</td>
+											<td><input type="text" class="changePrice"></td>
+											<td><button class="editPrice">수정</button></td>
+										</tr>
+		                        	</c:forEach>
+		                        </c:if>
+							</table>
+						</div>
+					</div>
 				</article>
             </div>
         </div>
@@ -31,5 +103,109 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script type="text/javascript">
+            var context = document
+                .getElementById('myChart')
+                .getContext('2d');
+            var myChart = new Chart(context, {
+                type: 'bar', // 차트의 형태
+                data: { // 차트에 들어갈 데이터
+                    labels: [
+                        //x 축
+                        <c:if test="${not empty saleListAll}">
+                        	<c:forEach var="s" items="${saleListAll }">
+                        		'${s.itemName}',
+                        	</c:forEach>
+                        </c:if>
+                        
+                       ],
+                    datasets: [
+                        {
+                            label: '1일 기준 판매량',
+                            fill: false,
+                            data: [
+                            	<c:if test="${not empty saleListOne}">
+	                            	<c:forEach var="s" items="${saleListOne }">
+	                            		'${s.sale}',
+	                            	</c:forEach>
+	                            </c:if>
+                            ],
+                            backgroundColor: 'rgba(220, 20, 60,0.2)',
+                            borderColor: 'rgba(220, 20, 60,1)',
+                            borderWidth: 1
+                            
+                        },
+                        {
+                            label: '일주일 기준 판매량',
+                            fill: false,
+                            data: [
+                            	<c:if test="${not empty saleListWeek}">
+	                            	<c:forEach var="s" items="${saleListWeek }">
+	                            		'${s.sale}',
+	                            	</c:forEach>
+	                            </c:if>
+                            ],
+                            backgroundColor: 'rgba(250, 204, 50,0.2)',
+                            borderColor: 'rgba(250, 204, 50,1)',
+                            borderWidth: 1
+                        },
+                        { //데이터
+                            label: '총 판매량', //차트 제목
+                            fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+                            data: [
+                            	<c:if test="${not empty saleListAll}">
+	                            	<c:forEach var="s" items="${saleListAll }">
+	                            		'${s.sale}',
+	                            	</c:forEach>
+	                            </c:if>
+                            ],
+                            backgroundColor: 'rgba(0, 102, 204,0.2)',
+                            borderColor: 'rgba(0, 102, 204,1)',
+                            borderWidth: 1
+                            
+                        } 
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
+                    }
+                }
+            });
+          </script>
+          <script>
+          	$('.editPrice').click(function(e){
+          		const price=$(e.target).parent().parent().find("input").val();
+          		const itemNo=$(e.target).parent().parent().children(":first").text();
+          		if(price==""){
+          			alert("가격을 적어주세요!")
+          		}else{
+          			$.ajax({
+						type : 'POST',
+						url : '${path}/admin/changePrice',
+						data : {
+							"price" : price,
+							"itemNo" : itemNo
+						},
+						success : function(){
+							alert("가격을 수정하였습니다.")
+							location.href='${path}/admin/storeManagement';
+						},
+						error : function(request, status, error) { 
+					        console.log(error)
+					    }
+					}) 
+          		}
+          	})
+          </script>
+    </body>
+</html>
 </body>
 </html>

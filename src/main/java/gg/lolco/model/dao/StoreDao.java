@@ -29,4 +29,8 @@ public interface StoreDao {
 	int addExp(SqlSession session,Map<String,Object> param);
 	
 	MemberEmoticon memberEmoticonCheck(SqlSession session,Map<String,Object> param);
+
+	List<PointItem> saleListAll(SqlSession session,int no);
+	
+	int changePrice(SqlSession session,Map<String,Object> param);
 }
