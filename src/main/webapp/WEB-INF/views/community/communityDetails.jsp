@@ -27,15 +27,17 @@
 						<div class="board-details-title">
 							<div class="board-title-member">
 								<p class="board-details-top fs-25 content">${d.cmBoardTitle }</p>
+								
 								<div class="optionDiv">
 									<button class="moreIconBtn">
 										<ion-icon class="moreIcon" name="ellipsis-horizontal"
 											style="font-size: 28px;"></ion-icon>
 									</button>
+
 									<ul class="optionUl">
 										<li>
 											<!-- 작성자 및 관리자 --> <c:if
-												test="${ loginMember.nickname.equals(d.cmBoardWriter.nickname)}">
+												test="${ loginMember.nickname.equals(d.cmBoardWriter.nickname)||loginMember.email.equals('v/9KW8XkKWoi3J+frCQCdg==')}">
 												<button
 													onclick="location.assign('${path}/community/boardModify?boardNo=${d.cmBoardNo }')">
 													<ion-icon class="optionIcon" name="create-outline"></ion-icon>
@@ -186,7 +188,7 @@
 											<div class="commentList">
 												<div class="profileImg">
 													<img
-														src="${path }/resources/images/upload/member/${c.cmCommentWriter.profile}"
+														src="${path }/resources/upload/profile/${c.cmCommentWriter.profile}"
 														style="width: 50px; height: 50px; border-radius: 70px;">
 												</div>
 												<div class="detailDiv">
@@ -325,7 +327,7 @@
 													<div style="width: 80px;"></div>
 													<div class="">
 														<img
-															src="${path }/resources/images/upload/member/${c.cmCommentWriter.profile}.png"
+															src="${path }/resources/upload/profile/${c.cmCommentWriter.profile}.png"
 															style="width: 50px; height: 50px; border-radius: 70px;">
 													</div>
 													<div class="detaildetailDiv">
@@ -890,7 +892,7 @@
 		            html += '<hr class="hr-2">';
 		            html += '<div class="commentList">';
 		            html += '<div class="profileImg">';
-		            html += '<img src="${path}/resources/images/upload/member/' + c.cmCommentWriter.profile + '" style="width: 50px; height: 50px; border-radius: 70px;">';
+		            html += '<img src="${path}/resources/upload/profile/' + c.cmCommentWriter.profile + '" style="width: 50px; height: 50px; border-radius: 70px;">';
 		            html += '</div>';
 		            html += '<div class="detailDiv">';
 		            html += '<div class="commentDetail">';

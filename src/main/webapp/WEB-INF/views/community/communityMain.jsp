@@ -28,9 +28,7 @@
 								<p>최근 24시간 기준</p>
 							</div>
 							
-							<%-- <c:if test="${realTimePopularity empty}">
-									<p class="content">글좀 봐주세요ㅠㅠ</p>
-							</c:if> --%>
+							
 							<c:forEach var="r" items="${realTimePopularity }">
 								<a href="${path }/community/boardDetails?cmBoardNo=${r.cmBoardNo}">
 									<div class="realTime-popularity">
@@ -47,9 +45,7 @@
 								<p>주간 인기글</p>
 								<p>최근 일주일 기준</p>
 							</div>
-							<%-- <c:if test="${weeklyPopularity empty}">
-									<p class="content">글좀 봐주세요ㅠㅠ</p>
-							</c:if> --%>
+						
 							<c:forEach var="w" items="${weeklyPopularity }">
 							<a href="${path }/community/boardDetails?cmBoardNo=${w.cmBoardNo}">
 								<div class="realTime-popularity">
@@ -121,7 +117,7 @@
 						</div>
 						<c:forEach var="b" items="${selectboardList }">
 							<hr class="hr-1">
-							<div class="board-content">
+							<div class="cm_board-content">
 								<a
 									href="${path }/community/boardDetails?cmBoardNo=${b.cmBoardNo}">
 									<div class="board-title-div">

@@ -17,7 +17,12 @@ button {
 	width: 20px;
 	text-align: center;
 }
-
+.no_content{
+	min-height: 800px;
+	width: 100%;
+	word-break: break-all;
+	
+}
 button:active {
 	transform: scale(0.95);
 }
@@ -326,13 +331,23 @@ button:active {
 
 /* 게시글 한개 */
 .board-content {
-	
 	margin-top: 20px;
 	margin-left: 10px;
 	font-size: 25px;
 	color: var(--lol-white, #EEE);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
-
+.cm_board-content{
+	margin-top: 20px;
+	margin-left: 10px;
+	font-size: 25px;
+	color: var(--lol-white, #EEE);
+	display: flex;
+	flex-direction: column;
+	
+}
 /* 게시글 제목 */
 .board-title {
 	color: var(--lol-white, #EEE);
