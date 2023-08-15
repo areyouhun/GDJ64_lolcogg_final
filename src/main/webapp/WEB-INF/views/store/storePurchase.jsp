@@ -5,210 +5,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
-<style>
-	body{
-		overflow: hidden;
-	}
-	
-	a {
-				color: #8ff;
-			}
-
-			#menu {
-				position: absolute;
-				bottom: 20px;
-				width: 100%;
-				text-align: center;
-			}
-
-			.element {
-				width: 250px;
-				height: 355px;
-				font-family: Helvetica, sans-serif;
-				text-align: center;
-				line-height: normal;
-				cursor: default;
-				box-shadow: 0px 0px 12px rgba(0,255,255,0.5);
-				border: 1px solid var(--lol-mainblue);
-			}
-			
-
-			.element:hover {
-				box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
-				border: 1px solid var(--lol-teamblue);
-			}
-
-
-			button {
-				color: rgba(127,255,255,0.75);
-				background: transparent;
-				outline: 1px solid rgba(127,255,255,0.75);
-				border: 0px;
-				padding: 5px 10px;
-				cursor: pointer;
-			    width: 200px;
-			    height: 50px;
-			    font-size: 20px;
-			}
-
-			button:hover {
-				background-color: rgba(0,255,255,0.5);
-			}
-
-			button:active {
-				color: #000000;
-				background-color: rgba(0,255,255,0.75);
-			}
-			#back {
-				position: absolute;
-				width: 100%;
-				height: 100%;
-				-webkit-user-drag: none;
-			}
-			#text{
-				color: black;
-				position: absolute;
-			}
-
-	
-</style>
-<style>
-
-.card_content_div {
-    height: 370px;
-}
-.card_content {
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform 300ms;
-    box-shadow: 0px 0px 10px 1px #000000ee;
-    border-radius: 5px;
-}
-.back {
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-}
-.front, .back {
-    background-color: #151515;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: 5px;
-    overflow: hidden;
-}
-.back-content {
-    position: absolute;
-    width: 99%;
-    height: 99%;
-    background-color: #151515;
-    border-radius: 5px;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-}
-.card_info_div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.card_player_info {
-    position: absolute;
-    bottom: 0px;
-}
-.card_info_div p {
-    margin-top: 5px;
-    margin-left: 20px;
-}
-.player_name {
-    position: relative;
-    top: 183px;
-    left: 30px;
-    z-index: 1;
-    font-size: 12px;
-}
-.player_season {
-    position: relative;
-    top: 190px;
-    left: 30px;
-    z-index: 1;
-    font-size: 10px;
-}
-.player_position {
-    position: relative;
-    top: 30px;
-    left: 145px;
-    top: 176px;
-    z-index: 1;
-}
-.player {
-    position: relative;
-    left: 31px;
-    bottom: 58px;
-}
-.player_team_logo {
-    position: relative;
-    bottom: 275px;
-    right: 120px;
-    max-width: 50px;
-    max-height: 35px;
-}
-.player_position_img {
-    position: relative;
-    right: 46px;
-    bottom: 100px;
-}
-.back.normal::before {
-    background: linear-gradient(90deg, transparent, #9a95a1, #9a95a1, #9a95a1, #9a95a1, transparent);
-}
-.back::before {
-    position: absolute;
-    content: ' ';
-    display: block;
-    width: 160px;
-    height: 160%;
-    background: linear-gradient(90deg, transparent, #ff9966, #ff9966, #ff9966, #ff9966, transparent);
-    animation: rotation_481 5000ms infinite linear;
-}
-.back.common::before {
-    background: linear-gradient(90deg, transparent, #276dce, #276dce, #276dce, #276dce, transparent);
-}
-.back.unique::before {
-    background: linear-gradient(90deg, transparent, #9154ed, #9154ed, #9154ed, #9154ed, transparent);
-}
-@keyframes rotation_481 {
-    0% {
-        transform: rotateZ(0deg);
-    }
-
-    0% {
-        transform: rotateZ(360deg);
-    }
-}
-.clickinfo{
-    position: absolute;
-    top: 40px;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-}
-.clickinfo>div{
-	margin: 50px;
-	font-size: 20px;
-	color : var(--lol-white);
-}
-
-</style>
+<link rel="stylesheet" href="${path}/resources/css/store/storePurchase.css">
 <!------------------------------------>
 <title>롤코지지</title>
 </head>
@@ -412,7 +209,7 @@
 				controls = new TrackballControls( camera, renderer.domElement );
 				controls.minDistance = 300;
 				controls.maxDistance = 10000;
-				controls.rotateSpeed = 8;
+				controls.rotateSpeed = 7;
 				controls.addEventListener( 'change', render );
 
 				
@@ -444,7 +241,7 @@
 					controls = new TrackballControls( camera, renderer.domElement );
 					controls.minDistance = 300;
 					controls.maxDistance = 10000;
-					controls.rotateSpeed = 8;
+					controls.rotateSpeed = 7;
 					controls.addEventListener( 'change', render );
 
 				} );
