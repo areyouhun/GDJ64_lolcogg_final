@@ -203,3 +203,251 @@ display: none;
 	color:#008000;
 	display: none;	
 }
+
+/*내 정보*/
+.myInfo{
+    /* border: 1px solid red; */
+    margin: 0 0 0 10em ;
+}
+.myInfo>:nth-child(1){
+    /* border: 1px solid orange; */
+}
+.myInfo>:nth-child(2){
+    /* border: 1px solid orange; */
+    display: flex;
+    margin-top: 1em;
+}
+.myInfo>:nth-child(2)>:nth-child(1){
+    /* border: 1px solid yellow; */
+}
+.myInfo>:nth-child(2)>:nth-child(1)>:nth-child(1){
+    /* border: 1px solid green; */
+    border: 3px solid var(--lol-white);
+}
+.myInfo>:nth-child(2)>:nth-child(1)>:nth-child(2){
+    /* border: 1px solid green; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.3em;
+}
+.myInfo>:nth-child(2)>:nth-child(1)>:nth-child(3){
+    /* border: 1px solid green; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.myInfo>:nth-child(2)>:nth-child(2){
+    /* border: 1px solid yellow; */
+    margin-left: 1em;
+    width: 23%;
+}
+.myInfo>.profileMain>div:nth-child(2)>:nth-child(1){
+    /*border: 1px solid green;*/ 
+    display: flex;
+    background-color: var(--khy-bg-gray);
+    border-radius: 30px;
+    padding: 0.15em 0em;
+}
+.myInfo>div>div:nth-child(2)>:nth-child(1)>:nth-child(1){
+    /* border: 1px solid blue; */
+    margin-left: 1em;
+}
+.myInfo>div>div:nth-child(2)>:nth-child(1)>:nth-child(2){
+    /* border: 1px solid blue; */
+    display: flex;
+    align-items: center;
+    margin-left: 0.5em;
+}
+.myInfo>div>div:nth-child(2)>:nth-child(2){
+    /*display: flex;*/
+}
+.myInfo>div>div:nth-child(2)>:nth-child(2)>:nth-child(1){
+    /* border: 1px solid green; */
+    margin-top: 1em;
+    width: 90%;
+}
+.myInfo>div>div:nth-child(2)>:nth-child(2)>:nth-child(2){
+    /* border: 1px solid green; */
+    margin-top: 1.5em;
+    margin-left: 0.2em;
+    color: var(--lol-mainblue);    
+}
+.myInfo>div>div:nth-child(2)>:nth-child(3){
+    /* border: 1px solid green; */
+    display: flex;
+    margin-top: 0.5em;
+}
+.myInfo>div>div:nth-child(2)>:nth-child(3)>:nth-child(1){
+    /* border: 1px solid blue; */
+	margin-left: 0.2em;
+}
+.myInfo>div>div:nth-child(2)>:nth-child(3)>:nth-child(2){
+    /* border: 1px solid blue; */
+    margin-left: 0.4em;
+    margin-top: 0.5em;
+}
+
+
+.myInfo>:nth-child(2)>:nth-child(3){
+    /* border: 1px solid yellow; */
+    margin-left: 10em;
+}
+/* .myInfo>:nth-child(2)>:nth-child(3)>*{
+    border: 1px solid green;
+}
+.myInfo>:nth-child(2)>:nth-child(3)>*>*{
+    border: 1px solid blue;
+}
+.myInfo>:nth-child(2)>:nth-child(3)>*>*>*{
+    border: 1px solid violet;
+}
+.myInfo>:nth-child(2)>:nth-child(3)>*>*>*>*{
+    border: 1px solid white;
+} */
+.tierBox>.tierImageBox{
+    display: flex;
+    margin-bottom: 1em;
+}
+.tierBox>.tierImageBox>div>:nth-child(1){
+  	text-align: center;
+  	margin-bottom: 0.5em;
+}
+.tierBox>.tierImageBox>:nth-child(2){
+    margin-left: 10em;
+}
+.tierBox>.tierGazeBox>.tierGazeState{
+    display: flex;
+}
+.tierBox>.tierGazeBox>.tierGazeState>:nth-child(1){
+    margin-left: 0.2em;
+}
+.tierBox>.tierGazeBox>.tierGazeState>:nth-child(2){
+    /* border: 10px solid white; */
+    margin-left: auto;
+    margin-right: 0.2em;
+}
+.tierBox>.tierGazeBox>.tierGazeWhole{
+    border :2px solid var(--khy-off-gray);
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+}
+.tierBox>.tierGazeBox>.tuerGazeStatus{
+    border :3.5px solid var(--lol-mainblue);
+    border-bottom-left-radius: 2em;
+    border-bottom-right-radius: 2em;
+}
+.tierBox>.tierGazeBox>.buttonBox2{
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 1.5em;
+}
+.tierBox>.tierGazeBox>.buttonBox2>:nth-child(2){
+    margin-left: 1em;
+}
+.tierBox>.tierGazeBox>.buttonBox2>:nth-child(3){
+    margin-left: 1em;
+}
+.mypageButton{
+    color: var(--lol-white); 
+    background-color: var(--lol-black); 
+    border:solid 0.5px #EEEEEE; 
+    border:0 0 0 0;  
+    border-radius: 5px; 
+    padding: 0.2em 0.3em 0.2em 0.3em; 
+    margin: 0.5em 0em 0.5em 0em; 
+    cursor: pointer;
+}
+.mypageButton:hover {
+    background-color: var(--lol-white); /* 호버 시 배경색 변경 */
+    color: var(--lol-black); /* 호버 시 글자색 변경 */
+    font-weight: bold;
+}
+/* LCK 응원팀 */
+.myInfo>.abbrTeam{
+    margin-top: 1.5em;
+    margin-right: 11em;
+}
+.myInfo>.abbrTeam>:nth-child(2){
+    margin-top: 0.5em;
+    margin-left: 0.5em;
+}
+/* .abbrCheckBoxRows2{
+    display: block;
+} */
+.abbrCheckBoxRow2{
+    display: flex;
+    text-align:center;
+    margin: 0 0 0.5em 4em ;
+}
+.abbrCheckBox2{
+    margin: 0.1em 0em 0em 2em;
+}
+.abbrCheckBox2>.buttonBox3{
+    display: flex;
+    justify-content: flex-end; 
+}
+.abbrCheckBox2>.buttonBox3>:nth-child(1){
+    margin-right: 0.3em;
+    margin-bottom: 1em;
+}
+
+/* 내 활동 목록 */
+.myInfo>.historyBox{
+    margin-top: 3em;
+    margin-right: 11em;
+}
+.historyBox>.buttonList{
+    display: flex;
+}
+.historyBox>.myCommunityHistory{
+
+}
+.historyBox>.myQuaHistory{
+    display: none;
+}
+.historyBox>.myPointHistory{
+    display: none;
+}
+.historyBox>.buttonList>p{
+    margin-left: 0.6em;
+}
+.historyBox>.buttonList>:nth-child(4){
+    margin-top: 2em;
+}
+/* 문의하기 테이블 */
+.qnaTable {
+    width: 100%;
+    border-top: 3px solid var(--lol-white);
+    border-collapse: collapse;
+}
+
+.qnaTable th, td {
+    border-bottom: 1px solid var(--lol-white);
+    padding: 16px 0px;
+    text-align: center;
+}
+
+.tableTitle {
+    text-align: left;
+    padding-left: 30px;
+    width: 640px;
+}
+
+.qnaBtn{
+    width: 80px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: var(--lol-black);
+    border: 1px solid var(--lol-white);
+    color: var(--lol-white);
+}
+
+.comBtn{
+    background-color: var(--lol-white);
+    color: var(--lol-black);
+}
+
+.tableContainer{
+    min-height: 350px;
+}
