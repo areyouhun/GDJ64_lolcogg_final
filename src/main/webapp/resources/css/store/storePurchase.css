@@ -60,7 +60,9 @@ button:active {
 	height: 100%;
 	-webkit-user-drag: none;
 }
-
+img{
+	-webkit-user-drag: none;
+}
 #text {
 	color: black;
 	position: absolute;
