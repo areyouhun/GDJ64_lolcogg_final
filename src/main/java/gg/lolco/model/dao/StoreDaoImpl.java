@@ -72,5 +72,15 @@ public class StoreDaoImpl implements StoreDao {
 	public List<PointItem> selectMostItem(SqlSession session) {
 		return session.selectList("store.selectMostItem");
 	}
+	
+	@Override
+	public List<PointItem> saleListAll(SqlSession session,int no) {
+		return session.selectList("store.saleListAll",no);
+	}
+	
+	@Override
+	public int changePrice(SqlSession session,Map<String,Object> param) {
+		return session.update("store.changePrice",param);
+	}
 
 }

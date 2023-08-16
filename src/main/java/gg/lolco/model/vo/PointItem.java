@@ -16,4 +16,5 @@ public class PointItem {
 	private String itemExp;
 	private int itemCateNo;
 	private String itemFilename;
+	private int sale;
 }

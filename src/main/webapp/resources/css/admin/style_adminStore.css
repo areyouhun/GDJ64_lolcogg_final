@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+#chart {
+	margin-top: 8vh;
+}
+
+#tableContainer>table {
+	width: 100%;
+	border-top: 3px solid var(--lol-white);
+	border-bottom: 3px solid var(--lol-white);
+	border-collapse: collapse;
+	color: var(--lol-white);
+	text-align: center;
+	margin-top: 5vh;
+}
+
+#tableContainer {
+	width: 100%;
+}
+
+#tableContainer>table th {
+	border-top: 3px solid var(--lol-white);
+	border-bottom: 3px solid var(--lol-white);
+}
+
+#tableContainer>table td {
+	border-bottom: 1px solid var(--lol-white);
+}
+
+#tableContainer button {
+	width: 80%;
+	height: 35px;
+	border-radius: 12px;
+	border: 1px solid #FFF;
+	background: var(--lol-black, #0F0F0F);
+	cursor: pointer;
+	color: var(--lol-white);
+}
+
+#tableContainer button:hover {
+	background: var(--lol-mainblue);
+	color: var(--lol-white);
+}
+
+.changePrice {
+	background-color: var(--lol-black);
+	border: 1px solid var(--lol-mainblue);
+	height: 2rem;
+	color: var(--lol-white);
+	font-size: 18px;
+	text-indent: 0.5rem;
+}

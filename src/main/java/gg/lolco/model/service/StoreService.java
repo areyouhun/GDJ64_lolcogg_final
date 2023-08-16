@@ -27,4 +27,8 @@ public interface StoreService {
 	int addExp(Map<String,Object> param);
 	
 	MemberEmoticon memberEmoticonCheck(Map<String,Object> param);
+	
+	List<PointItem> saleListAll(int no);
+	
+	int changePrice(Map<String,Object> param);
 }

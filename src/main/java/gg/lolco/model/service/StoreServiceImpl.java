@@ -82,5 +82,15 @@ public class StoreServiceImpl implements StoreService {
 	public List<PointItem> selectMostItem() {
 		return dao.selectMostItem(session);
 	}
+	
+	@Override
+	public List<PointItem> saleListAll(int no) {
+		return dao.saleListAll(session, no);
+	}
+	
+	@Override
+	public int changePrice(Map<String,Object> param) {
+		return dao.changePrice(session,param);
+	}
 
 }
