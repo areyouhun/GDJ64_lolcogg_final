@@ -273,6 +273,9 @@ p.typing-txt {
 	right: 10px;
 	top: 10px;
 	cursor: pointer;
+	background-color: rgba(100,84,237,0.3);
+    border-radius: 10px;
+    display: flex;
 }
 
 .soundimg {

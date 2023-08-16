@@ -8,7 +8,7 @@
 <style>
 
 </style>
-<title>신고관리</title>
+<title>상점관리</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -89,7 +89,7 @@
 	                            	</c:forEach>
 	                            </c:if>
                             ],
-                            backgroundColor: 'rgba(220, 20, 60,0.2)',
+                            backgroundColor: 'rgba(220, 20, 60,0.6)',
                             borderColor: 'rgba(220, 20, 60,1)',
                             borderWidth: 1
                             
@@ -104,7 +104,7 @@
 	                            	</c:forEach>
 	                            </c:if>
                             ],
-                            backgroundColor: 'rgba(250, 204, 50,0.2)',
+                            backgroundColor: 'rgba(250, 204, 50,0.6)',
                             borderColor: 'rgba(250, 204, 50,1)',
                             borderWidth: 1
                         },
@@ -118,7 +118,7 @@
 	                            	</c:forEach>
 	                            </c:if>
                             ],
-                            backgroundColor: 'rgba(0, 102, 204,0.2)',
+                            backgroundColor: 'rgba(0, 102, 204,0.6)',
                             borderColor: 'rgba(0, 102, 204,1)',
                             borderWidth: 1
                             

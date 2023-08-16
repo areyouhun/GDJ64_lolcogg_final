@@ -176,6 +176,7 @@
 	left: 4vh;
 	height: 128vh;
 	display: flex;
+    width: 97%;
 }
 
 .choicemain {
@@ -209,7 +210,7 @@
 	position: absolute;
 	display: flex;
 	top: 67%;
-	width: 200vh;
+	width: 97%;
 	left: 4vh;
 	justify-content: space-around;
 	color: var(--lol-white);
