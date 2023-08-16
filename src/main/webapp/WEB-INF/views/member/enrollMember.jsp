@@ -205,7 +205,7 @@
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
-<script src="${path}/resources/js/member/member.js"></script>
+<script src="${path}/resources/js/member/enroll.js"></script>
 <!-------------------------------------------->
 </body>
 </html>
