@@ -1081,8 +1081,11 @@
     });
 
     function championRuneInfo(role, event) {
+        let path = '/getMatchChampionRune'; // local
+        path = '/teamdata/getMatchChampionRune'; // server
+
         $.ajax({
-            url: getContextPath() + '/getMatchChampionRune',
+            url: getContextPath() + path,
             data: {
                 role:role,
                 matchDate: "${matchResultSummary.MS_DATE}".split(' ')[0].substring(2),
