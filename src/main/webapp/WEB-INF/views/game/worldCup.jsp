@@ -4,225 +4,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <jsp:include page="/WEB-INF/views/common/top.jsp" />
 <!-- Your own style tag or CSS file -->
-<style>
-.worldcupModal {
-	width: 600px;
-	height: 400px;
-	position: absolute;
-	z-index: 1000;
-	background-color: var(--lol-white);
-	margin-top: 60px;
-}
-
-.worldcupModal>img {
-	margin-top: 3rem;
-}
-
-.worldcupModal>h2 {
-	color: var(--lol-black);
-	font-family: EF_MACHO;
-	margin-top: 1rem;
-}
-
-.worldcupModal>div>p {
-	color: var(--lol-black);
-	font-family: "SUIT-Regular";
-}
-
-.worldcupModal>div {
-	margin-top: 1rem;
-	width: 90%;
-}
-
-.worldcupModal>div>* {
-	margin-bottom: 0.5rem;
-}
-
-.worldcupModal>div>select {
-	width: 33rem;
-	height: 2.5rem;
-	background-color: #D9D9D9;
-	text-indent: 1rem;
-}
-
-.worldcupModal>div>button:first-child {
-	width: 25rem;
-	height: 2.8rem;
-	border: none;
-	background-color: var(--lol-mainblue);
-	color: var(--lol-white);
-}
-
-.worldcupModal>div>button:last-child {
-	width: 8rem;
-	height: 2.8rem;
-}
-
-.worldcupModal>form>div:last-child>button {
-	font-size: 16px;
-}
-
-.firstImg, .secondImg {
-	width: 77vh;
-	height: 100%;
-	background-size: contain;
-}
-
-#worldcupStart {
-	display: flex;
-	flex-direction: column;
-}
-
-.round {
-    position: absolute;
-    color: var(--lol-white);
-    top: 57px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background-color: rgb(0, 0, 0, 0.6);
-    font-size: 3vh;
-    z-index: 3;
-}
-
-.fight {
-	display: flex;
-	justify-content: center;
-}
-
-.imgSetting {
-	height: 100vh;
-	display: flex;
-}
-
-.fight>img {
-	position: absolute;
-	height: 28%;
-	top: 44%;
-	left: 41%;
-	background-size: contain;
-	background-position: center top;
-	pointer-events: none;
-}
-
-.fight>div {
-	position: absolute;
-	display: flex;
-	top: 67%;
-	width: 154vh;
-	justify-content: space-around;
-	color: var(--lol-white);
-	-webkit-text-stroke: 1.5px;
-	font-size: 3vh;
-	-webkit-text-stroke-color: var(--lol-mainblue);
-}
-.fight>div>h2{
-	display: flex;
-    width: 50%;
-    justify-content: center;
-}
-.finalLeftText{
-    position: absolute;
-    color: white;
-    top: 13vh;
-    right: 43vh;
-    font-size: 3vh;
-    width: 42vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.finalRightText{
-    position: absolute;
-    color: white;
-    top: 13vh;
-    left: 43vh;
-    font-size: 3vh;
-    width: 42vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.finalCenter{
-	display: flex;
-	align-items: center;
-}
-
-.finalRightText * {
-	margin: 3vh;
-}
-.finalLeftText * {
-	margin: 3vh;
-}
-.roundMain{
-    width: 100%;
-    height: 62px;
-    display: flex;
-    justify-content: center;
-}
-
-.firstVideo, .secondVideo{
-	width: 100vh;
-    height: 57%;
-    background-size: contain;
-}
-.videoSetting{
-    position: absolute;
-    top: 6vh;
-    left: 4vh;
-    height: 128vh;
-    display: flex;
-}
-.choicemain{
-    left: 4vh;
-    height: 8vh;
-    width: 97%;
-    display: flex;
-    position: absolute;
-    top: 79vh;
-}
-.leftchoice, .rightchoice{
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: EF_MACHO;
-    font-size: 4vh;
-}
-.leftchoice{
-	background-color: red;
-}
-.rightchoice{
-	background-color: blue;
-}
-.videofight>div{
-    position: absolute;
-    display: flex;
-    top: 67%;
-    width: 200vh;
-    left: 4vh;
-    justify-content: space-around;
-    color: var(--lol-white);
-    -webkit-text-stroke: 1.5px;
-    font-size: 3vh;
-    -webkit-text-stroke-color: var(--lol-mainblue);
-}
-.videofight>div>h2{
-    display: flex;
-    width: 50%;
-    justify-content: center;
-}
-.videofight>img{
-        position: absolute;
-    height: 28%;
-    top: 44%;
-    left: 41%;
-    background-size: contain;
-    background-position: center top;
-    pointer-events: none;
-}
-</style>
+<link rel="stylesheet" href="${path}/resources/css/game/worldcup.css">
 <!------------------------------------>
 <title>롤코지지-${gameName }</title>
 </head>
@@ -970,8 +752,8 @@ function roundvideo32(){
 		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName } 32강 '+count+'/16</h2></div></div>');
 		const imgsetting=$('<div class="videoSetting">')
-		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
-		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0" loading = "lazy">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0" loading = "lazy">')
 		const fight=$('<div class="videofight">');
 		const versus=$('<img src="${path }/resources/images/game/versus.png">');
 		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -994,8 +776,8 @@ function roundvideo16(){
 		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 16강 '+count+'/8</h2></div></div>');
 		const imgsetting=$('<div class="imgSetting">')
-		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
-		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0" loading = "lazy">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0" loading = "lazy">')
 		const fight=$('<div class="videofight">');
 		const versus=$('<img src="${path }/resources/images/game/versus.png">');
 		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -1019,8 +801,8 @@ function roundvideo8(){
 		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 8강 '+count+'/4</h2></div></div>');
 		const imgsetting=$('<div class="imgSetting">')
-		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
-		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0" loading = "lazy">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0" loading = "lazy">')
 		const fight=$('<div class="videofight">');
 		const versus=$('<img src="${path }/resources/images/game/versus.png">');
 		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -1043,8 +825,8 @@ function roundvideo4(){
 		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 4강 '+count+'/2</h2></div></div>');
 		const imgsetting=$('<div class="imgSetting">')
-		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0">')
-		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0">')
+		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0" loading = "lazy">')
+		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0" loading = "lazy">')
 		const fight=$('<div class="videofight">');
 		const versus=$('<img src="${path }/resources/images/game/versus.png">');
 		const name=$('<div><h2 class="leftName">'+quarterfinalsplayerName[i]+'</h2><h2 class="rightName">'+quarterfinalsplayerName[i+1]+'</h2></div>')
@@ -1065,8 +847,8 @@ function roundvideo2(){
 	const shape=$('<div class="worldcupStart">');
 	shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 결승전</h2></div></div>');
 	const imgsetting=$('<div class="imgSetting">')
-	const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[0]+'" frameborder="0">')
-	const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[1]+'" frameborder="0">')
+	const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[0]+'" frameborder="0" loading = "lazy">')
+	const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[1]+'" frameborder="0" loading = "lazy">')
 	const fight=$('<div class="videofight">');
 	const versus=$('<img src="${path }/resources/images/game/versus.png">');
 	const name=$('<div><h2 class="leftName finalLeft">'+quarterfinalsplayerName[0]+'</h2><h2 class="rightName finalRight">'+quarterfinalsplayerName[1]+'</h2></div>')
