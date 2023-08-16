@@ -1129,7 +1129,7 @@ $(function() {
 						audio.pause();
 					}, typingTxt.length * 40)
 				} else if (choice == 500) {
-					location.replace('${path }/game/choice');
+					location.replace(path+'/game/choice');
 				} else if (choice == 300) {
 					audio.play();
 					audio.loop = true;
