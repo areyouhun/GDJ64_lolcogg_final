@@ -32,10 +32,12 @@
 										<ion-icon class="moreIcon" name="ellipsis-horizontal"
 											style="font-size: 28px;"></ion-icon>
 									</button>
-									<ul class="optionUl">
-										<li>
-											<!-- 작성자 및 관리자 --> <c:if
-												test="${ loginMember.nickname.equals(d.cmBoardWriter.nickname)}">
+
+									<!-- 작성자 및 관리자 -->
+									<c:if
+										test="${ loginMember.nickname.equals(d.cmBoardWriter.nickname)||loginMember.email.equals('v/9KW8XkKWoi3J+frCQCdg==')}">
+										<ul class="optionUl">
+											<li>
 												<button
 													onclick="location.assign('${path}/community/boardModify?boardNo=${d.cmBoardNo }')">
 													<ion-icon class="optionIcon" name="create-outline"></ion-icon>
@@ -46,14 +48,8 @@
 													<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>
 													삭제
 												</button>
-											</c:if> <!-- 작성자 x --> <c:if
-												test="${ !loginMember.nickname.equals(d.cmBoardWriter.nickname)}">
-												<button>
-													<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>
-													신고
-												</button>
-											</c:if>
-										</li>
+									</c:if>
+									</li>
 									</ul>
 								</div>
 							</div>
@@ -62,12 +58,10 @@
 								<div>
 									<span>${d.cmBoardCategories}</span><span class="Backslash">|</span>
 									<input type="hidden" value="${d.cmBoardNo }" class="boardNo">
-									<span>
-									<c:if test="${d.cmBoardWriter.titleName !=null}">
-									<span class="designation">[${d.cmBoardWriter.titleName }]</span>
-									</c:if>
-									${d.cmBoardWriter.nickname }</span>
-									<span class="Backslash">|</span><span>${d.timeDifference }</span>
+									<span> <c:if test="${d.cmBoardWriter.titleName !=null}">
+											<span class="designation">[${d.cmBoardWriter.titleName }]</span>
+										</c:if> ${d.cmBoardWriter.nickname }
+									</span> <span class="Backslash">|</span><span>${d.timeDifference }</span>
 								</div>
 								<div class="board-bottom-right">
 									<div>
@@ -108,7 +102,7 @@
 							</div>
 						</div>
 						<div class="report-sharing">
-							<div class="reportbtn">
+							<div class="reportbtn" onclick="report();">
 								<svg xmlns="http://www.w3.org/2000/svg" width="21" height="25"
 									viewBox="0 0 21 25" fill="none">
                                 <path
@@ -160,11 +154,9 @@
 									</div>
 									<div class="iconBtn">
 										<ul class="openIcon">
-											<li class="memberIcon">
-											
-											</li>
-										
-										
+											<li class="memberIcon"></li>
+
+
 										</ul>
 										<ion-icon name="happy-outline" class="iconOpenBtn"></ion-icon>
 										<button class="commentBtn content" onclick="">등록</button>
@@ -185,16 +177,23 @@
 											</c:if>
 											<div class="commentList">
 												<div class="profileImg">
-													<img
-														src="${path }/resources/images/upload/member/${c.cmCommentWriter.profile}"
-														style="width: 50px; height: 50px; border-radius: 70px;">
+													<c:if test="${c.cmCommentWriter.profile==null}">
+														<img
+															src="${path }/resources/images/common/icon_profile.png"
+															style="width: 50px; height: 50px; border-radius: 70px;">
+													</c:if>
+													<c:if test="${c.cmCommentWriter.profile!=null}">
+														<img
+															src="${path }/resources/upload/profile/${c.cmCommentWriter.profile}"
+															style="width: 50px; height: 50px; border-radius: 70px;">
+													</c:if>
 												</div>
 												<div class="detailDiv">
 													<div class="commentDetail">
 														<div class="commentInfo">
-														<c:if test="${c.cmCommentWriter.titleName!=null }">
-														<span class="designation">[${c.cmCommentWriter.titleName }]</span>
-														</c:if>
+															<c:if test="${c.cmCommentWriter.titleName!=null }">
+																<span class="designation">[${c.cmCommentWriter.titleName }]</span>
+															</c:if>
 															<p class="contentBlack fs-20 nickname">${c.cmCommentWriter.nickname }</p>
 
 															<img
@@ -223,7 +222,7 @@
 																	</c:if> <c:if
 																		test="${ !loginMember.nickname.equals(c.cmCommentWriter.nickname)}">
 																		<!-- 작성자 x -->
-																		<button>
+																		<button onclick="cmReport(${c.cmCommentNo});">
 																			<ion-icon class="optionIcon"
 																				name="remove-circle-outline"></ion-icon>
 																			신고
@@ -279,7 +278,7 @@
 													<div class="replyIconBtn">
 														<ul class="replyOpenIcon">
 															<li class="replyMemberIcon">
-															<p></p>
+																<p></p>
 															</li>
 														</ul>
 														<ion-icon name="happy-outline" class="replyIconOpenBtn"></ion-icon>
@@ -303,10 +302,10 @@
 													</div>
 													<div class="replyIconBtn">
 														<ul class="replyOpenIcon">
-														<li class="replyMemberIcon">
-															<p></p>
-																</li>
-															
+															<li class="replyMemberIcon">
+																<p></p>
+															</li>
+
 														</ul>
 														<ion-icon name="happy-outline" class="replyIconOpenBtn"></ion-icon>
 														<button class="content updateBtn" onclick="">등록</button>
@@ -324,16 +323,23 @@
 												<div class="commentList">
 													<div style="width: 80px;"></div>
 													<div class="">
-														<img
-															src="${path }/resources/images/upload/member/${c.cmCommentWriter.profile}.png"
-															style="width: 50px; height: 50px; border-radius: 70px;">
+														<c:if test="${b.cmCommentWriter.profile==null}">
+															<img
+																src="${path }/resources/images/common/icon_profile.png"
+																style="width: 50px; height: 50px; border-radius: 70px;">
+														</c:if>
+														<c:if test="${b.cmCommentWriter.profile!=null}">
+															<img
+																src="${path }/resources/upload/profile/${c.cmCommentWriter.profile}"
+																style="width: 50px; height: 50px; border-radius: 70px;">
+														</c:if>
 													</div>
 													<div class="detaildetailDiv">
 														<div class="commentDetail">
 															<div class="commentInfo">
-															<c:if test="${b.cmCommentWriter.titleName!=null }">
-														<span class="designation">[${b.cmCommentWriter.titleName }]</span>
-														</c:if>
+																<c:if test="${b.cmCommentWriter.titleName!=null }">
+																	<span class="designation">[${b.cmCommentWriter.titleName }]</span>
+																</c:if>
 																<p class="contentBlack fs-20 nickname">${b.cmCommentWriter.nickname }</p>
 																<img
 																	src="${path }/resources/images/tier/${b.cmCommentWriter.tier.tierRulesNo.tierRulesImage }"
@@ -394,9 +400,9 @@
 														<div class="replyIconBtn">
 															<ul class="replyOpenIcon">
 																<li class="replyMemberIcon">
-																<p></p>
+																	<p></p>
 																</li>
-																
+
 															</ul>
 															<ion-icon name="happy-outline" class="replyIconOpenBtn"></ion-icon>
 															<button class="content updateBtn" onclick="">등록</button>
@@ -424,6 +430,31 @@
 	<!-- Your own script tag or JavaScript file -->
 
 	<script>
+	function report () {
+		if (confirm("정말 신고하시겠습니까??") == true) { //확인
+			location
+					.assign('${path}/community/insertReport?boardNo=${d.cmBoardNo}');
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+	function cmReport (e) {
+		if (confirm("정말 신고하시겠습니까??") == true) { //확인
+			
+			 location
+					.assign('${path}/community/insertcmReport?boardCmNo='+e+'&boardNo=${d.cmBoardNo}'); 
+
+		} else {
+
+			return false;
+
+		}
+
+	}
 	
 
 	document.body.addEventListener('input', function(e) {
@@ -890,7 +921,11 @@
 		            html += '<hr class="hr-2">';
 		            html += '<div class="commentList">';
 		            html += '<div class="profileImg">';
-		            html += '<img src="${path}/resources/images/upload/member/' + c.cmCommentWriter.profile + '" style="width: 50px; height: 50px; border-radius: 70px;">';
+		            if(c.cmCommentWriter.profile==null){
+		            	html += '<img src="${path}/resources/images/common/icon_profile.png" style="width: 50px; height: 50px; border-radius: 70px;">';
+		            }else{		            	
+		            html += '<img src="${path}/resources/upload/profile/' + c.cmCommentWriter.profile + '" style="width: 50px; height: 50px; border-radius: 70px;">';
+		            }
 		            html += '</div>';
 		            html += '<div class="detailDiv">';
 		            html += '<div class="commentDetail">';
@@ -1108,7 +1143,7 @@
 
 </script>
 
-	
+
 	<!-------------------------------------------->
 </body>
 </html>

@@ -16,7 +16,7 @@
                 <h3 class="mainTitle fs-35 mainTitleMargin">HELLO, ADMIN!</h3>
 				<div class="admin-btn-lineup">
 					<a class="title" href="${path}/admin/memberManagement">회원관리</a>
-					<a class="title" href="${path}/admin/reportManagement">신고관리</a>
+					<a class="title" href="${path}/admin/reportList">신고관리</a>
 					<a class="title" href="${path}/admin/storeManagement">상점관리</a>
 				</div>
             </div>

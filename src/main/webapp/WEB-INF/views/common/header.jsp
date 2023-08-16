@@ -21,7 +21,7 @@
                         <a href="${path}/community/selectboardList" class="nav-a">커뮤니티</a>
                         <ul class="nav-ul-ul">
                             <li><a href="${path}/community/selectboardList">게시판</a></li>
-                            <li><a href="">공지사항</a></li>
+                            <li><a href="${path}/notice/selectNotice">공지사항</a></li>
                             <li><a href="${path }/qna/qnaList">문의하기</a></li>
                         </ul>
                     </li>

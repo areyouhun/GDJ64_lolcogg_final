@@ -37,10 +37,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import gg.lolco.common.PageFactory;
 import gg.lolco.model.service.CommunityService;
+import gg.lolco.model.service.ReportService;
 import gg.lolco.model.vo.CommunityBoard;
 import gg.lolco.model.vo.CommunityBoardComment;
 import gg.lolco.model.vo.Member;
 import gg.lolco.model.vo.MemberEmoticon;
+import gg.lolco.model.vo.Report;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -50,9 +52,11 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityController {
 
 	private final CommunityService service;
+	private final ReportService rservice;
 
-	public CommunityController(CommunityService service) {
+	public CommunityController(CommunityService service, ReportService rservice) {
 		this.service = service;
+		this.rservice = rservice;
 
 	}
 
@@ -63,7 +67,6 @@ public class CommunityController {
 		List<CommunityBoard> selectboardList = service
 				.selectboardList(Map.of("cPage", cPage, "numPerpage", numPerpage));
 		int totalData = service.selectBoardCount();
-		
 
 		// 이 부분에서는 현재 시간을 LocalDateTime 으로가져오기
 		LocalDateTime now = LocalDateTime.now();
@@ -93,8 +96,7 @@ public class CommunityController {
 		}
 		List<CommunityBoard> realTimePopularity = service.realTimePopularity();
 		List<CommunityBoard> weeklyPopularity = service.weeklyPopularity();
-		
-		
+
 		m.addAttribute("weeklyPopularity", weeklyPopularity);
 		m.addAttribute("realTimePopularity", realTimePopularity);
 		m.addAttribute("selectboardList", selectboardList);
@@ -215,8 +217,7 @@ public class CommunityController {
 			}
 			List<CommunityBoard> realTimePopularity = service.realTimePopularity();
 			List<CommunityBoard> weeklyPopularity = service.weeklyPopularity();
-			
-			
+
 			m.addAttribute("weeklyPopularity", weeklyPopularity);
 			m.addAttribute("realTimePopularity", realTimePopularity);
 			m.addAttribute("selectboardList", selectBoradCategorie);
@@ -261,8 +262,7 @@ public class CommunityController {
 			}
 			List<CommunityBoard> realTimePopularity = service.realTimePopularity();
 			List<CommunityBoard> weeklyPopularity = service.weeklyPopularity();
-			
-			
+
 			m.addAttribute("weeklyPopularity", weeklyPopularity);
 			m.addAttribute("realTimePopularity", realTimePopularity);
 
@@ -309,8 +309,7 @@ public class CommunityController {
 		}
 		List<CommunityBoard> realTimePopularity = service.realTimePopularity();
 		List<CommunityBoard> weeklyPopularity = service.weeklyPopularity();
-		
-		
+
 		m.addAttribute("weeklyPopularity", weeklyPopularity);
 		m.addAttribute("realTimePopularity", realTimePopularity);
 
@@ -320,14 +319,15 @@ public class CommunityController {
 		return "/community/communityMain";
 	}
 
-	
 	@GetMapping("/boardDetails")
 	public String boardDetails(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "500") int numPerpage,@RequestParam("cmBoardNo") String cmBoardNo, Model m, HttpServletRequest request,
+			@RequestParam(value = "numPerpage", defaultValue = "500") int numPerpage,
+			@RequestParam("cmBoardNo") String cmBoardNo, Model m, HttpServletRequest request,
 			HttpServletResponse response) {
 		CommunityBoard boardDetails = service.boardDetails(cmBoardNo);
-		
-		List<CommunityBoardComment> selectBoardComment = service.selectBoardComment(Map.of("cPage", cPage, "numPerpage", numPerpage, "cmBoardNo", cmBoardNo));
+
+		List<CommunityBoardComment> selectBoardComment = service
+				.selectBoardComment(Map.of("cPage", cPage, "numPerpage", numPerpage, "cmBoardNo", cmBoardNo));
 		int totalData = service.selectBoardCommentCount(Map.of("cmBoardNo", cmBoardNo));
 
 		// 쿠키를이용한 조회수 제한
@@ -366,7 +366,6 @@ public class CommunityController {
 			newCookie.setMaxAge((int) secondsTillMidnight);
 			response.addCookie(newCookie);
 		}
-		
 
 		// 현재 게시글의 작성 시간을 LocalDateTime 형태로 가져오기
 		LocalDateTime boardDate = boardDetails.getCmBoardDate();
@@ -416,7 +415,8 @@ public class CommunityController {
 		m.addAttribute("boardDetails", boardDetails);
 		m.addAttribute("totalData", totalData);
 		m.addAttribute("selectBoardComment", selectBoardComment);
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "boardDetails?cmBoardNo="+cmBoardNo));
+		m.addAttribute("pageBar",
+				PageFactory.getPage(cPage, numPerpage, totalData, "boardDetails?cmBoardNo=" + cmBoardNo));
 		return "/community/communityDetails";
 	}
 
@@ -512,9 +512,9 @@ public class CommunityController {
 		params.put("comment", comment);
 		params.put("email", email);
 		service.insertComment(params);
-		
+
 		String cmCommentNo = String.valueOf(params.get("cmCommentNo"));
-		CommunityBoardComment selectCommentNo = service.selectCommentNo(Map.of("cmCommentNo",cmCommentNo));
+		CommunityBoardComment selectCommentNo = service.selectCommentNo(Map.of("cmCommentNo", cmCommentNo));
 		LocalDateTime now = LocalDateTime.now();
 		LocalDateTime commentDate = selectCommentNo.getCmCommentDate();
 
@@ -535,10 +535,9 @@ public class CommunityController {
 		} else {
 			selectCommentNo.setTimeDifference(commentDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
 		}
-	
-		return selectCommentNo;
-}
 
+		return selectCommentNo;
+	}
 
 	@PostMapping("/insertReply")
 	@ResponseBody
@@ -642,19 +641,87 @@ public class CommunityController {
 		return selectComment;
 
 	}
+
 	@PostMapping("/cmRemoveBtn")
 	@ResponseBody
-	public int cmRemoveBtn(@RequestParam("commentNo") int commentNo,@RequestParam("boardNo") String boardNo) {	
+	public int cmRemoveBtn(@RequestParam("commentNo") int commentNo, @RequestParam("boardNo") String boardNo) {
+		
 		int cmRemoveBtn = service.cmRemoveBtn(Map.of("commentNo", commentNo));
 		return cmRemoveBtn;
 	}
+
 	@PostMapping("/memberIcon")
 	@ResponseBody
-	public List<MemberEmoticon> membetIcon(@SessionAttribute("loginMember") Member member){
-		String  email =member.getEmail();
-		List<MemberEmoticon> selectMemberIcon=service.selectMemberIcon(Map.of("email", email));
+	public List<MemberEmoticon> membetIcon(@SessionAttribute("loginMember") Member member) {
+		String email = member.getEmail();
+		List<MemberEmoticon> selectMemberIcon = service.selectMemberIcon(Map.of("email", email));
 		return selectMemberIcon;
 	}
 
+	@GetMapping("/insertReport")
+	public String insertReport(Model m, @RequestParam("boardNo") int boardNo) {
+		Report selectReport = rservice.selectReport(boardNo);
+		if (selectReport == null) {
+			Map<String, Object> params = new HashMap<>();
+			params.put("boardNo", boardNo);
+			rservice.insertReport(params);
+			String reportNo = String.valueOf(params.get("boardNo"));
+			int updateReport = rservice.updateReport(Map.of("reportNo", reportNo));
+
+			if (updateReport > 0) {
+				m.addAttribute("msg", "게시글신고 완료");
+				m.addAttribute("loc", "/community/boardDetails?cmBoardNo=" + boardNo);
+			} else {
+				m.addAttribute("msg", "게시글신고 실패");
+				m.addAttribute("loc", "/community/boardDetails?cmBoardNo=" + boardNo);
+			}
+
+		}
+		if(selectReport!=null) {
+		int reportNo =(int) selectReport.getReportNo();
+		int updateReport = rservice.updateReport(Map.of("reportNo", reportNo));
+		if (updateReport > 0) {
+			m.addAttribute("msg", "게시글신고 완료");
+			m.addAttribute("loc", "/community/boardDetails?cmBoardNo=" + boardNo);
+		} else {
+			m.addAttribute("msg", "게시글신고 실패");
+			m.addAttribute("loc", "/community/boardDetails?cmBoardNo=" + boardNo);
+		}
+	}
+		return "common/msg";
+	}
+	@GetMapping("/insertcmReport")
+	public String insertcmReport(Model m, @RequestParam("boardCmNo") int boardCmNo,@RequestParam("boardNo") int boardNo) {
+		Report selectCmReport = rservice.selectCmReport(boardCmNo);
+		
+		if (selectCmReport == null) {
+			Map<String, Object> params = new HashMap<>();
+			params.put("boardCmNo", boardCmNo);
+			rservice.insertcmReport(params);
+			String reportNo = String.valueOf(params.get("boardCmNo"));
+			int updateReport = rservice.updateReport(Map.of("reportNo", reportNo));
+
+			if (updateReport > 0) {
+				m.addAttribute("msg", "댓글신고 완료");
+				m.addAttribute("loc", "/community/boardDetails?cmBoardNo=" + boardNo);
+			} else {
+				m.addAttribute("msg", "댓글신고 실패");
+				m.addAttribute("loc", "/community/boardDetails?cmBoardNo=" + boardNo);
+			}
+
+		}
+		if(selectCmReport!=null) {
+		int reportNo =(int) selectCmReport.getReportNo();
+		int updateReport = rservice.updateReport(Map.of("reportNo", reportNo));
+		if (updateReport > 0) {
+			m.addAttribute("msg", "댓글신고 완료");
+			m.addAttribute("loc", "/community/boardDetails?cmBoardNo=" + boardNo);
+		} else {
+			m.addAttribute("msg", "댓글신고 실패");
+			m.addAttribute("loc", "/community/boardDetails?cmBoardNo=" + boardNo);
+		}
+	}
+		return "common/msg";
+	}
 
 }
