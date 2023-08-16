@@ -39,7 +39,7 @@ img {
 .modal { 
     position:absolute; 
     width: 400px; 
-    height: 250px; 
+    height: 320px; 
     padding: 15px 10px;
     padding-top: 25px;
     background: var(--lol-black); 
@@ -93,6 +93,17 @@ img {
 .voice-btn-cancel {
     width: 60px;
     background-color: #2e2e2e;
+}
+
+.voice-sample-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.voice-sample {
+    display: inline-block;
+    margin: 10px auto;
 }
 
 .modal-btn-send {
@@ -462,7 +473,6 @@ img {
 #emoticonBtn {
     width: 25px;
     height: 25px;
-    background-image: url("/resources/images/chat/emoticon.svg");
     background-repeat: no-repeat;
     background-size: 20px;
     background-position: center;

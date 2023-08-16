@@ -94,7 +94,6 @@ $(".chatBtn").click(event => {
 
     $.get("${path}/member/checkIfBanned")
         .then(data => {
-            console.log(data);
             if (data === "Y") {
                 alert("채팅방에서 강퇴 당한 회원은 금일 자정까지 입장이 불가능합니다.");
                 return;

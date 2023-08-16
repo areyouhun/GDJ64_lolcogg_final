@@ -35,6 +35,9 @@
 						<img src="${path}/resources/images/chat/sound.png">
 					</div>
 				</div>
+				<div class="voice-sample-box">
+					<audio class="voice-sample" src="${path}/resources/audio/chat/voice_a.mp3" controls></audio>
+				</div>
 				<div class="voice-lineup">
 					<div>
 						<input type="radio" id="voiceA" name="voice" value="ko-KR-Neural2-A"/>
@@ -133,7 +136,10 @@
 			}
 	);
 	
-	const chattingServer = new WebSocket("ws://localhost:7070/chatting");
+	let path = "localhost:7070"; // local
+	path = "14.36.141.71:10005/GDJ64_lolcogg_final"; // server
+
+	const chattingServer = new WebSocket("ws://" + path + "/chatting");
 	const userTeam = "${loginMember.teamAbbr}";
 	const userEmail = "${loginMember.email}";
 	const userNickname = '${loginMember.nickname}';
@@ -146,7 +152,6 @@
 	
 	chattingServer.onmessage = data => {
 		const message = JSON.parse(data.data);
-		console.log(message);
 		
 		switch (message.type) {
 			case "NOTIFICATION":
@@ -254,6 +259,10 @@
 		$(".modal").fadeIn();
 	});
 
+	$("input[name=voice]").change(event => {
+		$(".voice-sample").attr("src", "${path}/resources/audio/chat/" + $(event.target).attr("id") + ".mp3");
+	});
+
 	$('#textBox').keyup(function (event) {
 		let content = $(this).val();
 		
@@ -292,7 +301,6 @@
 			}
 		});
 
-		console.log(voiceOption);
 		if (voiceOption.length !== 0) {
 			chattingServer.send(JSON.stringify(new Message(type = "SHOUT", 
 			teamAbbr = "",
@@ -322,6 +330,7 @@
 
 	$(".voice-btn-cancel").click(event => {
 		$("input[type=radio][name=voice]").prop('checked', false);
+		$(".voice-sample").attr("src", "");
 	});
 
 	$(".nickname-list-title button").click(event => {
@@ -383,8 +392,6 @@
 					const emoticonBox = $("<div>").addClass("emoticon-box");
 
 					data.forEach(element => {
-						console.log(element);
-						console.log(element.emoticon.emoFilename);
 						const $div = $("<div>");
 						const $img = $("<img>").attr("src", "${path}/resources/images/emoticon/" + element.emoticon.emoFilename);
 						
@@ -570,6 +577,8 @@
 
 		return new Blob([ab], { type: mime });
 	}
+
+	$("#emoticonBtn").css("backgroundImage", "url('/resources/images/chat/emoticon.svg')");
 </script>
 </body>
 </html>

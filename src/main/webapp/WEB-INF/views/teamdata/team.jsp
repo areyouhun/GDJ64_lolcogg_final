@@ -173,7 +173,7 @@
 	                                        	</td>
 	                                        	<td>
 	                                        		<div class="match-table_option">
-	                                        			<input type="button" class="match-btn" value="전력 비교"/>
+	                                        			<input type="button" class="match-btn compare-btn" value="전력 비교"/>
 	                                        		</div>
 	                                        	</td>
 	                        				</tr>
@@ -222,7 +222,7 @@
                                         	</td>
                                         	<td>
                                         		<div class="match-table_option">
-                                        			<input type="button" class="match-btn" value="상세 보기"/>
+                                        			<input type="button" class="match-btn detail-btn" value="상세 보기"/>
                                         		</div>
                                         	</td>
                         				</tr>
@@ -298,12 +298,19 @@
             location.assign("${path}/teamdata/player?nickname=" + $(event.target).val());
         });
 
-        $(document).on("click", ".match-btn", event => {
+        $(document).on("click", ".detail-btn", event => {
             const matchDate = "23-" + $(event.target).parent().parent().siblings(".match_date").find("h3").text().split(" ")[0].replace(".", "-");
             const home = $(event.target).parent().parent().siblings(".home").find("h3").text();
             const away = $(event.target).parent().parent().siblings(".away").find("h3").text();
 
             location.assign("${path}/teamdata/matchResult?matchDate=" + matchDate + "&home=" + home + "&away=" + away);
+        });
+
+        $(document).on("click", ".compare-btn", event => {
+            const home = $(event.target).parent().parent().siblings(".home").find("h3").text();
+            const away = $(event.target).parent().parent().siblings(".away").find("h3").text();
+
+            location.assign("${path}/teamdata/comparison?teamLeft=" + home + "&teamRight=" + away);
         });
 
         $(document).on("mouseenter", ".name-list input[type='button']", event => {
