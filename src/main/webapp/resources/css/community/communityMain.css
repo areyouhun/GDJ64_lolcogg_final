@@ -337,7 +337,7 @@ button:active {
 	color: var(--lol-white, #EEE);
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	
 }
 .cm_board-content{
 	margin-top: 20px;
@@ -1101,4 +1101,16 @@ ion-icon {
 	margin-top: 15px;
 	display: flex;
 	justify-content: space-between;
+}
+.buff{
+	width: 5px;
+}
+.nerf{
+	width: 5px;
+}
+.bf{
+	width: 5px;
+}
+.nf{
+	width: 5px;
 }

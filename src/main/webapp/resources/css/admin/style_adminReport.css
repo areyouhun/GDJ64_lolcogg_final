@@ -1,0 +1,274 @@
+@import url('common.css');
+
+
+/* 인풋스타일 */
+input {
+  border-style: none;
+  outline: none;
+}
+/* 라디오 컬러변경 */
+input[type=radio] {
+  accent-color: var(--lol-mainblue);
+  
+
+}
+
+button {
+  border-style: none;
+  outline: none;
+  transition: ease-out 0.2s;
+  cursor: pointer;
+
+}
+table{
+	table-layout: fixed;
+}
+.r_title{
+	width: 600px;
+	height: 70px;
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* hr 얇은선 */
+.hr-1 {
+  margin-top: 20px;
+  width: 730px;
+  height: 1px;
+  border: 0px;
+  background: rgba(217, 217, 217, 0.60);
+}
+
+/* 신고 카테고리 */
+.report-categpries {
+  display: flex;
+  cursor: pointer;
+}
+
+.categories span {
+  margin-right: 30px;
+  padding: 8px 8px 8px 8px;
+  color: #FFF;
+  font-size: 20px;
+  width: 160px;
+
+
+}
+
+.categories span:hover {
+  border-radius: 15px;
+  background: #2C2C2C;
+
+}
+
+.report-board {
+  margin-top: 30px;
+  width: 100%;
+  border-top: 2px solid var(--lol-white, #EEE);
+  border-bottom: 2px solid var(--lol-white, #EEE);
+  border-collapse: collapse;
+
+}
+
+th {
+  padding: 10px;
+
+}
+
+td {
+  border-top: 2px solid #444444;
+  padding: 10px;
+  text-align: center;
+
+}
+
+.pageBar {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+
+}
+
+.page li {
+  list-style: none;
+  float: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+.page li a {
+  padding: 10px;
+
+}
+
+.page li :hover {
+  background-color: #2C2C2C;
+  border-radius: 100px;
+}
+
+.remove-button-div {
+  display: flex;
+  justify-content: end;
+}
+
+.remove-button {
+  margin-top: 30px;
+  width: 77.506px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: var(--lol-mainblue);
+  color: var(--lol-white, #EEE);
+  font-size: 15px;
+}
+
+.report {
+  border-radius: 10px;
+  border: 3px solid #2C2C2C;
+  background: rgba(30, 28, 28, 0.6);
+  width: 425px;
+  height: 580px;
+  
+  margin: auto;
+}
+
+.report-div{
+    
+    height: 500px;
+   padding: 15px;
+
+
+}
+/* 신고내용 스크롤 */
+.report {
+  overflow: auto;
+  overflow-x: hidden;
+}
+.report::-webkit-scrollbar {
+  width: 3px;  /* 스크롤바의 너비 */
+}
+
+.report::-webkit-scrollbar-thumb {
+  height: 20%; /* 스크롤바의 길이 */
+  background: #515151; /* 스크롤바의 색상 */
+  
+  border-radius: 10px;
+}
+
+.report::-webkit-scrollbar-track {
+  background: var(--bg-gray);  /*스크롤바 뒷 배경 색상*/
+}
+
+
+
+.report__title{
+
+  font-size: 13px;
+  color: var(--lol-blue, #6454ED);
+  font-weight: 800;
+  
+  
+}
+.report__title p{
+
+  margin-bottom: 15px;
+}
+.report__label{
+  margin-top: 15px;
+
+}
+.report-radio__input{
+  margin-bottom: 15px;
+}
+
+
+.report-content{
+  color: #FFF;
+  font-size: 18px;
+  font-weight: 800;
+
+}
+.report-radio{
+  margin-top: 15px;
+  
+}
+.report-radio-item{
+  margin-bottom: 15px;
+}
+.report__text{
+  margin-top: 15px;
+  width: 97%;
+  height: 65.25px;
+  border-radius: 10px;
+  border: 1px solid var(--lol-white, #EEE);
+  color: var(--lol-white, #EEE);
+  font-size: 14px;
+  background-color: #2C2C2C;
+  padding: 5px;
+
+  
+}
+.report__submit{
+  width: 77.506px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: var(--lol-mainblue);
+  color: var(--lol-white, #EEE);
+  
+  font-size: 15px;
+}
+.report__submit_div{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+input[type=radio] {
+  accent-color: var(--lol-mainblue);
+}
+.report-content-button {
+  width: 77.506px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: var(--lol-mainblue);
+  color: var(--lol-white, #EEE);
+  font-family: SUIT;
+  font-size: 15px;
+
+}
+.before_report-content-button{
+	width: 77.506px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #2e2e2e;
+  color:var(--lol-white, #EEE);
+  font-family: SUIT;
+  font-size: 15px;
+}
+.report_user{
+  color: var(--lol-white, #EEE);
+font-size: 16px;
+font-style: normal;
+font-weight: 800;
+margin-top: 15px;
+
+}
+.report_user div>span{
+  margin-right:3px;
+  
+  
+}
+.reportPage-margin{
+	margin-top: 30px;
+}
+
+
+  
+  
+  
+  
+  
+  

@@ -1,6 +1,10 @@
 package gg.lolco.controller;
 
+
 import java.util.HashMap;
+
+import java.util.List;
+
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -8,20 +12,37 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import gg.lolco.model.service.MemberService;
 import gg.lolco.model.service.StoreService;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
+import gg.lolco.common.PageFactory;
+import gg.lolco.model.service.CommunityService;
+import gg.lolco.model.service.ReportService;
+import gg.lolco.model.vo.Report;
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("/admin")
+@Slf4j
 public class AdminController {
 	
-	private StoreService service;
+	private StoreService storeServiceservice;
 	
-	public AdminController( StoreService service) {
-		this.service=service;
+	private CommunityService communityService;
+	
+	private ReportService service;
+	
+	public AdminController(ReportService service,CommunityService communityService,StoreService storeServiceservice) {
+		this.service = service;
+		this.communityService = communityService;
+		this.storeServiceservice = storeServiceservice;
 	}
+	
 	
 	@GetMapping("/memberManagement")
 	public String memberManagement(Model model) {
@@ -32,9 +53,9 @@ public class AdminController {
 	@GetMapping("/storeManagement")
 	public String storeManagement(Model model) {
 		// JOONHO
-		model.addAttribute("saleListAll",service.saleListAll(0));
-		model.addAttribute("saleListOne",service.saleListAll(1));
-		model.addAttribute("saleListWeek",service.saleListAll(7));
+		model.addAttribute("saleListAll",storeServiceservice.saleListAll(0));
+		model.addAttribute("saleListOne",storeServiceservice.saleListAll(1));
+		model.addAttribute("saleListWeek",storeServiceservice.saleListAll(7));
 		return "/admin/storeManagement";
 	}
 	
@@ -44,7 +65,7 @@ public class AdminController {
 		Map<String,Object> param=new HashMap<>();
 		param.put("price", price);
 		param.put("itemNo", itemNo);
-		int result=service.changePrice(param);
+		int result=storeServiceservice.changePrice(param);
 	}
 	
 	@GetMapping("/reportManagement")
@@ -52,4 +73,59 @@ public class AdminController {
 		// INHO
 		return "/admin/reportManagement";
 	}
+	
+	@GetMapping("/reportList")
+	public String reportList(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,Model m) {
+		List<Report> reportList=service.reportList(Map.of("cPage", cPage, "numPerpage", numPerpage));
+		int totalData = service.reportListCount();
+		m.addAttribute("reportList", reportList);
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "reportList"));
+		return "admin/reportManagement";
+	}
+	@GetMapping("/reportRemove")
+	public String reportRemove(Model m,@RequestParam("reportNo") String reportNo,@RequestParam("cmBoardNo") String cmBoardNo) {
+		int reportRemove=service.reportRemove(reportNo);
+		communityService.boardRemove(cmBoardNo);
+		if (reportRemove > 0) {
+			m.addAttribute("msg", "게시글작성 완료");
+			m.addAttribute("loc", "/admin/reportList");
+		} else {
+			m.addAttribute("msg", "게시글작성 실패");
+			m.addAttribute("loc", "/admin/reportList");
+		}
+		return "common/msg";
+	}
+
+	
+	@GetMapping("/reportCmList")
+	public String reportCmList(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,Model m) {
+		List<Report> reportCmList=service.reportCmList(Map.of("cPage", cPage, "numPerpage", numPerpage));
+		int totalData = service.reportCmListCount();
+		System.out.println(reportCmList);
+		m.addAttribute("reportList", reportCmList);
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "reportCmList"));
+		return "admin/reportManagement";
+	}
+	@GetMapping("/reportCmRemove")
+	public String reportCmRemove(Model m,@RequestParam("reportNo") String reportNo,@RequestParam("cmCommentNo") String cmCommentNo) {
+		int reportRemove=service.reportRemove(reportNo);
+		communityService.cmRemoveBtn(Map.of("commentNo", cmCommentNo));
+		
+		if (reportRemove > 0) {
+			m.addAttribute("msg", "댓글삭제 완료");
+			m.addAttribute("loc", "/admin/reportCmList");
+		} else {
+			m.addAttribute("msg", "댓글삭제 실패");
+			m.addAttribute("loc", "/admin/reportCmList");
+		}
+		return "common/msg";
+	}
+	
+
+	
+	
+
+	
 }
