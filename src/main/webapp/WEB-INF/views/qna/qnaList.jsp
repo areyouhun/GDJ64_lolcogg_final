@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="url" value="${pageContext.request.requestURL}" />
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path }/resources/css/qna/qnaList.css">
@@ -21,8 +22,16 @@
                 </div>
                 <div>
                     <div class="qnaSort">
-                        <a href=""><span class="content fs-20 qnaSpan">전체</span></a>
-                        <a href=""><span class="content fs-20 qnaSpanNo">내가 쓴 글</span></a>
+	                    <c:if test="${url} eq ${path }+'/qna/qnaList'">
+	                        <a href="${path }/qna/qnaList"><span class="content fs-20 qnaSpan">전체</span></a>
+	                        <a href="${path }/qna/myQnaList"><span class="content fs-20 qnaSpanNo">내가 쓴 글</span></a>
+	                    </c:if>
+	                    <c:if test="${url} == '${path }/qna/myQnaList'">
+	                        <a href="${path }/qna/qnaList"><span class="content fs-20 qnaSpanNo">전체</span></a>
+	                        <a href="${path }/qna/myQnaList"><span class="content fs-20 qnaSpan">내가 쓴 글</span></a>
+	                    </c:if>
+	                    <a href="${path }/qna/qnaList"><span class="content fs-20 qnaSpan">전체</span></a>
+	                        <a href="${path }/qna/myQnaList"><span class="content fs-20 qnaSpanNo">내가 쓴 글</span></a>
                     </div>
                     <div class="tableContainer">
                         <table class="qnaTable">
@@ -82,7 +91,12 @@
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
-
+<script>
+	$(()=>{
+		console.log(location.href);
+		/* 전체, 내가 쓴글 */
+	});
+</script>
 <!-------------------------------------------->
 </body>
 </html>

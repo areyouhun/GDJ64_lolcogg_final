@@ -20,7 +20,7 @@
                     <p class="mainTitle fs-35 mainTitleMargin">문의하기</p>
                 </div>
                 <hr class="hr-3">
-                <form action="${path }/qna/insertQnaEnd" method="post" enctype="multipart/form-data">
+                <form action="${path }/qna/insertQnaEnd" method="post" enctype="multipart/form-data" onsubmit="return check();">
                     <div class="tableTitle">
                         <div class="insertqna">
                             <p class="color-white content fs-20 tableTitle">제목</p>
@@ -50,8 +50,7 @@
                             <div class="addFile">
 	                            <label for="qnaFile" class="inputFont fileBtn">파일 추가하기</label>
 	                            <input type="file" id="qnaFile" name="qaFile" accept="image/*" multiple>
-	                            <!-- onchange="addFile();" -->
-	                            <!-- <p class="content fileName"></p> --><div class="fileBox"></div>
+	                            <div class="fileBox"></div>
                             </div>
                         </div>
                         <div>
@@ -164,6 +163,28 @@ $(document).on("keyup", ".qaContentDiv textarea", function(e) {
 $(document).on("click", ".insertBtnNo", function(e) {
 	location.assign('${path}/qna/qnaList');
 })
+
+/* 필수값 확인 */
+function check() {
+	if($('input[name=qaTitle]').val() == '') {
+		alert("제목을 입력해 주세요.");
+		$('input[name=qaTitle]').focus();
+		return false;
+	} else if($('textarea[name=qaContent]').val() == '') {
+		alert("문의내용을 입력해 주세요.");
+		$('textarea[name=qaContent]').focus();
+		return false;
+	} else if($('input[name=qaPwd]').val() == '') {
+		alert("비밀번호를 입력해 주세요.");
+		$('input[name=qaPwd]').focus();
+		return false;
+	} else if($('input[name=qaPwd]').val().length < 4) {
+		alert("비밀번호는 4자리입니다.");
+		$('input[name=qaPwd]').focus();
+		return false;
+	} else return true;
+}
+
 /* const addFile=()=>{
 let maxFile = 5; // 첨부파일 최대 개수
 var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수

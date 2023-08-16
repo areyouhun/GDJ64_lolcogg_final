@@ -25,7 +25,7 @@
                         <div class="insertqna">
                             <p class="color-white content fs-20 tableTitle">제목</p>
                             <div class="qnaViewInput">
-                                <p class="color-white content fs-20 tableTitle">${qb.qaTitle }</p>
+                                <p id="qnaTitle" class="color-white content fs-20 tableTitle">${qb.qaTitle }</p>
                                 <p class="color-white content fs-20 tableTitle">${qb.qaDate }</p>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                                 <p class="color-white content fs-20 tableTitle preText">${qb.qaContent }</p>
                                 <c:forEach var="f" items="${qb.qaFile }">
                                 	<c:if test="${f.qaOriFilename != null }">
-	                                    <img src="${path }/resources/upload/qna/${f.qaRnmFilename}" width="500px"><br>
+	                                    <img src="${path }/resources/upload/qna/${f.qaRnmFilename}" width="800px" style="margin-top:10px"><br>
 	                                </c:if>
                                 </c:forEach>
                             </div>
@@ -69,10 +69,10 @@
                   </c:if>
                     <hr class="hr-3">
                     <div class="insertBtnDiv">
-                    <%-- <c:if test="${loginMember.email.equals(qb.qaWriter.email) }"> --%>
+                    <c:if test="${loginMember.email == qb.qaWriter.email || loginMember.authority == '관리자' }">
                         <button id="updateQna" type="submit" class="insertBtn insertBtnOk content">수정</button>
                         <button id="deleteQna" type="reset" class="insertBtn insertBtnNo content">삭제</button>
-					<%-- </c:if> --%>
+					</c:if>
                     </div>
 
                 <!-- 댓글 -->
@@ -82,16 +82,19 @@
                         <!-- 댓글 작성 -->
                         <form id="commentForm" method="post" onsubmit="return fn_insertComment();">
                             <div class="insertCommentDiv">
-                                <textarea type="text" class="insertComment content fs-20"
-                                    style="resize: none;"></textarea>
+                            	<div class="commentDiv">
+	                                <textarea type="text" class="insertComment content fs-20"
+	                                    style="resize: none;"></textarea>
+                                </div>
                                 <div class="countBtnDiv">
                                     <div class="countBtn">
                                         <span id="letterSpan" class="content fs-20">0/150</span>
                                     </div>
                                     <div class="iconBtn">
-                                        <ion-icon name="happy-outline"></ion-icon>
-                                        <button class="commentBtn content">등록</button>
-                                    </div>
+									<div class="emoDiv">
+									</div>
+									<button class="commentBtn content">등록</button>
+								</div>
                                 </div>
                             </div>
                         </form>
@@ -109,7 +112,7 @@
 
                                 <div class="commentDetail">
                                     <div class="commentInfo">
-                                        <p class="content fs-20 nickname">${c.qaCommentWriter.nickname}</p>
+                                        <p class="content nickname">${c.qaCommentWriter.nickname == null ? '탈퇴한 회원' : c.qaCommentWriter.nickname}</p>
                                     </div>
                                     <div>
                                         <p class="content fs-20 commentContent">${c.qaCommentContent}</p>
@@ -118,23 +121,20 @@
                                 </div>
 
                                 <div class="optionDiv">
+                                <c:if test="${loginMember.authority == '관리자'}">
                                     <button class="moreIconBtn">
                                         <ion-icon class="moreIcon" name="ellipsis-horizontal"
                                             style="font-size: 28px;"></ion-icon>
                                     </button>
                                     <ul id="${c.qaCommentNo }" class="optionUl">
                                         <li>
-                                       		 <label class="cUpBtn">
-                                            <button><ion-icon class="optionIcon"
-                                                    name="create-outline"></ion-icon>수정</button>
-                                                    </label>
-                                         <hr class="hr-op">
                                          <label class="cDelBtn">
                                             <button><ion-icon class="optionIcon"
                                                     name="trash-bin-outline"></ion-icon>삭제</button>
                                          </label>          
                                         </li>
                                     </ul>
+                                </c:if>
                                 </div>
                             </div>
                             <hr class="hr-1 hr-op">
@@ -155,8 +155,14 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script>
+/* 로그인 세션값 */
+const loginMember = "${sessionScope.loginMember}";
+
+/* 글 번호 */
+const qaNo = '${qb.qaNo}';
+
 /* 댓글 글자 수 제한 */
-$(".insertComment").keyup(e=>{
+$(document).on("keyup", ".insertComment", function(e) {
 	let content = $(e.target).val();
     
     // 글자수 세기
@@ -231,8 +237,6 @@ const fn_insertComment=()=>{
     				html += "</button>";
     				
     				html += "<ul id='${c.qaCommentNo }' class='optionUl'><li>";
-    				html += "<label class='cUpBtn'><button id='${c.qaCommentNo}' class='cUpBtn'><ion-icon class='optionIcon' name='create-outline'></ion-icon>수정</button></label>";
-    				html += "<hr class='hr-op'>";
     				html += "<label class='cDelBtn'><button id='${c.qaCommentNo}' class='cDelBtn'><ion-icon class='optionIcon cDelBtn' name='trash-bin-outline'></ion-icon>삭제</button></label>";
     				html += "</li></ul></div></div>";
     				html += "<hr class='hr-1 hr-op'>";
@@ -268,41 +272,274 @@ $(document).on("click", ".cUpBtn", function(e) {
 	console.log($(e.target).closest("ul").attr('id'));
 });
 
+/* 댓글 삭제 */
+$(document).on("click", ".cDelBtn", function(e) {
+	$(e.target).parents('.optionUl').css('display', 'none');
 
-
-
-
-
-
-
-
-
-
-
-// 페이지 로딩 시 댓글 조회
-/* window.onload = () => {
-    findAllComment();
-} */
-
-// 전체 댓글 조회
-/* function findAllComment() {
+	const qaNo = $(e.target).parents('ul').attr('id');
+	const removeDiv = $(e.target).parents('.commentList');
+	const hr = $(e.target).parents('.commentList').next('hr');
 	
-	$.ajax({
-	    url : '${path}/qna/qnaView?no=${qb.qaNo}',
-	    type : 'get',
-	    async : false,
-	    success : (data)=> {
-	        console.log(data.length);
-	    },
-	    error : function (request, status, error) {
-	        console.log("에러났다!");
+	if(confirm("정말 삭제하시겠습니까?")){
+		$.ajax({
+			type: "POST",
+			url: "/qna/deleteComment",
+			data:{
+				"qaNo": qaNo
+			},
+			dataType: "json",
+			success : function(data){
+				if(data > 0){
+					alert("삭제 완료");
+					removeDiv.next('hr').remove();
+					removeDiv.remove();
+				} else {
+					alert("다시 한 번 시도해주세요.");
+				}
+			},
+			error : function(err){
+				console.log("요청 실패", err);
+			}
+		});
+	} else {
+		
+	}
+});
+
+/* 게시물 수정 시 */
+$(document).on("click", "#updateQna", function(e) {
+	const title = $('#qnaTitle').text();
+	const content = $('.qnaViewContent p').text();
+	
+	const file = $('.qnaViewInput>div>p').map(function() {
+	    return $(this).text();
+	}).get();
+	
+	/* 파일 소스 */	
+	let fileSrc = $(e.target).parent('.insertBtnDiv').siblings('.tableTitle').find('.qnaViewContent img');
+	
+	/* 삭제버튼 이벤트 삭제 및 이벤트 생성 */
+	$('#deleteQna').off('click').text('취소');
+	$(document).on("click", "#deleteQna", function(e) {
+		location.assign('${path}/qna/qnaView?no=${qb.qaNo}');
+	});
+	
+	/* form태그 */
+	let form = $('<form>', {
+		id: 'updateForm',
+        action: '${path}/qna/updateQna',
+        method: 'post',
+        enctype: 'multipart/form-data'
+    });
+	
+	$('.tableTitle').html('');
+	$('.qnaCommentDiv').html('');
+	
+	let tableTitleDiv = $('<div>').addClass('tableTitle'); 
+	
+	/* 글 번호 */
+	let noInput = $('<input>', { name : 'qaNo', type : 'hidden' , value: qaNo});
+	tableTitleDiv.append(noInput);
+	
+	/* 제목 */
+	let qaTitleDiv = $('<div>').addClass('insertqna');
+	let titleP = $('<p>').addClass('color-white content fs-20 tableTitle').text('제목');
+	qaTitleDiv.append(titleP);
+	
+	let qaTitleInputDiv = $('<div>').addClass('qaTitleDiv');
+	let qaTitleInput = $('<input>', { type: 'text', name: 'qaTitle', class: 'qnaInput inputFont', placeholder: '최대 30자' }).val(title);
+	qaTitleInputDiv.append(qaTitleInput);
+	
+	qaTitleInputDiv.append($('<div>').append($('<p>', { class: 'color-white content fs-20 tableTitle' }).text(title.length + '/30')));
+	qaTitleDiv.append(qaTitleInputDiv);
+	qaTitleDiv.append($('<input>', { type: 'hidden', name: 'qaWriter', value: '${loginMember.email}' }));
+	
+	tableTitleDiv.append(qaTitleDiv);
+	
+	tableTitleDiv.append($('<hr>').addClass('hr-1'));
+	
+	/* 문의내용 */
+	let qaContentDiv = $('<div>').addClass('insertqna');
+	let contentP = $('<p>').addClass('color-white content fs-20 tableTitle').text('문의내용');
+	qaContentDiv.append(contentP);
+	
+	let qaContentInputDiv = $('<div>').addClass('qaContentDiv');
+	let qaContentText = $('<textarea>', { name: 'qaContent', cols: '30', rows: '40', class: 'qnaInput inputFont', placeholder: '최대 1000자' , value: 'qaContent'}).css({'resize': 'none', 'margin-top': '5px'}).val(content);
+	qaContentInputDiv.append(qaContentText)
+	
+	let div = $('<div>');
+	div.append($('<p>', { class: 'color-white content fs-20 tableTitle' }).text(content.length));
+	div.append($('<p>', { class: 'color-white content fs-20 tableTitle' }).text('/1000'));
+	qaContentInputDiv.append(div);
+	qaContentDiv.append(qaContentInputDiv);
+	
+	tableTitleDiv.append(qaContentDiv);
+	tableTitleDiv.append($('<hr>').addClass('hr-1'));
+	
+	/* 첨부파일 */
+	let qaFileDiv = $('<div>').addClass('insertqna');
+	let fileP = $('<p>').addClass('color-white content fs-20 tableTitle').text('첨부파일');
+	qaFileDiv.append(fileP);
+	
+	let qaFileInputDiv = $('<div>').addClass('addFile');
+	let qaFileLabel = $('<label>', { for: 'qnaFile', class: 'inputFont fileBtn'}).text('파일 추가하기');
+	let qaFileInput = $('<input>', { type: 'file', id: 'qnaFile', name: 'qaFile', accept: 'image/*', multiple: 'multiple' });
+	
+	let qaFileBoxDiv = '';
+	if(file == '첨부파일 없음'){
+		qaFileBoxDiv = $('<div>').addClass('fileBox').css('display', 'none');
+	} else {
+		qaFileBoxDiv = $('<div>').addClass('fileBox').css('display', 'block');
+		
+		let img = '';
+		$.each(fileSrc, (i, f)=>{
+			let img = $("<img>").attr({
+				src: f.src, "width" : "80px", "height" : "80px"
+			}).css({
+				"margin-right":"10px", "border" : "1px solid white"
+			});
+			qaFileBoxDiv.append(img);
+			console.log(img);
+		});
+	}
+	
+	qaFileInputDiv.append(qaFileLabel, qaFileInput, qaFileBoxDiv);
+	qaFileDiv.append(qaFileInputDiv);
+	
+	tableTitleDiv.append(qaFileDiv);
+	tableTitleDiv.append($('<hr>').addClass('hr-1'));
+	
+	/* 비밀번호 */
+	let qaPwdDiv = $('<div>').addClass('insertqna');
+	let pwdP = $('<p>').addClass('color-white content fs-20 tableTitle').text('비밀번호');
+	let qaPwdInputDiv = $('<div>').addClass('qnaInputPwdDiv');
+	let qaPwdInput = $('<input>', { type: 'password', name: 'qaPwd', class: 'qnaInputPwd inputFont', placeholder: '비밀번호 4자리' });
+	qaPwdInputDiv.append(qaPwdInput);
+	qaPwdDiv.append(pwdP, qaPwdInputDiv);
+	
+	tableTitleDiv.append(qaPwdDiv);
+	form.append(tableTitleDiv);
+
+	$('.tableTitle').after(form);
+	
+	$('#updateQna').removeAttr('id').addClass('updateOkBtn');
+});
+
+/* 수정 내용 입력 후 버튼 클릭시 */
+$(document).on("click", ".updateOkBtn", function(e) {
+	$(e.target).attr('form', 'updateForm');
+	
+	const title = $('input[name=qaTitle]').val();
+	const content = $('.qaContentDiv textarea').val();
+	
+	if($('input[name=qaTitle]').val() == '') {
+		alert("제목을 입력해 주세요.");
+		$('input[name=qaTitle]').focus();
+		return false;
+	} else if($('textarea[name=qaContent]').val() == '') {
+		alert("문의내용을 입력해 주세요.");
+		$('textarea[name=qaContent]').focus();
+		return false;
+	} else if($('input[name=qaPwd]').val() == '') {
+		alert("비밀번호를 입력해 주세요.");
+		$('input[name=qaPwd]').focus();
+		return false;
+	} else if($('input[name=qaPwd]').val().length < 4) {
+		alert("비밀번호는 4자리입니다.");
+		$('input[name=qaPwd]').focus();
+		return false;
+	} else {
+		//alert("수정이 완료되었습니다.");
+		return true;
+	}
+	
+});
+
+
+
+/* insertQna JS */
+$(()=>{
+	$("[name=qaFile]").change(e=>{
+		console.log(e.target);
+		const fileName = e.target.files[0].name;
+		console.log(e.target.files[0]);
+		console.log(fileName);
+		const xIcon = $("<ion-icon name='close-circle-outline' class='content fs-20'>");
+		$(e.target).next(".fileName").text(fileName);
+		$('.fileBox').css('display', 'block');
+	})
+})
+
+/* 이미지 추가 박스 */
+$(document).on("change", "[name=qaFile]", function(e) {
+	$(".fileBox").html('');
+	
+	$.each(e.target.files,(i,f)=>{
+		const reader = new FileReader();
+	reader.onload=e=>{
+		const img = $("<img>").attr({
+			src: e.target.result, "width" : "80px", "height" : "80px"
+		}).css({
+			"margin-right":"10px", "border" : "1px solid white"
+		});
+		$(".fileBox").append(img);
+	}	
+	reader.readAsDataURL(f);
+	})
+})
+
+/* 비밀번호 글자 수 제한 */
+const regex = /^[0-9]{0,4}$/;
+$(document).on("keyup", ".qnaInputPwd", function(e) {
+	let pwd = $(e.target).val();
+    
+    // 글자수 제한
+    if (pwd.length > 4) {
+        $(e.target).val($(e.target).val().substring(0, 4));
+    } else {
+	    if(regex.test(pwd)){
+	    	
+	    } else{
+	    	$(e.target).val('');
 	    }
-	}) 
-	
-	    window.onload = () => {
-        findAllComment();
-    } 
-} */
+    }
+});	
+
+/* 제목, 내용 글자 수 제한 */
+$(document).on("keyup", ".qaTitleDiv input", function(e) {
+	let title = $(e.target).val();
+    // 글자수 세기
+    if (title.length == 0 || title == '') {
+    	$(e.target).parents('.qaTitleDiv').find('p:first-child').text('0/30');
+    } else {
+    	$(e.target).parents('.qaTitleDiv').find('p:first-child').text(title.length + '/30');
+    }
+    
+    // 글자수 제한
+    if (title.length > 30) {
+        $(e.target).val($(e.target).val().substring(0, 30));
+        $(e.target).parents('.qaTitleDiv').find('p:first-child').text('30');
+        alert('제목은 30자 이하로 작성해주세요.');
+    };
+});	
+
+$(document).on("keyup", ".qaContentDiv textarea", function(e) {
+	let content = $(e.target).val();
+    // 글자수 세기
+    if (content.length == 0 || content == '') {
+    	$(e.target).parents('.qaContentDiv').find('p:first-child').text('0');
+    } else {
+    	$(e.target).parents('.qaContentDiv').find('p:first-child').text(content.length);
+    }
+    
+    // 글자수 제한
+    if (content.length > 1000) {
+        $(e.target).val($(e.target).val().substring(0, 1000));
+        $(e.target).parents('.qaContentDiv').find('p:first-child').text('1000');
+        alert('문의글은 1000자 이하로 작성해주세요.');
+    };
+});	 
+
 
 
 </script>
