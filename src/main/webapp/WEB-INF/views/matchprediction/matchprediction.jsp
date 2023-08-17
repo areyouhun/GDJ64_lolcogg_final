@@ -328,7 +328,7 @@
 					<p class="titleBlack mpCommentTitle fs-20">댓글</p>
 					<!-- 댓글 작성 -->
 					<!-- id="commentForm" 지움 나중에 에러나면 다시 추가 -->
-					<form method="post" onsubmit="return fn_insertComment(${nowWeek}, event);">
+					<form method="post" onsubmit="return fn_insertComment('${nowWeek}', event);">
 						<div class="insertCommentDiv">
 							<div class="commentDiv">
 							<textarea type="text" class="insertComment contentBlack fs-20"
@@ -470,7 +470,7 @@
 
             <div class='replyDiv'>
               <form id="${best.mpcNo }" class="replyForm" method="post"
-                onsubmit="return fn_insertComment(${nowWeek}, event);">
+                onsubmit="return fn_insertComment('${nowWeek}', event);">
                 <div class="insertCommentDiv">
                   <div class="commentDiv">
                     <textarea type="text" class="insertComment contentBlack fs-20" style="resize: none;"></textarea>
@@ -704,7 +704,7 @@
 
             <div class='replyDiv'>
               <form id="${comment.mpcNo }" class="replyForm" method="post"
-                onsubmit="return fn_insertComment(${nowWeek}, event);">
+                onsubmit="return fn_insertComment('${nowWeek}', event);">
                 <textarea type="text" class="insertComment contentBlack fs-20" style="resize: none;"></textarea>
                 <div class="countBtnDiv">
                   <div class="countBtn">
@@ -880,7 +880,6 @@ $(document).on("focus", ".insertComment", function(e){
 
 /* 승부예측 */
 $(document).on("click", ".mpMatchDiv", function(e) {
-	console.log($(e.target).parents('.mpMatchDiv'));
 	let choiceNo = $(e.target).parents('.mpMatchDiv').attr('id');
 	console.log(choiceNo);
 	if(loginMember != ''){
@@ -986,7 +985,6 @@ $(document).on("click", ".moreIconBtn", function(e) {
 /* 댓글 수정 */
 $(document).on("click", ".cUpBtn", function(e) {
 	const qaNo = $(e.target).attr('id');
-	console.log($(e.target).closest("ul").attr('id'));
 });
 
 /* 대댓글 입력창 */
@@ -1009,8 +1007,6 @@ $(document).on("click", ".emoBtn", function(e) {
 	
 	const comEmo = $(e.target).parents('.insertCommentDiv').find('.commentDiv');
 	const repEmo = $(e.target).parents('.replyForm').find('.commentDiv');
-	console.log(comEmo);
-	console.log(repEmo);
 	$(".insertEmoDiv").remove();
 	
     const emoDiv = $("<div>").addClass("insertEmoDiv");
@@ -1299,7 +1295,6 @@ $(document).on("click", ".upBtn", function(e) {
 				commentDiv.removeClass('replyDiv');
 				let updateContent = $("<p>").addClass('contentBlack fs-20 commentContent').text(data.mpcContent);
 				
-				console.log(${data.mpcEmoNo.emoFilename});
 				commentDiv.append(updateContent);
 				if(data.mpcEmoNo != null){
 					let updateEmo = $('<img>').addClass('emoticon').attr({
