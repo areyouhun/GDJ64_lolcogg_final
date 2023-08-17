@@ -38,7 +38,7 @@
 							<div class="insert-title">
 
 								<div>
-									<input type="text" placeholder="제목" name="title" maxlength="20"> <input
+									<input type="text" placeholder="제목" name="title" maxlength="30"> <input
 										type="text" id="myInput" placeholder="유튜브동영상만 가능합니다. 주소를 입력해주세요(선택)"
 										oninput="fetchVideoData()" name="video" maxlength="250">
 
