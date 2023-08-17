@@ -305,7 +305,23 @@
 						</div>
 					</c:forEach>
 				</c:if>
-				<c:if test="${empty myMpSuccess}">
+				<c:if test="${loginMember != null && empty myMpSuccess}">
+					<div class="myInfoDiv">
+						<p class="title fs-20">나의 적중률 랭킹</p>
+						<div class="myInfoDetailDiv">
+							<p class="content fs-18">참여한 승부예측이 없습니다.</p>
+						</div>
+					</div>
+					<div class="myInfoDiv">
+						<p class="title fs-20">나의 적중 횟수</p>
+						<div class="myInfoChartDiv">
+							<div class="chartInfoDiv">
+								<p class="content fs-18">참여한 승부예측이 없습니다.</p>
+							</div>
+						</div>
+					</div>
+				</c:if>
+				<c:if test="${loginMember == null}">
 					<div class="myInfoDiv">
 						<p class="title fs-20">나의 적중률 랭킹</p>
 						<div class="myInfoDetailDiv">
@@ -914,13 +930,12 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 							total = mpAll.count;							
 						}
 						if(mpAll.mpTeam == data[1].msHome){
-							homeP = Math.round((total / mpAll.count) * 100);
+							homeP = Math.round((mpAll.count / total) * 100);
 						}
 						awayP = 100 - homeP;
 					})
 					percentage.text(homeP + '%');
 					awayPercentage.text(awayP + '%');
-					
 				},
 				error: function(err){
 	    			console.log("요청 실패", err);
@@ -957,12 +972,14 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 							total = mpAll.count;							
 						}
 						if(mpAll.mpTeam == data[1].msAway){
-							awayP = Math.round((total / mpAll.count) * 100);
+							awayP = Math.round((mpAll.count / total) * 100);
+							console.log(mpAll.count);
 						}
 						homeP = 100 - awayP;
 					})
 					percentage.text(awayP + '%');
 					homePercentage.text(homeP + '%');
+					
 				},
 				error: function(err){
 	    			console.log("요청 실패", err);
@@ -975,6 +992,18 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 		
 });	
 
+/* 댓글 - 신고 버튼 */
+$(document).on("click", ".repBtn", function(e){
+	let mpcNo = $(e.target).parents('li').attr('id');
+	
+	console.log(mpcNo);
+	
+	if(confirm("정말 신고하시겠습니까?")){
+		location.assign('${path}/matchprediction/insertReport?no=' + mpcNo);
+	} else {
+		
+	}
+})
 
 /* 댓글 - 수정, 삭제 버튼 토글 */
 $(document).on("click", ".moreIconBtn", function(e) {
@@ -1047,7 +1076,8 @@ $(document).on("click", ".replyCount", function(e) {
 /* chart */
 if(loginMember != ''){
 	let myMpSuccess = '${myMpSuccess}';
-	if(myMpSuccess != null){
+	console.log(myMpSuccess);
+	if(myMpSuccess != '[]'){
 		let options = {
 		    cutoutPercentage: 85,
 		    rotation: Math.PI,
@@ -1161,6 +1191,23 @@ $(document).on("click", ".delBtn", function(e) {
 		
 	}
 });
+
+/* 댓글 글자 수 제한 */
+$(document).on("keyup", ".insertComment", function(e) {
+	let content = $(e.target).val();
+    // 글자수 세기
+    if (content.length == 0 || content == '') {
+    	$(e.target).parents('form').find('#letterSpan').text('0/150');
+    } else {
+    	$(e.target).parents('form').find('#letterSpan').text(content.length + '/150');
+    }
+    
+    // 글자수 제한
+    if (content.length > 150) {
+        $(e.target).val($(e.target).val().substring(0, 150));
+        alert('댓글은 150자 이하로 작성해주세요.');
+    };
+});	
 
 /* 댓글 수정 */
 $(document).on("click", ".upBtn", function(e) {
@@ -1558,23 +1605,6 @@ function weekChoice(week){
 $(".chatBtn").click(event => {
 	openPage("${path}/chat/chatroom", 1024, 768);
 });
-
-/* 댓글 글자 수 제한 */
-$(document).on("keyup", ".insertComment", function(e) {
-	let content = $(e.target).val();
-    // 글자수 세기
-    if (content.length == 0 || content == '') {
-    	$(e.target).parents('.replyForm').find('#letterSpan').text('0/150');
-    } else {
-    	$(e.target).parents('.replyForm').find('#letterSpan').text(content.length + '/150');
-    }
-    
-    // 글자수 제한
-    if (content.length > 150) {
-        $(e.target).val($(e.target).val().substring(0, 150));
-        alert('댓글은 150자 이하로 작성해주세요.');
-    };
-});	
 
 </script>
 	<!-- icon -->
