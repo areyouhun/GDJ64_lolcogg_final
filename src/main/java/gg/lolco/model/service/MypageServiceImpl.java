@@ -36,6 +36,6 @@ public class MypageServiceImpl implements MypageService {
 		// TODO Auto-generated method stub
 		return dao.updatePasswordForProfile(session, param);
 	}
-	
+
 	
 }

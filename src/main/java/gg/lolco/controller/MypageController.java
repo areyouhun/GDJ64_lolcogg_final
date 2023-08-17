@@ -93,4 +93,35 @@ public class MypageController {
 		return "redirect:/mypage/mypage.do";
 	}
 	
+	
+	@RequestMapping("PasswordCheck")
+	@ResponseBody
+	public int PasswordCheck(@RequestParam Map<Object, String> param) {
+		System.out.println("email : "+param.get("email")); // 계정 이메일
+		System.out.println("inputPassword : "+param.get("inputPassword")); // 미리보기 이미지 파일명
+		int cnt = 0;
+		
+		// EMAIL : param-DB 매칭
+		Member m = serviceMember.selectMemberById(param);
+		if (m != null && encoder.matches((String) param.get("inputPassword"), m.getPassword())) {
+			cnt = 1;
+		}
+		return cnt ;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -25,5 +25,6 @@ public class MypageDaoImpl implements MypageDao {
 		// TODO Auto-generated method stub
 		return session.update("mypage.updatePasswordForProfile", param);
 	}
+
 	
 }

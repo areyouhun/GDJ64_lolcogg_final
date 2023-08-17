@@ -364,21 +364,20 @@
 <div class="modal-background" id="passwordModalBackground">
     <div class="modal" id="passwordModal">
         <div class="modal-header">
-            <h5 class="modal-title">비밀번호 변경</h5>
+            <h5 class="ff-macho ff-20">비밀번호 변경</h5>
         </div>
         <div class="modal-body">
-            <label for="email">이메일</label>
-            <input type="email" id="email" name="email" required readonly><br>
             <label for="currentPassword">현재 비밀번호</label>
             <input type="password" id="currentPassword" name="currentPassword" required><br>
-            <label for="newPassword">새로운 비밀번호</label>
-            <input type="password" id="newPassword" name="newPassword" required><br>
-            <label for="confirmNewPassword">새로운 비밀번호 확인</label>
-            <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
+            <label for="newPassword" style = "display : none;">새로운 비밀번호</label>
+            <input type="password" id="newPassword" name="newPassword" required style = "display : none;"><br>
+            <label for="confirmNewPassword" style = "display : none;">새로운 비밀번호 확인</label>
+            <input type="password" id="confirmNewPassword" name="confirmNewPassword" required style = "display : none;">
         </div>
         <div class="modal-footer">
             <button type="button" class="btn duplicationCheck ff-suit fs-15" id="closeModalButton2">닫기</button>
-            <button type="button" class="btn duplicationCheck ff-suit fs-15" id="passwordModalConfirmButton">변경하기</button>
+            <button type="button" class="btn duplicationCheck ff-suit fs-15" id="passwordModalConfirmButton">확인하기</button>
+            <button type="button" class="btn duplicationCheck ff-suit fs-15" id="passwordModalConfirmButton2" style = "display : none;">변경하기</button>
         </div>
     </div>
 </div>
@@ -418,13 +417,15 @@ function setupModal(showButtonId, modalBackgroundId, closeModalButtonId, confirm
     closeModalButton.addEventListener('click', () => {
         modalBackground.style.display = 'none';
     });
+    
+    //프로필 이미지 변경
     if (confirmButton==document.getElementById('profileModalConfirmButton')) {
         confirmButton.addEventListener('click', () => {
             var formData = new FormData();
             var file = $("input[id='file']")[0].files[0]; // 외부 이미지
             var priviewImg = $("input[id='file2']").val(); // 추천 이미지
             if (file || priviewImg) {
-                // 파일 또는 미리보기 이미지가 존재하는 경우에만 코드 실행
+                // 파일 또는 미리보기 이미지 중 하나가 존재하는 경우에만 코드 실행
                 formData.append("email", '${loginMember.email}');
                 formData.append("file", file);
                 formData.append("profileImg", priviewImg);
@@ -447,12 +448,57 @@ function setupModal(showButtonId, modalBackgroundId, closeModalButtonId, confirm
             }
         });
     }
-    else if (confirmButton==document.getElementById('passwordModalConfirmButton')) {
+    
+    //비밀번호 변경
+    if (confirmButton==document.getElementById('passwordModalConfirmButton')) {
         confirmButton.addEventListener('click', () => {
-            modalBackground.style.display = 'none';
-        });
+			$.ajax({
+				type : 'POST',
+				url : '${path}/mypage/PasswordCheck',
+				data : {
+					"email" : '${loginMember.email}',
+					"inputPassword" :$("input[name='currentPassword']").val()
+				},
+				success : function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다 
+	                if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디 
+	                	alert("비밀번호 불일치");
+	                } else if(cnt == 1){ // cnt가 1일 경우 -> 이미 존재하는 아이디, 비밀번호 일치
+	                	alert("o");
+	                	document.querySelectorAll(" label[for='newPassword'], input[type='password'][name='newPassword'], label[for='confirmNewPassword'], input[type='password'][name='confirmNewPassword']")
+	                		.forEach(function(element) {
+	                	    element.style.display = "block"; // 또는 다른 원하는 값으로 변경
+	                	});
+	                	document.querySelectorAll("label[for='currentPassword'], input[type='password'][name='currentPassword']")
+	                		.forEach(function(element) {
+	                	    element.style.display = "none"; // 또는 다른 원하는 값으로 변경
+	                	});
+	                }
+	             },
+				error : function(request, status, error) { 
+			        console.log(error)
+			    }
+			})
+		});
     }
-    else if (confirmButton==document.getElementById('withdrawModalConfirmButton')) {
+    /* 비밀번호 변경(ajax) */
+	document.getElementById('passwordModalConfirmButton2').addEventListener('click', () => {
+							$.ajax({
+								type : 'POST',
+								url : '${path}/mypage/updatePassword',
+								data : {
+									"email" : '${loginMember.email}',
+									"updatePassword" :$("input[name='newPassword']").val()
+								},
+								success : function(){
+									location.href='${path}/mypage/mypage.do';
+								},
+								error : function(request, status, error) { 
+							        console.log(error)
+							    }
+							})
+						});
+    
+    if (confirmButton==document.getElementById('withdrawModalConfirmButton')) {
         confirmButton.addEventListener('click', () => {
             modalBackground.style.display = 'none';
         });
