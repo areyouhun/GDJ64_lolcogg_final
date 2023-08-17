@@ -14,6 +14,12 @@
 <title>승부예측</title>
 </head>
 <body>
+	<style>
+		.bgImgDiv{
+			background-image : linear-gradient(rgba(15, 15, 15, 0.6),
+            rgba(15, 15, 15, 1)), url('/resources/images/matchprediction/truedamage.png');
+		}
+	</style>
 	<jsp:include page="/WEB-INF/views/common/header.jsp">
 		<jsp:param name="navBgColor" value="nav-black" />
 	</jsp:include>
@@ -305,7 +311,23 @@
 						</div>
 					</c:forEach>
 				</c:if>
-				<c:if test="${empty myMpSuccess}">
+				<c:if test="${loginMember != null && empty myMpSuccess}">
+					<div class="myInfoDiv">
+						<p class="title fs-20">나의 적중률 랭킹</p>
+						<div class="myInfoDetailDiv">
+							<p class="content fs-18">참여한 승부예측이 없습니다.</p>
+						</div>
+					</div>
+					<div class="myInfoDiv">
+						<p class="title fs-20">나의 적중 횟수</p>
+						<div class="myInfoChartDiv">
+							<div class="chartInfoDiv">
+								<p class="content fs-18">참여한 승부예측이 없습니다.</p>
+							</div>
+						</div>
+					</div>
+				</c:if>
+				<c:if test="${loginMember == null}">
 					<div class="myInfoDiv">
 						<p class="title fs-20">나의 적중률 랭킹</p>
 						<div class="myInfoDetailDiv">
@@ -328,7 +350,7 @@
 					<p class="titleBlack mpCommentTitle fs-20">댓글</p>
 					<!-- 댓글 작성 -->
 					<!-- id="commentForm" 지움 나중에 에러나면 다시 추가 -->
-					<form method="post" onsubmit="return fn_insertComment(${nowWeek}, event);">
+					<form method="post" onsubmit="return fn_insertComment('${nowWeek}', event);">
 						<div class="insertCommentDiv">
 							<div class="commentDiv">
 							<textarea type="text" class="insertComment contentBlack fs-20"
@@ -470,7 +492,7 @@
 
             <div class='replyDiv'>
               <form id="${best.mpcNo }" class="replyForm" method="post"
-                onsubmit="return fn_insertComment(${nowWeek}, event);">
+                onsubmit="return fn_insertComment('${nowWeek}', event);">
                 <div class="insertCommentDiv">
                   <div class="commentDiv">
                     <textarea type="text" class="insertComment contentBlack fs-20" style="resize: none;"></textarea>
@@ -704,8 +726,12 @@
 
             <div class='replyDiv'>
               <form id="${comment.mpcNo }" class="replyForm" method="post"
-                onsubmit="return fn_insertComment(${nowWeek}, event);">
-                <textarea type="text" class="insertComment contentBlack fs-20" style="resize: none;"></textarea>
+                onsubmit="return fn_insertComment('${nowWeek}', event);">
+                <div class='insertCommentDiv'>
+                	<div class='commentDiv'>
+		                <textarea type="text" class="insertComment contentBlack fs-20" style="resize: none;"></textarea>
+                	</div>
+                </div>
                 <div class="countBtnDiv">
                   <div class="countBtn">
                     <span id="letterSpan" class="contentBlack fs-20">0/150</span>
@@ -880,7 +906,6 @@ $(document).on("focus", ".insertComment", function(e){
 
 /* 승부예측 */
 $(document).on("click", ".mpMatchDiv", function(e) {
-	console.log($(e.target).parents('.mpMatchDiv'));
 	let choiceNo = $(e.target).parents('.mpMatchDiv').attr('id');
 	console.log(choiceNo);
 	if(loginMember != ''){
@@ -915,13 +940,12 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 							total = mpAll.count;							
 						}
 						if(mpAll.mpTeam == data[1].msHome){
-							homeP = Math.round((total / mpAll.count) * 100);
+							homeP = Math.round((mpAll.count / total) * 100);
 						}
 						awayP = 100 - homeP;
 					})
 					percentage.text(homeP + '%');
 					awayPercentage.text(awayP + '%');
-					
 				},
 				error: function(err){
 	    			console.log("요청 실패", err);
@@ -958,12 +982,14 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 							total = mpAll.count;							
 						}
 						if(mpAll.mpTeam == data[1].msAway){
-							awayP = Math.round((total / mpAll.count) * 100);
+							awayP = Math.round((mpAll.count / total) * 100);
+							console.log(mpAll.count);
 						}
 						homeP = 100 - awayP;
 					})
 					percentage.text(awayP + '%');
 					homePercentage.text(homeP + '%');
+					
 				},
 				error: function(err){
 	    			console.log("요청 실패", err);
@@ -976,17 +1002,24 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 		
 });	
 
+/* 댓글 - 신고 버튼 */
+$(document).on("click", ".repBtn", function(e){
+	let mpcNo = $(e.target).parents('li').attr('id');
+	
+	console.log(mpcNo);
+	
+	if(confirm("정말 신고하시겠습니까?")){
+		location.assign('${path}/matchprediction/insertReport?no=' + mpcNo);
+	} else {
+		
+	}
+})
 
 /* 댓글 - 수정, 삭제 버튼 토글 */
 $(document).on("click", ".moreIconBtn", function(e) {
     const optionUl = $(e.target).closest(".optionDiv").find(".optionUl");
+	$('.optionUl').not(optionUl).hide();
     optionUl.toggle();
-});
-
-/* 댓글 수정 */
-$(document).on("click", ".cUpBtn", function(e) {
-	const qaNo = $(e.target).attr('id');
-	console.log($(e.target).closest("ul").attr('id'));
 });
 
 /* 대댓글 입력창 */
@@ -1005,11 +1038,10 @@ if(loginMember != ''){
  
 /* 이모티콘 선택 */
 $(document).on("click", ".emoBtn", function(e) {
-	/* console.log($(e.target).attr('id')); */
+	
 	
 	const comEmo = $(e.target).parents('.insertCommentDiv').find('.commentDiv');
-	const repEmo = $(e.target).parents('.replyForm').find('.commentDiv');
-	console.log(comEmo);
+	const repEmo = $(e.target).parents('.replyForm').find('textarea');
 	console.log(repEmo);
 	$(".insertEmoDiv").remove();
 	
@@ -1019,7 +1051,7 @@ $(document).on("click", ".emoBtn", function(e) {
     xButton.append(xIcon);
     emoDiv.append(xButton);
     comEmo.append(emoDiv);
-    repEmo.append(emoDiv);
+    repEmo.after(emoDiv);
 	
     emoDiv.show();
 	const imgUrl = $(e.target).attr('src');
@@ -1051,7 +1083,8 @@ $(document).on("click", ".replyCount", function(e) {
 /* chart */
 if(loginMember != ''){
 	let myMpSuccess = '${myMpSuccess}';
-	if(myMpSuccess != null){
+	console.log(myMpSuccess);
+	if(myMpSuccess != '[]'){
 		let options = {
 		    cutoutPercentage: 85,
 		    rotation: Math.PI,
@@ -1104,7 +1137,6 @@ const fn_insertComment=(week, e)=>{
     	const content = $(e.target).find('.insertComment').val();
     	const emoticon = $(e.target).find('.insertEmoDiv').attr('id');
     	const refNo = $(e.target).attr('id');
-    	// console.log(week); // nowWeek
     	
     	$.ajax({
     		type: "POST",
@@ -1153,6 +1185,8 @@ $(document).on("click", ".delBtn", function(e) {
 					alert("삭제 완료");
 					remove.next('hr').remove();
 					remove.remove();
+					removeDiv.next('hr').remove();
+					removeDiv.remove();
 				} else {
 					alert("다시 한 번 시도해주세요.");
 				}
@@ -1166,6 +1200,23 @@ $(document).on("click", ".delBtn", function(e) {
 	}
 });
 
+/* 댓글 글자 수 제한 */
+$(document).on("keyup", ".insertComment", function(e) {
+	let content = $(e.target).val();
+    // 글자수 세기
+    if (content.length == 0 || content == '') {
+    	$(e.target).parents('form').find('#letterSpan').text('0/150');
+    } else {
+    	$(e.target).parents('form').find('#letterSpan').text(content.length + '/150');
+    }
+    
+    // 글자수 제한
+    if (content.length > 150) {
+        $(e.target).val($(e.target).val().substring(0, 150));
+        alert('댓글은 150자 이하로 작성해주세요.');
+    };
+});	
+
 /* 댓글 수정 */
 $(document).on("click", ".upBtn", function(e) {
 	/* 댓글 번호 */
@@ -1174,8 +1225,11 @@ $(document).on("click", ".upBtn", function(e) {
 	/* 수정 폼 열기 */
 	$(e.target).parents('.optionUl').css('display', 'none');
 	const updateDiv = $(e.target).parents('.commentList').find('.commentDetail').next();
+	
+	copyUpdateDiv = updateDiv.clone();
+	
 	const oriContent = updateDiv.find('p').text();
-	const emoImage = updateDiv.find('img').attr('src');
+	const emoImage = updateDiv.find('.emoticon').attr('src');
 	
 	updateDiv.addClass('replyDiv');
 	updateDiv.css({'display':'block', 'margin-bottom':'15px'});
@@ -1200,6 +1254,7 @@ $(document).on("click", ".upBtn", function(e) {
 	textarea.val(oriContent);
 	commentDiv.append(textarea);
 	
+	let emoDelete = 'N';
 	if(emoImage != undefined){
 		let insertEmoDiv = $('<div>').addClass('insertEmoDiv');
 		insertEmoDiv.css({
@@ -1212,6 +1267,11 @@ $(document).on("click", ".upBtn", function(e) {
 		button.append(img);
 		insertEmoDiv.append(button);
 		commentDiv.append(insertEmoDiv);
+		
+		$(document).on("click", ".emoXIcon", function(e) {
+			console.log('클릭');
+			emoDelete = 'Y'; 
+		});
 	}
 		  
 	insertCommentDiv.append(commentDiv);
@@ -1229,32 +1289,10 @@ $(document).on("click", ".upBtn", function(e) {
 	
 	let iconBtn = $('<div>').addClass('iconBtn');
 	iconBtn.css('width', '150px');
-	// let emoDiv = $('<div>').addClass('emoDiv');
-	
-	// let ionIcon = $('<ion-icon>').attr('name', 'happy-outline');
-	
-	// let emo = $('<div>').addClass('emo');
-	
-	/* let ul = $('<ul>').addClass('emoSort');
-		  
-		var li = $('<li>').append(
-			$('<button>').addClass('emoBtn').attr('type', 'button').append(
-				$('<img>').attr({
-					src: '${path }/resources/images/emoticon/${emo.emoticon.emoFilename}',
-					width: '65px',
-					height: '65px'
-				})
-			)
-		);
-		ul.append(li); */
-	
-	// emo.append(ul);
-		  
-	// emoDiv.append(ionIcon, emo);
 	
 	let submitBtn = $('<button>').attr('type', 'button').addClass('commentBtn content').text('등록').on('click', fn_updateComment);
 	
-	let cancelBtn = $('<button>').attr('type', 'button').addClass('commentBtn content').text('취소');
+	let cancelBtn = $('<button>').attr('type', 'button').addClass('commentBtn content').text('취소').on('click', fn_cancelComment);
 	
 	iconBtn.append(submitBtn, cancelBtn);
 	countBtnDiv.append(countBtn, iconBtn);
@@ -1265,14 +1303,9 @@ $(document).on("click", ".upBtn", function(e) {
 	/* 최근 수정일로 변경 */
 	const date = commentDiv.parents('.replyDiv').siblings('.dateBuffDiv').find('.dateSpan');
 	
-	/* 이모티콘 삭제 */
-	let emoDelete = 'N';
-	if(emoImage == undefined){
-		let emoDelete = 'Y'; 
-	}
-	
 	/* 댓글 수정 ajax */
 	function fn_updateComment(){
+		
 		$.ajax({
 			type: "POST",
 			url: "/matchprediction/updateComment",
@@ -1290,16 +1323,18 @@ $(document).on("click", ".upBtn", function(e) {
 				    return d.getFullYear() + '.' + ((d.getMonth() + 1) > 9 ? (d.getMonth() + 1).toString() : '0' + (d.getMonth() + 1)) + '.' + (d.getDate() > 9 ? d.getDate().toString() : '0' + d.getDate().toString());
 				}
 				
+				console.log(emoDelete);
+				
 				const mpcUpDate = data.mpcUpDate;
 				const newDate = new Date(mpcUpDate);
 				const mpcUpDateTime = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(newDate);
 				
-				commentDiv = $(e.target).parents('.detailDiv').find('.replyDiv:first');
+				commentDiv = $(e.target).parents('.commentList').find('.replyDiv:first');
+				
 				commentDiv.find('.replyForm').css('display', 'none');
 				commentDiv.removeClass('replyDiv');
 				let updateContent = $("<p>").addClass('contentBlack fs-20 commentContent').text(data.mpcContent);
 				
-				console.log(${data.mpcEmoNo.emoFilename});
 				commentDiv.append(updateContent);
 				if(data.mpcEmoNo != null){
 					let updateEmo = $('<img>').addClass('emoticon').attr({
@@ -1317,6 +1352,12 @@ $(document).on("click", ".upBtn", function(e) {
 		});
 	}
 	
+	/* 댓글 수정 취소 */
+	function fn_cancelComment(){
+		const commentDetail = updateDiv.find('form').parent('.replyDiv').siblings('.commentDetail');
+		commentDetail.after(copyUpdateDiv);
+		 updateDiv.find('form').parent('.replyDiv').remove();
+	}
 	
 });
 
@@ -1563,23 +1604,6 @@ function weekChoice(week){
 $(".chatBtn").click(event => {
 	openPage("${path}/chat/chatroom", 1024, 768);
 });
-
-/* 댓글 글자 수 제한 */
-$(document).on("keyup", ".insertComment", function(e) {
-	let content = $(e.target).val();
-    // 글자수 세기
-    if (content.length == 0 || content == '') {
-    	$(e.target).parents('.replyForm').find('#letterSpan').text('0/150');
-    } else {
-    	$(e.target).parents('.replyForm').find('#letterSpan').text(content.length + '/150');
-    }
-    
-    // 글자수 제한
-    if (content.length > 150) {
-        $(e.target).val($(e.target).val().substring(0, 150));
-        alert('댓글은 150자 이하로 작성해주세요.');
-    };
-});	
 
 </script>
 	<!-- icon -->
