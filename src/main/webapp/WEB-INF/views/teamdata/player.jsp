@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <c:set var="player" value="${requestScope.player}"/>
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
@@ -40,7 +41,7 @@
                             </div>
                         </div>
                         <div class="player-symbol">
-                            <img src="${path}/resources/images/position/circle_top.svg">
+                            <img src="${path}/resources/images/position/circle_${fn:toLowerCase(player.PLAYER_POSITION)}.svg">
                         </div>
                         <div class="players-img">
                             <img src="">

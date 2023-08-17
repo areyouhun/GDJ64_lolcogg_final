@@ -578,7 +578,7 @@
 		return new Blob([ab], { type: mime });
 	}
 
-	$("#emoticonBtn").css("backgroundImage", "url('/resources/images/chat/emoticon.svg')");
+	$("#emoticonBtn").css("backgroundImage", "url('${path}/resources/images/chat/emoticon.svg')");
 </script>
 </body>
 </html>
