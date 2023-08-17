@@ -167,8 +167,9 @@ public class MatchPerdictionController {
 	@PostMapping("/matchprediction/insertComment")
 	@ResponseBody
 	public MatchPredictionComment insertComment(@RequestParam Map param) {
+		
 		int result = service.insertComment(param);
-		int week = Integer.parseInt((String.valueOf(param.get("week"))));
+		// int week = Integer.parseInt((String.valueOf(param.get("week"))));
 		MatchPredictionComment myComment = service.selectComment(param);
 		if (result > 0) {
 			return myComment;
@@ -201,6 +202,7 @@ public class MatchPerdictionController {
 	@PostMapping("/matchprediction/updateComment")
 	@ResponseBody
 	public MatchPredictionComment updateCommnet(@RequestParam Map param) {
+		
 		int result = service.updateComment(param);
 		if (result > 0) {
 			MatchPredictionComment comment = service.selectComment(param);
