@@ -56,7 +56,9 @@
 			let html = '';
 			const todayMatchAllDiv = $(".todayMatchAllDiv");
 			
-			if(todayMatch != null){
+			console.log(todayMatch);
+			
+			if(todayMatch.length > 0){
 				todayMatch.forEach((tm, i) => {
 					const tmDate = tm.msDate;
 					const date = new Date(tmDate);
@@ -92,8 +94,6 @@
 			const rankDiv1 = $("<div>").addClass('rankDiv');
 			// 1~5위
 			for (let i = 0; i < 5; i++) {
-			    console.log(teamRank[i]);
-			    
 			    const rankInfoDiv = $("<div>").addClass('rankInfoDiv');
 			    const rankOneDiv = $("<div>").addClass('rankOneDiv');
 			    const rank = $("<div>").addClass('rank centerSort');
@@ -116,8 +116,6 @@
 			const rankDiv2 = $("<div>").addClass('rankDiv');
 			// 6~10위
 			for (let i = 5; i < 10; i++) {
-			    console.log(teamRank[i]);
-			    
 			    const rankInfoDiv = $("<div>").addClass('rankInfoDiv');
 			    const rankOneDiv = $("<div>").addClass('rankOneDiv');
 			    const rank = $("<div>").addClass('rank centerSort');
