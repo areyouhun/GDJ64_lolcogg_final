@@ -8,8 +8,7 @@
 <link rel="stylesheet" href="${path}/resources/css/member.css">
 <!------------------------------------>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
-
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 <title>로그인</title>
 </head>
 <body>
@@ -38,12 +37,12 @@
                 <div class="memberCheckBox">
                     <a href="${path }/member/enrollMember.do" class="ff-suit">회원가입</a>
                     <p class="color-white">&nbsp;&nbsp;|&nbsp;&nbsp;</p>
-                    <a href="${path }/lolco/find-password.html" class="ff-suit">비밀번호 찾기</a>
+                    <a href="${path }/member/find-password.html" class="ff-suit">비밀번호 찾기</a>
                 </div>
                 <div class="socialLoginBox">
-                    <a href="${path }/login/naver/callback"><img src="${path}/resources/images/member/naver_logo_icon.png" ></a>
+                    <img src="${path}/resources/images/member/naver_logo_icon.png" onclick="naverLogin();"  > <!-- REST API -->
                     <div></div>
-                    <img src="${path}/resources/images/member/kakaotalk_logo_icon.png" onclick="return kakaologin();">
+                    <img src="${path}/resources/images/member/kakaotalk_logo_icon.png" onclick="return kakaologin();"> <!-- JAVASCRIPT -->
                     <div></div>
                 </div>
         		<!------------------------------------------------------------------------------>
@@ -54,51 +53,7 @@
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
-<%-- <script src="${path}/resources/js/member/member.js"></script>
- --%><script>
-    // 카카오 SDK 초기화
-    Kakao.init('5e6bb71a42bd433b177e7105d219f644');
-    const kakaologin=()=>{
-        console.log(Kakao.isInitialized()); 
-         let email,nickname,image;
-            Kakao.Auth.login({
-               scope:'profile_nickname,account_email,profile_image',
-               success:function(authObj){
-                  console.log(authObj);
-                  Kakao.API.request({
-                     url:'/v2/user/me',
-                     success:function(res){
-                        const kakao_account=res.kakao_account;
-                        console.log(kakao_account);
-                        email=kakao_account.email;
-                        nickname=kakao_account.profile.nickname;
-                        image=kakao_account.profile.thumbnail_image_url;
-                        console.log(email,nickname,image);
-                           $.ajax({
-                              type:"get",
-                              url:"../login/KakaoLoginCheck",
-                              data:{"memberEmail":email,"memberNickname":nickname,"memberImage":image},
-                              dataType:"text",
-                              success: data=>{
-                                 console.log(data, typeof data);
-                                 console.log(data=='')
-                                    if(data==''){
-                                         location.assign("../login/Kakaoenroll?memberEmail="+email+"&memberNickname="+nickname+"&memberImage="+image);
-                                    }else{
-                                       location.assign("../login/KakaoLogin?memberEmail="+email+"&memberNickname="+nickname+"&memberImage="+image);
-                                    }
-                                    },
-                              error:(r,m,e)=>{
-                                       console.log(r);
-                                       console.log(m);
-                                    }
-                           });
-                     }
-                  });
-               }
-            });
-        }
-</script>
+<script src="${path}/resources/js/member/login.js"></script>
 <!-------------------------------------------->
 </body>
 </html>

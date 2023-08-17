@@ -137,14 +137,14 @@
                             <div class="line">
                                 <div class="previewBox1">
                                     <p class="color-white ff-macho fs-10">미리보기</p>
-                                    <img src="${path}/resources/images/member/naver_logo_icon.png" alt="" width="55px" height="55px" style="border-radius: 27.5px;" id="preview-image">
+                                    <img src="${path}/resources/images/common/favicon-original.png" alt="" width="55px" height="55px" style="border-radius: 27.5px;" id="preview-image">
                                 </div>
                                 <div class='v-line'></div>
                                 <div class="previewBox2">
                                     <p class="color-white ff-macho fs-10">추천 이미지</p>
-                                    <img src="${path}/resources/images/member/sad.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image">
-                                    <img src="${path}/resources/images/member/smile.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image">
-                                    <img src="${path}/resources/images/member/run.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image">
+								    <img src="${path}/resources/images/member/sad.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image" onclick="setPreviewImage('${path}/resources/images/member/sad.png')">
+								    <img src="${path}/resources/images/member/smile.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image" onclick="setPreviewImage('${path}/resources/images/member/smile.png')">
+								    <img src="${path}/resources/images/member/run.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image" onclick="setPreviewImage('${path}/resources/images/member/run.png')">
                                 </div>
                             </div>
                             <div class="line">
@@ -205,7 +205,7 @@
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
-<script src="${path}/resources/js/member/member.js"></script>
+<script src="${path}/resources/js/member/enroll.js"></script>
 <!-------------------------------------------->
 </body>
 </html>
