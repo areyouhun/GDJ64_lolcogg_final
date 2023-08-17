@@ -2,15 +2,19 @@ package gg.lolco.common.scheduler;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletContext;
 
@@ -21,6 +25,11 @@ import org.jsoup.select.Elements;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+
+import gg.lolco.common.MatchHistoryFormatter;
+import gg.lolco.model.service.ChampPredictService;
 import gg.lolco.model.service.CommunityService;
 import gg.lolco.model.service.MemberService;
 import gg.lolco.model.service.SchedulerService;
@@ -32,6 +41,7 @@ public class CrawlingScheduler {
 	
 	private final SchedulerService service;
 	private final CommunityService commuService;
+	private final ChampPredictService predictService;
 	private final ServletContext context;
 	private final MemberService memberService;
 	
@@ -43,16 +53,11 @@ public class CrawlingScheduler {
 			"Liiv SANDBOX", "LSB", "Kwangdong Freecs", "KDF");
 	
 	public CrawlingScheduler(SchedulerService service, ServletContext context
-			,CommunityService commuService, MemberService memberService) {
+			,CommunityService commuService, ChampPredictService predictService) {
 		this.service = service;
 		this.context = context;
 		this.commuService = commuService;
-		this.memberService = memberService;
-	}
-	
-	@Scheduled(cron = "0 0 0 * * ?")
-	public void updateUserStatus() {
-		memberService.updateStatus();
+		this.predictService = predictService;
 	}
 	
 	@Scheduled(cron = "0 0 1 * * ?")
@@ -62,6 +67,7 @@ public class CrawlingScheduler {
         LocalDate stopSchedulerDate = LocalDate.of(2023, 8, 27);
         
         commuService.deleteDate();
+        champPredictCompare();
 
         try {
 	    	if(!currentDate.isAfter(stopSchedulerDate)) {
@@ -96,6 +102,15 @@ public class CrawlingScheduler {
 			// 닉네임(선수이름) -> 닉네임 변환
 			if(player.contains("(")) {
 				player = player.substring(0, player.indexOf("(")).replace(" ", "");
+				
+				switch(player) {
+					case "UmTi":
+						player = "Umti";
+						break;
+					case "Kyeahoo":
+						player = "kyeahoo";
+						break;
+				}
 			}
 			
 			String fileName = player + ".csv";
@@ -130,7 +145,7 @@ public class CrawlingScheduler {
 				Elements championInfoRow = champion.siblingElements();
 							
 				String championName = champion.text();
-							
+				
 				switch(championName) {
 					case "Renata Glasc": 
 						championName = "Renata"; 
@@ -144,7 +159,7 @@ public class CrawlingScheduler {
 					case "LeBlanc":
 						championName = "Leblanc";
 						break;
-					case "KaiSa":
+					case "Kai'Sa":
 						championName = "Kaisa";
 						break;
 					case "KhaZix":
@@ -485,6 +500,9 @@ public class CrawlingScheduler {
 										case "LeBlanc":
 											championName = "Leblanc";
 											break;
+										case "KaiSa":
+											championName = "Kaisa";
+											break;
 										case "KhaZix":
 											championName = "Khazix";
 											break;
@@ -603,8 +621,10 @@ public class CrawlingScheduler {
 			saveMap.put("teamName", table.get(i).select(".teamname a").text());
 			saveMap.put("matchWins", matchs.substring(0, matchs.indexOf("-") - 1));
 			saveMap.put("matchDefeats", matchs.substring(matchs.indexOf("-") + 2));
-			saveMap.put("gameWins", games.substring(0, matchs.indexOf("-") - 1));
+			saveMap.put("gameWins", games.substring(0, matchs.indexOf("-")));
 			saveMap.put("gameDefeats", games.substring(matchs.indexOf("-") + 2));
+			
+			System.out.println(saveMap);
 			
 			teamRankingList.add(saveMap);
 		} service.updateTeamRanking(teamRankingList);
@@ -634,5 +654,70 @@ public class CrawlingScheduler {
 				return;
 			}
 		} service.updateRegionalMatch(regionalMatchMap);
+	}
+	
+	private void champPredictCompare() {
+		String path = context.getRealPath("/resources/csv/match/");
+		
+		List<Map<String, Object>> matchResultList = predictService.selectMatchData();
+		
+		for(Map<String, Object> matchResult : matchResultList) {
+			List<List<String[]>> setResults = csvParser(path + String.valueOf(matchResult.get("MS_FILE_NAME")));
+			List<Map<String, Object>> matchResultDetail = MatchHistoryFormatter.format(setResults, ",");
+			
+			for(Map<String, Object> matchDetail : matchResultDetail) {
+				String[] blueTeamBanArr = (String[]) matchDetail.get("blueSideBanned");
+				String[] redTeamBanArr = (String[]) matchDetail.get("redSideBanned");
+				
+				String[] matchBanArr = Stream.of(blueTeamBanArr, redTeamBanArr).flatMap(Stream::of).toArray(String[]::new);
+				
+				List<String> matchBanList = Arrays.asList(matchBanArr);
+				
+				List<Integer> list = predictService.selectYesterDayPredict();
+				
+				for(int no : list) {
+					List<String> memberBanpick = predictService.selectMemberPredict(no);
+					
+					List<String> banpickList = memberBanpick.stream()
+					    .map(c -> c.equals("Thresh") ? "Xerath" : c)
+					    .collect(Collectors.toList());
+										
+					List<String> answerBanList = 
+							matchBanList.stream()
+								.filter(b -> banpickList.stream().anyMatch(Predicate.isEqual(b)))
+								.collect(Collectors.toList());
+					
+					Map<String, Object> scoreMap = Map.of("no", no, "score", answerBanList.size());
+					
+					System.out.println(banpickList);
+					
+					System.out.println(answerBanList);
+					
+					predictService.updateMemberScore(scoreMap);
+				}
+			}
+		}
+	}
+	
+	private List<List<String[]>> csvParser(String fullPath) {
+		final List<List<String[]>> setResultsTotal = new ArrayList<>();
+		
+		try (CSVReader csvReader = new CSVReader(new FileReader(fullPath));) {
+			List<String[]> setResult = new ArrayList<>();
+			for (String[] line : csvReader.readAll()) {
+				if (Arrays.equals(line, new String[] {"|"})) {
+					setResultsTotal.add(setResult);
+					setResult = new ArrayList<>();
+					continue;
+				}
+				setResult.add(line);
+			}
+			setResultsTotal.add(setResult);
+		} catch (CsvException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return setResultsTotal;
 	}
 }
