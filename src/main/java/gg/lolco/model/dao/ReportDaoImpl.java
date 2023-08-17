@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -58,6 +59,14 @@ public class ReportDaoImpl implements ReportDao {
 	@Override
 	public int insertcmReport(SqlSession session, Map<String, Object> param) {
 		return session.insert("report.insertcmReport",param);
+	}
+	@Override
+	public Report selectMpcReport(SqlSession session, int no) {
+		return session.selectOne("report.selectMpcReport", no);
+	}
+	@Override
+	public int insertMpcReport(SqlSession session, int no) {
+		return session.insert("report.insertMpcReport", no);
 	}
 
 }

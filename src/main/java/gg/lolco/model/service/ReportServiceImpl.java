@@ -66,5 +66,16 @@ public class ReportServiceImpl implements ReportService {
 	public int insertcmReport(Map<String, Object> param) {
 		return dao.insertcmReport(session,param);
 	}
+
+	@Override
+	public Report selectMpcReport(int no) {
+		return dao.selectMpcReport(session, no);
+	}
+
+	@Override
+	public int insertMpcReport(int no) {
+		return dao.insertMpcReport(session, no);
+	}
+	
 	
 }

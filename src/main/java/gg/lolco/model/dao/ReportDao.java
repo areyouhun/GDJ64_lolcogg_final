@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 
 import gg.lolco.model.vo.Report;
 
@@ -18,4 +19,7 @@ public interface ReportDao {
 	int updateReport (SqlSession session,Map<String, Object> param);
 	Report selectReport (SqlSession session,int boardNo);
 	Report selectCmReport (SqlSession session,int boardCmNo);
+	Report selectMpcReport (SqlSession session, int no);
+	
+	int insertMpcReport(SqlSession session, int no);
 }
