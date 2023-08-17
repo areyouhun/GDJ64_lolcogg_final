@@ -34,7 +34,7 @@
                             <li><a href="${path}/card/selectCardById">카드</a></li>
                             <li><a href="">챔피언 예측</a></li>
                             <li><a href="${path}/quiz">롤 퀴즈</a></li>
-                            <li><a href="${path }/game/choice">밸런스/이상형</a></li>
+                            <li><a href="${path }/game/choice">보너스 게임</a></li>
                         </ul>
                     </li>
                 </ul>
