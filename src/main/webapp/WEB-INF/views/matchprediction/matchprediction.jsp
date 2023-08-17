@@ -17,7 +17,7 @@
 	<style>
 		.bgImgDiv{
 			background-image : linear-gradient(rgba(15, 15, 15, 0.6),
-            rgba(15, 15, 15, 1)), url('/resources/images/matchprediction/truedamage.png');
+            rgba(15, 15, 15, 1)), url('${path }/resources/images/matchprediction/truedamage.png');
 		}
 	</style>
 	<jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -1098,7 +1098,7 @@ if(loginMember != ''){
 		
 		};
 		
-		let totalPlay = [${myMpSuccess[0].successPlay}, ${myMpSuccess[0].failPlay}];
+		let totalPlay = ["${myMpSuccess[0].successPlay}", "${myMpSuccess[0].failPlay}"];
 		let doughnutData = {
 		    labels: [
 		        "예측성공", "예측실패"
@@ -1602,7 +1602,22 @@ function weekChoice(week){
 }
 
 $(".chatBtn").click(event => {
-	openPage("${path}/chat/chatroom", 1024, 768);
+    const loginMember = "${sessionScope.loginMember}";
+
+    if (loginMember === null || loginMember === "") {
+        alert("로그인 이후 이용할 수 있습니다.");
+        return;
+    }
+
+    $.get("${path}/member/checkIfBanned")
+        .then(data => {
+            if (data === "Y") {
+                alert("채팅방에서 강퇴 당한 회원은 금일 자정까지 입장이 불가능합니다.");
+                return;
+            }
+
+            openPage("${path}/chat/chatroom", 1200, 550);
+        });
 });
 
 </script>

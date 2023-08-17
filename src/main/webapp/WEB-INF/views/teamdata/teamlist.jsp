@@ -57,7 +57,6 @@
                         <div class="match-btn">
                             <p class="title">VS</p>
                             <input type="button" class="title" value="전력 비교" onclick="compareTeams(this);">
-                            <input type="button" class="title chatBtn" value="실시간 채팅">
                         </div>
                         <div class="match-content">
                             <input type="button" class="team-btn team-btn_up_right">
@@ -84,25 +83,6 @@
 <script src="${path}/resources/js/script_common.js"></script>
 <script src="${path}/resources/js/teamdata/script_teamlist.js"></script>
 <script>
-$(".chatBtn").click(event => {
-    const loginMember = "${sessionScope.loginMember}";
-
-    if (loginMember === null || loginMember === "") {
-        alert("로그인 이후 이용할 수 있습니다.");
-        return;
-    }
-
-    $.get("${path}/member/checkIfBanned")
-        .then(data => {
-            if (data === "Y") {
-                alert("채팅방에서 강퇴 당한 회원은 금일 자정까지 입장이 불가능합니다.");
-                return;
-            }
-
-            openPage("${path}/chat/chatroom", 1200, 550);
-        });
-});
-
 $(".match-banner").css("backgroundImage", "url(${path}/resources/images/common/img_banner.png)");
 
 $(".team-btn_up_left").css("backgroundImage", "url(${path}/resources/images/common/team_btn_up.svg)");
