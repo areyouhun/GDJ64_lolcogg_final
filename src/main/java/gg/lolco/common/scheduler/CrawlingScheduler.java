@@ -102,15 +102,15 @@ public class CrawlingScheduler {
 			// 닉네임(선수이름) -> 닉네임 변환
 			if(player.contains("(")) {
 				player = player.substring(0, player.indexOf("(")).replace(" ", "");
-				
-				switch(player) {
-					case "UmTi":
-						player = "Umti";
-						break;
-					case "Kyeahoo":
-						player = "kyeahoo";
-						break;
-				}
+			}
+			
+			switch(player) {
+				case "UmTi":
+					player = "Umti";
+					break;
+				case "Kyeahoo":
+					player = "kyeahoo";
+					break;
 			}
 			
 			String fileName = player + ".csv";
@@ -688,10 +688,6 @@ public class CrawlingScheduler {
 								.collect(Collectors.toList());
 					
 					Map<String, Object> scoreMap = Map.of("no", no, "score", answerBanList.size());
-					
-					System.out.println(banpickList);
-					
-					System.out.println(answerBanList);
 					
 					predictService.updateMemberScore(scoreMap);
 				}
