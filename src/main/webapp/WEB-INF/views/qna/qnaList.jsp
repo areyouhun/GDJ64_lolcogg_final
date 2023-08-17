@@ -92,10 +92,48 @@
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
 <script>
-	$(()=>{
+	/* $(()=>{
 		console.log(location.href);
-		/* 전체, 내가 쓴글 */
-	});
+		전체, 내가 쓴글
+	}); */
+	
+	/* ajax 페이징처리 */
+	// $('.qnaTable') 데이터 목록 table 
+	// $('.qnaSort') 전체, 내가 쓴 글 
+	// 페이징바(div) 새로 만들기
+	
+	let totalData; // 총 데이터 수
+	let dataPerPage; // 한 페이지에 나타낼 글 수
+	let pageCount = 10; // 페이징에 나타낼 페이지 수
+	let cPage = 1; // 현재 페이지
+	let dataList; // 표시하려하는 데이터 리스트
+	
+	/* $(document).ready(function () {
+		//dataPerPage 선택값 가져오기
+		// dataPerPage = $(".qnaSort").val(); -> a태그(전체, 내가 쓴 글)
+		
+		$.ajax({ 
+			method: "GET",
+			url: "https://url/data?" + data,
+			dataType: "json",
+			success: function (d) {
+				//totalData(총 데이터 수) 구하기
+				totalData = d.data.length;
+				//데이터 대입
+				dataList=d.data;
+			}
+		});
+		 
+		//글 목록 표시 호출 (테이블 생성)
+		displayData(1, dataPerPage);
+		 
+		//페이징 표시 호출
+		paging(totalData, dataPerPage, pageCount, 1);
+	}); */
+	
+	
+	
+	
 </script>
 <!-------------------------------------------->
 </body>
