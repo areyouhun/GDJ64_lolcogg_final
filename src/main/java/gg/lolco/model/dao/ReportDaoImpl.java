@@ -53,8 +53,8 @@ public class ReportDaoImpl implements ReportDao {
 		return session.update("report.updateReport",param);
 	}
 	@Override
-	public Report selectCmReport(SqlSession session, int boardCmNo) {
-		return session.selectOne("report.selectCmReport",boardCmNo);
+	public Report selectCmReport(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("report.selectCmReport",param);
 	}
 	@Override
 	public int insertcmReport(SqlSession session, Map<String, Object> param) {

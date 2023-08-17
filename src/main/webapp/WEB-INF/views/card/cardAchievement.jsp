@@ -7,7 +7,7 @@
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path }/resources/css/card/card.css">
 <!------------------------------------>
-<title>SAMPLE</title>
+<title>카드업적</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp">

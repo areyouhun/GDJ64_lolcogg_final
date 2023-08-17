@@ -18,8 +18,7 @@ public interface ReportDao {
 	int insertcmReport (SqlSession session,Map<String, Object> param);
 	int updateReport (SqlSession session,Map<String, Object> param);
 	Report selectReport (SqlSession session,int boardNo);
-	Report selectCmReport (SqlSession session,int boardCmNo);
+	Report selectCmReport (SqlSession session,Map<String, Object> param);
 	Report selectMpcReport (SqlSession session, int no);
-	
 	int insertMpcReport(SqlSession session, int no);
 }

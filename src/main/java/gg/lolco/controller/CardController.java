@@ -41,13 +41,10 @@ public class CardController {
 		MemberCard selectLeaderCard=service.selectLeaderCard(email);
 		List<Card> selectCardName=service.selectCardName();
 		int totalData = service.selectCardCountById(email);
-		
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectCardById"));
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectCardById","fn_paging"));
 		m.addAttribute("selectCardName",selectCardName);
 		m.addAttribute("cardList",selectCardById);
 		m.addAttribute("l",selectLeaderCard);
-		
-			
 		return "/card/Mycard";
 	}
 	@RequestMapping("/leaderSetting")
@@ -96,7 +93,7 @@ public class CardController {
 	
 	@GetMapping("/selectCategorie")
 	@ResponseBody
-	public List<MemberCard> selectCategorie(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+	public Map<String,Object> selectCategorie(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
             @RequestParam(value = "numPerpage", defaultValue = "12") int numPerpage,
             @SessionAttribute("loginMember") Member member,
             @RequestParam("rating") String ratingVal,
@@ -116,16 +113,22 @@ public class CardController {
 		    params.put("season", seasonVal);
 		    params.put("position", positionVal);
 		List<MemberCard> selectCategorie = service.selectCategorie(params);
-		int totalData = selectCategorie.size();
+		int totalData = service.selectCategorieCount(params);
 
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectCategorie"));
-		return selectCategorie;
+		Map<String,Object> result=new HashMap<>();
+
+		String pageBar=PageFactory.getPage(cPage, numPerpage, totalData,"", "ajaxPaging");
 		
-	
+		result.put("selectCategorie", selectCategorie);
+		result.put("pageBar", pageBar);
+		return result;
 	}
+	
+
+	
 	@GetMapping("/searchPlayer")
 	@ResponseBody
-	public List<MemberCard> searchPlayer(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+	public Map<String,Object> searchPlayer(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
             @RequestParam(value = "numPerpage", defaultValue = "12") int numPerpage,
             @SessionAttribute("loginMember") Member member,
             @RequestParam("search") String search,
@@ -137,10 +140,13 @@ public class CardController {
 		    params.put("email", email);
 		    params.put("search", search);		  
 		List<MemberCard> searchPlayer = service.searchPlayer(params);
-		int totalData = searchPlayer.size();
+		int totalData = service.searchPlayerCount(params);
+		Map<String,Object> result=new HashMap<>();
+		String pageBar=PageFactory.getPage(cPage, numPerpage, totalData,"", "searchPaging");
+		result.put("searchPlayer", searchPlayer);
+		result.put("pageBar", pageBar);
+		return result;
 
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "searchPlayer"));
-		return searchPlayer;
 		
 	}
 	@RequestMapping("/cardAchievement")
@@ -212,18 +218,15 @@ public class CardController {
 		List<MemberCard> selectCard=service.selectCard(Map.of("cPage", cPage, "numPerpage", numPerpage));
 		List<Card> selectCardName=service.selectCardName();
 		int totalData = service.selectCardCount();
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectCard"));
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectCard","fn_paging"));
 		m.addAttribute("selectCardName",selectCardName);
 		m.addAttribute("cardList",selectCard);
-		
-		
-			
 		return "/card/cardCatalog";
 	}
 	
 	@GetMapping("/selectCategorieAll")
 	@ResponseBody
-	public List<Card> selectCategorieAll(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+	public Map<String,Object> selectCategorieAll(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
             @RequestParam(value = "numPerpage", defaultValue = "12") int numPerpage,
             @SessionAttribute("loginMember") Member member,
             @RequestParam("rating") String ratingVal,
@@ -243,16 +246,18 @@ public class CardController {
 		    params.put("season", seasonVal);
 		    params.put("position", positionVal);
 		List<Card> selectCategorieAll = service.selectCategorieAll(params);
-		int totalData = selectCategorieAll.size();
-
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectCategorieAll"));
-		return selectCategorieAll;
+		int totalData = service.selectCategorieAllCount(params);
+		Map<String,Object> result=new HashMap<>();
+		String pageBar=PageFactory.getPage(cPage, numPerpage, totalData, "","ajaxPaging");
+		result.put("selectCategorieAll", selectCategorieAll);
+		result.put("pageBar", pageBar);
+		return result;
 		
 	
 	}
 	@GetMapping("/searchPlayerAll")
 	@ResponseBody
-	public List<Card> searchPlayerAll(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+	public Map<String,Object> searchPlayerAll(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
             @RequestParam(value = "numPerpage", defaultValue = "12") int numPerpage,
             @SessionAttribute("loginMember") Member member,
             @RequestParam("search") String search,
@@ -264,11 +269,20 @@ public class CardController {
 		    params.put("email", email);
 		    params.put("search", search);		  
 		List<Card> searchPlayerAll = service.searchPlayerAll(params);
-		int totalData = searchPlayerAll.size();
-
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "searchPlayerAll"));
-		return searchPlayerAll;
+		System.out.println(searchPlayerAll);
+		int totalData = service.searchPlayerAllCount(params);
+		Map<String,Object> result=new HashMap<>();
+		String pageBar=PageFactory.getPage(cPage, numPerpage, totalData, "","searchPaging");
+		result.put("searchPlayerAll", searchPlayerAll);
+		result.put("pageBar", pageBar);
+		return result;
 		
 	}
-	
 }
+	
+	
+	
+	
+	
+	
+

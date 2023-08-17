@@ -15,10 +15,7 @@ public interface ReportService {
 	int insertcmReport(Map<String, Object> param);
 	int updateReport(Map<String, Object> param);
 	Report selectReport(int boardNo);
-	Report selectCmReport(int boardCmNo);
-	
-	
+	Report selectCmReport(Map<String, Object> param);
 	Report selectMpcReport(int no);
-	
 	int insertMpcReport(int no);
 }

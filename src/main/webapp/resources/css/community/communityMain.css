@@ -1,5 +1,3 @@
-@import url('common.css');
-
 /* 인풋스타일 */
 input {
 	border-style: none;
@@ -333,6 +331,7 @@ button:active {
 .board-content {
 	margin-top: 20px;
 	margin-left: 10px;
+	margin-bottom: 20px;
 	font-size: 25px;
 	color: var(--lol-white, #EEE);
 	display: flex;

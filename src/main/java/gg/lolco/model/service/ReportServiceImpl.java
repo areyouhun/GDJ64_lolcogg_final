@@ -58,8 +58,8 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	@Override
-	public Report selectCmReport(int boardCmNo) {
-		return dao.selectCmReport(session,boardCmNo);
+	public Report selectCmReport(Map<String, Object> param) {
+		return dao.selectCmReport(session,param);
 	}
 
 	@Override

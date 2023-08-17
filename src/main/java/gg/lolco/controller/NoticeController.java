@@ -40,7 +40,7 @@ public class NoticeController {
 		
 		int totalData = service.selectNoticeCount();
 		m.addAttribute("selectNotice", selectNotice);
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectNotice"));
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectNotice","fn_paging"));
 		return "notice/noticeList";
 	}
 	@PostMapping("/insertNoticeEnd")
