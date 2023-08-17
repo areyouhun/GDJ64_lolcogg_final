@@ -8,7 +8,7 @@
 
 <link rel="stylesheet" href="${path }/resources/css/card/card.css">
 <!------------------------------------>
-<title>cardLeaderSetting</title>
+<title>대표카드설정</title>
 </head>
 <body>
 	<section>w

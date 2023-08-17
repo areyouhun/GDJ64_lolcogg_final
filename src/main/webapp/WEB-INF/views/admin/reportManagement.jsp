@@ -29,7 +29,7 @@
 							<div class="report-categpries">
 
 								<div class="categories">
-									<a href="${path }/admin/reportList"><span>게시글</span></a>
+									<a href="${path }/admin/reportManagement"><span>게시글</span></a>
 								</div>
 
 

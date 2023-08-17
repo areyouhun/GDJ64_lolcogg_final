@@ -41,7 +41,6 @@ public class CardDaoImpl implements CardDao {
 		int cPage=(int)param.get("cPage");
 		int numPerpage=(int)param.get("numPerpage");
 		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
-	
 		return session.selectList("card.selectCategorie",param,rb);
 	}
 	@Override
@@ -65,7 +64,7 @@ public class CardDaoImpl implements CardDao {
 		int cPage=(int)param.get("cPage");
 		int numPerpage=(int)param.get("numPerpage");
 		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
-		return session.selectList("card.searchPlayerAll",param,rb);
+		return session.selectList("card.searchPlayer",param,rb);
 	}
 
 
@@ -151,6 +150,26 @@ public class CardDaoImpl implements CardDao {
 		int numPerpage=(int)param.get("numPerpage");
 		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
 		return session.selectList("card.selectCard",param,rb);
+	}
+
+
+
+	@Override
+	public int selectCategorieCount(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("card.selectCategorieCount",param);
+	}
+	
+	@Override
+	public int searchPlayerCount(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("card.searchPlayerCount",param);
+	}
+	@Override
+	public int searchPlayerAllCount(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("card.searchPlayerAllCount",param);
+	}
+	@Override
+	public int selectCategorieAllCount(SqlSession session, Map<String, Object> param) {
+		return session.selectOne("card.selectCategorieAllCount",param);
 	}
 
 

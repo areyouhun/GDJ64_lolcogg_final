@@ -13,6 +13,10 @@ public interface CardService {
 	List<MemberCard> selectCardById(Map<String,Object> param);
 	int selectCardCountById(String email);
 	int selectCardCount();
+	int selectCategorieCount(Map<String,Object> param);
+	int searchPlayerCount(Map<String,Object> param);
+	int searchPlayerAllCount(Map<String,Object> param);
+	int selectCategorieAllCount(Map<String,Object> param);
 	List<MemberCard> selectCategorie(Map<String,Object> param);
 	List<Card> selectCategorieAll(Map<String,Object> param);
 	List<Card> searchPlayerAll(Map<String,Object> param);

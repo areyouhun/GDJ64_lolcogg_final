@@ -100,7 +100,7 @@ public class CommunityController {
 		m.addAttribute("weeklyPopularity", weeklyPopularity);
 		m.addAttribute("realTimePopularity", realTimePopularity);
 		m.addAttribute("selectboardList", selectboardList);
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectboardList"));
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectboardList","fn_paging"));
 		return "/community/communityMain";
 	}
 
@@ -221,7 +221,7 @@ public class CommunityController {
 			m.addAttribute("weeklyPopularity", weeklyPopularity);
 			m.addAttribute("realTimePopularity", realTimePopularity);
 			m.addAttribute("selectboardList", selectBoradCategorie);
-			m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectBoradCategorie"));
+			m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectBoradCategorie","fn_paging"));
 		}
 		return "/community/communityMain";
 	}
@@ -267,7 +267,7 @@ public class CommunityController {
 			m.addAttribute("realTimePopularity", realTimePopularity);
 
 			m.addAttribute("selectboardList", selectPopularity);
-			m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectBoradCategorie"));
+			m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "selectBoradCategorie","fn_paging"));
 		}
 		return "/community/communityMain";
 	}
@@ -314,7 +314,7 @@ public class CommunityController {
 		m.addAttribute("realTimePopularity", realTimePopularity);
 
 		m.addAttribute("selectboardList", searchBoard);
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "searchBoard"));
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "searchBoard","fn_paging"));
 
 		return "/community/communityMain";
 	}
@@ -416,7 +416,7 @@ public class CommunityController {
 		m.addAttribute("totalData", totalData);
 		m.addAttribute("selectBoardComment", selectBoardComment);
 		m.addAttribute("pageBar",
-				PageFactory.getPage(cPage, numPerpage, totalData, "boardDetails?cmBoardNo=" + cmBoardNo));
+				PageFactory.getPage(cPage, numPerpage, totalData, "boardDetails?cmBoardNo=" + cmBoardNo,"fn_paging"));
 		return "/community/communityDetails";
 	}
 
@@ -664,11 +664,9 @@ public class CommunityController {
 		if (selectReport == null) {
 			Map<String, Object> params = new HashMap<>();
 			params.put("boardNo", boardNo);
-			rservice.insertReport(params);
-			String reportNo = String.valueOf(params.get("boardNo"));
-			int updateReport = rservice.updateReport(Map.of("reportNo", reportNo));
+			int result = rservice.insertReport(params);
 
-			if (updateReport > 0) {
+			if (result > 0) {
 				m.addAttribute("msg", "게시글신고 완료");
 				m.addAttribute("loc", "/community/boardDetails?cmBoardNo=" + boardNo);
 			} else {
@@ -692,16 +690,14 @@ public class CommunityController {
 	}
 	@GetMapping("/insertcmReport")
 	public String insertcmReport(Model m, @RequestParam("boardCmNo") int boardCmNo,@RequestParam("boardNo") int boardNo) {
-		Report selectCmReport = rservice.selectCmReport(boardCmNo);
+		Map<String, Object> params = new HashMap<>();
+		params.put("boardCmNo", boardCmNo);
+		params.put("boardNo", boardNo);
+		Report selectCmReport = rservice.selectCmReport(params);
 		
 		if (selectCmReport == null) {
-			Map<String, Object> params = new HashMap<>();
-			params.put("boardCmNo", boardCmNo);
-			rservice.insertcmReport(params);
-			String reportNo = String.valueOf(params.get("boardCmNo"));
-			int updateReport = rservice.updateReport(Map.of("reportNo", reportNo));
-
-			if (updateReport > 0) {
+			int result = rservice.insertcmReport(params);
+			if (result > 0) {
 				m.addAttribute("msg", "댓글신고 완료");
 				m.addAttribute("loc", "/community/boardDetails?cmBoardNo=" + boardNo);
 			} else {

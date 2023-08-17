@@ -116,6 +116,29 @@ public class CardServiceImpl implements CardService {
 		return dao.selectCard(session,param);
 	}
 
+	@Override
+	public int selectCategorieCount(Map<String, Object> param) {
+		return dao.selectCategorieCount(session,param);
+		
+	}
+
+	
+	@Override
+	public int searchPlayerCount(Map<String, Object> param) {
+		return dao.searchPlayerCount(session,param);
+		
+	}
+	@Override
+	public int searchPlayerAllCount(Map<String, Object> param) {
+		return dao.searchPlayerAllCount(session,param);
+		
+	}
+	@Override
+	public int selectCategorieAllCount(Map<String, Object> param) {
+		return dao.selectCategorieAllCount(session,param);
+		
+	}
+	
 	
 
 }

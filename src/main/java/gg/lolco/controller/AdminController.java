@@ -69,18 +69,12 @@ public class AdminController {
 	}
 	
 	@GetMapping("/reportManagement")
-	public String reportManagement(Model model) {
-		// INHO
-		return "/admin/reportManagement";
-	}
-	
-	@GetMapping("/reportList")
 	public String reportList(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage,Model m) {
 		List<Report> reportList=service.reportList(Map.of("cPage", cPage, "numPerpage", numPerpage));
 		int totalData = service.reportListCount();
 		m.addAttribute("reportList", reportList);
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "reportList"));
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "reportList","fn_paging"));
 		return "admin/reportManagement";
 	}
 	@GetMapping("/reportRemove")
@@ -88,11 +82,11 @@ public class AdminController {
 		int reportRemove=service.reportRemove(reportNo);
 		communityService.boardRemove(cmBoardNo);
 		if (reportRemove > 0) {
-			m.addAttribute("msg", "게시글작성 완료");
-			m.addAttribute("loc", "/admin/reportList");
+			m.addAttribute("msg", "게시글삭제 완료");
+			m.addAttribute("loc", "/admin/reportManagement");
 		} else {
-			m.addAttribute("msg", "게시글작성 실패");
-			m.addAttribute("loc", "/admin/reportList");
+			m.addAttribute("msg", "게시글삭제 실패");
+			m.addAttribute("loc", "/admin/reportManagement");
 		}
 		return "common/msg";
 	}
@@ -105,7 +99,7 @@ public class AdminController {
 		int totalData = service.reportCmListCount();
 		System.out.println(reportCmList);
 		m.addAttribute("reportList", reportCmList);
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "reportCmList"));
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "reportCmList","fn_paging"));
 		return "admin/reportManagement";
 	}
 	@GetMapping("/reportCmRemove")

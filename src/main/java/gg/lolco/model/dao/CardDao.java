@@ -14,6 +14,10 @@ public interface CardDao {
 	List<MemberCard> selectCardById(SqlSession session,Map<String, Object> param);
 	int selectCardCountById(SqlSession session,String email);
 	int selectCardCount(SqlSession session);
+	int selectCategorieCount(SqlSession session,Map<String, Object> param);
+	int searchPlayerCount(SqlSession session,Map<String, Object> param);
+	int searchPlayerAllCount(SqlSession session,Map<String, Object> param);
+	int selectCategorieAllCount(SqlSession session,Map<String, Object> param);
 	List<MemberCard> selectCategorie(SqlSession session,Map<String, Object> param);
 	List<Card> selectCategorieAll(SqlSession session,Map<String, Object> param);
 	List<Card> searchPlayerAll(SqlSession session,Map<String, Object> param);
