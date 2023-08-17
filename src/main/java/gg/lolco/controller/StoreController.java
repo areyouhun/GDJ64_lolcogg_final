@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -21,6 +20,7 @@ import gg.lolco.model.vo.CardPack;
 import gg.lolco.model.vo.EmoPack;
 import gg.lolco.model.vo.Member;
 import gg.lolco.model.vo.MemberEmoticon;
+import gg.lolco.model.vo.PointItem;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -63,14 +63,24 @@ public class StoreController {
 			 name="";
 		}
 		param.put("no", no);
-		param.put("sort", sort);
-		param.put("order", order);
 		param.put("itemname","%"+name+"%");
 		m.addAttribute("items",service.selectItemDetail(param));
 		m.addAttribute("no",no);
-		m.addAttribute("sort",sort);
-		m.addAttribute("order",order);
+		m.addAttribute("name",name);
 		return "store/storeDetail";
+	}
+	@GetMapping("/sort")
+	@ResponseBody
+	public List<PointItem> sortItem(Integer no,String sort, String order,String name){
+		Map<String,Object> param=new HashMap<>();
+		param.put("no", no);
+		param.put("sort", sort);
+		param.put("order", order);
+		if(name==null){
+			 name="";
+		}
+		param.put("itemname","%"+name+"%");
+		return service.selectItemDetail(param);
 	}
 	
 	@RequestMapping("/purchase")

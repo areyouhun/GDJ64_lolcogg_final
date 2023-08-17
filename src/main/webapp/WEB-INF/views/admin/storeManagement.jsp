@@ -63,10 +63,10 @@
 <script src="${path}/resources/js/script_common.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script type="text/javascript">
-            var context = document
+            let context = document
                 .getElementById('myChart')
                 .getContext('2d');
-            var myChart = new Chart(context, {
+            let myChart = new Chart(context, {
                 type: 'bar', // 차트의 형태
                 data: { // 차트에 들어갈 데이터
                     labels: [

@@ -28,11 +28,15 @@
 	margin-bottom: 2rem;
 }
 
-.arrayPoint>a {
+.arrayPoint>p {
 	color: var(--lol-white);
 	font-family: EF_MACHO;
 	font-size: 17px;
 	margin: 0.5rem;
+	cursor: pointer;
+}
+.arrayPoint{
+    display: flex;
 }
 
 .storeTheme {
@@ -195,6 +199,7 @@
 	border: none;
 	color: var(--lol-black);
 	font-size: 16px;
+	cursor: pointer;
 }
 
 #moadlButton>button:first-child {
@@ -245,6 +250,7 @@
 	position: absolute;
 	top: -1.5vh;
 	right: -1.5vh;
+	cursor: pointer;
 }
 
 #nickText {

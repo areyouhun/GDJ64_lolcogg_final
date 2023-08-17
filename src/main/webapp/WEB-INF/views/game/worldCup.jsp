@@ -775,7 +775,7 @@ function roundvideo16(){
 	for(let i=0;i<16;i+=2){
 		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 16강 '+count+'/8</h2></div></div>');
-		const imgsetting=$('<div class="imgSetting">')
+		const imgsetting=$('<div class="videoSetting">')
 		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0" loading = "lazy">')
 		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0" loading = "lazy">')
 		const fight=$('<div class="videofight">');
@@ -800,7 +800,7 @@ function roundvideo8(){
 	for(let i=0;i<8;i+=2){
 		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 8강 '+count+'/4</h2></div></div>');
-		const imgsetting=$('<div class="imgSetting">')
+		const imgsetting=$('<div class="videoSetting">')
 		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0" loading = "lazy">')
 		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0" loading = "lazy">')
 		const fight=$('<div class="videofight">');
@@ -824,7 +824,7 @@ function roundvideo4(){
 	for(let i=0;i<4;i+=2){
 		const shape=$('<div class="worldcupStart'+i+(i==0?'">':'" style="display:none;">'));
 		shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 4강 '+count+'/2</h2></div></div>');
-		const imgsetting=$('<div class="imgSetting">')
+		const imgsetting=$('<div class="videoSetting">')
 		const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[i]+'" frameborder="0" loading = "lazy">')
 		const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[i+1]+'" frameborder="0" loading = "lazy">')
 		const fight=$('<div class="videofight">');
@@ -846,7 +846,7 @@ function roundvideo2(){
 	$('#worldcupAll').empty();
 	const shape=$('<div class="worldcupStart">');
 	shape.append('<div class="roundMain"><div class="round"><h2>${gameName} 결승전</h2></div></div>');
-	const imgsetting=$('<div class="imgSetting">')
+	const imgsetting=$('<div class="videoSetting">')
 	const firstImg=$('<iframe class="firstVideo" src="'+quarterfinalsplayerImg[0]+'" frameborder="0" loading = "lazy">')
 	const secondImg=$('<iframe class="secondVideo" src="'+quarterfinalsplayerImg[1]+'" frameborder="0" loading = "lazy">')
 	const fight=$('<div class="videofight">');
