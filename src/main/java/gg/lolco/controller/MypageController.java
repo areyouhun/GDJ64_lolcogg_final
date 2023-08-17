@@ -109,6 +109,26 @@ public class MypageController {
 		return cnt ;
 	}
 	
+	@RequestMapping("updatePassword")
+	@ResponseBody
+	public String updatePassword(@RequestParam Map<Object, String> param) {
+		System.out.println("email : "+param.get("email")); // 계정 이메일
+		System.out.println("updatePassword : "+param.get("updatePassword")); // 미리보기 이미지 파일명
+		param.put("updatePassword", encoder.encode(param.get("updatePassword")));
+		int result = service.updatePassword(param);
+		
+		return "redirect:/mypage/mypage.do";
+	}
+	
+	@RequestMapping("withdrawalEmail")
+	@ResponseBody
+	public String WithdrawalEmail(@RequestParam Map<Object, String> param, SessionStatus status) {
+		System.out.println("email:" + param.get("email"));
+		int result = service.WithdrawalEmail(param);
+		if(!status.isComplete()) status.setComplete();
+		return "redirect:/";
+	}
+	
 }
 
 

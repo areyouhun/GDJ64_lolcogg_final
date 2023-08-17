@@ -26,5 +26,16 @@ public class MypageDaoImpl implements MypageDao {
 		return session.update("mypage.updatePasswordForProfile", param);
 	}
 
-	
+	@Override
+	public int updatePassword(SqlSession session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("mypage.updatePassword", param);
+	}
+
+	@Override
+	public int WithdrawalEmail(SqlSession session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("mypage.WithdrawalEmail", param);
+	}
+
 }

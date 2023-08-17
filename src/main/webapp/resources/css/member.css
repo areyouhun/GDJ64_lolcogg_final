@@ -504,3 +504,13 @@ display: none;
     text-align: right;
     padding-top: 10px;
 }
+
+/* 비밀번호 변경 모달 */
+.modal-body > input{
+	color: var(--lol-white); 
+	background-color: var(--khy-bg-gray);  
+	border:none;  
+	border-radius: 5px; 
+	padding: 0.7em 2em 0.7em 2em; 
+	margin: 0.5em 1em 0.5em 1em;
+}

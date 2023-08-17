@@ -367,12 +367,15 @@
             <h5 class="ff-macho ff-20">비밀번호 변경</h5>
         </div>
         <div class="modal-body">
+        	<br>
             <label for="currentPassword">현재 비밀번호</label>
-            <input type="password" id="currentPassword" name="currentPassword" required><br>
-            <label for="newPassword" style = "display : none;">새로운 비밀번호</label>
-            <input type="password" id="newPassword" name="newPassword" required style = "display : none;"><br>
-            <label for="confirmNewPassword" style = "display : none;">새로운 비밀번호 확인</label>
-            <input type="password" id="confirmNewPassword" name="confirmNewPassword" required style = "display : none;">
+            <input type="password" id="currentPassword" name="currentPassword" placeholder="비밀번호 입력" required><br>
+            <h5 class="ff-suit ff-20" style="color : red ; display:none" id="passwordCheck"></h5>
+            <label for="newPassword" style = "display : none;">새 비밀번호&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <input type="password" id="newPassword" name="newPassword" placeholder="영문, 숫자, 특수문자 포함 8자" style = "display : none;" required ><br>
+            <label for="confirmNewPassword" style = "display : none;">비밀번호 확인&nbsp;</label>
+            <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="영문, 숫자, 특수문자 포함 8자" style = "display : none;" required >
+            <h5 class="ff-suit ff-20" style="color : red ;  display:none;" id="passwordCheck2"></h5>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn duplicationCheck ff-suit fs-15" id="closeModalButton2">닫기</button>
@@ -401,113 +404,23 @@
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
 <script>
-function setupModal(showButtonId, modalBackgroundId, closeModalButtonId, confirmButtonId) {
-    const showModalButton = document.getElementById(showButtonId);
-    const modalBackground = document.getElementById(modalBackgroundId);
-    const closeModalButton = document.getElementById(closeModalButtonId);
-    const confirmButton = document.getElementById(confirmButtonId);
-    showModalButton.addEventListener('click', () => {
-        modalBackground.style.display = 'flex';
-    });
-    modalBackground.addEventListener('click', (event) => {
-        if (event.target === modalBackground) {
-            modalBackground.style.display = 'none';
-        }
-    });
-    closeModalButton.addEventListener('click', () => {
-        modalBackground.style.display = 'none';
-    });
-    
-    //프로필 이미지 변경
-    if (confirmButton==document.getElementById('profileModalConfirmButton')) {
-        confirmButton.addEventListener('click', () => {
-            var formData = new FormData();
-            var file = $("input[id='file']")[0].files[0]; // 외부 이미지
-            var priviewImg = $("input[id='file2']").val(); // 추천 이미지
-            if (file || priviewImg) {
-                // 파일 또는 미리보기 이미지 중 하나가 존재하는 경우에만 코드 실행
-                formData.append("email", '${loginMember.email}');
-                formData.append("file", file);
-                formData.append("profileImg", priviewImg);
-                $.ajax({
-                    type: 'POST',
-                    url: '${path}/mypage/updateProfileImg',
-                    processData: false,
-                    contentType: false,
-                    data: formData,
-                    success: function () {
-                    	location.href='${path}/mypage/mypage.do';
-                    },
-                    error: function (request, status, error) {
-                        console.log(error);
-                    }
-                });
-            } else {
-                // 파일과 미리보기 이미지 모두 없는 경우에 대한 처리
-                alert("변경할 이미지를 선택해주세요");
-            }
-        });
-    }
-    
-    //비밀번호 변경
-    if (confirmButton==document.getElementById('passwordModalConfirmButton')) {
-        confirmButton.addEventListener('click', () => {
-			$.ajax({
-				type : 'POST',
-				url : '${path}/mypage/PasswordCheck',
-				data : {
-					"email" : '${loginMember.email}',
-					"inputPassword" :$("input[name='currentPassword']").val()
-				},
-				success : function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다 
-	                if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디 
-	                	alert("비밀번호 불일치");
-	                } else if(cnt == 1){ // cnt가 1일 경우 -> 이미 존재하는 아이디, 비밀번호 일치
-	                	alert("o");
-	                	document.querySelectorAll(" label[for='newPassword'], input[type='password'][name='newPassword'], label[for='confirmNewPassword'], input[type='password'][name='confirmNewPassword']")
-	                		.forEach(function(element) {
-	                	    element.style.display = "block"; // 또는 다른 원하는 값으로 변경
-	                	});
-	                	document.querySelectorAll("label[for='currentPassword'], input[type='password'][name='currentPassword']")
-	                		.forEach(function(element) {
-	                	    element.style.display = "none"; // 또는 다른 원하는 값으로 변경
-	                	});
-	                }
-	             },
-				error : function(request, status, error) { 
-			        console.log(error)
-			    }
-			})
-		});
-    }
-    /* 비밀번호 변경(ajax) */
-	document.getElementById('passwordModalConfirmButton2').addEventListener('click', () => {
-							$.ajax({
-								type : 'POST',
-								url : '${path}/mypage/updatePassword',
-								data : {
-									"email" : '${loginMember.email}',
-									"updatePassword" :$("input[name='newPassword']").val()
-								},
-								success : function(){
-									location.href='${path}/mypage/mypage.do';
-								},
-								error : function(request, status, error) { 
-							        console.log(error)
-							    }
-							})
-						});
-    
-    if (confirmButton==document.getElementById('withdrawModalConfirmButton')) {
-        confirmButton.addEventListener('click', () => {
-            modalBackground.style.display = 'none';
-        });
-    }
-}
-
-setupModal('showModalButton', 'profileModalBackground', 'closeModalButton1', 'profileModalConfirmButton');
-setupModal('passwordModalButton', 'passwordModalBackground', 'closeModalButton2', 'passwordModalConfirmButton');
-setupModal('withdrawModalButton', 'withdrawModalBackground', 'closeModalButton3', 'withdrawModalConfirmButton');
+/* 리스트 만들기 */
+	$(".communityButton").click(e=>{
+	    $(".myCommunityHistory").css("display", "block");
+	    $(".myQuaHistory").css("display", "none");
+	    $(".myPointHistory").css("display", "none");
+	})
+	$(".QnAButton").click(e=>{
+	    $(".myCommunityHistory").css("display", "none");
+	    $(".myQuaHistory").css("display", "block");
+	    $(".myPointHistory").css("display", "none");
+	})
+	$(".pointButton").click(e=>{
+	    $(".myCommunityHistory").css("display", "none");
+	    $(".myQuaHistory").css("display", "none");
+	    $(".myPointHistory").css("display", "block");
+	})
+	
 /* ----- start ----- */	
     /* 응원팀 이미지 파일 추출 */
     const abbrImgMap = new Map([
@@ -631,24 +544,173 @@ setupModal('withdrawModalButton', 'withdrawModalBackground', 'closeModalButton3'
 	    previewImage.src = imageSource;
 	}
     
-    
-    
-    /* 리스트 만들기 */
-    $(".communityButton").click(e=>{
-        $(".myCommunityHistory").css("display", "block");
-        $(".myQuaHistory").css("display", "none");
-        $(".myPointHistory").css("display", "none");
-    })
-    $(".QnAButton").click(e=>{
-        $(".myCommunityHistory").css("display", "none");
-        $(".myQuaHistory").css("display", "block");
-        $(".myPointHistory").css("display", "none");
-    })
-    $(".pointButton").click(e=>{
-        $(".myCommunityHistory").css("display", "none");
-        $(".myQuaHistory").css("display", "none");
-        $(".myPointHistory").css("display", "block");
-    })
+	/* 프로필 이미지 변경, 비밀번호 변경, 회원 탈퇴 기능(ajax) */
+	setupModal('showModalButton', 'profileModalBackground', 'closeModalButton1', 'profileModalConfirmButton');
+	setupModal('passwordModalButton', 'passwordModalBackground', 'closeModalButton2', 'passwordModalConfirmButton');
+	setupModal('withdrawModalButton', 'withdrawModalBackground', 'closeModalButton3', 'withdrawModalConfirmButton');    
+	function setupModal(showButtonId, modalBackgroundId, closeModalButtonId, confirmButtonId) {
+	    const showModalButton = document.getElementById(showButtonId);
+	    const modalBackground = document.getElementById(modalBackgroundId);
+	    const closeModalButton = document.getElementById(closeModalButtonId);
+	    const confirmButton = document.getElementById(confirmButtonId);
+	    showModalButton.addEventListener('click', () => {
+	        modalBackground.style.display = 'flex';
+	    });
+	    modalBackground.addEventListener('click', (event) => {
+	        if (event.target === modalBackground) {
+	            modalBackground.style.display = 'none';
+	        }
+	    });
+	    closeModalButton.addEventListener('click', () => {
+	        modalBackground.style.display = 'none';
+	    });
+	    
+	    //프로필 이미지 변경
+	    if (confirmButton==document.getElementById('profileModalConfirmButton')) {
+	        confirmButton.addEventListener('click', () => {
+	            var formData = new FormData();
+	            var file = $("input[id='file']")[0].files[0]; // 외부 이미지
+	            var priviewImg = $("input[id='file2']").val(); // 추천 이미지
+	            if (file || priviewImg) {
+	                // 파일 또는 미리보기 이미지 중 하나가 존재하는 경우에만 코드 실행
+	                formData.append("email", '${loginMember.email}');
+	                formData.append("file", file);
+	                formData.append("profileImg", priviewImg);
+	                $.ajax({
+	                    type: 'POST',
+	                    url: '${path}/mypage/updateProfileImg',
+	                    processData: false,
+	                    contentType: false,
+	                    data: formData,
+	                    success: function () {
+	                    	location.href='${path}/mypage/mypage.do';
+	                    },
+	                    error: function (request, status, error) {
+	                        console.log(error);
+	                    }
+	                });
+	            } else {
+	                // 파일과 미리보기 이미지 모두 없는 경우에 대한 처리
+	                alert("변경할 이미지를 선택해주세요");
+	            }
+	        });
+	    }
+	    
+	    //비밀번호 변경 step1
+	  	var currentPassword=$("#currentPassword");
+	    if (confirmButton==document.getElementById('passwordModalConfirmButton')) {
+			/* alert 버블링 현상 있습니다. */
+			/* 비밀번호 예외처리 - 빈값 */
+	    	confirmButton.addEventListener('click', () => {
+	    		if(currentPassword.val()==""){
+	    			currentPassword.focus();	
+	    			document.querySelector("#passwordCheck").style.display = "inline-block";
+	    			document.querySelector("#passwordCheck").innerText = "비밀번호를 입력해주세요.";
+	    			return false;
+	    		}
+				$.ajax({
+					type : 'POST',
+					url : '${path}/mypage/PasswordCheck',
+					data : {
+						"email" : '${loginMember.email}',
+						"inputPassword" :$("input[name='currentPassword']").val()
+					},
+					success : function(cnt){ //컨트롤러에서 넘어온 cnt값을 받는다 
+		                if(cnt == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디 
+		        			currentPassword.focus();
+		        			document.querySelector("#passwordCheck").innerText = "비밀번호가 일치하지 않습니다";
+		        			document.querySelector("#passwordCheck").style.display = "inline-block";
+		                } else if(cnt == 1){ // cnt가 1일 경우 -> 이미 존재하는 아이디, 비밀번호 일치
+		                	document.querySelectorAll(" label[for='newPassword'], input[type='password'][name='newPassword'], label[for='confirmNewPassword'], input[type='password'][name='confirmNewPassword'], button[id='passwordModalConfirmButton2']")
+		                		.forEach(function(element) {
+		                	    element.style.display = "inline-block";
+		                	});
+		                	document.querySelectorAll("label[for='currentPassword'], input[type='password'][name='currentPassword'], button[id='passwordModalConfirmButton'], h5[id='passwordCheck']")
+		                		.forEach(function(element) {
+		                	    element.style.display = "none"; 
+		                	});
+		                }
+		             },
+					error : function(request, status, error) { 
+				        console.log(error)
+				    }
+				})
+			});
+	    }
+		//비밀번호 변경 step2
+		document.getElementById('passwordModalConfirmButton2').addEventListener('click', () => {
+			/* alert 버블링 현상 있습니다. */
+			/* 비밀번호 예외처리 - 빈값, 정규식, 기존비밀번호와 일치 */
+			var newPassword=$("#newPassword");
+			var confirmNewPassword=$("#confirmNewPassword");
+			if(newPassword.val()==""){
+				newPassword.focus();		
+				document.querySelector("#passwordCheck2").style.display = "inline-block";
+				document.querySelector("#passwordCheck2").innerText = "새 비밀번호를 입력해주세요.";
+				return false;
+			}
+			if(confirmNewPassword.val()==""){
+				confirmNewPassword.focus();		  
+				document.querySelector("#passwordCheck2").style.display = "inline-block";
+				document.querySelector("#passwordCheck2").innerText = "비밀번호 확인을 정확히 입력해주세요.";
+				return false;
+			}
+			var regexPw =  /^.*(?=^.{8,99}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+			if(!regexPw.test(newPassword.val())) {
+				newPassword.focus();	
+				document.querySelector("#passwordCheck2").style.display = "inline-block";
+				document.querySelector("#passwordCheck2").innerText = "영문,숫자,특수문자 포함 8자 이상 입력해주세요.";
+				return false;
+			}
+			if(newPassword.val()!=confirmNewPassword.val()) {
+				confirmNewPassword.val("");
+				confirmNewPassword.focus();	
+				document.querySelector("#passwordCheck2").style.display = "inline-block";
+				document.querySelector("#passwordCheck2").innerText = "비밀번호가 일치하지 않습니다.";
+				return false;
+			}
+			if(newPassword.val()==currentPassword.val()) {
+				newPassword.focus();	
+				document.querySelector("#passwordCheck2").style.display = "inline-block";
+				document.querySelector("#passwordCheck2").innerText = "기존비밀번호입니다.";
+				return false;
+			}
+			$.ajax({
+				type : 'POST',
+				url : '${path}/mypage/updatePassword',
+				data : {
+					"email" : '${loginMember.email}',
+					"updatePassword" :$("input[name='newPassword']").val()
+				},
+				success : function(){
+					location.href='${path}/mypage/mypage.do';
+				},
+				error : function(request, status, error) { 
+			        console.log(error)
+			    }
+			})
+		});
+	    
+		//회원탈퇴
+	    if (confirmButton==document.getElementById('withdrawModalConfirmButton')) {
+	        confirmButton.addEventListener('click', () => {
+	    		$.ajax({
+	    			type : 'POST',
+	    			url : '${path}/mypage/withdrawalEmail',
+	    			data : {
+	    				"email" : '${loginMember.email}',
+	    			},
+	    			success : function(){
+	    				alert("탈퇴처리가 완료 되었습니다.");
+	    				location.href='${path}/';
+	    			},
+	    			error : function(request, status, error) { 
+	    		        console.log(error)
+	    		    }
+	    		})
+	        });
+	    }
+	}
 
     console.log('${loginMember}');
 </script>

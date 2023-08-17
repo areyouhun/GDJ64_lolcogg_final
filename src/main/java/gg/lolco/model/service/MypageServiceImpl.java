@@ -37,5 +37,17 @@ public class MypageServiceImpl implements MypageService {
 		return dao.updatePasswordForProfile(session, param);
 	}
 
+	@Override
+	public int updatePassword(Map param) {
+		// TODO Auto-generated method stub
+		return dao.updatePassword(session, param);
+	}
+
+	@Override
+	public int WithdrawalEmail(Map param) {
+		// TODO Auto-generated method stub
+		return dao.WithdrawalEmail(session, param);
+	}
+
 	
 }
