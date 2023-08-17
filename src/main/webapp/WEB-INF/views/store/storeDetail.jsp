@@ -29,6 +29,7 @@
                 <div>
                 	<div class="storeTheme">
                 		<div class="arrayPoint">
+                			
 	                        <a href="${path}/store/detail?sort=ITEM_PRICE&order=DESC&no=${no}" id=${order=='DESC'&&sort=='ITEM_PRICE'?"checkitem":"" } >높은 포인트순</a>
 	                        <a href="${path}/store/detail?sort=ITEM_PRICE&order=ASC&no=${no}" id=${order=='ASC'&&sort=='ITEM_PRICE'?"checkitem":"" }>낮은 포인트순</a>
 	                        <a href="${path}/store/detail?sort=ITEM_NAME&order=ASC&no=${no}" id=${order=='ASC'&&sort=='ITEM_NAME'?"checkitem":"" }>가나다순</a>
@@ -41,18 +42,18 @@
                 	</div>
                 	<div class="itemArray">
                 		<c:if test="${not empty items}">
-				          		<c:forEach var="i" items="${items }">
-				                		<div class="item">
-					                        <img class="checkBuyItem clickclick" src="${path}/resources/images/store/${i.itemFilename}">
-					                        <h4>${i.itemName }</h4>
-					                        <p style="display:none">${i.itemExp }</p>
-					                        <div>
-					                            <img src="${path}/resources/images/store/pointImg.png">
-					                            <h5>${i.itemPrice }</h5>
-					                        </div>
-				                    	</div>
-				           		</c:forEach>
-					        </c:if>
+				          	<c:forEach var="i" items="${items }">
+			                		<div class="item">
+				                        <img class="checkBuyItem clickclick" src="${path}/resources/images/store/${i.itemFilename}">
+				                        <h4>${i.itemName }</h4>
+				                        <p style="display:none">${i.itemExp }</p>
+				                        <div>
+				                            <img src="${path}/resources/images/store/pointImg.png">
+				                            <h5>${i.itemPrice }</h5>
+				                        </div>
+			                    	</div>
+				           	</c:forEach>
+					    </c:if>
                 	</div>
                 </div>
             </div>
@@ -311,6 +312,24 @@ $(function () {
 		location.href='${path}/store/detail?name='+$("#storeSearch").val()
 	})
 });
+
+$('.arrayPoint p').click(function(){
+	$.ajax({
+		type : 'GET',
+		url : '${path}/store/nickChange',
+		data : {
+			"name" : changename,
+			"price" : 200
+		},
+		success : function(){
+			alert("닉네임이 변경되었습니다.")
+			location.href='${path}/store/main';
+		},
+		error : function(request, status, error) { 
+	        console.log(error)
+	    }
+	})
+})
 
 </script>
 <!-------------------------------------------->
