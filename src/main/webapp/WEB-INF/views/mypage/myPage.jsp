@@ -23,11 +23,11 @@
                     </div>
                     <div class="profileMain">
                         <div class="">
-                        	<c:if test="${loginMember.profile!=null && loginMember.password!='비밀번호 비공개'}"><!-- 소셜 로그인 -->
+                        	<c:if test="${loginMember.profile != null && not empty loginMember.password && loginMember.password.contains('로그인')}"><!-- 소셜 로그인 -->
 								<img src="${loginMember.profile}"
 			                    	width="130px" height="130px" style="border-radius: 65px;">
 							</c:if>
-							<c:if test="${loginMember.profile!=null && loginMember.password=='비밀번호 비공개'}"><!-- 일반 로그인 -->
+							<c:if test="${loginMember.profile != null && not empty loginMember.password && !loginMember.password.contains('로그인')}"><!-- 일반 로그인 -->
 								<img src="${path}/resources/upload/profile/${loginMember.profile}"
 			                    	width="130px" height="130px" style="border-radius: 65px;">
 							</c:if>
@@ -50,7 +50,7 @@
                         	</c:if>
                             <div>
 	                            <p class="color-white ff-macho fs-20">${loginMember.nickname }</p>
-	                            <a href="" class="color-white ff-suit fs-10">닉네임 변경권 구매하기</a>
+	                            <a href="${path}/store/detail?name=닉네임%20변경권" class="color-white ff-suit fs-10">닉네임 변경권 구매하기</a>
                             </div>
                             <div class="">
                                 <img src="/resources/images/store/pointImg.png" alt="" width="30px" height="30px">
@@ -77,9 +77,9 @@
                                     <p class="color-white ff-suit fs-10">[${loginMember.tier.tierRulesNo.tierRulesExpEnd+1}]</p>
                                 </div>
                                 <div class="buttonBox2">
-                                    <button class="mypageButton ff-suit fs-15">프로필이미지 변경</button>
-                                    <button class="mypageButton ff-suit fs-15">비밀번호 변경</button>
-                                    <button class="mypageButton ff-suit fs-15">회원탈퇴</button>
+                                    <button class="mypageButton ff-suit fs-15" id="showModalButton">프로필이미지 변경</button>
+                                    <button class="mypageButton ff-suit fs-15" id="passwordModalButton">비밀번호 변경</button>
+                                    <button class="mypageButton ff-suit fs-15" id="withdrawModalButton">회원탈퇴</button>
                                 </div>
                             </div>
                         </div>
@@ -87,85 +87,83 @@
                     <div class="abbrTeam">
                         <hr>
                         <p class="color-white ff-suit fw-bold fs-20">LCK 응원팀</p>
-                        <form action="${path }/mypage/updateAbbrTeam" >
-	                        <div class="abbrCheckBox2">
-	                            <div class="abbrCheckBoxRow2">
-	                                <div class="abbrCheckBox2">
-	                                    <img src="${path}/resources/images/member/enroll_logo/dplus_logo_white.png" alt="" width="35px" height="35px">
-	                                    <label class="line">
-	                                        <input type="radio" name="abbr" value="DK" checked>
-	                                        <span class="color-white ff-suit abbrName">DK</span>
-	                                    </label>
-	                                </div>
-	                                <div class="abbrCheckBox2">
-	                                    <img src="${path}/resources/images/member/enroll_logo/brion_logo_small.png" alt="" width="35px" height="35px">
-	                                    <label class="line">
-	                                        <input type="radio" name="abbr" value="BRO" >
-	                                        <span class="color-white ff-suit abbrName">BRO</span>
-	                                    </label>
-	                                </div>
-	                                <div class="abbrCheckBox2">
-	                                    <img src="${path}/resources/images/member/enroll_logo/redforce_logo_small.png" alt="" width="35px" height="35px">
-	                                    <label class="line">
-	                                        <input type="radio" name="abbr" value="NS" >
-	                                        <span class="color-white ff-suit abbrName">NS</span>
-	                                    </label>
-	                                </div>
-	                                <div class="abbrCheckBox2">
-	                                    <img src="${path}/resources/images/member/enroll_logo/geng_logo_small.png" alt="" width="35px" height="35px">
-	                                    <label class="line">
-	                                        <input type="radio" name="abbr" value="GEN" >
-	                                        <span class="color-white ff-suit abbrName">GEN</span>
-	                                    </label>
-	                                </div>
-	                                <div class="abbrCheckBox2">
-	                                    <img src="${path}/resources/images/member/enroll_logo/t1_logo_small.png" alt="" width="35px" height="35px">
-	                                    <label class="line">
-	                                        <input type="radio" name="abbr" value="T1" >
-	                                        <span class="color-white ff-suit abbrName">T1</span>
-	                                    </label>
-	                                </div>
-	                                <div class="abbrCheckBox2">
-	                                    <img src="${path}/resources/images/member/enroll_logo/hanwha_logo_small.png" alt="" width="35px" height="35px">
-	                                    <label class="line">
-	                                        <input type="radio" name="abbr" value="HLE" >
-	                                        <span class="color-white ff-suit abbrName">HLE</span>
-	                                    </label>
-	                                </div>
-	                                <div class="abbrCheckBox2">
-	                                    <img src="${path}/resources/images/member/enroll_logo/freecs_logo_small.png" alt="" width="35px" height="35px">
-	                                    <label class="line">
-	                                        <input type="radio" name="abbr" value="KDF" >
-	                                        <span class="color-white ff-suit abbrName">KDF</span>
-	                                    </label>
-	                                </div>
-	                                <div class="abbrCheckBox2">
-	                                    <img src="${path}/resources/images/member/enroll_logo/drx_logo_small.png" alt="" width="33px" height="35px">
-	                                    <label class="line">
-	                                        <input type="radio" name="abbr" value="DRX" >
-	                                        <span class="color-white ff-suit abbrName">DRX</span>
-	                                    </label>
-	                                </div>
-	                                <div class="abbrCheckBox2">
-	                                    <img src="${path}/resources/images/member/enroll_logo/kt_logo_small.png" alt="" width="35px" height="35px">
-	                                    <label class="line">
-	                                        <input type="radio" name="abbr" value="KT" >
-	                                        <span class="color-white ff-suit abbrName">KT</span>
-	                                    </label>
-	                                </div>
-	                                <div class="abbrCheckBox2">
-	                                    <img src="${path}/resources/images/member/enroll_logo/sandbox_logo_small.png" alt="" width="35px" height="35px">
-	                                    <label class="line">
-	                                        <input type="radio" name="abbr" value="LSB" >
-	                                        <span class="color-white ff-suit abbrName">LSB</span>
-	                                    </label>
-	                                </div>
-	                            </div>
-	                            <div class="buttonBox3">
-	                                <button class="mypageButton ff-suit fs-15">응원팀 선택</button>
-	                            </div>   
-	                        </div>
-                        </form>
+                        <div class="abbrCheckBox2">
+                            <div class="abbrCheckBoxRow2">
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/dplus_logo_white.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="DK" checked>
+                                        <span class="color-white ff-suit abbrName">DK</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/brion_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="BRO" >
+                                        <span class="color-white ff-suit abbrName">BRO</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/redforce_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="NS" >
+                                        <span class="color-white ff-suit abbrName">NS</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/geng_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="GEN" >
+                                        <span class="color-white ff-suit abbrName">GEN</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/t1_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="T1" >
+                                        <span class="color-white ff-suit abbrName">T1</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/hanwha_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="HLE" >
+                                        <span class="color-white ff-suit abbrName">HLE</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/freecs_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="KDF" >
+                                        <span class="color-white ff-suit abbrName">KDF</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/drx_logo_small.png" alt="" width="33px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="DRX" >
+                                        <span class="color-white ff-suit abbrName">DRX</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/kt_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="KT" >
+                                        <span class="color-white ff-suit abbrName">KT</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/sandbox_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="LSB" >
+                                        <span class="color-white ff-suit abbrName">LSB</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="buttonBox3">
+                                <button class="mypageButton ff-suit fs-15 changeAbbrTeam">응원팀 선택</button>
+                            </div>   
+                        </div>
                         <hr>
                     </div>
                     <div class="historyBox">
@@ -315,11 +313,156 @@
             </div>
         </div>
     </section>
+<!-- 모달창 - 프로필이미지 변경 -->
+<div class="modal-background" id="profileModalBackground">
+    <div class="modal" id="myModal">
+        <div class="modal-header">
+			<h5 class="ff-macho ff-20">프로필 이미지</h5>
+        </div>
+        <div class="modal-body">
+			<div class="line">
+        		<div class="previewBox2">
+		        	<p class="color-white ff-macho fs-10">현재 이미지</p>
+					<c:if test="${loginMember.profile != null && not empty loginMember.password && loginMember.password.contains('로그인')}"><!-- 소셜 로그인 -->
+						<img src="${loginMember.profile}"
+						width="70px" height="70px" style="border-radius: 35px; ">
+					</c:if>
+					<c:if test="${loginMember.profile != null && not empty loginMember.password && !loginMember.password.contains('로그인')}"><!-- 일반 로그인 -->
+						<img src="${path}/resources/upload/profile/${loginMember.profile}"
+						width="70px" height="70px" style="border-radius: 35px;  ">
+					</c:if>
+					<c:if test="${loginMember.profile==null}"> <!-- 프로필 미등록 -->
+						<img src="${path}/resources/images/common/favicon-original.png"
+						width="70px" height="70px" style="border-radius: 35px;  ">
+					</c:if>
+		            <div class="line">
+		                <input type="file" name="file" id="file" accept="image/*"  style="display:none" > 
+		                <input type="text" name="file" id="file2" class ="ff-suit fileValue" style="display:none" >
+		            </div>
+	            </div>
+                <div class="previewBox2">
+                    <p class="color-white ff-macho fs-10">미리보기</p>
+                    <img src="${path }/resources/images/common/icon_profile.png" alt="미리보기" width="70px" height="70px" style="border-radius: 35px; " id="preview-image">
+                </div>
+                <div class="previewBox1">
+                    <p class="color-white ff-macho fs-10">추천 이미지</p>
+				    <img src="${path}/resources/images/member/smile.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image" onclick="setPreviewImage('${path}/resources/images/member/smile.png')">
+				    <img src="${path}/resources/images/member/run.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image" onclick="setPreviewImage('${path}/resources/images/member/run.png')">
+				    <img src="${path}/resources/images/member/sad.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image" onclick="setPreviewImage('${path}/resources/images/member/sad.png')">
+				    <img src="${path}/resources/images/member/smile.png" alt="" width="50px" height="50px" style="border-radius: 25px;" class="recommend-image" onclick="setPreviewImage('${path}/resources/images/member/smile.png')">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+			<div class="duplicationCheck ff-suit fs-15" onclick="onClickUpload();">이미지 선택</div>
+            <button type="button" class="btn duplicationCheck ff-suit fs-15" id="profileModalConfirmButton">수정하기</button>
+            <button type="button" class="btn duplicationCheck ff-suit fs-15" id="closeModalButton1">닫기</button>
+        </div>
+    </div>
+</div>
+<!-- 비밀번호 변경 모달 -->
+<div class="modal-background" id="passwordModalBackground">
+    <div class="modal" id="passwordModal">
+        <div class="modal-header">
+            <h5 class="modal-title">비밀번호 변경</h5>
+        </div>
+        <div class="modal-body">
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email" required readonly><br>
+            <label for="currentPassword">현재 비밀번호</label>
+            <input type="password" id="currentPassword" name="currentPassword" required><br>
+            <label for="newPassword">새로운 비밀번호</label>
+            <input type="password" id="newPassword" name="newPassword" required><br>
+            <label for="confirmNewPassword">새로운 비밀번호 확인</label>
+            <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn duplicationCheck ff-suit fs-15" id="closeModalButton2">닫기</button>
+            <button type="button" class="btn duplicationCheck ff-suit fs-15" id="passwordModalConfirmButton">변경하기</button>
+        </div>
+    </div>
+</div>
+<!-- 회원탈퇴 모달 -->
+<div class="modal-background" id="withdrawModalBackground">
+    <div class="modal" id="withdrawModal">
+        <div class="modal-header">
+            <h5 class="modal-title">회원탈퇴</h5>
+        </div>
+        <div class="modal-body">
+            <p>정말로 회원탈퇴 하시겠습니까?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn duplicationCheck ff-suit fs-15" id="closeModalButton3">취소</button>
+            <button type="button" class="btn duplicationCheck ff-suit fs-15" id="withdrawModalConfirmButton">탈퇴하기</button>
+        </div>
+    </div>
+</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
 <script>
+function setupModal(showButtonId, modalBackgroundId, closeModalButtonId, confirmButtonId) {
+    const showModalButton = document.getElementById(showButtonId);
+    const modalBackground = document.getElementById(modalBackgroundId);
+    const closeModalButton = document.getElementById(closeModalButtonId);
+    const confirmButton = document.getElementById(confirmButtonId);
+    showModalButton.addEventListener('click', () => {
+        modalBackground.style.display = 'flex';
+    });
+    modalBackground.addEventListener('click', (event) => {
+        if (event.target === modalBackground) {
+            modalBackground.style.display = 'none';
+        }
+    });
+    closeModalButton.addEventListener('click', () => {
+        modalBackground.style.display = 'none';
+    });
+    if (confirmButton==document.getElementById('profileModalConfirmButton')) {
+        confirmButton.addEventListener('click', () => {
+            var formData = new FormData();
+            var file = $("input[id='file']")[0].files[0]; // 외부 이미지
+            var priviewImg = $("input[id='file2']").val(); // 추천 이미지
+            if (file || priviewImg) {
+                // 파일 또는 미리보기 이미지가 존재하는 경우에만 코드 실행
+                formData.append("email", '${loginMember.email}');
+                formData.append("file", file);
+                formData.append("profileImg", priviewImg);
+                $.ajax({
+                    type: 'POST',
+                    url: '${path}/mypage/updateProfileImg',
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function () {
+                    	location.href='${path}/mypage/mypage.do';
+                    },
+                    error: function (request, status, error) {
+                        console.log(error);
+                    }
+                });
+            } else {
+                // 파일과 미리보기 이미지 모두 없는 경우에 대한 처리
+                alert("변경할 이미지를 선택해주세요");
+            }
+        });
+    }
+    else if (confirmButton==document.getElementById('passwordModalConfirmButton')) {
+        confirmButton.addEventListener('click', () => {
+            modalBackground.style.display = 'none';
+        });
+    }
+    else if (confirmButton==document.getElementById('withdrawModalConfirmButton')) {
+        confirmButton.addEventListener('click', () => {
+            modalBackground.style.display = 'none';
+        });
+    }
+}
+
+setupModal('showModalButton', 'profileModalBackground', 'closeModalButton1', 'profileModalConfirmButton');
+setupModal('passwordModalButton', 'passwordModalBackground', 'closeModalButton2', 'passwordModalConfirmButton');
+setupModal('withdrawModalButton', 'withdrawModalBackground', 'closeModalButton3', 'withdrawModalConfirmButton');
+/* ----- start ----- */	
     /* 응원팀 이미지 파일 추출 */
     const abbrImgMap = new Map([
     	  ["DK", "dplus_logo_white.png"],
@@ -362,6 +505,88 @@
     
     $(".tierGazeBox > :nth-child(1)").text("현재 경험치 : "+'${loginMember.totalExp }'+"("+newWidth+"%)");
     
+    
+    /* 응원팀 변경(ajax) */
+	$(document).on('click', '.changeAbbrTeam', function() {
+							$.ajax({
+								type : 'POST',
+								url : '${path}/mypage/updateAbbrTeam',
+								data : {
+									"email" : '${loginMember.email}',
+									"choiceAbbrTeam" :$("input[name='abbr']:checked").val()
+								},
+								success : function(){
+									location.href='${path}/mypage/mypage.do';
+								},
+								error : function(request, status, error) { 
+							        console.log(error)
+							    }
+							})
+						});
+    if('${loginMember.teamAbbr}'!=null){
+   		$("input[name='abbr'][value='${loginMember.teamAbbr}']").prop("checked", true);
+    }
+ 
+	//(프로필이미지)
+	// '이미지 선택' 버튼 클릭을 통한 숨겨진 input[Id='file'] 클릭
+	function onClickUpload() {
+		let myInput = document.getElementById("file");
+		myInput.click();
+		/*console.log($("input[name=file]"))*/
+	}
+	
+	// 클라이언트가 프로필 이미지 파일 선택 시 선택한 파일명을 화면에 나타내는 이벤트 
+	$("input[name=file]").on("change", function() {
+		var file = this.files[0],
+			fileName = file.name,
+			fileSize = file.size;
+		// alert("Uploading: " + fileName + " @ " + fileSize + "bytes");
+		//CustomFileHandlingFunction(file);
+		$(".fileValue").val(fileName);
+	});
+	
+	// 클라이언트가 프로필 이미지 파일 선택시 선택한 파일을 미리보기로 나타내는 이벤트
+	const inputImage = document.getElementById("file")
+	inputImage.addEventListener("change", e => {
+		readImage(e.target)
+	})
+	function readImage(input) {
+		// 인풋 태그에 파일이 있는 경우
+		if (input.files && input.files[0]) {
+			// FileReader 인스턴스 생성
+			const reader = new FileReader()
+			// 이미지가 로드가 된 경우
+			reader.onload = e => {
+				const previewImage = document.getElementById("preview-image")
+				previewImage.src = e.target.result
+			}
+			// reader가 이미지 읽도록 하기
+			reader.readAsDataURL(input.files[0])
+		}
+	}
+	
+	//추천 이미지 선택 기능
+	const recommendImages = document.querySelectorAll('.recommend-image');
+	const fileValueInput = document.querySelector('.fileValue');
+	const fileInput = document.getElementById('file');
+	recommendImages.forEach(image => {
+	    image.addEventListener('click', () => {
+	        const imagePath = image.src;
+	        const imageName = imagePath.substring(imagePath.lastIndexOf('/') + 1);
+	        fileValueInput.value = imageName;
+	        if (fileInput.value) {
+	            fileInput.value = ''; // 파일 선택 해제
+	        }
+	    });
+	});
+	//추천 이미지 클릭 시 미리보기에 반영
+	function setPreviewImage(imageSource) {
+	    var previewImage = document.getElementById('preview-image');
+	    previewImage.src = imageSource;
+	}
+    
+    
+    
     /* 리스트 만들기 */
     $(".communityButton").click(e=>{
         $(".myCommunityHistory").css("display", "block");
@@ -380,7 +605,6 @@
     })
 
     console.log('${loginMember}');
-
 </script>
 <!-------------------------------------------->
 </body>

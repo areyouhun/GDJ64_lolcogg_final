@@ -183,7 +183,12 @@
 	        }
 	    });
 	});
-
+	//추천 이미지 클릭 시 미리보기에 반영
+	function setPreviewImage(imageSource) {
+	    var previewImage = document.getElementById('preview-image');
+	    previewImage.src = imageSource;
+	}
+	
 //(추천인 코드 입력)
 	//ajax중복확인_추천인 코드
 	var check_myReferralCode=true;

@@ -37,16 +37,14 @@ public class LoginController {
 
 	private final Environment env;
 	private final RestTemplate restTemplate = new RestTemplate();
-	private final AESEncryptor encryptor; // AESEncryptor 인스턴스 추가
 	private String CLIENT_ID = "dNio2a8IwW1bwAeDTYAA"; //네이버 애플리케이션 클라이언트 아이디값;
 	private String CLI_SECRET = "l3RVViZgBW"; //네이버 애플리케이션 클라이언트 시크릿값;
 
 	private final MemberService service;
 
-	public LoginController(MemberService service, Environment env, AESEncryptor encryptor) {
+	public LoginController(MemberService service, Environment env) {
 		this.env = env;
 		this.service = service;
-		this.encryptor = encryptor;
 	}
 
 //카카오 로그인 처리
@@ -57,7 +55,7 @@ public class LoginController {
 		System.out.println(param.get("memberEmail"));
 		// EMAIL : DB이메일(암호화상태)과 매칭을 위해 로그인 이메일 암호화
 		try {
-			param.put("email", encryptor.encrypt(param.get("memberEmail")));
+			param.put("email", AESEncryptor.encrypt(param.get("memberEmail")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -70,7 +68,7 @@ public class LoginController {
 	@GetMapping("/Kakaoenroll")
 	public String Kakaoenroll(@RequestParam Map<Object, String> param, Model model) {
 		try {
-			param.put("email", encryptor.encrypt(param.get("memberEmail")));
+			param.put("email", AESEncryptor.encrypt(param.get("memberEmail")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -102,13 +100,17 @@ public class LoginController {
 	@GetMapping("KakaoLogin")
 	public String KakaoLogin(@RequestParam Map<Object, String> param, Model model) {
 		try {
-			param.put("email", encryptor.encrypt(param.get("memberEmail")));
+			param.put("email", AESEncryptor.encrypt(param.get("memberEmail")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 //		String memberEmail = (String) param.get("email");
 //		String memberNickname = (String) param.get("memberNickname");//업데이트문 처리필요
 //		String memberImage = (String) param.get("memberImage");//업데이트문 처리필요
+//		(이미지 불러오는 업데이트 버전업 처리할 경우 비밀번호가 '카카오로그인'이 아닌 '카카오'인 경우 비밀번호를 '카카오로그인'으로 업데이트 하는 조건문 추가 필요함 - 프로필 이미지 분기문 조건에 관련이 있음 - DB설계에 대한 실수)
+//		[참조 : MypageController updateProfileImg() 하단부]
+//		네이버 계정 등록 경우도 마찬가지로 비밀번호가 '네이버로그인'이 아닌 '네이버'인 경우 비밀번호를 '네이버로그인'으로 업데이트 하는 조건문 추가 필요
+		
 		Member member = service.selectMemberById(param);
 		model.addAttribute("loginMember", member);
 		return "redirect:/";
@@ -119,8 +121,8 @@ public class LoginController {
 	
    @RequestMapping("/naverLogin")
 	public String naverLogin(String code, String state, Model model) throws IOException, ParseException {
-		System.out.println(code);
-		System.out.println(state);
+//		System.out.println(code);
+//		System.out.println(state);
 		String redirectURI = URLEncoder.encode("http://localhost:7070/login/naverLogin", "UTF-8");
 		String apiURL;
 		apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
@@ -132,7 +134,7 @@ public class LoginController {
 		// System.out.println("apiURL=" + apiURL);
 		String res = requestToServer(apiURL);
 		if (res != null && !res.equals("")) {
-			System.out.println(res);
+//			System.out.println(res);
 			model.addAttribute("res", res);
 			Map<String, Object> parsedJson = new JSONParser(res).parseObject();
 //	         System.out.println(parsedJson);
@@ -141,23 +143,20 @@ public class LoginController {
 			String apiURL2 = "https://openapi.naver.com/v1/nid/me";
 			String headerStr = "Bearer " + accessToken; // Bearer 다음에 공백 추가
 			String res2 = requestToServer(apiURL2, headerStr);
-			System.out.println(res2);
+//			System.out.println(res2);
 			if (res2 != null && !res.equals("")) {
-				System.out.println(res2);
+//				System.out.println(res2);
 				model.addAttribute("res", res2);
 				Map<String, Object> parsedJson2 = new JSONParser(res2).parseObject();
-				System.out.println(parsedJson2 );
+//				System.out.println(parsedJson2 );
 				JsonObject obj = JsonParser.parseString(res2.toString()).getAsJsonObject();
 				JsonObject arr = (JsonObject) obj.get("response");
-				System.out.println("arr : " + arr);
+//				System.out.println("arr : " + arr);
 				String memberNickname = arr.get("name").getAsString() +"(네이버)";
 				String memberImage = arr.get("profile_image").getAsString();
 				String memberEmail = arr.get("email").getAsString();
-				System.out.println(memberEmail);
-				System.out.println(memberImage);
-				System.out.println(memberNickname);
 				try {
-					memberEmail =  encryptor.encrypt(memberEmail);
+					memberEmail =  AESEncryptor.encrypt(memberEmail);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -186,7 +185,6 @@ public class LoginController {
 							.build();
 					int result = service.insertMember(member);
 					
-					param.put("email", memberEmail);
 					Member m2 = service.selectMemberById(param);
 					model.addAttribute("loginMember", m2);
 				}

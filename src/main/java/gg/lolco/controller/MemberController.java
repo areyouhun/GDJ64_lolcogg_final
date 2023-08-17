@@ -38,12 +38,10 @@ import lombok.extern.slf4j.Slf4j;
 @SessionAttributes({ "loginMember" })
 public class MemberController {
 	private final MemberService service;
-	private final AESEncryptor encryptor; // AESEncryptor 인스턴스 추가
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	public MemberController(MemberService service, AESEncryptor encryptor) {
 		this.service = service;
-		this.encryptor = encryptor; // AESEncryptor 인스턴스 초기화
 	}
 
 	// 로그인
@@ -52,7 +50,7 @@ public class MemberController {
 
 		// EMAIL : DB이메일(암호화상태)과 매칭을 위해 로그인 이메일 암호화
 		try {
-			param.put("email", encryptor.encrypt(param.get("email")));
+			param.put("email", AESEncryptor.encrypt(param.get("email")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,7 +70,6 @@ public class MemberController {
 		} else if (m != null && encoder.matches((String) param.get("password"), m.getPassword())) {
 			// PASSWORD : 비밀번호 체크 - pass
 			model.addAttribute("loginMember", m);// @SessionAttributes({"loginMember"})
-			m.setPassword("비밀번호 비공개");
 		} else {
 			// PASSWORD : 비밀번호 체크 - reject
 			model.addAttribute("msg", "비밀번호 오류입니다.");
@@ -130,7 +127,7 @@ public class MemberController {
 
 		// 이메일 양방향 암호화
 		try {
-			String encryptedText = encryptor.encrypt(param.get("email"));
+			String encryptedText = AESEncryptor.encrypt(param.get("email"));
 			param.put("email", encryptedText);
 		} catch (Exception e) {
 			e.printStackTrace();
