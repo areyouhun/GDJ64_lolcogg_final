@@ -82,11 +82,11 @@ public class AdminController {
 		int reportRemove=service.reportRemove(reportNo);
 		communityService.boardRemove(cmBoardNo);
 		if (reportRemove > 0) {
-			m.addAttribute("msg", "게시글작성 완료");
-			m.addAttribute("loc", "/admin/reportList");
+			m.addAttribute("msg", "게시글삭제 완료");
+			m.addAttribute("loc", "/admin/reportManagement");
 		} else {
-			m.addAttribute("msg", "게시글작성 실패");
-			m.addAttribute("loc", "/admin/reportList");
+			m.addAttribute("msg", "게시글삭제 실패");
+			m.addAttribute("loc", "/admin/reportManagement");
 		}
 		return "common/msg";
 	}
