@@ -198,8 +198,8 @@
 
 	/*모달 활성화 및 팝업 활성화*/
 	function wrapWindowByMask (){
-		var maskHeight = $(document).height();
-		var maskWidth = $(window).width();
+		let maskHeight = $(document).height();
+		let maskWidth = $(window).width();
 		
 		$('#mask').css({'width':maskWidth, 'height':maskHeight});
 		$('#mask').fadeTo(10,0.8);

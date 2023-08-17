@@ -314,10 +314,10 @@
 
 <script>
 window.onload = function onloadEvent() {
-	var cards = document.querySelectorAll(".player_img");
-	var backs = document.querySelectorAll(".back");
+	let cards = document.querySelectorAll(".player_img");
+	let backs = document.querySelectorAll(".back");
 
-	for (var i = 0; i < cards.length; i++) {
+	for (let i = 0; i < cards.length; i++) {
 		if (cards[i].getAttribute("src").includes("COMMON")) {
 			backs[i].classList.add("common");
 		} else if (cards[i].getAttribute("src").includes("NORMAL")) {
