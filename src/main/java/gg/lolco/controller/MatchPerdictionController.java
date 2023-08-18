@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import gg.lolco.common.PageFactory;
 import gg.lolco.model.service.MatchPredictionService;
 import gg.lolco.model.service.ReportService;
 import gg.lolco.model.vo.MatchPrediction;
@@ -60,8 +61,8 @@ public class MatchPerdictionController {
 		m.addAttribute("ms", ms);
 
 		// 댓글 리스트
-		List<MatchPredictionComment> commentList = service.commentListAll(nowWeek);
-		m.addAttribute("commentList", commentList);
+//		List<MatchPredictionComment> commentList = service.commentListAll(null);
+//		m.addAttribute("commentList", commentList);
 
 		// 베스트3 댓글
 		List<MatchPredictionComment> bestCommentList = service.bestCommentList(nowWeek);
@@ -169,7 +170,7 @@ public class MatchPerdictionController {
 	public MatchPredictionComment insertComment(@RequestParam Map param) {
 		
 		int result = service.insertComment(param);
-		// int week = Integer.parseInt((String.valueOf(param.get("week"))));
+
 		MatchPredictionComment myComment = service.selectComment(param);
 		if (result > 0) {
 			return myComment;
@@ -242,4 +243,62 @@ public class MatchPerdictionController {
 		return "common/msg";
 	}
 
+	// 댓글 정렬(최신순, 인기순)
+	@RequestMapping("/matchprediction/newComment")
+	@ResponseBody
+	public Map<String, Object> newComment(@RequestParam(value = "cPage", defaultValue = "1") int cPage, @RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage, @SessionAttribute(name = "loginMember", required = false) Member member){
+		Map<String, Object> all = new HashMap<>();
+		
+		List<MatchPredictionComment> newComment = service.commentListAll(Map.of("cPage", cPage, "numPerpage", numPerpage));
+		int totalData = service.commentCount();
+		String pageBar = PageFactory.getPage(cPage, numPerpage, totalData, "", "fn_newComment");
+		
+		// 내 버프 너프
+		List<MatchPredictionCommentBn> myBn = new ArrayList<>();
+		if (member != null) {
+			myBn = service.myBn(member.getEmail());
+		}
+		
+		// 내가 가진 이모티콘
+		List<MemberEmoticon> myEmo = new ArrayList<>();
+		if (member != null) {
+			myEmo = service.myEmo(member.getEmail());
+		}
+		
+		all.put("newComment", newComment);
+		all.put("pageBar", pageBar);
+		all.put("myBn", myBn);
+		all.put("myEmo", myEmo);
+		
+		return all;
+	}
+	
+	@RequestMapping("/matchprediction/popComment")
+	@ResponseBody
+	public Map<String, Object> popComment(@RequestParam(value = "cPage", defaultValue = "1") int cPage, @RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage, @SessionAttribute(name = "loginMember", required = false) Member member){
+		Map<String, Object> all = new HashMap<>();
+		
+		List<MatchPredictionComment> popComment = service.commentListAllPop(Map.of("cPage", cPage, "numPerpage", numPerpage));
+		int totalData = service.commentCount();
+		String pageBar = PageFactory.getPage(cPage, numPerpage, totalData, "", "fn_popComment");
+		
+		// 내 버프 너프
+		List<MatchPredictionCommentBn> myBn = new ArrayList<>();
+		if (member != null) {
+			myBn = service.myBn(member.getEmail());
+		}
+		
+		// 내가 가진 이모티콘
+		List<MemberEmoticon> myEmo = new ArrayList<>();
+		if (member != null) {
+			myEmo = service.myEmo(member.getEmail());
+		}
+		
+		all.put("popComment", popComment);
+		all.put("pageBar", pageBar);
+		all.put("myBn", myBn);
+		all.put("myEmo", myEmo);
+		
+		return all;		
+	}
 }

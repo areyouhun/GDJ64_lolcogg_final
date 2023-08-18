@@ -33,7 +33,11 @@ public interface MatchPredictionDao {
 	int teamChoice(SqlSessionTemplate session, Map param);
 	int teamChoiceDel(SqlSessionTemplate session, Map param);
 	
-	List<MatchPredictionComment> commentListAll(SqlSessionTemplate session, int week);
+	List<MatchPredictionComment> commentListAll(SqlSessionTemplate session, Map param);
+	
+	List<MatchPredictionComment> commentListAllPop(SqlSessionTemplate session, Map param);
+	
+	int commentCount(SqlSessionTemplate session);
 	
 	List<MatchPredictionComment> bestCommentList(SqlSessionTemplate session, int week);
 	
