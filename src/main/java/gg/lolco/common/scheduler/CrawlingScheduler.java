@@ -9,12 +9,12 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.servlet.ServletContext;
 
@@ -28,7 +28,6 @@ import org.springframework.stereotype.Component;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 
-import gg.lolco.common.MatchHistoryFormatter;
 import gg.lolco.model.service.ChampPredictService;
 import gg.lolco.model.service.CommunityService;
 import gg.lolco.model.service.MemberService;
@@ -657,48 +656,52 @@ public class CrawlingScheduler {
 	}
 	
 	private void champPredictCompare() {
-		String path = context.getRealPath("/resources/csv/match/");
-		
-		List<Map<String, Object>> matchResultList = predictService.selectMatchData();
-		
-		for(Map<String, Object> matchResult : matchResultList) {
-			List<List<String[]>> setResults = csvParser(path + String.valueOf(matchResult.get("MS_FILE_NAME")));
-			List<Map<String, Object>> matchResultDetail = MatchHistoryFormatter.format(setResults, ",");
-			
-			for(Map<String, Object> matchDetail : matchResultDetail) {
-				String[] blueTeamBanArr = (String[]) matchDetail.get("blueSideBanned");
-				String[] redTeamBanArr = (String[]) matchDetail.get("redSideBanned");
-				
-				String[] matchBanArr = Stream.of(blueTeamBanArr, redTeamBanArr).flatMap(Stream::of).toArray(String[]::new);
-				
-				List<String> matchBanList = Arrays.asList(matchBanArr);
-				
-				List<Integer> list = predictService.selectYesterDayPredict();
-				
-				for(int no : list) {
-					List<String> memberBanpick = predictService.selectMemberPredict(no);
-					
-					List<String> banpickList = memberBanpick.stream()
-					    .map(c -> c.equals("Thresh") ? "Xerath" : c)
-					    .collect(Collectors.toList());
-										
-					List<String> answerBanList = 
-							matchBanList.stream()
-								.filter(b -> banpickList.stream().anyMatch(Predicate.isEqual(b)))
-								.collect(Collectors.toList());
-					
-					Map<String, Object> scoreMap = Map.of("no", no, "score", answerBanList.size());
-					
-					predictService.updateMemberScore(scoreMap);
-				}
-			}
-		}
+	    String path = context.getRealPath("/resources/csv/match/");
+	    List<Integer> noList = new ArrayList<>();
+	    
+
+	    List<Map<String, Object>> matchResultList = predictService.selectMatchData();
+
+	    for (Map<String, Object> matchResult : matchResultList) {
+	        File file = new File(path + String.valueOf(matchResult.get("MS_FILE_NAME")));
+
+	        if (!file.exists()) {
+	            log.warn("File not found: {}", file);
+	            continue;
+	        }
+
+	        List<List<String[]>> setResults = csvParser(path + String.valueOf(matchResult.get("MS_FILE_NAME")));
+	        List<String> matchBanList = setResults.stream()
+	                .flatMap(Collection::stream)
+	                .flatMap(Arrays::stream)
+	                .distinct()
+	                .collect(Collectors.toList());
+	        
+	        List<Integer> list = predictService.selectYesterDayPredict();
+	        
+	        for (int no : list) {
+	            noList.add(no);
+
+	            List<String> banpickList = predictService.selectMemberPredict(no).stream()
+	                    .map(c -> c.equals("Thresh") ? "Xerath" : c)
+	                    .collect(Collectors.toList());
+	            
+	            List<String> answerBanList = 
+						matchBanList.stream()
+						.filter(b -> banpickList.stream().anyMatch(Predicate.isEqual(b)))
+						.collect(Collectors.toList());
+	            
+	            predictService.updateMemberScore(Map.of("no", no, "score", answerBanList.size()));
+	        }
+	    }
+	    predictService.updateMemberPoiont();
+	    noList.stream().forEach(predictService::insertPointHistory);
 	}
 	
 	private List<List<String[]>> csvParser(String fullPath) {
 		final List<List<String[]>> setResultsTotal = new ArrayList<>();
-		
-		try (CSVReader csvReader = new CSVReader(new FileReader(fullPath));) {
+
+		try(CSVReader csvReader = new CSVReader(new FileReader(fullPath));) {
 			List<String[]> setResult = new ArrayList<>();
 			for (String[] line : csvReader.readAll()) {
 				if (Arrays.equals(line, new String[] {"|"})) {
@@ -709,9 +712,9 @@ public class CrawlingScheduler {
 				setResult.add(line);
 			}
 			setResultsTotal.add(setResult);
-		} catch (CsvException e) {
+		}catch(CsvException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		}catch(IOException e) {
 			e.printStackTrace();
 		}
 		return setResultsTotal;

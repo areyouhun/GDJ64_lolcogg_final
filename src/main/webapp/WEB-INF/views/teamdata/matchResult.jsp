@@ -1050,9 +1050,9 @@
             championRuneInfo($(event.target).attr('alt'), event);
         });
 
-        $(document).on("mouseenter", ".rune-row img", event => {
-            if($(event.target).prop("tagName") === "IMG") {
-                $.get("${runesInfoPath}")
+        $(document).on('mouseenter', '.rune-row img', event => {
+            if($(event.target).prop('tagName') === 'IMG') {
+                $.get('${runesInfoPath}')
                 .then(data => {
                     data.some((rune) => {
                         rune.slots.some((mainRune) => {
