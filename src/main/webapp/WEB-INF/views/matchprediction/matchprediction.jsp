@@ -919,7 +919,7 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 			let team = 'home';
 			$.ajax({
 				type: "POST",
-				url: "matchprediction/choice",
+				url: "${path}/matchprediction/choice",
 				data:{
 					"choiceNo": choiceNo,
 					"team": team,
@@ -961,7 +961,7 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 			let team = 'away';
 			$.ajax({
 				type: "POST",
-				url: "matchprediction/choice",
+				url: "${path}/matchprediction/choice",
 				data:{
 					"choiceNo": choiceNo,
 					"team": team,
@@ -1005,8 +1005,6 @@ $(document).on("click", ".mpMatchDiv", function(e) {
 /* 댓글 - 신고 버튼 */
 $(document).on("click", ".repBtn", function(e){
 	let mpcNo = $(e.target).parents('li').attr('id');
-	
-	console.log(mpcNo);
 	
 	if(confirm("정말 신고하시겠습니까?")){
 		location.assign('${path}/matchprediction/insertReport?no=' + mpcNo);
@@ -1140,7 +1138,7 @@ const fn_insertComment=(week, e)=>{
     	
     	$.ajax({
     		type: "POST",
-    		url: "/matchprediction/insertComment",
+    		url: "${path}/matchprediction/insertComment",
     		data:{
     			"writer": writer,
     			"content": content,
@@ -1175,7 +1173,7 @@ $(document).on("click", ".delBtn", function(e) {
 	if(confirm("정말 삭제하시겠습니까?")){
 		$.ajax({
 			type: "POST",
-			url: "/matchprediction/deleteComment",
+			url: "${path}/matchprediction/deleteComment",
 			data:{
 				"mpcNo": mpcNo
 			},
@@ -1308,7 +1306,7 @@ $(document).on("click", ".upBtn", function(e) {
 		
 		$.ajax({
 			type: "POST",
-			url: "/matchprediction/updateComment",
+			url: "${path}/matchprediction/updateComment",
 			data:{
 				"mpcNo" : mpcNo,
 				"email" : '${loginMember.email}',
@@ -1371,7 +1369,7 @@ $(document).on("click", ".buffBtn", function(e) {
 	} else {
 		$.ajax({
 			type: "POST",
-			url: "/matchprediction/commentBn",
+			url: "${path}/matchprediction/commentBn",
 			data:{
 				"bn" : 'B',
 				"mpcNo" : mpcNo,
@@ -1402,7 +1400,7 @@ $(document).on("click", ".nerfBtn", function(e) {
 	} else {
 		$.ajax({
 			type: "POST",
-			url: "/matchprediction/commentBn",
+			url: "${path}/matchprediction/commentBn",
 			data:{
 				"bn" : 'N',
 				"mpcNo" : mpcNo,
@@ -1432,7 +1430,7 @@ function weekChoice(week){
 	
 	$.ajax({
 	    type: "POST",
-	    url: "/matchPrediction/week",
+	    url: "${path}/matchPrediction/week",
 	    data: { week: week },
 	    dataType: "json",
 	    success: function(data) {
@@ -1522,7 +1520,6 @@ function weekChoice(week){
 				homeScoreDiv.append(homeScoreP);
 
 				homeDiv.append(logoDiv, homeStatusDiv, homeScoreDiv);
-				/*  */
 				let awayDiv = $('<div>').addClass('awayDiv');
 				let awayScoreDiv = $('<div>').addClass('awayScoreDiv');
 				let awayScoreP = $('<p>').addClass('title fs-45').text(item.msAwayScore);
@@ -1551,7 +1548,8 @@ function weekChoice(week){
 				let outlineAway = "";
 				
 				if(loginMember != ''){
-					data[1].forEach(function(mp) {
+					data[2].forEach(function(mp) {
+						console.log(mp);
 						if(item.msNo == mp.mpMsNo){
 						    if (date < today && mp.mpTeam == item.msHome) {
 						        finishHome = 'finishHome';
@@ -1601,6 +1599,7 @@ function weekChoice(week){
 	});
 }
 
+/* 실시간 채팅 */
 $(".chatBtn").click(event => {
     const loginMember = "${sessionScope.loginMember}";
 
