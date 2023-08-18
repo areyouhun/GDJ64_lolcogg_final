@@ -13,7 +13,7 @@
 <script type="module"
 	src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <!------------------------------------>
-<title>SAMPLE</title>
+<title>${d.cmBoardTitle }</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp">

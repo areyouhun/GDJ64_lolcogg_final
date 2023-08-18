@@ -686,6 +686,7 @@ public class CommunityController {
 			m.addAttribute("loc", "/community/boardDetails?cmBoardNo=" + boardNo);
 		}
 	}
+		
 		return "common/msg";
 	}
 	@GetMapping("/insertcmReport")

@@ -28,6 +28,10 @@ public class ReportServiceImpl implements ReportService {
 		return dao.reportCmList(session,param);
 	}
 	@Override
+	public List<Report> matchpredictionCmList(Map<String, Object> param) {
+		return dao.matchpredictionCmList(session,param);
+	}
+	@Override
 	public int reportRemove(String reportNo) {
 		return dao.reportRemove(session,reportNo);
 	}
@@ -40,6 +44,10 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public int reportCmListCount() {
 		return dao.reportCmListCount(session);
+	}
+	@Override
+	public int matchpredictionCmListCount() {
+		return dao.matchpredictionCmListCount(session);
 	}
 
 	@Override

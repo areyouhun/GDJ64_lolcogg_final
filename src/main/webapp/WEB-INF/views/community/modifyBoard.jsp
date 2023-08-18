@@ -14,7 +14,7 @@
 <link rel="stylesheet"
 	href="${path }/resources/css/community/communityMain.css">
 <!------------------------------------>
-<title>게시글작성</title>
+<title>커뮤니티</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp">

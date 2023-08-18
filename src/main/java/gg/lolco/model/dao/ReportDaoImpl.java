@@ -37,8 +37,19 @@ public class ReportDaoImpl implements ReportDao {
 		return session.selectList("report.reportCmList",null,rb);
 	}
 	@Override
+	public List<Report> matchpredictionCmList(SqlSession session, Map<String, Object> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		return session.selectList("report.matchpredictionCmList",null,rb);
+	}
+	@Override
 	public int reportCmListCount(SqlSession session) {
 		return session.selectOne("report.reportCmListCount");
+	}
+	@Override
+	public int matchpredictionCmListCount(SqlSession session) {
+		return session.selectOne("report.matchpredictionCmListCount");
 	}
 	@Override
 	public int insertReport(SqlSession session,Map<String, Object> param) {

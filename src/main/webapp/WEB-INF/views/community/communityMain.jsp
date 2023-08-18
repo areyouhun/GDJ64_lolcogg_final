@@ -11,7 +11,7 @@
 <link rel="stylesheet"
 	href="${path }/resources/css/community/communityMain.css">
 <!------------------------------------>
-<title>communityMain</title>
+<title>커뮤니티</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp">

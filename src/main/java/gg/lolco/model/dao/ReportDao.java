@@ -11,9 +11,11 @@ import gg.lolco.model.vo.Report;
 public interface ReportDao {
 	List<Report> reportList (SqlSession session,Map<String, Object> param);
 	List<Report> reportCmList (SqlSession session,Map<String, Object> param);
+	List<Report> matchpredictionCmList (SqlSession session,Map<String, Object> param);
 	int reportRemove (SqlSession session,String reportNo);
 	int reportListCount (SqlSession session);
 	int reportCmListCount (SqlSession session);
+	int matchpredictionCmListCount (SqlSession session);
 	int insertReport (SqlSession session,Map<String, Object> param);
 	int insertcmReport (SqlSession session,Map<String, Object> param);
 	int updateReport (SqlSession session,Map<String, Object> param);
