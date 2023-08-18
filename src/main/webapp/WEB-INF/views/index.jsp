@@ -170,10 +170,10 @@
         }
 
         if (page != 1) {
-            $("header").css("background-color", "var(--lol-black)");
-            $("header").animate({ scrollTop: 0 }, 10);
+            $(".header_div").css("background-color", "var(--lol-black)");
+            $(".header_div").animate({ scrollTop: 0 }, 10);
         } else {
-            $("header").css("background-color", "transparent");
+            $(".header_div").css("background-color", "transparent");
         }
 
         var posTop = (page - 1) * $(window).height();
