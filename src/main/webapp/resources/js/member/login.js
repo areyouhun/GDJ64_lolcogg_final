@@ -103,7 +103,8 @@
         }
         
 const CLIENT_ID = "dNio2a8IwW1bwAeDTYAA";
-const redirectURI = "http://localhost:7070/login/naverLogin";
+/*const redirectURI = "http://localhost:7070/login/naverLogin";*/
+const redirectURI = "http://14.36.141.71:10005/GDJ64_lolcogg_final/login/naverLogin";
 const state ="1";
 const naverLogin=()=>{
 	console.log("여기오니?");
