@@ -11,7 +11,7 @@
 <link rel="stylesheet"
 	href="${path }/resources/css/community/communityMain.css">
 <!------------------------------------>
-<title>communityMain</title>
+<title>커뮤니티</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -167,11 +167,9 @@
 								</div>
 							</div>
 						</c:forEach>
-						<c:if test="${selectboardList.size()>20 }">
 							<div class="pageBar_div">
 								<c:out value="${pageBar }" escapeXml="false" />
 							</div>
-						</c:if>
 					</div>
 				</div>
 			</div>

@@ -199,8 +199,8 @@ button:active {
 	
 }
 .board-content img {
-	 max-width: 1000px;
-	 max-height: 1000px;
+	 width: 700px;
+	
  
 }
 .pageBar_div{
@@ -332,7 +332,7 @@ button:active {
 	margin-top: 20px;
 	margin-left: 10px;
 	margin-bottom: 20px;
-	font-size: 25px;
+	font-size: 18px;
 	color: var(--lol-white, #EEE);
 	display: flex;
 	flex-direction: column;
@@ -405,6 +405,7 @@ button:active {
 
 .board-img>div>span {
 	margin-left: 10px;
+	width: 10px;
 }
 
 .board-img {

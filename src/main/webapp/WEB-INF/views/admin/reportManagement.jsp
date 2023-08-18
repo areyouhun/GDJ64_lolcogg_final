@@ -34,7 +34,11 @@
 
 
 								<div class="categories">
-									<a href="${path }/admin/reportCmList"><span>댓글</span></a>
+									<a href="${path }/admin/reportCmList"><span>커뮤니티 댓글</span></a>
+								</div>
+								<div class="categories">
+									<a href="${path }/admin/matchpredictionCmList"><span>승부예측
+											댓글</span></a>
 								</div>
 							</div>
 							<table class="report-board content">
@@ -47,11 +51,23 @@
 								<c:forEach var="r" items="${reportList}">
 									<tr>
 										<c:if test="${r.cmCommentNo.cmCommentContent!=null }">
-
 											<td class="r_title">${r.cmCommentNo.cmCommentContent }</td>
+											<td>${r.cmCommentNo.cmCommentWriter.nickname }</td>
+											<td>${r.reportCount }</td>
+											<c:if
+												test="${r.reportCount > 2&&r.reportState.equals('처리전')}">
+												<td><a
+													href="${path}/admin/reportCmRemove?reportNo=${r.reportNo}&cmCommentNo=${r.cmCommentNo.cmCommentNo}"><button
+															class="report-content-button">제거하기</button></a></td>
+											</c:if>
+											<c:if test="${r.reportCount < 3}">
+												<td><button class="before_report-content-button">처리전</button></td>
+											</c:if>
+											<c:if test="${r.reportState.equals('처리완료')}">
+												<td><button class="before_report-content-button">처리완료</button></td>
+											</c:if>
 										</c:if>
-
-										<c:if test="${r.cmCommentNo.cmCommentContent==null }">
+										<c:if test="${r.cmBoardNo.cmBoardTitle!=null }">
 											<td class="r_title"><c:if
 													test="${r.reportState.equals('처리전')}">
 													<a
@@ -60,39 +76,47 @@
 												</c:if> <c:if test="${r.reportState.equals('처리완료')}">
 													${r.cmBoardNo.cmBoardTitle } 
 											</c:if></td>
-
-										</c:if>
-
-										<td>${r.cmBoardNo.cmBoardWriter.nickname }</td>
+											<td>${r.cmBoardNo.cmBoardWriter.nickname }</td>
 										<td>${r.reportCount }</td>
-
-										<c:if test="${r.reportCount > 2&&r.reportState.equals('처리전')}">
-											<td><c:if
-													test="${r.cmCommentNo.cmCommentContent!=null }">
-													<a
-														href="${path}/admin/reportCmRemove?reportNo=${r.reportNo}&cmCommentNo=${r.cmCommentNo.cmCommentNo}"><button
-															class="report-content-button">제거하기</button></a>
-												</c:if> <c:if test="${r.cmCommentNo.cmCommentContent==null }">
-													<a
+											<c:if
+												test="${r.reportCount > 2&&r.reportState.equals('처리전')}">
+												<td><a
 														href="${path}/admin/reportRemove?reportNo=${r.reportNo}&cmBoardNo=${r.cmBoardNo.cmBoardNo}"><button
-															class="report-content-button">제거하기</button></a>
-												</c:if></td>
-
+															class="report-content-button">제거하기</button></a></td>
+											</c:if>
+											<c:if test="${r.reportCount < 3}">
+												<td><button class="before_report-content-button">처리전</button></td>
+											</c:if>
+											<c:if test="${r.reportState.equals('처리완료')}">
+												<td><button class="before_report-content-button">처리완료</button></td>
+											</c:if>
 										</c:if>
-										<c:if test="${r.reportCount < 2}">
-											<td><button class="before_report-content-button">처리전</button></td>
+										<c:if test="${r.mpCommentno.mpcContent!=null }">
+											<td class="r_title">${r.mpCommentno.mpcContent }</td>
+											<td>${r.mpCommentno.mpcWriter.nickname }</td>
+											<td>${r.reportCount }</td>
+											<c:if
+												test="${r.reportCount > 2&&r.reportState.equals('처리전')}">
+												<td><a
+													href="${path}/admin/reportMpRemove?reportNo=${r.reportNo}&mpCommentNo=${r.mpCommentno.mpcNo}"><button
+															class="report-content-button">제거하기</button></a></td>
+											</c:if>
+											<c:if test="${r.reportCount < 3}">
+												<td><button class="before_report-content-button">처리전</button></td>
+											</c:if>
+											<c:if test="${r.reportState.equals('처리완료')}">
+												<td><button class="before_report-content-button">처리완료</button></td>
+											</c:if>
 										</c:if>
-										<c:if test="${r.reportState.equals('처리완료')}">
-											<td><button class="before_report-content-button">처리완료</button></td>
-										</c:if>
+										
+										
+										
 									</tr>
 								</c:forEach>
 							</table>
 
 							<div class="pageBar">
-								<c:if test="${reportList.size()>10 }">
 									<c:out value="${pageBar }" escapeXml="false" />
-								</c:if>
 							</div>
 						</div>
 					</div>
