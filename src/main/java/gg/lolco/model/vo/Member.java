@@ -32,6 +32,6 @@ public class Member  {
 	
 	private Tier tier;
 	private List<PointHistory> pointHistorys = new ArrayList(); 
-	private List<Alert> alerts = new ArrayList(); //제거해야할 부분
+	private List<Alert> alerts = new ArrayList(); //제거 or 버전업
 	
 }

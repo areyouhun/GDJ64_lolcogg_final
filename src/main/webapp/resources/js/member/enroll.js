@@ -32,7 +32,7 @@
 	            alert("입력하신 메일에 인증번호가 전송 되었습니다. 메일을 확인하여 인증번호를 입력해주세요.");
 	            authNum = json;
 	            console.log("authNum");
-	            dㅇocument.querySelector('.mail-check-input').removeAttribute('disabled');
+	            document.querySelector('.mail-check-input').removeAttribute('disabled');
 	            document.querySelector('.mail-check-input').removeAttribute('style');
 	        } else {
 	            alert("인증메일 전송에 실패 하였습니다.");

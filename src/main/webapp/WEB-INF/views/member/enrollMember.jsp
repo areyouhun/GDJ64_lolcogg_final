@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path}/resources/css/common.css">
-<link rel="stylesheet" href="${path}/resources/css/member.css">
+<link rel="stylesheet" href="${path}/resources/css/member/member.css">
 <!------------------------------------>
 <title>회원가입</title>
 </head>

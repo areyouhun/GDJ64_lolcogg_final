@@ -8,10 +8,17 @@ import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import gg.lolco.model.vo.MemberTitle;
 import gg.lolco.model.vo.QaBoard;
 
 @Repository
 public class MypageDaoImpl implements MypageDao {
+
+	@Override
+	public List<MemberTitle> selectMemberTitleListAll(SqlSession session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectList("mypage.selectMemberTitleListAll", param);
+	}
 
 	@Override
 	public int updateAbbrTeam(SqlSession session, Map param) {
@@ -23,6 +30,13 @@ public class MypageDaoImpl implements MypageDao {
 	public int updateProfileImg(SqlSession session, Map param) {
 		// TODO Auto-generated method stub
 		return session.update("mypage.updateProfileImg", param);
+	}
+
+	
+	@Override
+	public int updateTitle(SqlSession session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("mypage.updateTitle", param);
 	}
 
 	@Override

@@ -278,6 +278,11 @@ display: none;
 }
 .myInfo>div>div:nth-child(2)>:nth-child(2)>:nth-child(2){
     /* border: 1px solid green; */
+    margin-top: 0.3em;
+    width: 90%;
+}
+.myInfo>div>div:nth-child(2)>:nth-child(2)>:nth-child(3){
+    /* border: 1px solid green; */
     margin-top: 1.5em;
     margin-left: 0.2em;
     color: var(--lol-mainblue);    
@@ -300,7 +305,7 @@ display: none;
 
 .myInfo>:nth-child(2)>:nth-child(3){
     /* border: 1px solid yellow; */
-    margin-left: 10em;
+    margin-left: 6em;
 }
 /* .myInfo>:nth-child(2)>:nth-child(3)>*{
     border: 1px solid green;
@@ -323,7 +328,7 @@ display: none;
   	margin-bottom: 0.5em;
 }
 .tierBox>.tierImageBox>:nth-child(2){
-    margin-left: 10em;
+    margin-left: 15em;
 }
 .tierBox>.tierGazeBox>.tierGazeState{
     display: flex;
@@ -337,12 +342,12 @@ display: none;
     margin-right: 0.2em;
 }
 .tierBox>.tierGazeBox>.tierGazeWhole{
-    border :2px solid var(--khy-off-gray);
+    border :3px solid var(--khy-off-gray);
     border-top-left-radius: 2em;
     border-top-right-radius: 2em;
 }
 .tierBox>.tierGazeBox>.tuerGazeStatus{
-    border :3.5px solid var(--lol-mainblue);
+    border :5px solid var(--lol-mainblue);
     border-bottom-left-radius: 2em;
     border-bottom-right-radius: 2em;
 }
@@ -356,6 +361,20 @@ display: none;
 }
 .tierBox>.tierGazeBox>.buttonBox2>:nth-child(3){
     margin-left: 1em;
+}
+.tierBox>.tierGazeBox>.buttonBox2>:nth-child(4){
+    margin-left: 1em;
+}
+/*칭호 변경*/
+.currentTitle-row {
+    background-color: var(--lol-mainblue); /* 배경색 설정 */
+}
+.choiceTitle-row{
+    background-color: DodgerBlue; /* 배경색 설정 */
+}
+/*[id^="row-"] {*/
+.notCurrentTitle-row{
+    cursor: pointer;
 }
 .mypageButton{
     color: var(--lol-white); 
@@ -417,7 +436,7 @@ display: none;
     display: flex;
 }
 .historyBox>.myPointHistory{
-    display: none;
+/*    display: none;*/
 }
 .historyBox>.myCommunityHistory{
     display: none;
@@ -490,9 +509,13 @@ display: none;
     background-color: var(--khy-off-gray); 
     color: var(--lol-white);  
     width: 35%;
+    max-height:100vh; /* 최대 높이 설정 */
+    overflow-y: auto; /* 내용이 모달을 벗어나면 스크롤 표시 */
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	overflow-y: scroll;
+    scroll-behavior: inherit; /* 스크롤 애니메이션 적용 */
 }
 
 .modal-header {
@@ -515,6 +538,23 @@ display: none;
     padding-top: 10px;
 }
 
+/* 모달 내의 스크롤바 스타일 */
+.modal::-webkit-scrollbar {
+    width: 10px; /* 스크롤바 너비 조정 */
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background-color: darkgray; /* 스크롤바 색상 */
+    border-radius: 5px; /* 스크롤바 모서리 둥글게 */
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+    background-color: gray; /* 마우스 오버 시 색상 */
+}
+
+.modal::-webkit-scrollbar-track {
+    background-color: black; /* 스크롤바 트랙 배경색 */
+}
 /* 비밀번호 변경 모달 */
 .modal-body > input{
 	color: var(--lol-white); 

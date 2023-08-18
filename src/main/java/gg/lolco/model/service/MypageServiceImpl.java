@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import gg.lolco.model.dao.MypageDao;
+import gg.lolco.model.vo.MemberTitle;
 import gg.lolco.model.vo.QaBoard;
 
 @Service
@@ -21,6 +22,12 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 	@Override
+	public List<MemberTitle> selectMemberTitleListAll(Map param) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberTitleListAll(session, param);
+	}
+
+	@Override
 	public int updateAbbrTeam(Map param) {
 		// TODO Auto-generated method stub
 		return dao.updateAbbrTeam(session, param);
@@ -30,6 +37,13 @@ public class MypageServiceImpl implements MypageService {
 	public int updateProfileImg(Map param) {
 		// TODO Auto-generated method stub
 		return dao.updateProfileImg(session, param);
+	}
+
+	
+	@Override
+	public int updateTitle(Map param) {
+		// TODO Auto-generated method stub
+		return dao.updateTitle(session, param);
 	}
 
 	@Override

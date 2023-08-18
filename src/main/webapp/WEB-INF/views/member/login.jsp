@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path}/resources/css/common.css">
-<link rel="stylesheet" href="${path}/resources/css/member.css">
+<link rel="stylesheet" href="${path}/resources/css/member/member.css">
 <!------------------------------------>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>

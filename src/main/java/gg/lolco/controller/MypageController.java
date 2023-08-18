@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,6 +30,7 @@ import gg.lolco.model.service.MypageService;
 import gg.lolco.model.service.QnaService;
 import gg.lolco.model.vo.CommunityBoard;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.MemberTitle;
 import gg.lolco.model.vo.QaBoard;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,7 +54,76 @@ public class MypageController {
 
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
-	@RequestMapping("updateAbbrTeam")
+	//마이페이지 들어갈 때 필요한 값 - 
+	//	버전업으로 버튼(프로필이미지 변경, 칭호 변경, 응원팀 선택, 포인트 획득/지출, 커뮤니티, QnA)마다 
+	//	리턴값을 통한 값 처리 되면 이 부분은 조회 기능 없이 화면전환용으로만 사용하는 부분으로 바꾸면 됨
+	@RequestMapping("/mypage.do")
+	public String mypage (HttpSession session, SessionStatus status, Model m,
+						@RequestParam(value = "cPage", defaultValue = "1") int cPage, 
+			            @RequestParam(value = "numPerpage", defaultValue = "100") int numPerpage) {
+		if (session.getAttribute("loginMember") != null) {
+			//타이틀 내역 조회
+			Map param = Map.of("email", ((Member) session.getAttribute("loginMember")).getEmail());
+			List<MemberTitle> mt = service.selectMemberTitleListAll(param);
+			session.setAttribute("memberTitle", mt);
+
+			//loginMember(포인트 내역 포함) 조회
+			Member memberupdate=serviceMember.selectMemberById(param);
+			session.setAttribute("loginMember", memberupdate);
+			
+			//QnA리스트 조회
+			if(session.getAttribute("qb") == null){
+				List<QaBoard> qb = serviceQna.selectQnaListAll(Map.of("cPage", cPage, "numPerpage", numPerpage));
+				session.setAttribute("qb", qb);
+			}
+			
+			//커뮤니티 리스트 조회
+			if(session.getAttribute("selectboardList") == null){
+				List<CommunityBoard> selectboardList = serviceCommunity
+						.selectboardList(Map.of("cPage", cPage, "numPerpage", numPerpage));
+//				int totalData = serviceCommunity.selectBoardCount();
+				
+				// 이 부분에서는 현재 시간을 LocalDateTime 으로가져오기
+				LocalDateTime now = LocalDateTime.now();
+				
+				// 리스트 반복문
+				for (CommunityBoard b : selectboardList) {
+					// 현재 게시글의 작성 시간을 LocalDateTime 형태로 가져오고 있습니다.
+					LocalDateTime boardDate = b.getCmBoardDate();
+					
+					// 게시글의 작성 시간과 현재 시간 사이의 차이를 Duration 객체로 가져기
+					Duration duration = Duration.between(boardDate, now);
+					
+					// 시간의 차이를 분 단위로 변환후 diffMinutes에 저장
+					long diffMinutes = duration.toMinutes();
+					// 분기준
+					if (diffMinutes == 0) {
+						b.setTimeDifference("방금 전");
+					} else if (diffMinutes < 60) {
+						b.setTimeDifference(diffMinutes + "분 전");
+						
+						// 하루기준
+					} else if (diffMinutes < 24 * 60) {
+						b.setTimeDifference(duration.toHours() + "시간 전");
+					} else {
+						b.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+					}
+				}
+				session.setAttribute("selectboardList", selectboardList);
+			}
+
+			return "mypage/myPage";
+
+		}else {
+			m.addAttribute("msg", "세션이 만료되었습니다. 다시 로그인 후 이용해주세요.");
+			m.addAttribute("loc", "/");
+			return "common/msg";
+		}
+		
+	}
+	
+	
+	@RequestMapping("/updateAbbrTeam")
 	@ResponseBody
 	public String updateAbbrTeam (@RequestParam Map<Object, String> param,SessionStatus status, HttpSession session) {
 //		System.out.println(param.get("email"));
@@ -66,13 +137,21 @@ public class MypageController {
 		return "redirect:/mypage/mypage.do";
 	}
 	
-	@RequestMapping("updateProfileImg")
+	@RequestMapping("/updateProfileImg")
 	@ResponseBody
-	public String updateProfileImg(@RequestParam Map<Object, String> param, @RequestParam(required = false) MultipartFile file, HttpSession session, SessionStatus status, Model m ) {
+	public String updateProfileImg(@RequestParam Map<Object, String> param, @RequestParam(required = false) MultipartFile file,
+									HttpSession session, SessionStatus status, Model m ) {
 		System.out.println("email : "+param.get("email")); // 계정 이메일
 		System.out.println("profileImg : "+param.get("profileImg")); // 미리보기 이미지 파일명
 		System.out.println("file : "+file); // 가져온 이미지파일
 		
+		String oriEmail = "";
+		try {
+			oriEmail = AESEncryptor.decrypt(param.get("email"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		// 업로드파일 저장하기(업로드한 파일이 있을 때)
 		if (file != null && !file.isEmpty()) {
 			String path = session.getServletContext().getRealPath("/resources/upload/profile/");
@@ -81,7 +160,7 @@ public class MypageController {
 			Date today = new Date(System.currentTimeMillis());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
 			int rdn = (int) (Math.random() * 10000) + 1;
-			String rename = sdf.format(today) + "_" + rdn + "_" + param.get("email") + ext;
+			String rename = sdf.format(today) + "_" + rdn + "_" + oriEmail + ext;
 			try {
 				file.transferTo(new File(path + rename));// import java.io.File;
 			} catch (IllegalStateException e) {
@@ -109,12 +188,21 @@ public class MypageController {
 		return "redirect:/mypage/mypage.do";
 	}
 	
+	@RequestMapping("/updateTitle")
+	@ResponseBody
+	public void updateTitle(@RequestParam Map<Object, String> param) {
+		System.out.println("email : "+param.get("email")); // 계정 이메일
+		System.out.println("inputTitle : "+param.get("inputTitle")); 
+		int result = service.updateTitle(param);
+		
+	}
 	
-	@RequestMapping("PasswordCheck")
+	
+	@RequestMapping("/PasswordCheck")
 	@ResponseBody
 	public int PasswordCheck(@RequestParam Map<Object, String> param) {
-		System.out.println("email : "+param.get("email")); // 계정 이메일
-		System.out.println("inputPassword : "+param.get("inputPassword")); 
+//		System.out.println("email : "+param.get("email")); // 계정 이메일
+//		System.out.println("inputPassword : "+param.get("inputPassword")); 
 		int cnt = 0;
 		
 		// EMAIL : param-DB 매칭
@@ -127,7 +215,7 @@ public class MypageController {
 	
 	
 	//이메일 조회
-	@RequestMapping("emailCheck")
+	@RequestMapping("/emailCheck")
 	@ResponseBody
 	public Map<String, Object> emailCheck(@RequestParam Map<Object, String> param, HttpSession session) {
 		Map<String, Object> response = new HashMap<>();
@@ -157,7 +245,7 @@ public class MypageController {
 		return response;
 	}
 	
-	@RequestMapping("updatePassword")
+	@RequestMapping("/updatePassword")
 	@ResponseBody
 	public String updatePassword(@RequestParam Map<Object, String> param) {
 		System.out.println("email : "+param.get("email")); // 계정 이메일
@@ -177,7 +265,7 @@ public class MypageController {
 		return "redirect:/";
 	}
 	
-	// qna리스트 조회
+	// 새로고침 1 : qna리스트 조회 - 내가 쓴 목록만 가져오는 것으로 버전업 필요!
 	@RequestMapping("/qnaList")
 	@ResponseBody
 	public void qnaList(@RequestParam(value = "cPage", defaultValue = "1") int cPage, 
@@ -187,7 +275,7 @@ public class MypageController {
 	    session.setAttribute("qb", qb);
 	}
 	
-	// 커뮤니티리스트 조회
+	// 새로고침 2 : 커뮤니티리스트 조회 - 이용 쿼리 변경해서 내가 쓴 목록만 가져오는 것으로 버전업 필요!
 	@RequestMapping("/selectboardList")
 	@ResponseBody
 	public String selectboardList(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
@@ -223,33 +311,17 @@ public class MypageController {
 				b.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
 			}
 		}
-		
 		session.setAttribute("selectboardList", selectboardList);
-		return "/community/communityMain";
+		return "community/communityMain";
 	}
 	
-	// 포인트리스트 조회
+	// 새로고침 3 : 포인트리스트 조회
 	@RequestMapping("/pointList")
 	@ResponseBody
-	public void pointList(@RequestParam Map<Object, String> param, 
-	                    HttpSession session) {
+	public void pointList(HttpSession session) {
+		Map param = Map.of("email", ((Member) session.getAttribute("loginMember")).getEmail());
 		Member m = serviceMember.selectMemberById(param);
-		System.out.println(m);
 		session.setAttribute("loginMember", m);
 	}
+	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
