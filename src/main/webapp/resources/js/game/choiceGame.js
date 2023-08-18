@@ -73,7 +73,7 @@ $(function() {
 			audio.loop = true;
 			var audio2 = new Audio(path+"/resources/audio/adventure/rogeuin-hwamyeon.wav");
 			audio2.load();
-			audio2.volume = 0.08;
+			audio2.volume = 0.15;
 			audio2.loop = true;
 			audio2.play();
 			var audio3 = new Audio(path+"/resources/audio/adventure/실내 웅성웅성BG.wav");
@@ -430,7 +430,7 @@ $(function() {
 					$('#admap').attr("src", path+"/resources/images/game/adventure/그브트페싸움.jpg");
 					$('#adarrow').hide();
 					$('#adimg1').hide();
-					$('#namead').text('')
+					$('#namead').text('나레이션')
 					$('.typing').text('');
 					$('.typing-txt').text('우리는 그렇게 갱플포로의 작업장으로 갔다');
 					type();
@@ -615,7 +615,7 @@ $(function() {
 						$('#adarrow').show();
 					}, typingTxt.length * 40)
 				} else if (count == 207) {
-					$('#namead').text('');
+					$('#namead').text('나레이션');
 					$('#adimg4').hide();
 					$('#adimg3').hide();
 					$('#adarrow').hide();
@@ -764,7 +764,7 @@ $(function() {
 				} else if (count == 304) {
 					audio.play();
 					audio.loop = true;
-					$('#namead').text('');
+					$('#namead').text('나레이션');
 					$('#adimg3').hide();
 					$('#adarrow').hide();
 					$('.typing').text('');
@@ -796,7 +796,7 @@ $(function() {
 				} else if (count == 306) {
 					audio.play();
 					audio.loop = true;
-					$('#namead').text('');
+					$('#namead').text('나레이션');
 					$('#adimg4').hide();
 					$('#adarrow').hide();
 					$('.typing').text('');
@@ -831,7 +831,7 @@ $(function() {
 				} else if (count == 501) {
 					audio.play();
 					audio.loop = true;
-					$('#namead').text('');
+					$('#namead').text('나레이션');
 					$('#adarrow').hide();
 					$('.typing').text('');
 					$('.typing-txt').text('작업장에 남아있던 김포로는 갱플포로의 부하들에게 잡혀 감옥에 들어가 고문을 당했다.');
@@ -912,7 +912,7 @@ $(function() {
 				} else if (count == 603) {
 					audio.play();
 					audio.loop = true;
-					$('#namead').text('');
+					$('#namead').text('나레이션');
 					$('#adarrow').hide();
 					$('#adimg4').hide();
 					$('.typing').text('');
@@ -974,7 +974,7 @@ $(function() {
 				} else if (count == 607) {
 					audio.play();
 					audio.loop = true;
-					$('#namead').text('');
+					$('#namead').text('나레이션');
 					$('#adarrow').hide();
 					$('#adimg2').hide();
 					$('.typing').text('');
@@ -1021,7 +1021,7 @@ $(function() {
 					$('#admap').css('opacity', '1');
 					$('#adchoice').hide();
 					$('.typing').text('');
-					$('#namead').text('');
+					$('#namead').text('나레이션');
 					$('.typing-txt').text('김포로는 말리려다 총을 대신 맞아버렸다... THE END................')
 					audio7.play();
 					type();
@@ -1099,7 +1099,7 @@ $(function() {
 					$('#admap').css('opacity', '1');
 					$('#adchoice').hide();
 					$('.typing').text('');
-					$('#namead').text('');
+					$('#namead').text('나레이션');
 					audio3.play();
 					audio3.loop = true;
 					$('.typing-txt').text('웅성웅성웅성웅성웅성웅성')
