@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import gg.lolco.model.service.ChampPredictService;
-import gg.lolco.model.service.MemberService;
 import gg.lolco.model.vo.Member;
 
 @Controller
@@ -20,12 +20,9 @@ import gg.lolco.model.vo.Member;
 public class ChampPredictController {
 	
 	private final ChampPredictService service;
-	private final MemberService memberService;
 	
-	public ChampPredictController(
-			ChampPredictService service, MemberService memberService) {
+	public ChampPredictController(ChampPredictService service) {
 		this.service = service;
-		this.memberService = memberService;
 	}
 	
 	@GetMapping("/predict_home")
@@ -34,7 +31,12 @@ public class ChampPredictController {
 		return "/champion_predict/predict_home";
 	}
 	
-	@PostMapping("/predict_play")
+	@GetMapping("/predict_experience")
+	public String predictExperience() {
+		return "/champion_predict/predict_experience";
+	}
+	
+	@GetMapping("/predict_play")
 	public String predictPlay(Model model, 
 			@SessionAttribute(name = "loginMember", required = false) Member member,
 			String homeTeam, String awayTeam, String matchDate) 
@@ -60,16 +62,11 @@ public class ChampPredictController {
 	}
 	
 	@PostMapping("/predict_submit")
-	public String predictSubmit(Model model,
+	@ResponseBody
+	public Integer predictSubmit(Model model,
 			@SessionAttribute(name = "loginMember", required = false) Member member,
 			@RequestParam List<String> list, String homeTeam, String awayTeam, String matchDate)
 	{	
-		if(member == null) {
-			model.addAttribute("msg", "로그인 후 이용가능합니다.");
-			model.addAttribute("loc", "/member/loginPage");
-			return "/common/msg";
-		}
-		
 		service.updatePlayYn(member.getEmail());
 		
 		Map<String, String> perdictMap = 
@@ -77,10 +74,12 @@ public class ChampPredictController {
 		
 		service.insertChampPredict(perdictMap);
 		
+		int result = 0;
+		
 		for(String banpick : list) {
-			service.insertBanpickPredict(Map.of("banpick", banpick));	
+			result = service.insertBanpickPredict(Map.of("banpick", banpick));
 		}
 		
-		return "redirect:/";
+		return result;
 	}
 }

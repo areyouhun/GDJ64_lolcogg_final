@@ -30,7 +30,6 @@ import com.opencsv.exceptions.CsvException;
 
 import gg.lolco.model.service.ChampPredictService;
 import gg.lolco.model.service.CommunityService;
-import gg.lolco.model.service.MemberService;
 import gg.lolco.model.service.SchedulerService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +41,6 @@ public class CrawlingScheduler {
 	private final CommunityService commuService;
 	private final ChampPredictService predictService;
 	private final ServletContext context;
-	private final MemberService memberService;
 	
 	private final Map<String, String> PARSE_TEAM_NAME = Map.of(
 			"Gen.G eSports", "GEN", "Dplus KIA", "DK", 

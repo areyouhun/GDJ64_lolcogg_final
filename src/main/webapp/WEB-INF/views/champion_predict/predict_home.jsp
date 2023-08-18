@@ -70,6 +70,9 @@
                             </span>
                         </div>
                     </c:if>
+                    <div class="experience">
+                        <button class="experience-btn">체험하기</button>
+                    </div>
 				</div>
             </div>
         </div>
@@ -80,33 +83,20 @@
 <!-- Your own script tag or JavaScript file -->
 <script>
     $(function(){
-        function sendPost(url, params) {
-            const $FORM = $('<form>').attr({
-                method: 'post',
-                action: url
-            }).appendTo('body');
-            
-            $.each(params, function(key, value) {
-                $('<input>').attr({
-                    type: 'hidden',
-                    name: key,
-                    value: value
-                }).appendTo($FORM);
-            });
-            $FORM.submit();
-        }
-
         $('.match').click(function() {
             if('${loginMember}' === '') {
                 alert('로그인 후 이용 가능합니다.');
                 return;
             }
-            const EMAIL = '${loginMember.email}';
+
             const HOME_TEAM = $(this).find('.home-team').text();
             const AWAY_TEAM = $(this).find('.away-team').text();
             const MATCH_DATE = $('.match-date').text();
-            sendPost('${path}/champion_predict/predict_play', 
-                {homeTeam:HOME_TEAM, awayTeam:AWAY_TEAM, matchDate:MATCH_DATE});            
+            location.href = '${path}/champion_predict/predict_play?homeTeam=' + HOME_TEAM + '&awayTeam=' + AWAY_TEAM + '&matchDate=' + MATCH_DATE;            
+        });
+
+        $('.experience-btn').click(function() {
+            location.href = '${path}/champion_predict/predict_experience';
         });
     });
 </script>

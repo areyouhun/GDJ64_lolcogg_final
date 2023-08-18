@@ -35,7 +35,8 @@
 
 .match:hover {
     cursor: pointer;
-    background-color: var(--kjh-gray-darker);;
+    background-color: var(--kjh-gray-darker);
+    border-radius: 25px;
 }
 
 .match-team {
@@ -69,6 +70,26 @@
 .match-date {
     font-size: 2.25rem;
     margin-bottom: 25px;
+}
+
+.experience {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.experience-btn {
+    font-size: 1.5rem;
+    font-family: "EF_MACHO";
+    border-style: none;
+    color: var(--lol-white);
+    background-color: var(--bg-gray);
+}
+
+.experience-btn {
+    cursor: pointer;
 }
 
 /* 챔피언 밴픽 */
@@ -164,12 +185,14 @@
     pointer-events: none;
 }
 
+.return-btn,
 .submit-btn,
 .choice-btn {
     display: flex;
     justify-content: center;
 }
 
+.return-btn button,
 .submit-btn button,
 .choice-btn button {
     color: var(--lol-black);
@@ -197,21 +220,80 @@
     width: 36px;
 }
 
+.bgm-icon:hover {
+    cursor: pointer;
+}
+
 #timer {
     width: 100%;
     display: flex;
     justify-content: center;
     font-family: "EF_MACHO";
-    font-size: 2rem;
+    font-size: 3rem;
 }
 
-/* #progressBar {
-    width: 100%;
-    height: 30px;
+.banpick-img-box img,
+.champion-img {
+    animation: fadein 2s;
+    -moz-animation: fadein 2s;
+    /* Firefox */
+    -webkit-animation: fadein 2s;
+    /* Safari and Chrome */
+    -o-animation: fadein 2s;
+    /* Opera */
 }
 
-#fillerBar {
-    height: 100%;
-    background-color: #1374A2;
-    transition: width 1s linear;
-} */
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadein {
+
+    /* Firefox */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadein {
+
+    /* Safari and Chrome */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadein {
+
+    /* Opera */
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* 체험 */
+.match-blue-team {
+    color: blue;
+}
+
+.match-red-team {
+    color: red;
+}

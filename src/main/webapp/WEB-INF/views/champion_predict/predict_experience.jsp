@@ -35,12 +35,10 @@
 
                 <div class="match" style="pointer-events:none">
                     <div class="match-team">
-                        <img src="${path}/resources/images/logo/${homeTeam}_small.png" alt="홈팀">
-                        <span class="home-team">${homeTeam}</span>
+                        <span class="match-blue-team">BLUE</span>
                     </div>
                     <div class="match-team">
-                        <span class="away-team">${awayTeam}</span>
-                        <img src="${path}/resources/images/logo/${awayTeam}_small.png" alt="어웨이팀">
+                        <span class="match-red-team">RED</span>
                     </div>
                 </div>
 
@@ -67,8 +65,8 @@
                         <div class="choice-btn">
                             <button>챔피언 선택</button>
                         </div>
-                        <div class="submit-btn">
-                            <button>제출하기</button>
+                        <div class="return-btn">
+                            <button>돌아가기</button>
                         </div>
                         <div class="champion-area"></div>
                     </div>
@@ -84,36 +82,27 @@
 <!-- Your own script tag or JavaScript file -->
 <script>
     $(function() {
-        $('.submit-btn').hide();
+        $('.return-btn').hide();
 
-        // function sendPost(url, params) {
-        //     const $FORM = $('<form>').attr({
-        //         method: 'post',
-        //         action: url
-        //     }).appendTo('body');
+        function sendPost(url, params) {
+            const $FORM = $('<form>').attr({
+                method: 'post',
+                action: url
+            }).appendTo('body');
             
-        //     $.each(params, function(key, value) {
-        //         $('<input>').attr({
-        //             type: 'hidden',
-        //             name: key,
-        //             value: value
-        //         }).appendTo($FORM);
-        //     });
-        //     $FORM.submit();
-        // }
+            $.each(params, function(key, value) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: key,
+                    value: value
+                }).appendTo($FORM);
+            });
+            $FORM.submit();
+        }
 
 
-
-        $('.submit-btn button').click(function() {
-            $.ajax({
-                url:'${path}/champion_predict/predict_submit',
-                type:'POST',
-                data:{list:banpickArray.join(','),homeTeam:'${homeTeam}',awayTeam:'${awayTeam}',matchDate:'${matchDate}'},
-                complete: (data) => {
-                    alert('참여 완료!');
-                    location.replace('${path}/champion_predict/predict_home');
-                }
-            })
+        $('.return-btn button').click(function() {
+            location.href = '${path}/champion_predict/predict_home';
         });
 
         let banpickArray = [];
@@ -202,7 +191,7 @@
                     if($('.selected').length === 10) {
                         clearInterval(intervalTimer);
                         $('.choice-btn').hide();
-                        $('.submit-btn').show();
+                        $('.return-btn').show();
                         $('#timer').text('종료');
                         let selectArr = $('.select');
 
