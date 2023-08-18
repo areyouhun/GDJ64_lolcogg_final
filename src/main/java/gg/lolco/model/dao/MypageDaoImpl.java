@@ -1,9 +1,14 @@
 package gg.lolco.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+
+import gg.lolco.model.vo.QaBoard;
 
 @Repository
 public class MypageDaoImpl implements MypageDao {

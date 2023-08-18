@@ -27,8 +27,10 @@
                         <input type="password" class ="ff-suit" placeholder="비밀번호" name="password">
                     </div>
                     <div class="autoLoginBox">
-                        <input id="saveId" type="checkbox" value="">
-                        <p class=" fs-15 ff-suit color-white">아이디 저장</p>
+						<input id="saveId" type="checkbox" value="">
+						<p class="fs-15 ff-suit color-white">
+						    <label for="saveId">아이디 저장</label>
+						</p>
                     </div>
                     <div class="loginButton">
                         <input type="submit" class ="ff-suit fw-bold" value="로그인">

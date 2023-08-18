@@ -4,6 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -17,9 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import gg.lolco.model.service.CommunityService;
 import gg.lolco.model.service.MemberService;
 import gg.lolco.model.service.MypageService;
+import gg.lolco.model.service.QnaService;
+import gg.lolco.model.vo.CommunityBoard;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.QaBoard;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -29,12 +38,18 @@ public class MypageController {
 	
 	private final MypageService service;
 	private MemberService serviceMember;
-	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	private QnaService serviceQna;
+	private CommunityService serviceCommunity;
 
-	public MypageController(MypageService service, MemberService serviceMember) {
+	public MypageController(MypageService service, MemberService serviceMember, 
+							QnaService serviceQna, CommunityService serviceCommunity) {
 		this.service = service;
 		this.serviceMember = serviceMember;
+		this.serviceQna = serviceQna;
+		this.serviceCommunity = serviceCommunity;
 	}
+
+	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
 	@RequestMapping("updateAbbrTeam")
 	@ResponseBody
@@ -129,6 +144,66 @@ public class MypageController {
 		return "redirect:/";
 	}
 	
+	// qna리스트 조회
+	@RequestMapping("/qnaList")
+	@ResponseBody
+	public void qnaList(@RequestParam(value = "cPage", defaultValue = "1") int cPage, 
+	                    @RequestParam(value = "numPerpage", defaultValue = "100") int numPerpage, 
+	                    HttpSession session) {
+	    List<QaBoard> qb = serviceQna.selectQnaListAll(Map.of("cPage", cPage, "numPerpage", numPerpage));
+	    session.setAttribute("qb", qb);
+	}
+	
+	// 커뮤니티리스트 조회
+	@RequestMapping("/selectboardList")
+	@ResponseBody
+	public String selectboardList(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "100") int numPerpage, HttpSession session) {
+
+		List<CommunityBoard> selectboardList = serviceCommunity
+				.selectboardList(Map.of("cPage", cPage, "numPerpage", numPerpage));
+//		int totalData = serviceCommunity.selectBoardCount();
+
+		// 이 부분에서는 현재 시간을 LocalDateTime 으로가져오기
+		LocalDateTime now = LocalDateTime.now();
+
+		// 리스트 반복문
+		for (CommunityBoard b : selectboardList) {
+			// 현재 게시글의 작성 시간을 LocalDateTime 형태로 가져오고 있습니다.
+			LocalDateTime boardDate = b.getCmBoardDate();
+
+			// 게시글의 작성 시간과 현재 시간 사이의 차이를 Duration 객체로 가져기
+			Duration duration = Duration.between(boardDate, now);
+
+			// 시간의 차이를 분 단위로 변환후 diffMinutes에 저장
+			long diffMinutes = duration.toMinutes();
+			// 분기준
+			if (diffMinutes == 0) {
+				b.setTimeDifference("방금 전");
+			} else if (diffMinutes < 60) {
+				b.setTimeDifference(diffMinutes + "분 전");
+
+				// 하루기준
+			} else if (diffMinutes < 24 * 60) {
+				b.setTimeDifference(duration.toHours() + "시간 전");
+			} else {
+				b.setTimeDifference(boardDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+			}
+		}
+		
+		session.setAttribute("selectboardList", selectboardList);
+		return "/community/communityMain";
+	}
+	
+	// 포인트리스트 조회
+	@RequestMapping("/pointList")
+	@ResponseBody
+	public void pointList(@RequestParam Map<Object, String> param, 
+	                    HttpSession session) {
+		Member m = serviceMember.selectMemberById(param);
+		System.out.println(m);
+		session.setAttribute("loginMember", m);
+	}
 }
 
 

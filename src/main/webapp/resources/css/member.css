@@ -371,6 +371,7 @@ display: none;
     background-color: var(--lol-white); /* 호버 시 배경색 변경 */
     color: var(--lol-black); /* 호버 시 글자색 변경 */
     font-weight: bold;
+    transition: background-color 0.2s, color 0.2s;
 }
 /* LCK 응원팀 */
 .myInfo>.abbrTeam{
@@ -378,8 +379,9 @@ display: none;
     margin-right: 11em;
 }
 .myInfo>.abbrTeam>:nth-child(2){
-    margin-top: 0.5em;
+    margin-top: 1.5em;
     margin-left: 0.5em;
+    margin-bottom: 1.5em;
 }
 /* .abbrCheckBoxRows2{
     display: block;
@@ -403,23 +405,31 @@ display: none;
 
 /* 내 활동 목록 */
 .myInfo>.historyBox{
-    margin-top: 3em;
+    margin-top: 2em;
     margin-right: 11em;
+}
+.myInfo > .historyBox > :nth-child(1) {
+	margin-top : 0.5em;
+	margin-left: 0.5em;
+	margin-bottom: 0.5em;
 }
 .historyBox>.buttonList{
     display: flex;
 }
+.historyBox>.myPointHistory{
+    display: none;
+}
 .historyBox>.myCommunityHistory{
-
+    display: none;
 }
 .historyBox>.myQuaHistory{
     display: none;
 }
-.historyBox>.myPointHistory{
-    display: none;
+.historyBox>.buttonList>p:nth-child(2){
+    margin-left: 2em;
 }
 .historyBox>.buttonList>p{
-    margin-left: 0.6em;
+    margin-left: 2em;
 }
 .historyBox>.buttonList>:nth-child(4){
     margin-top: 2em;

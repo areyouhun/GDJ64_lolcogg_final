@@ -10,309 +10,6 @@
 <title>내 정보</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="navBgColor" value="nav-black"/>
-</jsp:include>
-    <section>
-        <div class="center-1280 background-img mainpage mainHeight">
-            <div class="width-1280 page-margin ">
-                <div class="myInfo">
-                    <div class="">
-                        <p class="subTitle fs-20">profile</p>
-                        <p class="color-white ff-macho fs-35">내 정보</p>
-                    </div>
-                    <div class="profileMain">
-                        <div class="">
-                        	<c:if test="${loginMember.profile != null && not empty loginMember.password && loginMember.password.contains('로그인')}"><!-- 소셜 로그인 -->
-								<img src="${loginMember.profile}"
-			                    	width="130px" height="130px" style="border-radius: 65px;">
-							</c:if>
-							<c:if test="${loginMember.profile != null && not empty loginMember.password && !loginMember.password.contains('로그인')}"><!-- 일반 로그인 -->
-								<img src="${path}/resources/upload/profile/${loginMember.profile}"
-			                    	width="130px" height="130px" style="border-radius: 65px;">
-							</c:if>
-							<c:if test="${loginMember.profile==null}"> <!-- 프로필 미등록 -->
-								<img src="${path}/resources/images/common/favicon-original.png"
-			                    	width="130px" height="130px" style="border-radius: 65px;">
-							</c:if>
-                            <p class="color-white ff-macho fs-15">나의 추천인 코드</p>
-                            <p class="color-white ff-suit fs-15">[${loginMember.myReferralCode }]</p>
-                        </div>
-                        <div class="">
-                        	<c:if test="${loginMember.teamAbbr!=null  }">
-                            <div class="abbrImgBox">
-                                <img src="${path}/resources/images/member/enroll_logo/" alt="" width="40px" height="40px"><!-- JS value -->
-                                <p class="color-white ff-suit">${loginMember.teamAbbr }을 응원합니다!</p>
-                            </div>
-                        	</c:if>
-                        	<c:if test="${loginMember.teamAbbr==null  }">
-                                <p class="color-white ff-suit fw-bold"> &nbsp;'LCK 응원팀'을 선택해보세요!</p>
-                        	</c:if>
-                            <div>
-	                            <p class="color-white ff-macho fs-20">${loginMember.nickname }</p>
-	                            <a href="${path}/store/detail?name=닉네임%20변경권" class="color-white ff-suit fs-10">닉네임 변경권 구매하기</a>
-                            </div>
-                            <div class="">
-                                <img src="/resources/images/store/pointImg.png" alt="" width="30px" height="30px">
-                                <p class="color-white ff-macho fs-15 fw-bold">${loginMember.totalPoints }</p>
-                            </div>
-                        </div>
-                        <div class="tierBox">
-                            <div class="tierImageBox">
-                                <div class="">
-                                    <p class="color-white ff-macho fs-15">현재 티어</p>
-                                    <img src="${path}/resources/images/tier/${loginMember.tier.tierRulesNo.tierRulesImage}" alt="" width="100px" height="50px">
-                                </div>
-                                <div class="">
-                                    <p class="color-white ff-macho fs-15">다음 티어</p>
-                                    <img src="${path}/resources/images/tier/" alt="" width="100px" height="50px"><!-- JS value -->
-                                </div>
-                            </div>    
-                            <div class="tierGazeBox">
-								<p class="color-white ff-suit fs-15" ></p><!-- JS value-->
-                                <div class="tierGazeWhole"></div>
-                                <div class="tuerGazeStatus"></div>
-                                <div class="tierGazeState">
-                                    <p class="color-white ff-suit fs-10">[${loginMember.tier.tierRulesNo.tierRulesExpState}](${loginMember.tier.tierRulesNo.tierRulesName})</p>
-                                    <p class="color-white ff-suit fs-10">[${loginMember.tier.tierRulesNo.tierRulesExpEnd+1}]</p>
-                                </div>
-                                <div class="buttonBox2">
-                                    <button class="mypageButton ff-suit fs-15" id="showModalButton">프로필이미지 변경</button>
-                                    <button class="mypageButton ff-suit fs-15" id="passwordModalButton">비밀번호 변경</button>
-                                    <button class="mypageButton ff-suit fs-15" id="withdrawModalButton">회원탈퇴</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="abbrTeam">
-                        <hr>
-                        <p class="color-white ff-suit fw-bold fs-20">LCK 응원팀</p>
-                        <div class="abbrCheckBox2">
-                            <div class="abbrCheckBoxRow2">
-                                <div class="abbrCheckBox2">
-                                    <img src="${path}/resources/images/member/enroll_logo/dplus_logo_white.png" alt="" width="35px" height="35px">
-                                    <label class="line">
-                                        <input type="radio" name="abbr" value="DK" checked>
-                                        <span class="color-white ff-suit abbrName">DK</span>
-                                    </label>
-                                </div>
-                                <div class="abbrCheckBox2">
-                                    <img src="${path}/resources/images/member/enroll_logo/brion_logo_small.png" alt="" width="35px" height="35px">
-                                    <label class="line">
-                                        <input type="radio" name="abbr" value="BRO" >
-                                        <span class="color-white ff-suit abbrName">BRO</span>
-                                    </label>
-                                </div>
-                                <div class="abbrCheckBox2">
-                                    <img src="${path}/resources/images/member/enroll_logo/redforce_logo_small.png" alt="" width="35px" height="35px">
-                                    <label class="line">
-                                        <input type="radio" name="abbr" value="NS" >
-                                        <span class="color-white ff-suit abbrName">NS</span>
-                                    </label>
-                                </div>
-                                <div class="abbrCheckBox2">
-                                    <img src="${path}/resources/images/member/enroll_logo/geng_logo_small.png" alt="" width="35px" height="35px">
-                                    <label class="line">
-                                        <input type="radio" name="abbr" value="GEN" >
-                                        <span class="color-white ff-suit abbrName">GEN</span>
-                                    </label>
-                                </div>
-                                <div class="abbrCheckBox2">
-                                    <img src="${path}/resources/images/member/enroll_logo/t1_logo_small.png" alt="" width="35px" height="35px">
-                                    <label class="line">
-                                        <input type="radio" name="abbr" value="T1" >
-                                        <span class="color-white ff-suit abbrName">T1</span>
-                                    </label>
-                                </div>
-                                <div class="abbrCheckBox2">
-                                    <img src="${path}/resources/images/member/enroll_logo/hanwha_logo_small.png" alt="" width="35px" height="35px">
-                                    <label class="line">
-                                        <input type="radio" name="abbr" value="HLE" >
-                                        <span class="color-white ff-suit abbrName">HLE</span>
-                                    </label>
-                                </div>
-                                <div class="abbrCheckBox2">
-                                    <img src="${path}/resources/images/member/enroll_logo/freecs_logo_small.png" alt="" width="35px" height="35px">
-                                    <label class="line">
-                                        <input type="radio" name="abbr" value="KDF" >
-                                        <span class="color-white ff-suit abbrName">KDF</span>
-                                    </label>
-                                </div>
-                                <div class="abbrCheckBox2">
-                                    <img src="${path}/resources/images/member/enroll_logo/drx_logo_small.png" alt="" width="33px" height="35px">
-                                    <label class="line">
-                                        <input type="radio" name="abbr" value="DRX" >
-                                        <span class="color-white ff-suit abbrName">DRX</span>
-                                    </label>
-                                </div>
-                                <div class="abbrCheckBox2">
-                                    <img src="${path}/resources/images/member/enroll_logo/kt_logo_small.png" alt="" width="35px" height="35px">
-                                    <label class="line">
-                                        <input type="radio" name="abbr" value="KT" >
-                                        <span class="color-white ff-suit abbrName">KT</span>
-                                    </label>
-                                </div>
-                                <div class="abbrCheckBox2">
-                                    <img src="${path}/resources/images/member/enroll_logo/sandbox_logo_small.png" alt="" width="35px" height="35px">
-                                    <label class="line">
-                                        <input type="radio" name="abbr" value="LSB" >
-                                        <span class="color-white ff-suit abbrName">LSB</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="buttonBox3">
-                                <button class="mypageButton ff-suit fs-15 changeAbbrTeam">응원팀 선택</button>
-                            </div>   
-                        </div>
-                        <hr>
-                    </div>
-                    <div class="historyBox">
-                        <div class="buttonList">
-                            <p class="color-white fw-bold ff-suit mypageButton fs-20 communityButton"> 커뮤니티</p>
-                            <p class="color-white fw-bold ff-suit mypageButton fs-20 QnAButton"> QnA</p>
-                            <p class="color-white fw-bold ff-suit mypageButton fs-20 pointButton"> 포인트</p>
-                            <p class="color-white fw-suit fs-15">(*최근 5건)</p>
-                        </div>
-                        <div class="myCommunityHistory">
-                            <table class="qnaTable">
-                                <tr>
-                                    <th class="color-white content fs-20">번호</th>
-                                    <th class="color-white content fs-20">제목</th>
-                                    <th class="color-white content fs-20">작성자</th>
-                                    <th class="color-white content fs-20">등록일</th>
-                                    <th class="color-white content fs-20">상태</th>
-                                </tr>
-                                <!-- <c:if test="${not empty qb }">
-                                    <c:forEach var="qna" items="${qb }">
-                                        <tr>
-                                            <td class="color-white content fs-20">${qna.qaNo }</td>
-                                            <td class="color-white content fs-20 tableTitle">
-                                                <a href="${path }/qna/qnaView?no=${qna.qaNo}">${qna.qaTitle }</a>
-                                                <img src="${path }/resources/images/qna/lock.png" style="width: 15px; height: 15px;">
-                                            </td>
-                                            <td class="color-white content fs-20">${qna.qaWriter==null ? "탈퇴한 회원" : qna.qaWriter.nickname }</td>
-                                            <td class="color-white content fs-20">${qna.qaDate }</td>
-                                            <td class="color-white content fs-20">
-                                           <%--  <p class='content'>${qna.qaComment}</p> --%>
-                                           <c:set var="doneLoop" value="false" />
-                                                <c:forEach var="c" items="${qna.qaComment}" varStatus="status">
-                                                    <%-- <p class='content'>${c.qaNo }</p> --%>
-                                                    <c:if test="${not doneLoop}"> 
-                                                        <c:if test="${c.qaCommentNo != 0 }"> 
-                                                            <c:set var="doneLoop" value="true"/> 
-                                                            <button class="qnaBtn comBtn" disabled>답변완료</button>
-                                                        </c:if> 
-                                                    </c:if> 
-                                                    <c:if test="${c.qaCommentNo == 0 }">
-                                                        <button class="qnaBtn" disabled>답변대기</button>
-                                                    </c:if>
-                                                </c:forEach>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </c:if> -->
-                                <c:if test="${empty qb }">
-                                    <tr>
-                                        <td class="color-white content fs-20" colspan="5" style="height:400px">조회된 커뮤니티 내역이 없습니다.</td>
-                                    <tr>
-                                </c:if>
-                            </table>   
-                        </div>
-                        <div class="myQuaHistory">
-                            <table class="qnaTable">
-                                <tr>
-                                    <th class="color-white content fs-20">번호</th>
-                                    <th class="color-white content fs-20">제목</th>
-                                    <th class="color-white content fs-20">작성자</th>
-                                    <th class="color-white content fs-20">등록일</th>
-                                    <th class="color-white content fs-20">상태</th>
-                                </tr>
-                                <!-- <c:if test="${not empty qb }">
-                                    <c:forEach var="qna" items="${qb }">
-                                        <tr>
-                                            <td class="color-white content fs-20">${qna.qaNo }</td>
-                                            <td class="color-white content fs-20 tableTitle">
-                                                <a href="${path }/qna/qnaView?no=${qna.qaNo}">${qna.qaTitle }</a>
-                                                <img src="${path }/resources/images/qna/lock.png" style="width: 15px; height: 15px;">
-                                            </td>
-                                            <td class="color-white content fs-20">${qna.qaWriter==null ? "탈퇴한 회원" : qna.qaWriter.nickname }</td>
-                                            <td class="color-white content fs-20">${qna.qaDate }</td>
-                                            <td class="color-white content fs-20">
-                                           <%--  <p class='content'>${qna.qaComment}</p> --%>
-                                           <c:set var="doneLoop" value="false" />
-                                                <c:forEach var="c" items="${qna.qaComment}" varStatus="status">
-                                                    <%-- <p class='content'>${c.qaNo }</p> --%>
-                                                    <c:if test="${not doneLoop}"> 
-                                                        <c:if test="${c.qaCommentNo != 0 }"> 
-                                                            <c:set var="doneLoop" value="true"/> 
-                                                            <button class="qnaBtn comBtn" disabled>답변완료</button>
-                                                        </c:if> 
-                                                    </c:if> 
-                                                    <c:if test="${c.qaCommentNo == 0 }">
-                                                        <button class="qnaBtn" disabled>답변대기</button>
-                                                    </c:if>
-                                                </c:forEach>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </c:if> -->
-                                <c:if test="${empty qb }">
-                                    <tr>
-                                        <td class="color-white content fs-20" colspan="5" style="height:400px">조회된  QnA 내역이 없습니다.</td>
-                                    <tr>
-                                </c:if>
-                            </table>   
-                        </div>
-                        <div class="myPointHistory">
-                            <table class="qnaTable">
-                                <tr>
-                                    <th class="color-white content fs-20">번호</th>
-                                    <th class="color-white content fs-20">제목</th>
-                                    <th class="color-white content fs-20">작성자</th>
-                                    <th class="color-white content fs-20">등록일</th>
-                                    <th class="color-white content fs-20">상태</th>
-                                </tr>
-                                <!-- <c:if test="${not empty qb }">
-                                    <c:forEach var="qna" items="${qb }">
-                                        <tr>
-                                            <td class="color-white content fs-20">${qna.qaNo }</td>
-                                            <td class="color-white content fs-20 tableTitle">
-                                                <a href="${path }/qna/qnaView?no=${qna.qaNo}">${qna.qaTitle }</a>
-                                                <img src="${path }/resources/images/qna/lock.png" style="width: 15px; height: 15px;">
-                                            </td>
-                                            <td class="color-white content fs-20">${qna.qaWriter==null ? "탈퇴한 회원" : qna.qaWriter.nickname }</td>
-                                            <td class="color-white content fs-20">${qna.qaDate }</td>
-                                            <td class="color-white content fs-20">
-                                           <%--  <p class='content'>${qna.qaComment}</p> --%>
-                                           <c:set var="doneLoop" value="false" />
-                                                <c:forEach var="c" items="${qna.qaComment}" varStatus="status">
-                                                    <%-- <p class='content'>${c.qaNo }</p> --%>
-                                                    <c:if test="${not doneLoop}"> 
-                                                        <c:if test="${c.qaCommentNo != 0 }"> 
-                                                            <c:set var="doneLoop" value="true"/> 
-                                                            <button class="qnaBtn comBtn" disabled>답변완료</button>
-                                                        </c:if> 
-                                                    </c:if> 
-                                                    <c:if test="${c.qaCommentNo == 0 }">
-                                                        <button class="qnaBtn" disabled>답변대기</button>
-                                                    </c:if>
-                                                </c:forEach>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </c:if> -->
-                                <c:if test="${empty qb }">
-                                    <tr>
-                                        <td class="color-white content fs-20" colspan="5" style="height:400px">조회된 포인트 내역이 없습니다.</td>
-                                    <tr>
-                                </c:if>
-                            </table>
-                        </div>
-                    </div>                            
-                </div>
-            </div>
-        </div>
-    </section>
 <!-- 모달창 - 프로필이미지 변경 -->
 <div class="modal-background" id="profileModalBackground">
     <div class="modal" id="myModal">
@@ -399,28 +96,416 @@
         </div>
     </div>
 </div>
+
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+	<jsp:param name="navBgColor" value="nav-black"/>
+</jsp:include>
+    <section>
+        <div class="center-1280 background-img mainpage mainHeight">
+            <div class="width-1280 page-margin ">
+                <div class="myInfo">
+                    <div class="">
+                        <p class="subTitle fs-20">profile</p>
+                        <p class="color-white ff-macho fs-35">내 정보</p>
+                    </div>
+                    <div class="profileMain">
+                        <div class="">
+                        	<c:if test="${loginMember.profile != null && not empty loginMember.password && loginMember.password.contains('로그인')}"><!-- 소셜 로그인 -->
+								<img src="${loginMember.profile}"
+			                    	width="130px" height="130px" style="border-radius: 65px;">
+							</c:if>
+							<c:if test="${loginMember.profile != null && not empty loginMember.password && !loginMember.password.contains('로그인')}"><!-- 일반 로그인 -->
+								<img src="${path}/resources/upload/profile/${loginMember.profile}"
+			                    	width="130px" height="130px" style="border-radius: 65px;">
+							</c:if>
+							<c:if test="${loginMember.profile==null}"> <!-- 프로필 미등록 -->
+								<img src="${path}/resources/images/common/favicon-original.png"
+			                    	width="130px" height="130px" style="border-radius: 65px;">
+							</c:if>
+                            <p class="color-white ff-macho fs-15">나의 추천인 코드</p>
+                            <p class="color-white ff-suit fs-15">[${loginMember.myReferralCode }]</p>
+                        </div>
+                        <div class="">
+                        	<c:if test="${loginMember.teamAbbr!=null  }">
+                            <div class="abbrImgBox">
+                                <img src="${path}/resources/images/member/enroll_logo/" alt="" width="40px" height="40px"><!-- JS value -->
+                                <p class="color-white ff-suit">${loginMember.teamAbbr }을 응원합니다!</p>
+                            </div>
+                        	</c:if>
+                        	<c:if test="${loginMember.teamAbbr==null  }">
+                                <p class="color-white ff-suit fw-bold"> &nbsp;'LCK 응원팀'을 선택해보세요!</p>
+                        	</c:if>
+                            <div>
+	                            <p class="color-white ff-macho fs-20">${loginMember.nickname }</p>
+	                            <a href="${path}/store/detail?name=닉네임%20변경권" class="color-white ff-suit fs-10">닉네임 변경권 구매하기</a>
+                            </div>
+                            <div class="">
+                                <img src="/resources/images/store/pointImg.png" alt="" width="30px" height="30px">
+                                <p class="color-white ff-macho fs-15 fw-bold">${loginMember.totalPoints }</p>
+                            </div>
+                        </div>
+                        <div class="tierBox">
+                            <div class="tierImageBox">
+                                <div class="">
+                                    <p class="color-white ff-macho fs-15">현재 티어</p>
+                                    <img src="${path}/resources/images/tier/${loginMember.tier.tierRulesNo.tierRulesImage}" alt="" width="100px" height="50px">
+                                </div>
+                                <div class="">
+                                    <p class="color-white ff-macho fs-15">다음 티어</p>
+                                    <img src="${path}/resources/images/tier/" alt="" width="100px" height="50px"><!-- JS value -->
+                                </div>
+                            </div>    
+                            <div class="tierGazeBox">
+								<p class="color-white ff-suit fs-15" ></p><!-- JS value-->
+                                <div class="tierGazeWhole"></div>
+                                <div class="tuerGazeStatus"></div>
+                                <div class="tierGazeState">
+                                    <p class="color-white ff-suit fs-10">[${loginMember.tier.tierRulesNo.tierRulesExpState}](${loginMember.tier.tierRulesNo.tierRulesName})</p>
+                                    <p class="color-white ff-suit fs-10">[${loginMember.tier.tierRulesNo.tierRulesExpEnd+1}]</p>
+                                </div>
+                                <div class="buttonBox2">
+                                    <button class="mypageButton ff-suit fs-15" id="showModalButton">프로필이미지 변경</button>
+                                    <button class="mypageButton ff-suit fs-15" id="passwordModalButton">비밀번호 변경</button>
+                                    <button class="mypageButton ff-suit fs-15" id="withdrawModalButton">회원탈퇴</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="abbrTeam">
+                        <hr>
+                        <p class="color-white ff-macho fw-bold fs-20">LCK 응원팀</p>
+                        <div class="abbrCheckBox2">
+                            <div class="abbrCheckBoxRow2">
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/dplus_logo_white.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="DK" checked>
+                                        <span class="color-white ff-suit abbrName">DK</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/brion_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="BRO" >
+                                        <span class="color-white ff-suit abbrName">BRO</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/redforce_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="NS" >
+                                        <span class="color-white ff-suit abbrName">NS</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/geng_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="GEN" >
+                                        <span class="color-white ff-suit abbrName">GEN</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/t1_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="T1" >
+                                        <span class="color-white ff-suit abbrName">T1</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/hanwha_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="HLE" >
+                                        <span class="color-white ff-suit abbrName">HLE</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/freecs_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="KDF" >
+                                        <span class="color-white ff-suit abbrName">KDF</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/drx_logo_small.png" alt="" width="33px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="DRX" >
+                                        <span class="color-white ff-suit abbrName">DRX</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/kt_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="KT" >
+                                        <span class="color-white ff-suit abbrName">KT</span>
+                                    </label>
+                                </div>
+                                <div class="abbrCheckBox2">
+                                    <img src="${path}/resources/images/member/enroll_logo/sandbox_logo_small.png" alt="" width="35px" height="35px">
+                                    <label class="line">
+                                        <input type="radio" name="abbr" value="LSB" >
+                                        <span class="color-white ff-suit abbrName">LSB</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="buttonBox3">
+                                <button class="mypageButton ff-suit fs-15 changeAbbrTeam">응원팀 선택</button>
+                            </div>   
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="historyBox">
+                            <p class="color-white fw-bold ff-macho fs-20 "> 나의 활동</p>
+                        <div class="buttonList">
+                            <p class="color-white fw-bold ff-suit mypageButton fs-20 pointButton">포인트 획득/지출</p>
+                            <p class="color-white fw-bold ff-suit mypageButton fs-20 communityButton"> 커뮤니티</p>
+                            <p class="color-white fw-bold ff-suit mypageButton fs-20 QnAButton"> QnA</p>
+                        </div>
+                        <div class="myPointHistory">
+                            <table class="qnaTable">
+                                <tr>
+                                    <th class="color-white content fs-20">번호</th>
+                                    <th class="color-white content fs-20">종류</th>
+                                    <th class="color-white content fs-20">획득/이용처</th>
+                                    <th class="color-white content fs-20">내역</th>
+                                    <th class="color-white content fs-20">포인트</th>
+                                    <th class="color-white content fs-20">일자</th>
+                                </tr>
+                                <c:if test="${not empty loginMember.pointHistorys }">
+                                	<c:set var="hasMatch" value="false" />
+                                    <c:forEach var="point" items="${loginMember.pointHistorys }">
+		                                <c:if test="${point.pointHistroyNo != 0}">
+		                                	<c:set var="hasMatch" value="true" />
+	                                        <tr>
+	                                            <td class="color-white content fs-20">${point.pointHistroyNo }</td>
+	                                            <td class="color-white content fs-20">${point.phCategory.pcType }</td>
+	                                            <td class="color-white content fs-20">${point.phCategory.pcName }</td>
+	                                            <td class="color-white content fs-20">${point.phComment }</td>
+	                                            <c:choose>
+									                <c:when test="${point.phCategory.pcType == '지출'}">
+			                                            <td class="color-white content fs-20" style="color: skyblue;">-${point.phPoint }</td>
+									                </c:when>
+									                <c:when test="${point.phCategory.pcType == '획득'}">
+			                                            <td class="color-white content fs-20" style="color: lightcoral;">+${point.phPoint }</td>
+									                </c:when>
+									                <c:otherwise><td class="color-white content fs-20" >${point.phPoint }</td></c:otherwise>
+									            </c:choose>
+	                                            <td class="color-white content fs-20">${point.phDate }</td>
+	                                        </tr>
+		                                </c:if>
+                                    </c:forEach>
+                                    <!-- 조회된 나의 포인트 획득/지출 내역이 없는 경우 -->
+                                    <c:if test="${not hasMatch}">
+									    <tr>
+									        <td class="color-white content fs-20" colspan="6" style="height:200px">조회된 나의 포인트 내역이 없습니다.</td>
+									    <tr>
+								    </c:if>
+                                </c:if>
+                                <c:if test="${empty loginMember.pointHistorys }">
+                                    <tr>
+                                        <td class="color-white content fs-20" colspan="6" style="height:200px">조회된 포인트 내역이 없습니다.</td>
+                                    <tr>
+                                </c:if>
+                            </table>
+                        </div>
+                        <div class="myCommunityHistory">
+                            <table class="qnaTable">
+                                <tr>
+                                    <th class="color-white content fs-20">제목</th>
+                                    <th class="color-white content fs-20">작성자</th>
+                                    <th class="color-white content fs-20">경과시간</th>
+                                    <th class="color-white content fs-20">조회수</th>
+                                    <th class="color-white content fs-15">[버프ㅣ너프]</th>
+                                </tr>
+                                <c:if test="${not empty selectboardList }">
+                                	<c:set var="hasMatch" value="false" />
+                                    <c:forEach var="b" items="${selectboardList }">
+		                                <c:if test="${b.cmBoardWriter.nickname == loginMember.nickname}">
+	                                        <c:set var="hasMatch" value="true" />
+	                                        <tr>
+	                                            <td class="color-white content fs-15 tableTitle">
+													<a
+														href="${path }/community/boardDetails?cmBoardNo=${b.cmBoardNo}">
+														<div class="board-title-div">
+															<input type="hidden" value="cmBoardNo"> 
+															<span class="board-title">${b.cmBoardTitle }</span>
+															<c:if test="${b.cmBoardContent.contains('<img')}">
+																<span><img class="attachmenOn" src="${path }/resources/images/community/사진.png" alt="" height="20px"></span>
+															</c:if>
+															<c:if test="${b.cmVideoAddress.contains('https://www.youtube.com/')}">
+																<img class="attachmenOn" src="${path }/resources/images/community/영상.png" alt="" height="20px">
+															</c:if>
+															<c:if test="${b.c!=0 }">
+																<span class="comment fs-15">[${b.c }]</span>
+															</c:if>
+														</div>
+													</a>
+	                                            </td>
+	                                            <td class="color-white content fs-15">${b.cmBoardWriter.nickname }</td>
+	                                            <td class="color-white content fs-15">${b.timeDifference}</td>
+	                                            <td class="color-white content fs-15">${b.cmBoardReadCount }</td>
+	                                            <td class="color-white content fs-15">${b.b } ㅣ ${b.n }</td>
+	                                        </tr>
+                                    	</c:if>    
+                                    </c:forEach>
+                                    <!-- 조회된 나의 커뮤니티 활동이 없는 경우 -->
+                                    <c:if test="${not hasMatch}">
+									    <tr>
+									        <td class="color-white content fs-20" colspan="5" style="height:200px">조회된 나의 커뮤니티글 내역이 없습니다.</td>
+									    <tr>
+								    </c:if>
+                                </c:if>
+                                <c:if test="${empty selectboardList }">
+                                    <tr>
+                                        <td class="color-white content fs-20" colspan="5" style="height:200px">조회된  커뮤니티 글이 없습니다.</td>
+                                    <tr>
+                                </c:if>
+                            </table>  
+                        </div>
+                        <div class="myQuaHistory">
+                            <table class="qnaTable">
+                                <tr>
+                                    <th class="color-white content fs-20">번호</th>
+                                    <th class="color-white content fs-20">제목</th>
+                                    <th class="color-white content fs-20">작성자</th>
+                                    <th class="color-white content fs-20">등록일</th>
+                                    <th class="color-white content fs-20">상태</th>
+                                </tr>
+								<c:if test="${not empty qb }">
+								    <c:set var="hasMatch" value="false" />
+								    <c:forEach var="qna" items="${qb }">
+								        <c:if test="${qna.qaWriter.nickname == loginMember.nickname}">
+								            <c:set var="hasMatch" value="true" />
+								            <tr>
+								                <td class="color-white content fs-15">${qna.qaNo }</td>
+								                <td class="color-white content fs-15 tableTitle">
+								                    <a href="${path }/qna/qnaView?no=${qna.qaNo}">${qna.qaTitle }</a>
+								                    <img src="${path }/resources/images/qna/lock.png" style="width: 15px; height: 15px;">
+								                </td>
+								                <td class="color-white content fs-15">${qna.qaWriter==null ? "탈퇴한 회원" : qna.qaWriter.nickname }</td>
+								                <td class="color-white content fs-15">${qna.qaDate }</td>
+								                <td class="color-white content fs-15">
+								                    <c:set var="doneLoop" value="false" />
+								                    <c:forEach var="c" items="${qna.qaComment}" varStatus="status">
+								                        <c:if test="${not doneLoop}"> 
+								                            <c:if test="${c.qaCommentNo != 0 }"> 
+								                                <c:set var="doneLoop" value="true"/> 
+								                                <button class="qnaBtn comBtn" disabled>답변완료</button>
+								                            </c:if> 
+								                        </c:if> 
+								                        <c:if test="${c.qaCommentNo == 0 }">
+								                            <button class="qnaBtn" disabled>답변대기</button>
+								                        </c:if>
+								                    </c:forEach>
+								                </td>
+								            </tr>
+								        </c:if>
+								    </c:forEach>
+                                    <!-- 조회된 나의 QnA 활동이 없는 경우 -->
+								    <c:if test="${not hasMatch}">
+									    <tr>
+									        <td class="color-white content fs-20" colspan="5" style="height:200px">조회된 나의 QnA 내역이 없습니다.</td>
+									    <tr>
+								    </c:if>
+								</c:if>
+								<c:if test="${empty qb }">
+								    <tr>
+								        <td class="color-white content fs-20" colspan="5" style="height:200px">조회된 QnA 내역이 없습니다.</td>
+								    <tr>
+								</c:if>
+                            </table>  
+                        </div>
+                    </div>                            
+                </div>
+            </div>
+        </div>
+    </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
 <script>
 /* 리스트 만들기 */
-	$(".communityButton").click(e=>{
-	    $(".myCommunityHistory").css("display", "block");
-	    $(".myQuaHistory").css("display", "none");
-	    $(".myPointHistory").css("display", "none");
+function showSection(sectionSelector) {
+    $(".myCommunityHistory, .myQuaHistory, .myPointHistory").css("display", "none");
+    $(sectionSelector).css("display", "block");
+}
+function buttonChange(sectionSelector) {
+    $(".communityButton, .QnAButton, .pointButton").css({
+        "color": "white",
+        "background-color": "black",
+        "transition": "background-color 0.2s, color 0.2s"
+    }).hover(function() {
+        if (!$(this).hasClass("selected")) {
+            $(this).css({
+                "background-color": "white",
+                "color": "black"
+            });
+        }
+    }, function() {
+        if (!$(this).hasClass("selected")) {
+            $(this).css({
+                "background-color": "black",
+                "color": "white"
+            });
+        }
+    });
+    $(".communityButton, .QnAButton, .pointButton").removeClass("selected");
+    $(sectionSelector).css({
+        "color": "black",
+        "background-color": "white",
+        "transition": "background-color 0.3s, color 0.3s"
+    }).addClass("selected");
+}
+
+
+
+
+$(".communityButton").click(() => {
+    showSection(".myCommunityHistory");
+    buttonChange(".communityButton");
+    $.ajax({
+		type : 'POST',
+		url : '${path}/mypage/selectboardList',
+		data : {
+		},
+		success : function(){
+		},
+		error : function(request, status, error) { 
+	        console.log(error)
+	    }
 	})
-	$(".QnAButton").click(e=>{
-	    $(".myCommunityHistory").css("display", "none");
-	    $(".myQuaHistory").css("display", "block");
-	    $(".myPointHistory").css("display", "none");
+});
+$(".QnAButton").click(() => {
+    showSection(".myQuaHistory");
+    buttonChange(".QnAButton");
+    $.ajax({
+		type : 'POST',
+		url : '${path}/mypage/qnaList',
+		data : {
+		},
+		success : function(){
+		},
+		error : function(request, status, error) { 
+	        console.log(error)
+	    }
 	})
-	$(".pointButton").click(e=>{
-	    $(".myCommunityHistory").css("display", "none");
-	    $(".myQuaHistory").css("display", "none");
-	    $(".myPointHistory").css("display", "block");
+});
+$(".pointButton").click(() => {
+    showSection(".myPointHistory");
+    buttonChange(".pointButton");
+    $.ajax({
+		type : 'POST',
+		url : '${path}/mypage/pointList',
+		data : {
+			"email" : '${loginMember.email}',
+		},
+		success : function(){
+		},
+		error : function(request, status, error) { 
+	        console.log(error)
+	    }
 	})
-	
+});
 /* ----- start ----- */	
     /* 응원팀 이미지 파일 추출 */
     const abbrImgMap = new Map([
@@ -467,21 +552,22 @@
     
     /* 응원팀 변경(ajax) */
 	$(document).on('click', '.changeAbbrTeam', function() {
-							$.ajax({
-								type : 'POST',
-								url : '${path}/mypage/updateAbbrTeam',
-								data : {
-									"email" : '${loginMember.email}',
-									"choiceAbbrTeam" :$("input[name='abbr']:checked").val()
-								},
-								success : function(){
-									location.href='${path}/mypage/mypage.do';
-								},
-								error : function(request, status, error) { 
-							        console.log(error)
-							    }
-							})
-						});
+		$.ajax({
+			type : 'POST',
+			url : '${path}/mypage/updateAbbrTeam',
+			data : {
+				"email" : '${loginMember.email}',
+				"choiceAbbrTeam" :$("input[name='abbr']:checked").val()
+			},
+			success : function(){
+				location.href='${path}/mypage/mypage.do';
+			},
+			error : function(request, status, error) { 
+		        console.log(error)
+		    }
+		})
+	});
+    
     if('${loginMember.teamAbbr}'!=null){
    		$("input[name='abbr'][value='${loginMember.teamAbbr}']").prop("checked", true);
     }
@@ -652,7 +738,7 @@
 			if(confirmNewPassword.val()==""){
 				confirmNewPassword.focus();		  
 				document.querySelector("#passwordCheck2").style.display = "inline-block";
-				document.querySelector("#passwordCheck2").innerText = "비밀번호 확인을 정확히 입력해주세요.";
+				document.querySelector("#passwordCheck2").innerText = "비밀번호 확인을 입력해주세요.";
 				return false;
 			}
 			var regexPw =  /^.*(?=^.{8,99}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
@@ -712,7 +798,7 @@
 	    }
 	}
 
-    console.log('${loginMember}');
+    console.log('${loginMember.pointHistorys}');
 </script>
 <!-------------------------------------------->
 </body>

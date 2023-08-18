@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import gg.lolco.model.dao.MypageDao;
+import gg.lolco.model.vo.QaBoard;
 
 @Service
 public class MypageServiceImpl implements MypageService {
@@ -49,5 +50,4 @@ public class MypageServiceImpl implements MypageService {
 		return dao.WithdrawalEmail(session, param);
 	}
 
-	
 }
