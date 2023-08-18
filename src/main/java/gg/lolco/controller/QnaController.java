@@ -63,7 +63,7 @@ public class QnaController {
 		int totalData = service.selectQnaListCountById(email);
 		
 		m.addAttribute("qb", qb);
-		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "qnaList"));
+		m.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "qnaList", "fn_paging"));
 		
 		return "qna/qnaList";
 	}

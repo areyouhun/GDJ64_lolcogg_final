@@ -22,16 +22,8 @@
                 </div>
                 <div>
                     <div class="qnaSort">
-	                    <c:if test="${url} eq ${path }+'/qna/qnaList'">
-	                        <a href="${path }/qna/qnaList"><span class="content fs-20 qnaSpan">전체</span></a>
-	                        <a href="${path }/qna/myQnaList"><span class="content fs-20 qnaSpanNo">내가 쓴 글</span></a>
-	                    </c:if>
-	                    <c:if test="${url} == '${path }/qna/myQnaList'">
-	                        <a href="${path }/qna/qnaList"><span class="content fs-20 qnaSpanNo">전체</span></a>
-	                        <a href="${path }/qna/myQnaList"><span class="content fs-20 qnaSpan">내가 쓴 글</span></a>
-	                    </c:if>
-	                    <a href="${path }/qna/qnaList"><span class="content fs-20 qnaSpan">전체</span></a>
-	                        <a href="${path }/qna/myQnaList"><span class="content fs-20 qnaSpanNo">내가 쓴 글</span></a>
+                        <a href="${path }/qna/qnaList"><span class="content fs-20 qnaAll">전체</span></a>
+                        <a href="${path }/qna/myQnaList"><span class="content fs-20 qnaMy">내가 쓴 글</span></a>
                     </div>
                     <div class="tableContainer">
                         <table class="qnaTable">
@@ -47,8 +39,13 @@
 		                            <tr>
 		                                <td class="color-white content fs-20">${qna.qaNo }</td>
 		                                <td class="color-white content fs-20 tableTitle">
-		                                    <a href="${path }/qna/qnaView?no=${qna.qaNo}">${qna.qaTitle }</a>
-		                                    <img src="${path }/resources/images/qna/lock.png" style="width: 15px; height: 15px;">
+		                                	<c:if test="${loginMember.email == qna.qaWriter.email || loginMember.authority == '관리자' }">
+		                                    	<a href="${path }/qna/qnaView?no=${qna.qaNo}">${qna.qaTitle }</a>
+		                                    </c:if>
+		                                    <c:if test="${loginMember.email != qna.qaWriter.email }">
+		                                    	<span class='content qnaTitle'>${qna.qaTitle }</span>
+			                                    <img src="${path }/resources/images/qna/lock.png" style="width: 15px; height: 15px;">
+		                                    </c:if>
 		                                </td>
 		                                <td class="color-white content fs-20">${qna.qaWriter==null ? "탈퇴한 회원" : qna.qaWriter.nickname }</td>
 		                                <td class="color-white content fs-20">${qna.qaDate }</td>
@@ -92,10 +89,15 @@
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
 <script>
-	/* $(()=>{
-		console.log(location.href);
-		전체, 내가 쓴글
-	}); */
+	$(()=>{
+		if(location.href == 'http://localhost:7070/qna/qnaList'){
+			$('.qnaAll').addClass('qnaSpan');
+			$('.qnaMy').addClass('qnaSpanNo');
+		} else if(location.href != 'http://localhost:7070/qna/qnaList'){
+			$('.qnaMy').addClass('qnaSpan');
+			$('.qnaAll').addClass('qnaSpanNo');
+		}
+	});
 	
 	/* ajax 페이징처리 */
 	// $('.qnaTable') 데이터 목록 table 
@@ -132,8 +134,9 @@
 	}); */
 	
 	
-	
-	
+	$(document).on("click", ".qnaTitle", function(e){
+		alert('본인이 작성한 글만 조회가능합니다.');
+	});
 </script>
 <!-------------------------------------------->
 </body>
