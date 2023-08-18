@@ -70,11 +70,9 @@
 
 				</table>
 				<div class="pageBar">
-					<c:if test="${selectNotice.size()>10 }">
 						<div class="pageBar_div">
 							<c:out value="${pageBar }" escapeXml="false" />
 						</div>
-					</c:if>
 				</div>
 
 			</div>

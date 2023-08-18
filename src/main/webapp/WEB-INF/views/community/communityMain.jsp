@@ -167,11 +167,9 @@
 								</div>
 							</div>
 						</c:forEach>
-						<c:if test="${selectboardList.size()>20 }">
 							<div class="pageBar_div">
 								<c:out value="${pageBar }" escapeXml="false" />
 							</div>
-						</c:if>
 					</div>
 				</div>
 			</div>

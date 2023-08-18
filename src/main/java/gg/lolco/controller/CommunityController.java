@@ -281,6 +281,8 @@ public class CommunityController {
 		List<CommunityBoard> searchBoard = service.searchBoard(
 				Map.of("cPage", cPage, "numPerpage", numPerpage, "selectValue", selectValue, "search", search));
 		int totalData = service.searchBoardCount(Map.of("selectValue", selectValue, "search", search));
+		System.out.println(searchBoard);
+		System.out.println(totalData);
 		// 이 부분에서는 현재 시간을 LocalDateTime 으로가져오기
 		LocalDateTime now = LocalDateTime.now();
 

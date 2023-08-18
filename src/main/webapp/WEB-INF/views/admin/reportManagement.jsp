@@ -116,9 +116,7 @@
 							</table>
 
 							<div class="pageBar">
-								<c:if test="${reportList.size()>10 }">
 									<c:out value="${pageBar }" escapeXml="false" />
-								</c:if>
 							</div>
 						</div>
 					</div>
