@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import gg.lolco.common.AESEncryptor;
 import gg.lolco.model.service.CommunityService;
 import gg.lolco.model.service.MemberService;
 import gg.lolco.model.service.MypageService;
@@ -113,7 +114,7 @@ public class MypageController {
 	@ResponseBody
 	public int PasswordCheck(@RequestParam Map<Object, String> param) {
 		System.out.println("email : "+param.get("email")); // 계정 이메일
-		System.out.println("inputPassword : "+param.get("inputPassword")); // 미리보기 이미지 파일명
+		System.out.println("inputPassword : "+param.get("inputPassword")); 
 		int cnt = 0;
 		
 		// EMAIL : param-DB 매칭
@@ -122,6 +123,38 @@ public class MypageController {
 			cnt = 1;
 		}
 		return cnt ;
+	}
+	
+	
+	//이메일 조회
+	@RequestMapping("emailCheck")
+	@ResponseBody
+	public Map<String, Object> emailCheck(@RequestParam Map<Object, String> param, HttpSession session) {
+		Map<String, Object> response = new HashMap<>();
+		System.out.println("inputEmail : "+param.get("inputEmail")); //입력 이메일
+		try {
+			param.put("email", AESEncryptor.encrypt(param.get("inputEmail")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		int cnt = 0;
+		response.put("email", param.get("email"));
+		System.out.println("response.get(\"email\") : " +response.get("email"));
+		
+		Member m = serviceMember.selectMemberById(param);
+		if(m !=null) {
+			cnt = 1 ; //이메일 존재
+			if (m.getPassword() != null &&  m.getPassword().contains("카카오")) {
+				cnt = -1; // 소셜로그인 계정(카카오)
+			}else if(m.getPassword() != null && m.getPassword().contains("네이버")) {
+				cnt = -2; // 소셜로그인 계정(네이버)
+			}else {
+				session.setAttribute("email", param.get("inputEmail"));
+			}
+		}
+		response.put("cnt", cnt);
+		
+		return response;
 	}
 	
 	@RequestMapping("updatePassword")

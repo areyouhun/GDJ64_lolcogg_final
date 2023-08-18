@@ -10,7 +10,7 @@
 <title>내 정보</title>
 </head>
 <body>
-<!-- 모달창 - 프로필이미지 변경 -->
+<!-- 프로필 이미지 변경 모달 -->
 <div class="modal-background" id="profileModalBackground">
     <div class="modal" id="myModal">
         <div class="modal-header">
@@ -424,88 +424,6 @@
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
 <script>
-/* 리스트 만들기 */
-function showSection(sectionSelector) {
-    $(".myCommunityHistory, .myQuaHistory, .myPointHistory").css("display", "none");
-    $(sectionSelector).css("display", "block");
-}
-function buttonChange(sectionSelector) {
-    $(".communityButton, .QnAButton, .pointButton").css({
-        "color": "white",
-        "background-color": "black",
-        "transition": "background-color 0.2s, color 0.2s"
-    }).hover(function() {
-        if (!$(this).hasClass("selected")) {
-            $(this).css({
-                "background-color": "white",
-                "color": "black"
-            });
-        }
-    }, function() {
-        if (!$(this).hasClass("selected")) {
-            $(this).css({
-                "background-color": "black",
-                "color": "white"
-            });
-        }
-    });
-    $(".communityButton, .QnAButton, .pointButton").removeClass("selected");
-    $(sectionSelector).css({
-        "color": "black",
-        "background-color": "white",
-        "transition": "background-color 0.3s, color 0.3s"
-    }).addClass("selected");
-}
-
-
-
-
-$(".communityButton").click(() => {
-    showSection(".myCommunityHistory");
-    buttonChange(".communityButton");
-    $.ajax({
-		type : 'POST',
-		url : '${path}/mypage/selectboardList',
-		data : {
-		},
-		success : function(){
-		},
-		error : function(request, status, error) { 
-	        console.log(error)
-	    }
-	})
-});
-$(".QnAButton").click(() => {
-    showSection(".myQuaHistory");
-    buttonChange(".QnAButton");
-    $.ajax({
-		type : 'POST',
-		url : '${path}/mypage/qnaList',
-		data : {
-		},
-		success : function(){
-		},
-		error : function(request, status, error) { 
-	        console.log(error)
-	    }
-	})
-});
-$(".pointButton").click(() => {
-    showSection(".myPointHistory");
-    buttonChange(".pointButton");
-    $.ajax({
-		type : 'POST',
-		url : '${path}/mypage/pointList',
-		data : {
-			"email" : '${loginMember.email}',
-		},
-		success : function(){
-		},
-		error : function(request, status, error) { 
-	        console.log(error)
-	    }
-	})
-});
 /* ----- start ----- */	
     /* 응원팀 이미지 파일 추출 */
     const abbrImgMap = new Map([
@@ -798,7 +716,85 @@ $(".pointButton").click(() => {
 	    }
 	}
 
-    console.log('${loginMember.pointHistorys}');
+	/* 내 활동내역*/
+	function showSection(sectionSelector) {
+	    $(".myCommunityHistory, .myQuaHistory, .myPointHistory").css("display", "none");
+	    $(sectionSelector).css("display", "block");
+	}
+	function buttonChange(sectionSelector) {
+	    $(".communityButton, .QnAButton, .pointButton").css({
+	        "color": "white",
+	        "background-color": "black",
+	        "transition": "background-color 0.2s, color 0.2s"
+	    }).hover(function() {
+	        if (!$(this).hasClass("selected")) {
+	            $(this).css({
+	                "background-color": "white",
+	                "color": "black"
+	            });
+	        }
+	    }, function() {
+	        if (!$(this).hasClass("selected")) {
+	            $(this).css({
+	                "background-color": "black",
+	                "color": "white"
+	            });
+	        }
+	    });
+	    $(".communityButton, .QnAButton, .pointButton").removeClass("selected");
+	    $(sectionSelector).css({
+	        "color": "black",
+	        "background-color": "white",
+	        "transition": "background-color 0.3s, color 0.3s"
+	    }).addClass("selected");
+	}
+
+	$(".communityButton").click(() => {
+	    showSection(".myCommunityHistory");
+	    buttonChange(".communityButton");
+	    $.ajax({
+			type : 'POST',
+			url : '${path}/mypage/selectboardList',
+			data : {
+			},
+			success : function(){
+			},
+			error : function(request, status, error) { 
+		        console.log(error)
+		    }
+		})
+	});
+	$(".QnAButton").click(() => {
+	    showSection(".myQuaHistory");
+	    buttonChange(".QnAButton");
+	    $.ajax({
+			type : 'POST',
+			url : '${path}/mypage/qnaList',
+			data : {
+			},
+			success : function(){
+			},
+			error : function(request, status, error) { 
+		        console.log(error)
+		    }
+		})
+	});
+	$(".pointButton").click(() => {
+	    showSection(".myPointHistory");
+	    buttonChange(".pointButton");
+	    $.ajax({
+			type : 'POST',
+			url : '${path}/mypage/pointList',
+			data : {
+				"email" : '${loginMember.email}',
+			},
+			success : function(){
+			},
+			error : function(request, status, error) { 
+		        console.log(error)
+		    }
+		})
+	});
 </script>
 <!-------------------------------------------->
 </body>
