@@ -110,7 +110,6 @@ body::-webkit-scrollbar-track {
 header{
     transition: background-color 0.5s;
 }
-
 /* ***** 공통 nav css ***** */
 nav{
     margin-right: 130px;
@@ -275,7 +274,21 @@ a:-webkit-any-link {
 	margin: 1em 1em 1.5em 1em;
 	/*미완성*/
 }
-
+.hidden_header{
+	width: 1280px;
+	margin: auto;
+}
+.header_div{
+	 width: 100%;
+}
+.myProfileBox{
+	display: none;
+	flex-direction: column;
+	width: 250px;
+	background-color:var(--lol-black);
+	float: right;
+	
+}
 /* ***** 페이지바 ***** */
 .pageBar {
     display: flex;

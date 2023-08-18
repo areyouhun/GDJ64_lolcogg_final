@@ -215,7 +215,7 @@
                     throw new Error('업로드실패');
                 }
             }).then((jsonResponse) => {
-                callback("${path}/resources/upload/community/"+jsonResponse.fileName, 'alt text' , 'width 300px','height 300px');
+                callback("/resources/upload/community/"+jsonResponse.fileName, 'alt text' , 'width 300px','height 300px');
             }).catch((error) => {
                 console.log('업로드실패', error.message);
             });
