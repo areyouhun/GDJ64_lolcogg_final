@@ -122,7 +122,7 @@ public class LoginController {
 //		System.out.println(code);
 //		System.out.println(state);
 //		String redirectURI = URLEncoder.encode("http://localhost:7070/login/naverLogin", "UTF-8");
-		String redirectURI = URLEncoder.encode("http://14.36.141.71:10005/GDJ64_lolcogg_final/member/loginPage", "UTF-8");
+		String redirectURI = URLEncoder.encode("http://14.36.141.71:10005/GDJ64_lolcogg_final/login/naverLogin", "UTF-8");
 		String apiURL;
 		apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
 		apiURL += "client_id=" + CLIENT_ID;
