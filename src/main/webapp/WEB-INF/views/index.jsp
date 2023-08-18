@@ -172,8 +172,30 @@
         if (page != 1) {
             $(".header_div").css("background-color", "var(--lol-black)");
             $(".header_div").animate({ scrollTop: 0 }, 10);
+            $(".myProfileBox").mouseleave(e=>{
+                $(".myProfileBox").css("display","none");
+                $(".header_div").css("background-color","var(--lol-black)");
+                }	
+            )
+            $("nav").mouseenter(e=>{
+                $(".myProfileBox").css("display","none");
+                $(".header_div").css("background-color","var(--lol-black)");
+                }	
+            )
         } else {
             $(".header_div").css("background-color", "transparent");
+            $(".myProfileBox").mouseleave(e=>{
+                $(".myProfileBox").css("display","none");
+                $(".header_div").css("background-color","");
+                }	
+            )
+            $("nav").mouseenter(e=>{
+                $(".myProfileBox").css("display","none");
+                $(".header_div").css("background-color","");
+                }	
+            )
+            
+            
         }
 
         var posTop = (page - 1) * $(window).height();

@@ -68,6 +68,7 @@
 			</div>
 		</div>
 	</div>
+	<c:if test="${loginMember!=null }">
 	<div class="hidden_header">
 		<div class="myProfileBox color-white">
 			<div class="ff-macho fs-25">
@@ -88,4 +89,5 @@
 				포인트</span>
 		</div>
 	</div>
+	</c:if>
 </header>
