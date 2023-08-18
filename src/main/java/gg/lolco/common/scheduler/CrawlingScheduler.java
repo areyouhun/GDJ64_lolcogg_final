@@ -2,14 +2,18 @@ package gg.lolco.common.scheduler;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
@@ -21,8 +25,11 @@ import org.jsoup.select.Elements;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+
+import gg.lolco.model.service.ChampPredictService;
 import gg.lolco.model.service.CommunityService;
-import gg.lolco.model.service.MemberService;
 import gg.lolco.model.service.SchedulerService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,8 +39,8 @@ public class CrawlingScheduler {
 	
 	private final SchedulerService service;
 	private final CommunityService commuService;
+	private final ChampPredictService predictService;
 	private final ServletContext context;
-	private final MemberService memberService;
 	
 	private final Map<String, String> PARSE_TEAM_NAME = Map.of(
 			"Gen.G eSports", "GEN", "Dplus KIA", "DK", 
@@ -43,16 +50,11 @@ public class CrawlingScheduler {
 			"Liiv SANDBOX", "LSB", "Kwangdong Freecs", "KDF");
 	
 	public CrawlingScheduler(SchedulerService service, ServletContext context
-			,CommunityService commuService, MemberService memberService) {
+			,CommunityService commuService, ChampPredictService predictService) {
 		this.service = service;
 		this.context = context;
 		this.commuService = commuService;
-		this.memberService = memberService;
-	}
-	
-	@Scheduled(cron = "0 0 0 * * ?")
-	public void updateUserStatus() {
-		memberService.updateStatus();
+		this.predictService = predictService;
 	}
 	
 	@Scheduled(cron = "0 0 1 * * ?")
@@ -62,6 +64,7 @@ public class CrawlingScheduler {
         LocalDate stopSchedulerDate = LocalDate.of(2023, 8, 27);
         
         commuService.deleteDate();
+        champPredictCompare();
 
         try {
 	    	if(!currentDate.isAfter(stopSchedulerDate)) {
@@ -98,6 +101,15 @@ public class CrawlingScheduler {
 				player = player.substring(0, player.indexOf("(")).replace(" ", "");
 			}
 			
+			switch(player) {
+				case "UmTi":
+					player = "Umti";
+					break;
+				case "Kyeahoo":
+					player = "kyeahoo";
+					break;
+			}
+			
 			String fileName = player + ".csv";
 			
 			playerMap.put("player", player.toUpperCase());
@@ -130,7 +142,7 @@ public class CrawlingScheduler {
 				Elements championInfoRow = champion.siblingElements();
 							
 				String championName = champion.text();
-							
+				
 				switch(championName) {
 					case "Renata Glasc": 
 						championName = "Renata"; 
@@ -144,7 +156,7 @@ public class CrawlingScheduler {
 					case "LeBlanc":
 						championName = "Leblanc";
 						break;
-					case "KaiSa":
+					case "Kai'Sa":
 						championName = "Kaisa";
 						break;
 					case "KhaZix":
@@ -485,6 +497,9 @@ public class CrawlingScheduler {
 										case "LeBlanc":
 											championName = "Leblanc";
 											break;
+										case "KaiSa":
+											championName = "Kaisa";
+											break;
 										case "KhaZix":
 											championName = "Khazix";
 											break;
@@ -603,8 +618,10 @@ public class CrawlingScheduler {
 			saveMap.put("teamName", table.get(i).select(".teamname a").text());
 			saveMap.put("matchWins", matchs.substring(0, matchs.indexOf("-") - 1));
 			saveMap.put("matchDefeats", matchs.substring(matchs.indexOf("-") + 2));
-			saveMap.put("gameWins", games.substring(0, matchs.indexOf("-") - 1));
+			saveMap.put("gameWins", games.substring(0, matchs.indexOf("-")));
 			saveMap.put("gameDefeats", games.substring(matchs.indexOf("-") + 2));
+			
+			System.out.println(saveMap);
 			
 			teamRankingList.add(saveMap);
 		} service.updateTeamRanking(teamRankingList);
@@ -634,5 +651,70 @@ public class CrawlingScheduler {
 				return;
 			}
 		} service.updateRegionalMatch(regionalMatchMap);
+	}
+	
+	private void champPredictCompare() {
+	    String path = context.getRealPath("/resources/csv/match/");
+	    List<Integer> noList = new ArrayList<>();
+	    
+
+	    List<Map<String, Object>> matchResultList = predictService.selectMatchData();
+
+	    for (Map<String, Object> matchResult : matchResultList) {
+	        File file = new File(path + String.valueOf(matchResult.get("MS_FILE_NAME")));
+
+	        if (!file.exists()) {
+	            log.warn("File not found: {}", file);
+	            continue;
+	        }
+
+	        List<List<String[]>> setResults = csvParser(path + String.valueOf(matchResult.get("MS_FILE_NAME")));
+	        List<String> matchBanList = setResults.stream()
+	                .flatMap(Collection::stream)
+	                .flatMap(Arrays::stream)
+	                .distinct()
+	                .collect(Collectors.toList());
+	        
+	        List<Integer> list = predictService.selectYesterDayPredict();
+	        
+	        for (int no : list) {
+	            noList.add(no);
+
+	            List<String> banpickList = predictService.selectMemberPredict(no).stream()
+	                    .map(c -> c.equals("Thresh") ? "Xerath" : c)
+	                    .collect(Collectors.toList());
+	            
+	            List<String> answerBanList = 
+						matchBanList.stream()
+						.filter(b -> banpickList.stream().anyMatch(Predicate.isEqual(b)))
+						.collect(Collectors.toList());
+	            
+	            predictService.updateMemberScore(Map.of("no", no, "score", answerBanList.size()));
+	        }
+	    }
+	    predictService.updateMemberPoiont();
+	    noList.stream().forEach(predictService::insertPointHistory);
+	}
+	
+	private List<List<String[]>> csvParser(String fullPath) {
+		final List<List<String[]>> setResultsTotal = new ArrayList<>();
+
+		try(CSVReader csvReader = new CSVReader(new FileReader(fullPath));) {
+			List<String[]> setResult = new ArrayList<>();
+			for (String[] line : csvReader.readAll()) {
+				if (Arrays.equals(line, new String[] {"|"})) {
+					setResultsTotal.add(setResult);
+					setResult = new ArrayList<>();
+					continue;
+				}
+				setResult.add(line);
+			}
+			setResultsTotal.add(setResult);
+		}catch(CsvException e) {
+			e.printStackTrace();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		return setResultsTotal;
 	}
 }

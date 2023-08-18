@@ -66,6 +66,7 @@ public class ScheduleServiceImpl implements SchedulerService {
 		
 		for(Map<String, String> data : param) {
 			result = dao.updateMatchTeam(session, data);
-		} return result;	}
+		} return result;	
+	}
 	
 }

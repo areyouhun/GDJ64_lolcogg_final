@@ -32,7 +32,7 @@
                         <a href="${path}/card/selectCardById" class="nav-a">플레이</a>
                         <ul class="nav-ul-ul">
                             <li><a href="${path}/card/selectCardById">카드</a></li>
-                            <li><a href="">챔피언 예측</a></li>
+                            <li><a href="${path}/champion_predict/predict_home">챔피언 예측</a></li>
                             <li><a href="${path}/quiz">롤 퀴즈</a></li>
                             <li><a href="${path }/game/choice">보너스 게임</a></li>
                         </ul>

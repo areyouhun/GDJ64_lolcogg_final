@@ -1,21 +1,10 @@
 * {
     color: var(--lol-white, #EEE);
-    font-family: "EF_MACHO";
     list-style: none;
     margin: 0;
 }
 
 /* 타이틀 */
-.background-img {
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(rgba(15, 15, 15, 0.6),
-    rgba(15, 15, 15, 1)),url("/resources/images/calendar/schedule_Title_IMG.png");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center top;
-}
-
 .title-margin {
     height: 35vh;
 }
@@ -37,6 +26,7 @@
 
 .calendar-year {
     font-size: 24px;
+    font-family: "EF_MACHO";
 }
 
 .calendar-month {
@@ -48,6 +38,7 @@
 
 .calendar-month span {
     width: 150px;
+    font-family: "EF_MACHO";
 }
 
 .calendar-month svg {
@@ -92,6 +83,11 @@ svg:hover {
     padding: 25px 0;
     margin-bottom: 5px;
     height: 25px;
+    font-family: "EF_MACHO";
+}
+
+.team-logo > span {
+    font-family: "EF_MACHO";
 }
 
 .match-schedule div {

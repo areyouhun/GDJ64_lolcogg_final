@@ -5,6 +5,17 @@
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path}/resources/css/calendar/style_schedule.css">
+<style>
+.background-img {
+	width: 100%;
+	height: 100%;
+	background-image: linear-gradient(rgba(15, 15, 15, 0.6),
+	rgba(15, 15, 15, 1)),url("${path}/resources/images/calendar/schedule_Title_IMG.png");
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+</style>
 <!------------------------------------>
 <title>일정</title>
 <body>
