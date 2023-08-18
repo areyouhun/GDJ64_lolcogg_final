@@ -114,7 +114,7 @@
     border:solid 0.5px var(--lol-white); 
     border-radius: 5px; 
     padding: 0.4em 0.5em 0.4em 0.5em; 
-    margin: 0.4em 0em 0.4em 0em; 
+    margin: 0.4em 0.2em 0.4em 0.2em; 
     cursor: pointer;
 }
 .duplicationCheck:hover {
@@ -142,7 +142,7 @@
 .previewBox2>img{
     transition: all 0.05s linear;
 }
-.previewBox1>img:hover{
+.previewBox2>img:hover{
     transform: scale(1.1);
 }
 .info{
@@ -364,6 +364,28 @@ display: none;
 }
 .tierBox>.tierGazeBox>.buttonBox2>:nth-child(4){
     margin-left: 1em;
+}
+/*프로필 이미지 변경*/
+.line2{
+    display: flex;
+    justify-content: start;
+    align-items: stretch;
+}
+.previewBox3{
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.previewBox3>p{
+    margin-bottom: 1em;
+}
+.previewBox4>p{
+    margin-bottom: 1em;
+}
+.previewBox4>img:hover{
+    transform: scale(1.1);
+}
+.previewBox4>img{
+    transition: all 0.05s linear;
 }
 /*칭호 변경*/
 .currentTitle-row {
