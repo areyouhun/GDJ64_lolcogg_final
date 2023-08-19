@@ -205,7 +205,7 @@
         addImageBlobHook: (blob, callback) => {
             const formData = new FormData();
             formData.append('image', blob);
-            fetch(`${path}/community/renamefile`, {
+            fetch('${path}/community/renamefile', {
                 method: 'POST',
                 body: formData
             }).then((response) => {
@@ -215,7 +215,7 @@
                     throw new Error('업로드실패');
                 }
             }).then((jsonResponse) => {
-                callback("/resources/upload/community/"+jsonResponse.fileName, 'alt text' , 'width 300px','height 300px');
+                callback("${path}/resources/upload/community/"+jsonResponse.fileName, 'alt text' , 'width 300px','height 300px');
             }).catch((error) => {
                 console.log('업로드실패', error.message);
             });
