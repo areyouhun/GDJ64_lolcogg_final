@@ -6,7 +6,7 @@
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path}/resources/css/quiz/style_quiz.css">
 <!------------------------------------>
-<title>SAMPLE</title>
+<title>퀴즈</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -22,15 +22,15 @@
 					<p class="subTitle fs-20">퀴즈 선택</p>
 					<!-- 퀴즈 분류 -->
 					<div class="choice-quiz" id="champNameQuiz">
-						<p class="mainTitle fs-35">그림으로 이름 맞추기</p>
+						<p class="mainTitle fs-35">문제보고 정답 맞추기</p>
 						<div class="quiz-view">
 							<img class="cursor switch-btn" src="${path}/resources/images/game/leftClick.png" />
 							<div class="choice-thema">
-								<img class="percent" src="${path}/resources/images/quiz/garen-img.jpg" />
+								<img class="percent" src="${path}/resources/images/quiz/basic_quiz/basic_quiz_img.jpg" />
 							</div>
 							<img class="cursor switch-btn" src="${path}/resources/images/game/rightClick.png">
 						</div>
-						<a href="#" class="start-quiz">퀴즈 시작!</a>
+						<a href="${path}/quiz/basicQuiz" class="start-quiz">퀴즈 시작!</a>
 					</div>
 
 					<div class="choice-quiz" id="voiceQuiz" style="display:none">

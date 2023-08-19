@@ -46,20 +46,34 @@
                     <c:if test="${not empty matchData}">
                         <c:forEach var="match" items="${matchData}" varStatus="status">
                             <div class="match">
-                                <div class="match-team">
-                                    <img src="${path}/resources/images/logo/${match.msHome}_small.png" alt="홈팀">
-                                    <span class="home-team">${match.msHome}</span>
-                                </div>
+                                <c:if test="${empty match.msHome}">
+	           						<div class="match-team">
+	                                    <span class="home-team">TBD</span>
+	                                </div>
+                                </c:if>
+                                <c:if test="${not empty match.msHome}">
+	                                <div class="match-team">
+	                                    <img src="${path}/resources/images/logo/${match.msHome}_small.png" alt="홈팀">
+	                                    <span class="home-team">${match.msHome}</span>
+	                                </div>
+	                            </c:if>
                                 <span class="match-time">
                                     <div>
                                         <fmt:formatDate value="${match.msDate}" type="time" timeStyle="short" />
                                     </div>
                                     <span>VS</span>
                                 </span>
-                                <div class="match-team">
-                                    <span class="away-team">${match.msAway}</span>
-                                    <img src="${path}/resources/images/logo/${match.msAway}_small.png" alt="어웨이팀">
-                                </div>
+                                <c:if test="${empty match.msAway}">
+	           						<div class="match-team">
+	                                    <span class="away-team">TBD</span>
+	                                </div>
+                                </c:if>
+                                <c:if test="${not empty match.msAway}">
+	                                <div class="match-team">
+	                                    <img src="${path}/resources/images/logo/${match.msAway}_small.png" alt="어웨이팀">
+	                                    <span class="away-team">${match.msAway}</span>
+	                                </div>
+	                            </c:if>
                             </div>
                         </c:forEach>
                     </c:if>

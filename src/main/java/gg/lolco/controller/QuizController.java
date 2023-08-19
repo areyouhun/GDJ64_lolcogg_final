@@ -32,4 +32,9 @@ public class QuizController {
 		log.info("@@@@@{}", param);
 		int result = service.finishQuiz(param);
 	}
+	
+	@RequestMapping("/basicQuiz")
+	public String basicQuiz() {
+		return "quiz/basicQuiz";
+	}
 }
