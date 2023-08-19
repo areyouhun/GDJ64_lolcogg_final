@@ -19,6 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 90px;
 }
 
 .page {
@@ -58,9 +59,13 @@
 }
 
 /* q&a 전체, 내가 쓴 글 */
-.qnaSpan{
+
+.qnaAll{
     padding: 5px;
     margin-right: 11px;
+}
+
+.qnaSpan{
     font-weight: bold;
 }
 
@@ -104,7 +109,7 @@
 }
 
 .tableContainer{
-    min-height: 350px;
+    min-height: 300px;
 }
 
 /* 문의하기 버튼 */
@@ -131,6 +136,10 @@
 .insertBtnNo{
     background-color: transparent;
     border: 2px solid var(--lol-mainblue);
+}
+
+.qnaTitle{
+	cursor: pointer;
 }
 
 /* 버튼 설정 */

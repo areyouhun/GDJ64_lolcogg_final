@@ -20,26 +20,37 @@
                     <p class="mainTitle fs-35 mainTitleMargin">문의하기</p>
                 </div>
                 <hr class="hr-3">
-                <form action="${path }/qna/insertQnaEnd" method="post" enctype="multipart/form-data">
+                <form action="${path }/qna/insertQnaEnd" method="post" enctype="multipart/form-data" onsubmit="return check();">
                     <div class="tableTitle">
                         <div class="insertqna">
                             <p class="color-white content fs-20 tableTitle">제목</p>
-                            <input type="text" name="qaTitle" class="qnaInput inputFont" placeholder="최대 30자">
+                            <div class="qaTitleDiv">
+	                            <input type="text" name="qaTitle" class="qnaInput inputFont" placeholder="최대 30자">
+	                            <div>
+	                            	<p class="color-white content fs-20 tableTitle">0/30</p>
+	                            </div>
+                            </div>
                             <input type="hidden" name="qaWriter" value="${loginMember.email }">
                         </div>
                         <hr class="hr-1">
                         <div class="insertqna">
                             <p class="color-white content fs-20 tableTitle">문의내용</p>
-                            <textarea name="qaContent" cols="30" rows="40" value="qaContent" style="resize: none;"
-                                class="qnaInput inputFont" placeholder="최대 1000자"></textarea>
+                            <div class="qaContentDiv">
+                            	<textarea name="qaContent" cols="30" rows="40" value="qaContent" style="resize: none;"
+                                class="qnaInput inputFont" placeholder="최대 1000자" style="margin-top:5px"></textarea>
+                                <div>
+                                	<p class="color-white content fs-20 tableTitle">0</p>
+	                            	<p class="color-white content fs-20 tableTitle">/1000</p>
+	                            </div>
+                            </div>
                         </div>
                         <hr class="hr-1">
                         <div class="insertqna">
                             <p class="color-white content fs-20 tableTitle">첨부파일</p>
                             <div class="addFile">
 	                            <label for="qnaFile" class="inputFont fileBtn">파일 추가하기</label>
-	                            <input type="file" id="qnaFile" name="qaFile" accept="image/*" onchange="addFile();" multiple>
-	                            <!-- <p class="content fileName"></p> --><div class="fileBox"></div>
+	                            <input type="file" id="qnaFile" name="qaFile" accept="image/*" multiple>
+	                            <div class="fileBox"></div>
                             </div>
                         </div>
                         <div>
@@ -74,10 +85,11 @@ $(()=>{
 		const fileName = e.target.files[0].name;
 		const xIcon = $("<ion-icon name='close-circle-outline' class='content fs-20'>");
 		$(e.target).next(".fileName").text(fileName);
+		$('.fileBox').css('display', 'block');
 	})
 })
 
-
+/* 이미지 추가 박스 */
 $("[name=qaFile]").change(e=>{
 	$(".fileBox").html('');
 	const files = e.target.files;
@@ -96,11 +108,88 @@ $("[name=qaFile]").change(e=>{
 	})
 })
 
+/* 비밀번호 글자 수 제한 */
+const regex = /^[0-9]{0,4}$/;
+$(document).on("keyup", ".qnaInputPwd", function(e) {
+	let pwd = $(e.target).val();
+    
+    // 글자수 제한
+    if (pwd.length > 4) {
+        $(e.target).val($(e.target).val().substring(0, 4));
+    } else {
+	    if(regex.test(pwd)){
+	    	
+	    } else{
+	    	$(e.target).val('');
+	    }
+    }
+});	
+
+/* 제목, 내용 글자 수 제한 */
+$(document).on("keyup", ".qaTitleDiv input", function(e) {
+	let title = $(e.target).val();
+    // 글자수 세기
+    if (title.length == 0 || title == '') {
+    	$(e.target).parents('.qaTitleDiv').find('p:first-child').text('0/30');
+    } else {
+    	$(e.target).parents('.qaTitleDiv').find('p:first-child').text(title.length + '/30');
+    }
+    
+    // 글자수 제한
+    if (title.length > 30) {
+        $(e.target).val($(e.target).val().substring(0, 30));
+        $(e.target).parents('.qaTitleDiv').find('p:first-child').text('30');
+        alert('제목은 30자 이하로 작성해주세요.');
+    };
+});	
+
+$(document).on("keyup", ".qaContentDiv textarea", function(e) {
+	let content = $(e.target).val();
+    // 글자수 세기
+    if (content.length == 0 || content == '') {
+    	$(e.target).parents('.qaContentDiv').find('p:first-child').text('0');
+    } else {
+    	$(e.target).parents('.qaContentDiv').find('p:first-child').text(content.length);
+    }
+    
+    // 글자수 제한
+    if (content.length > 1000) {
+        $(e.target).val($(e.target).val().substring(0, 1000));
+        $(e.target).parents('.qaContentDiv').find('p:first-child').text('1000');
+        alert('문의글은 1000자 이하로 작성해주세요.');
+    };
+});	 
+
+$(document).on("click", ".insertBtnNo", function(e) {
+	location.assign('${path}/qna/qnaList');
+})
+
+/* 필수값 확인 */
+function check() {
+	if($('input[name=qaTitle]').val() == '') {
+		alert("제목을 입력해 주세요.");
+		$('input[name=qaTitle]').focus();
+		return false;
+	} else if($('textarea[name=qaContent]').val() == '') {
+		alert("문의내용을 입력해 주세요.");
+		$('textarea[name=qaContent]').focus();
+		return false;
+	} else if($('input[name=qaPwd]').val() == '') {
+		alert("비밀번호를 입력해 주세요.");
+		$('input[name=qaPwd]').focus();
+		return false;
+	} else if($('input[name=qaPwd]').val().length < 4) {
+		alert("비밀번호는 4자리입니다.");
+		$('input[name=qaPwd]').focus();
+		return false;
+	} else return true;
+}
 
 /* const addFile=()=>{
-	let maxFile = 5; // 첨부파일 최대 개수
-	var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
+let maxFile = 5; // 첨부파일 최대 개수
+var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
 } */
+
 </script>
 <!-------------------------------------------->
 </body>

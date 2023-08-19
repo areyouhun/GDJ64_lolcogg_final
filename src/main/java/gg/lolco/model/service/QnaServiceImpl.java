@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import gg.lolco.model.dao.QnaDao;
+import gg.lolco.model.vo.MemberEmoticon;
 import gg.lolco.model.vo.QaBoard;
 import gg.lolco.model.vo.QaBoardComment;
 import gg.lolco.model.vo.QaBoardFile;
@@ -22,6 +23,16 @@ public class QnaServiceImpl implements QnaService {
 	public QnaServiceImpl(QnaDao dao, SqlSessionTemplate session) {
 		this.dao = dao;
 		this.session = session;
+	}
+
+	@Override
+	public List<QaBoard> selectQnaListById(Map param) {
+		return dao.selectQnaListById(session, param);
+	}
+
+	@Override
+	public int selectQnaListCountById(String email) {
+		return dao.selectQnaListCountById(session, email);
 	}
 
 	@Override
@@ -41,31 +52,42 @@ public class QnaServiceImpl implements QnaService {
 
 	@Override
 	public int insertBoard(Map param) {
-		int result = 0;
-		// qna 등록, qna 파일 등록(insert문 2개)
-		// 아래 insert문 실행 전 qaNo -> null, 실행 후 qaNo -> 32(selectKey 사용)
-//		int result = dao.insertBoard(session, param);
-
-		if (result == 0) {
+		int result = dao.insertBoard(session, param);
+		if (result > 0) {
 			for (Object a : param.keySet()) {
 				// a에는 key값이 들어감
 				if (String.valueOf(param.get(a)).contains("QaBoardFile")) {
 					// if문 true일 경우 무조건 첨부파일 있음
-//					for(QaBoardComment c : param.get(a)) {
-						
-//					}
-//					[QaBoardFile(qaFileNo=0, qaNo=0, qaOriFilename=KakaoTalk_20230629_013343894.jpg, qaRnmFilename=20230802_191141340_980.jpg)]
+					List<QaBoardFile> files = (List<QaBoardFile>) param.get(a);
+					if (files != null) {
+					    for (QaBoardFile f : files) {
+					        f.setQaNo((int)param.get("qaNo"));
+					        result += dao.insertFile(session, f);
+					    }
+					}
 				}
 			}
 		}
-//		if(result > 0) {
-//			if(param.get("qaFile") != null) { // null?
-//				for(int i=0; param.get("qaFile"))
-//				for(QaBoardFile f : param.get("qaFile")) {
-//				}
-//			}
-//		}
 
+		return result;
+	}
+
+	@Override
+	public int updateBoard(Map<String,Object> param, List<QaBoardFile> files) {
+		int result = dao.updateBoard(session, param);
+		if(result > 0) {
+			if (files.size()>0) {
+				result += dao.deleteFile(session, param);
+				
+				if (!files.isEmpty()) {
+				    for (QaBoardFile f : files) {
+				    	f.setQaNo(Integer.parseInt((String)param.get("qaNo")));
+				        result += dao.insertFile(session, f);
+				    }
+		    	}
+				files.get(0).setQaNo(Integer.parseInt((String)param.get("qaNo")));
+			}
+		}
 		return result;
 	}
 
@@ -82,6 +104,16 @@ public class QnaServiceImpl implements QnaService {
 	@Override
 	public List<QaBoardComment> selectCommentAll(int qaNo) {
 		return dao.selectCommentAll(session, qaNo);
+	}
+
+	@Override
+	public List<MemberEmoticon> myEmo(String email) {
+		return dao.myEmo(session, email);
+	}
+
+	@Override
+	public int deleteComment(String qaNo) {
+		return dao.deleteComment(session, qaNo);
 	}
 
 }

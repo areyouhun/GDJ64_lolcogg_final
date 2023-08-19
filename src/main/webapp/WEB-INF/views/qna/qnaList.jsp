@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="url" value="${pageContext.request.requestURL}" />
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path }/resources/css/qna/qnaList.css">
@@ -21,8 +22,8 @@
                 </div>
                 <div>
                     <div class="qnaSort">
-                        <a href=""><span class="content fs-20 qnaSpan">전체</span></a>
-                        <a href=""><span class="content fs-20 qnaSpanNo">내가 쓴 글</span></a>
+                        <a href="${path }/qna/qnaList"><span class="content fs-20 qnaAll">전체</span></a>
+                        <a href="${path }/qna/myQnaList"><span class="content fs-20 qnaMy">내가 쓴 글</span></a>
                     </div>
                     <div class="tableContainer">
                         <table class="qnaTable">
@@ -38,8 +39,13 @@
 		                            <tr>
 		                                <td class="color-white content fs-20">${qna.qaNo }</td>
 		                                <td class="color-white content fs-20 tableTitle">
-		                                    <a href="${path }/qna/qnaView?no=${qna.qaNo}">${qna.qaTitle }</a>
-		                                    <img src="${path }/resources/images/qna/lock.png" style="width: 15px; height: 15px;">
+		                                	<c:if test="${loginMember.email == qna.qaWriter.email || loginMember.authority == '관리자' }">
+		                                    	<a href="${path }/qna/qnaView?no=${qna.qaNo}">${qna.qaTitle }</a>
+		                                    </c:if>
+		                                    <c:if test="${loginMember.email != qna.qaWriter.email }">
+		                                    	<span class='content qnaTitle'>${qna.qaTitle }</span>
+			                                    <img src="${path }/resources/images/qna/lock.png" style="width: 15px; height: 15px;">
+		                                    </c:if>
 		                                </td>
 		                                <td class="color-white content fs-20">${qna.qaWriter==null ? "탈퇴한 회원" : qna.qaWriter.nickname }</td>
 		                                <td class="color-white content fs-20">${qna.qaDate }</td>
@@ -82,7 +88,56 @@
 <script src="${path}/resources/js/jquery-3.7.0.min.js"></script>
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
-
+<script>
+	$(()=>{
+		if(location.href == 'http://localhost:7070/qna/qnaList'){
+			$('.qnaAll').addClass('qnaSpan');
+			$('.qnaMy').addClass('qnaSpanNo');
+		} else if(location.href != 'http://localhost:7070/qna/qnaList'){
+			$('.qnaMy').addClass('qnaSpan');
+			$('.qnaAll').addClass('qnaSpanNo');
+		}
+	});
+	
+	/* ajax 페이징처리 */
+	// $('.qnaTable') 데이터 목록 table 
+	// $('.qnaSort') 전체, 내가 쓴 글 
+	// 페이징바(div) 새로 만들기
+	
+	let totalData; // 총 데이터 수
+	let dataPerPage; // 한 페이지에 나타낼 글 수
+	let pageCount = 10; // 페이징에 나타낼 페이지 수
+	let cPage = 1; // 현재 페이지
+	let dataList; // 표시하려하는 데이터 리스트
+	
+	/* $(document).ready(function () {
+		//dataPerPage 선택값 가져오기
+		// dataPerPage = $(".qnaSort").val(); -> a태그(전체, 내가 쓴 글)
+		
+		$.ajax({ 
+			method: "GET",
+			url: "https://url/data?" + data,
+			dataType: "json",
+			success: function (d) {
+				//totalData(총 데이터 수) 구하기
+				totalData = d.data.length;
+				//데이터 대입
+				dataList=d.data;
+			}
+		});
+		 
+		//글 목록 표시 호출 (테이블 생성)
+		displayData(1, dataPerPage);
+		 
+		//페이징 표시 호출
+		paging(totalData, dataPerPage, pageCount, 1);
+	}); */
+	
+	
+	$(document).on("click", ".qnaTitle", function(e){
+		alert('본인이 작성한 글만 조회가능합니다.');
+	});
+</script>
 <!-------------------------------------------->
 </body>
 </html>

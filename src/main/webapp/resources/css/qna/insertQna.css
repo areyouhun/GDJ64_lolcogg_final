@@ -48,7 +48,7 @@
     background-color: var(--lol-black);
     border: 2px solid var(--lol-white);
     border-radius: 10px;
-    width: 88%;
+    width: 100%;
     height: 45px;
     outline: none;
 }
@@ -62,7 +62,7 @@
 }
 
 .qnaInputPwdDiv{
-    width: 88%;
+    width: 90%;
 }
 
  .qnaInputPwd{
@@ -87,7 +87,16 @@
     background-color: var(--lol-black);
     border: 2px solid var(--lol-white);
     border-radius: 10px;
-    width: 88%;
+    width: 100%;
+    height: 380px;
+    padding-top: 10px;
+}
+
+.tableTitleDiv textarea{
+    background-color: var(--lol-black);
+    border: 2px solid var(--lol-white);
+    border-radius: 10px;
+    width: 100%;
     height: 380px;
     padding-top: 10px;
 }
@@ -102,13 +111,12 @@
 .insertqna{
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px;
     align-items: center;
 }
 
 /* input file 커스텀 */
-.tableTitle input[type="file"] {
+.tableTitle input[type="file"], .tableTitleDiv input[type="file"] {
     position: absolute;
     width: 0;
     height: 0;
@@ -124,7 +132,7 @@
     background-color: transparent;
 }
 
-.tableTitle label {
+.tableTitle label, .tableTitleDiv label {
     display: inline-block;
     padding: 10px 20px;
     color: var(--lol-white);
@@ -135,7 +143,6 @@
     width: 100%;
     text-align: center;
     
-    margin-bottom: 10px;
 }
 
 .fileName{
@@ -143,12 +150,17 @@
 	font-size: 18px;
 }
 
+.fileBox{
+	margin-top: 10px;
+	display: none;
+}
+
 .tableTitle label:hover {
     background-color: var(--lol-mainblue);
 }
 
 .addFile{
-    width: 1125px;
+    width: 90%;
 }
 
 .hr-1{
@@ -241,6 +253,7 @@ pre{
 /* 문의 댓글 css */
 .qnaCommentDiv{
     margin-top: 100px;
+    margin-bottom: 80px;
     border-radius: 10px;
     background-color: var(--khy-bg-gray);
     display: flex;
@@ -321,6 +334,85 @@ ion-icon{
     align-items: center;
     justify-content: space-between;
     margin: 20px 25px;
+    position: relative;
+}
+
+.emoDiv{
+	display: flex;
+	align-items: center;
+}
+
+.emo{
+    position: absolute;
+    right: 85px;
+    top: 40px;
+    overflow: auto;
+    height: 200px;
+    width: 550px;
+    background-color: var(--khy-off-gray);
+    border: 3px solid var(--lol-white);
+    border-radius: 10px;
+    z-index: 1;
+    display: none;
+}
+
+.emoSort{
+    display: grid;
+    grid-template-columns: repeat(6,80px);
+    justify-content: space-between;
+    padding: 8px 18px 18px;
+}
+
+.emoSort li{
+    list-style: none;
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emoSort button{
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.commentDiv{
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.insertEmoDiv{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2px solid #aaa;
+	border-radius: 10px;
+	background-color: var(--lol-white);
+	width: 68px;
+	height: 68px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	
+	position: relative;
+	display: none;
+	
+	background-size: contain;
+	background-position: center;
+}
+
+.emoXIcon{
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background-color: transparent;	
+	border-style: none;
+}
+
+.emoXIcon img{
+	width: 13px;
+	height: 13px;
 }
 
 /* 댓글 리스트 조회 css */
@@ -352,7 +444,7 @@ ion-icon{
 }
 
 .nickname{
-    font-size: 23px;
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -428,4 +520,35 @@ ion-icon{
 
 .fs-23{
     font-size: 23px;
+}
+
+/* 추가 */
+.qaTitleDiv{
+	display: flex;
+	align-items: center;
+	justify-content: end;
+	width: 90%;
+}
+
+.qaTitleDiv p{
+	margin-left: 10px;
+}
+
+.qaTitleDiv div{
+	width: 80px;
+	display: flex;
+	justify-content: end;
+}
+
+.qaContentDiv{
+	width: 90%;
+	display: flex;
+	align-items: end;
+}
+
+.qaContentDiv div{
+	display: flex;
+	flex-direction: column;
+	align-items: end;
+	width: 80px;
 }
