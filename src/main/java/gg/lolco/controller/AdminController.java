@@ -2,28 +2,26 @@ package gg.lolco.controller;
 
 
 import java.util.HashMap;
-
 import java.util.List;
-
 import java.util.Map;
 
+import org.springframework.security.crypto.encrypt.AesBytesEncryptor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import gg.lolco.model.service.MemberService;
-import gg.lolco.model.service.StoreService;
-
-import org.springframework.web.bind.annotation.RequestParam;
-
+import gg.lolco.common.AESEncryptor;
 import gg.lolco.common.PageFactory;
 import gg.lolco.model.service.CommunityService;
 import gg.lolco.model.service.MatchPredictionService;
+import gg.lolco.model.service.MemberService;
 import gg.lolco.model.service.ReportService;
+import gg.lolco.model.service.StoreService;
+import gg.lolco.model.vo.Member;
 import gg.lolco.model.vo.Report;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,22 +33,54 @@ public class AdminController {
 	private StoreService storeServiceservice;
 	
 	private CommunityService communityService;
-	
+
 	private MatchPredictionService mathchService;
-	
+
 	private ReportService service;
-	
-	public AdminController(ReportService service,CommunityService communityService,StoreService storeServiceservice,MatchPredictionService mathchService) {
+
+	private MemberService memberService;
+
+	public AdminController(ReportService service, CommunityService communityService, StoreService storeServiceservice,
+			MatchPredictionService mathchService, MemberService memberService) {
 		this.service = service;
 		this.communityService = communityService;
 		this.storeServiceservice = storeServiceservice;
 		this.mathchService = mathchService;
+		this.memberService = memberService;
 	}
 	
-	
 	@GetMapping("/memberManagement")
-	public String memberManagement(Model model) {
+	public String memberManagement(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "8") int numPerpage, Model model) {
+		
 		// SANGJUN
+		List<Member> memberList = memberService.memberList(Map.of("cPage", cPage, "numPerpage", numPerpage));
+		int totalData = memberService.memberListCount();
+		model.addAttribute("memberList", memberList);
+		model.addAttribute("totalData", totalData);
+		model.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "memberManagement","fn_paging"));
+		return "/admin/memberManagement";
+	}
+	
+	//이메일 나타내기
+	@GetMapping("/emailEncryption")
+	public String emailEncryption(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+			@RequestParam(value = "numPerpage", defaultValue = "8") int numPerpage, Model model) {
+		
+		// SANGJUN
+		List<Member> memberList = memberService.memberList(Map.of("cPage", cPage, "numPerpage", numPerpage));
+		for(Member member: memberList) {
+			try {
+				member.setEmail(AESEncryptor.decrypt(member.getEmail()));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		int totalData = memberService.memberListCount();
+		model.addAttribute("memberList", memberList);
+		model.addAttribute("totalData", totalData);
+		model.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "memberManagement","fn_paging"));
 		return "/admin/memberManagement";
 	}
 	

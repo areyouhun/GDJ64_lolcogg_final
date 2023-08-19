@@ -15,5 +15,6 @@ public interface MypageService {
 	int updatePasswordForProfile(Map param);
 	int updatePassword(Map param);
 	int WithdrawalEmail(Map param);
+	int restoreEmail(Map param);
 
 }

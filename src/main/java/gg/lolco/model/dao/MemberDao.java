@@ -42,4 +42,9 @@ public interface MemberDao {
 	int ban(SqlSession session, String nickname);
 	
 	List<Map<String, Object>> selectMemberAll(SqlSession session);
+
+	//회원 목록 조회
+	List<Member> memberList(SqlSession session, Map<String, Object> param);
+	//회원 수 조회
+	int memberListCount(SqlSession session);
 }

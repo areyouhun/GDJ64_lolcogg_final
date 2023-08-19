@@ -57,4 +57,10 @@ public class MypageDaoImpl implements MypageDao {
 		return session.update("mypage.WithdrawalEmail", param);
 	}
 
+	@Override
+	public int restoreEmail(SqlSession session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("mypage.restoreEmail", param);
+	}
+
 }

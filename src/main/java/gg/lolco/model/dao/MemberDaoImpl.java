@@ -3,10 +3,12 @@ package gg.lolco.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.Report;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
@@ -87,5 +89,18 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public List<Map<String, Object>> selectMemberAll(SqlSession session) {
 		return session.selectList("member.selectMemberAll");
+	}
+	
+	@Override
+	public List<Member> memberList(SqlSession session,Map<String, Object> param) {
+		int cPage=(int)param.get("cPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		return session.selectList("member.memberList",null,rb);
+	}
+	
+	@Override
+	public int memberListCount(SqlSession session) {
+		return session.selectOne("member.memberListCount");
 	}
 }

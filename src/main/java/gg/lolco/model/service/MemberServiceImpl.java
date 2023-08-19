@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import gg.lolco.model.dao.MemberDao;
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.Report;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -105,7 +106,6 @@ public class MemberServiceImpl implements MemberService {
 		return dao.insertPointToEmail(session, pointOffer);
 	}
 
-	
 	@Override
 	public int insertPointHistoryByReferralCode(Map PointHistoryByReferralCode) {
 		return dao.insertPointHistoryByReferralCode(session, PointHistoryByReferralCode);
@@ -145,5 +145,16 @@ public class MemberServiceImpl implements MemberService {
 	public List<Map<String, Object>> selectMemberAll() {
 		return dao.selectMemberAll(session);
 	}	
+	
+	@Override
+	public List<Member> memberList(Map<String, Object> param) {
+		return dao.memberList(session,param);
+	}
+
+	@Override
+	public int memberListCount() {
+		// TODO Auto-generated method stub
+		return dao.memberListCount(session);
+	}
 	
 }

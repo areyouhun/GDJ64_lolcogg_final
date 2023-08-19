@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.Report;
 
 public interface MemberService {
 
@@ -50,4 +51,10 @@ public interface MemberService {
 	
 	// get all members
 	List<Map<String, Object>> selectMemberAll();
+	
+	//회원 목록 조회
+	List<Member> memberList(Map<String, Object> param);
+	//회원 목록 수 조회
+	int memberListCount();
+
 }
