@@ -1645,6 +1645,21 @@ $.ajax({
 function fn_newCommentDiv(data){
 	data.newComment.forEach(c =>{
 		
+		/* 날짜  */
+		function getDateFormat() {
+		    let dFormat = new Date(c.mpcDate);
+		    return dFormat.getFullYear() + '.' + ((dFormat.getMonth() + 1) > 9 ? (dFormat.getMonth() + 1).toString() : '0' + (dFormat.getMonth() + 1)) + '.' + (dFormat.getDate() > 9 ? dFormat.getDate().toString() : '0' + dFormat.getDate().toString());
+		}
+		function getUpDateFormat() {
+		    let dFormat = new Date(c.mpcUpDate);
+		    return dFormat.getFullYear() + '.' + ((dFormat.getMonth() + 1) > 9 ? (dFormat.getMonth() + 1).toString() : '0' + (dFormat.getMonth() + 1)) + '.' + (dFormat.getDate() > 9 ? dFormat.getDate().toString() : '0' + dFormat.getDate().toString());
+		}
+		
+		/* 시간 */
+		const mpcDate = c.mpcDate;
+		const date = new Date(mpcDate);
+		const mpcTime = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+		
 		if(c.mpcRefNo == 0){
 			let commentList = $('<div>').addClass('commentList');
 			let profileDiv = $('<div>');
@@ -1717,9 +1732,9 @@ function fn_newCommentDiv(data){
 			
 			/* 날짜 포맷팅 */
 			if (c.mpcUpDate == null) {
-				dateSpan.text(c.mpcDate);
+				dateSpan.text(getDateFormat() + ' ' + mpcTime);
 			} else {
-				dateSpan.text('최근 수정일 ' + c.mpcUpDate);
+				dateSpan.text('최근 수정일 ' + getUpDateFormat() + ' ' + mpcTime);
 			}
 			insertReplyDiv.append(dateSpan);
 			
@@ -1828,7 +1843,23 @@ function fn_newCommentDiv(data){
 		}
 		
 		/* 대댓글 */
-		data.newComment.forEach(r =>{
+		data.reply.forEach(r =>{
+			
+			/* 날짜  */
+			function getDateFormat() {
+			    let dFormat = new Date(r.mpcDate);
+			    return dFormat.getFullYear() + '.' + ((dFormat.getMonth() + 1) > 9 ? (dFormat.getMonth() + 1).toString() : '0' + (dFormat.getMonth() + 1)) + '.' + (dFormat.getDate() > 9 ? dFormat.getDate().toString() : '0' + dFormat.getDate().toString());
+			}
+			function getUpDateFormat() {
+			    let dFormat = new Date(r.mpcUpDate);
+			    return dFormat.getFullYear() + '.' + ((dFormat.getMonth() + 1) > 9 ? (dFormat.getMonth() + 1).toString() : '0' + (dFormat.getMonth() + 1)) + '.' + (dFormat.getDate() > 9 ? dFormat.getDate().toString() : '0' + dFormat.getDate().toString());
+			}
+			
+			/* 시간 */
+			const mpcDate = r.mpcDate;
+			const date = new Date(mpcDate);
+			const mpcTime = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+			
 			if(r.mpcRefNo != 0 && c.mpcNo == r.mpcRefNo){
 				let replyAllDiv = $('<div>').addClass('replyAllDiv');
 				let commentList = $('<div>').addClass('commentList');
@@ -1900,9 +1931,9 @@ function fn_newCommentDiv(data){
 				
 				/* 날짜 포맷팅 */
 				if (r.mpcUpDate == null) {
-					dateSpan.text(r.mpcDate);
+					dateSpan.text(getDateFormat() + ' ' + mpcTime);
 				} else {
-					dateSpan.text('최근 수정일 ' + r.mpcUpDate);
+					dateSpan.text('최근 수정일 ' + getUpDateFormat() + ' ' + mpcTime);
 				}
 				insertReplyDiv.append(dateSpan);
 				
@@ -1959,6 +1990,21 @@ function fn_newCommentDiv(data){
 function fn_popCommentDiv(data){
 	data.popComment.forEach(c =>{
 		
+		/* 날짜  */
+		function getDateFormat() {
+		    let dFormat = new Date(c.mpcDate);
+		    return dFormat.getFullYear() + '.' + ((dFormat.getMonth() + 1) > 9 ? (dFormat.getMonth() + 1).toString() : '0' + (dFormat.getMonth() + 1)) + '.' + (dFormat.getDate() > 9 ? dFormat.getDate().toString() : '0' + dFormat.getDate().toString());
+		}
+		function getUpDateFormat() {
+		    let dFormat = new Date(c.mpcUpDate);
+		    return dFormat.getFullYear() + '.' + ((dFormat.getMonth() + 1) > 9 ? (dFormat.getMonth() + 1).toString() : '0' + (dFormat.getMonth() + 1)) + '.' + (dFormat.getDate() > 9 ? dFormat.getDate().toString() : '0' + dFormat.getDate().toString());
+		}
+		
+		/* 시간 */
+		const mpcDate = c.mpcDate;
+		const date = new Date(mpcDate);
+		const mpcTime = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+		
 		if(c.mpcRefNo == 0){
 			let commentList = $('<div>').addClass('commentList');
 			let profileDiv = $('<div>');
@@ -2031,9 +2077,9 @@ function fn_popCommentDiv(data){
 			
 			/* 날짜 포맷팅 */
 			if (c.mpcUpDate == null) {
-				dateSpan.text(c.mpcDate);
+				dateSpan.text(getDateFormat() + ' ' + mpcTime);
 			} else {
-				dateSpan.text('최근 수정일 ' + c.mpcUpDate);
+				dateSpan.text('최근 수정일 ' + getUpDateFormat() + ' ' + mpcTime);
 			}
 			insertReplyDiv.append(dateSpan);
 			
@@ -2142,7 +2188,23 @@ function fn_popCommentDiv(data){
 		}
 		
 		/* 대댓글 */
-		data.popComment.forEach(r =>{
+		data.reply.forEach(r =>{
+			
+			/* 날짜  */
+			function getDateFormat() {
+			    let dFormat = new Date(r.mpcDate);
+			    return dFormat.getFullYear() + '.' + ((dFormat.getMonth() + 1) > 9 ? (dFormat.getMonth() + 1).toString() : '0' + (dFormat.getMonth() + 1)) + '.' + (dFormat.getDate() > 9 ? dFormat.getDate().toString() : '0' + dFormat.getDate().toString());
+			}
+			function getUpDateFormat() {
+			    let dFormat = new Date(r.mpcUpDate);
+			    return dFormat.getFullYear() + '.' + ((dFormat.getMonth() + 1) > 9 ? (dFormat.getMonth() + 1).toString() : '0' + (dFormat.getMonth() + 1)) + '.' + (dFormat.getDate() > 9 ? dFormat.getDate().toString() : '0' + dFormat.getDate().toString());
+			}
+			
+			/* 시간 */
+			const mpcDate = r.mpcDate;
+			const date = new Date(mpcDate);
+			const mpcTime = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+			
 			if(r.mpcRefNo != 0 && c.mpcNo == r.mpcRefNo){
 				let replyAllDiv = $('<div>').addClass('replyAllDiv');
 				let commentList = $('<div>').addClass('commentList');
@@ -2214,9 +2276,9 @@ function fn_popCommentDiv(data){
 				
 				/* 날짜 포맷팅 */
 				if (r.mpcUpDate == null) {
-					dateSpan.text(r.mpcDate);
+					dateSpan.text(getDateFormat() + ' ' + mpcTime);
 				} else {
-					dateSpan.text('최근 수정일 ' + r.mpcUpDate);
+					dateSpan.text('최근 수정일 ' + getUpDateFormat() + ' ' + mpcTime);
 				}
 				insertReplyDiv.append(dateSpan);
 				

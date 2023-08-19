@@ -265,10 +265,15 @@ public class MatchPerdictionController {
 			myEmo = service.myEmo(member.getEmail());
 		}
 		
+		// 대댓글 목록
+		List<MatchPredictionComment> reply = service.replyListAll();
+
+		
 		all.put("newComment", newComment);
 		all.put("pageBar", pageBar);
 		all.put("myBn", myBn);
 		all.put("myEmo", myEmo);
+		all.put("reply", reply);
 		
 		return all;
 	}
@@ -294,10 +299,14 @@ public class MatchPerdictionController {
 			myEmo = service.myEmo(member.getEmail());
 		}
 		
+		// 대댓글 목록
+		List<MatchPredictionComment> reply = service.replyListAll();
+		
 		all.put("popComment", popComment);
 		all.put("pageBar", pageBar);
 		all.put("myBn", myBn);
 		all.put("myEmo", myEmo);
+		all.put("reply", reply);
 		
 		return all;		
 	}

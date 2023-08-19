@@ -82,6 +82,11 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 	}
 
 	@Override
+	public List<MatchPredictionComment> replyListAll() {
+		return dao.replyListAll(session);
+	}
+
+	@Override
 	public int commentCount() {
 		return dao.commentCount(session);
 	}

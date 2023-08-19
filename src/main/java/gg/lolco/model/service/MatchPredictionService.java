@@ -33,6 +33,8 @@ public interface MatchPredictionService {
 	
 	List<MatchPredictionComment> commentListAllPop(Map param);
 	
+	List<MatchPredictionComment> replyListAll();
+	
 	int commentCount();
 	
 	List<MatchPredictionComment> bestCommentList(int week);

@@ -36,6 +36,8 @@ public interface MatchPredictionDao {
 	List<MatchPredictionComment> commentListAll(SqlSessionTemplate session, Map param);
 	
 	List<MatchPredictionComment> commentListAllPop(SqlSessionTemplate session, Map param);
+
+	List<MatchPredictionComment> replyListAll(SqlSessionTemplate session);
 	
 	int commentCount(SqlSessionTemplate session);
 	

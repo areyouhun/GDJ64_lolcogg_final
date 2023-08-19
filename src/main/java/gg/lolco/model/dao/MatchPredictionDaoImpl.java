@@ -83,6 +83,11 @@ public class MatchPredictionDaoImpl implements MatchPredictionDao {
 	}
 
 	@Override
+	public List<MatchPredictionComment> replyListAll(SqlSessionTemplate session) {
+		return session.selectList("matchPrediction.replyListAll");
+	}
+
+	@Override
 	public int commentCount(SqlSessionTemplate session) {
 		return session.selectOne("matchPrediction.commentCount");
 	}
