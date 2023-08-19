@@ -63,5 +63,11 @@ public class MypageServiceImpl implements MypageService {
 		// TODO Auto-generated method stub
 		return dao.WithdrawalEmail(session, param);
 	}
+	
+	@Override
+	public int restoreEmail(Map param) {
+		// TODO Auto-generated method stub
+		return dao.restoreEmail(session, param);
+	}
 
 }

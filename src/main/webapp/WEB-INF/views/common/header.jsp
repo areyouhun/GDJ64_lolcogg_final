@@ -83,10 +83,9 @@
 			</c:if>
 			<a href="${path }/member/logout.do"> 로그아웃 </a>
 			<hr style="border: none; height: 1px; background-color: #EEEEEE">
-			<h3>정보</h3>
-			<span><img src="${path }/resources/images/store/pointImg.png">
-			</span> <span class="color-white">&nbsp;&nbsp;${loginMember.totalPoints}
-				포인트</span>
+			<span class="color-white ">
+				<img src="${path }/resources/images/store/pointImg.png">&nbsp;&nbsp;${loginMember.totalPoints} 포인트
+			</span>
 		</div>
 	</div>
 	</c:if>

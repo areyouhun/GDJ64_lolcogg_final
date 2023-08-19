@@ -18,5 +18,6 @@ public interface MypageDao {
 	int updatePasswordForProfile(SqlSession session, Map param);
 	int updatePassword(SqlSession session, Map param);
 	int WithdrawalEmail(SqlSession session, Map param);
+	int restoreEmail(SqlSession session, Map param);
 
 }

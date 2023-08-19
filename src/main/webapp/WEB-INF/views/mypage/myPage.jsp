@@ -478,7 +478,6 @@
 <script src="${path}/resources/js/script_common.js"></script>
 <!-- Your own script tag or JavaScript file -->
 <script>
-
 /* ----- start ----- */	
     /* 응원팀 이미지 파일 추출 */
     const abbrImgMap = new Map([

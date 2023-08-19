@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import gg.lolco.model.vo.Member;
+import gg.lolco.model.vo.Report;
 
 public interface MemberService {
 
@@ -33,6 +34,8 @@ public interface MemberService {
 	int insertPointToEmail(Map pointOffer);
 	// 추천인 코드 입력 관련 계정 포인트 지급 기록 작성
 	int insertPointHistoryByReferralCode(Map PointHistoryByReferralCode);
+	// 회원가입 축하금액 관련 계정 포인트 지급 기록 작성
+	int insertPointHistoryByLolcoggEnroll(Map insertPointHistoryByLolcoggEnroll);
 	// 추천인 코드를 통한 제공한 계정(암호화상태) 찾기
 	String searchEmailByReferralCode(String myReferralCode);
 	// 응원팀 이모티콘 제공
@@ -50,4 +53,10 @@ public interface MemberService {
 	
 	// get all members
 	List<Map<String, Object>> selectMemberAll();
+	
+	//회원 목록 조회
+	List<Member> memberList(Map<String, Object> param);
+	//회원 목록 수 조회
+	int memberListCount();
+
 }
