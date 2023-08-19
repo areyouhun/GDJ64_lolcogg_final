@@ -205,7 +205,7 @@
         addImageBlobHook: (blob, callback) => {
             const formData = new FormData();
             formData.append('image', blob);
-            fetch(`${path}/community/renamefile`, {
+            fetch('${path}/community/renamefile', {
                 method: 'POST',
                 body: formData
             }).then((response) => {
