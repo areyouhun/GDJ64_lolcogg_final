@@ -84,7 +84,7 @@ public class StoreController {
 	}
 	
 	@RequestMapping("/purchase")
-	public String itemPurchase(Model m,String name,@SessionAttribute("loginMember") Member member,int price) {
+	public String itemPurchase(Model m,String name,@SessionAttribute("loginMember") Member member,int price,SessionStatus status,  HttpSession session) {
 		Map<String,Object> param=new HashMap<>();
 		String email=member.getEmail();
 		param.put("email", email);
@@ -104,6 +104,7 @@ public class StoreController {
 			if(!(emopack.size()==0)){
 				for(EmoPack e:emopack) {
 					param.put("emoNo", e.getEmoNo().getEmoNo());
+					
 					MemberEmoticon me=service.memberEmoticonCheck(param);
 					if(me==null) {
 						service.memberEmoticonBuy(param);
@@ -111,9 +112,10 @@ public class StoreController {
 						param.put("price", -(price/5)*0.8);
 						service.buyerMoney(param);
 					}
-
 				};
 			}
+			if(!status.isComplete()) status.setComplete();
+			session.setAttribute("loginMember",serviceMember.selectMemberById(param));
 			m.addAttribute("emopack",emopack);
 			m.addAttribute("cardPack",cardPack);
 		}
