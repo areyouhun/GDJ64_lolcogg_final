@@ -1623,333 +1623,651 @@ function weekChoice(week){
 const memberEmail = '${loginMember.email}';
 const memberAuth = '${loginMember.authority}'
 
-	$.ajax({
-	    type: "POST",
-	    url: "${path}/matchprediction/newComment",
-	    success: function(data) {
-	    	$('.commentSort').find('.newComment').addClass('fw-bolder');
-	    	$('.commentSort').find('.popComment').removeClass('fw-bolder');
-			$('.replyBestAllDiv:last').nextAll().remove();
-			data.newComment.forEach(c =>{
-				
-				if(c.mpcRefNo == 0){
-					let commentList = $('<div>').addClass('commentList');
-					let profileDiv = $('<div>');
-					let profileImg = $('<img>').attr({
-						src : '${path}/resources/upload/profile' + c.mpcWriter.profile
-					}).css({
-						width: '70px',
-						height: '70px',
-						borderRadius: '70px'
-					})
-					profileDiv.append(profileImg);
-					
-					let detailDiv = $('<div>').addClass('detailDiv');
-					let commentDetail = $('<div>').addClass('commentDetail');
-					let commentInfo = $('<div>').addClass('commentInfo');
-					
-					let nickname = $('<p>').addClass('contentBlack fs-20 nickname').text(c.mpcWriter.nickname);
-					let tierImg = $('<img>').attr({
-					    src: '${path}/resources/images/tier/' + c.mpcWriter.tier.tierRulesNo.tierRulesImage,
-					    class: 'tierImg'
-					});
-					commentInfo.append(nickname, tierImg);
-					
-					let optionDiv = $('<div>').addClass('optionDiv');
-					let moreButton = $('<button>').addClass('moreIconBtn');
-					let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
-					    name: 'ellipsis-horizontal',
-					    style: 'font-size: 28px;'
-					});
-					moreButton.append(ionIcon);
-					
-					let optionUl = $('<ul>').addClass('optionUl');
-					let li = $('<li>').attr('id', c.mpcNo);
-					
-					if (c.mpcWriter.email == memberEmail || memberAuth == '관리자') {
-					    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
-					    let hr = $('<hr>').addClass('hr-1Black hr-op');
-					    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
-					    
-					    li.append(upBtn, hr, delBtn);
-					} else{
-						let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
-						  
-						li.append(repBtn);
-					}
-					optionUl.append(li);
-					optionDiv.append(moreButton, optionUl);
-					
-					commentDetail.append(commentInfo, optionDiv);
-					detailDiv.append(commentDetail);
-					
-					
-					let contentDiv = $('<div>');
-					let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(c.mpcContent);
-					contentDiv.append(commentContent)
-					if (c.mpcEmoNo != null) {
-					    let emoticonImg = $('<img>').addClass('emoticon').attr({
-					        src: '${path}/resources/images/emoticon/' + c.mpcEmoNo.emoFilename,
-					        width: '100px',
-					        height: '100px'
-					    });
-					    contentDiv.append(emoticonImg);
-					}
-					detailDiv.append(contentDiv);
-					
-					
-					let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
-					let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
-					let dateSpan = $('<span>').addClass('dateSpan');
-					
-					/* 날짜 포맷팅 */
-					if (c.mpcUpDate == null) {
-						dateSpan.text(c.mpcDate);
-					} else {
-						dateSpan.text('최근 수정일 ' + c.mpcUpDate);
-					}
-					insertReplyDiv.append(dateSpan);
-					
-					let insertReply = $('<p>').attr('id', c.mpcNo).addClass('insertReply').text('답글쓰기').on('click', insertReplyHandler);
-					let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
-					insertReplyDiv.append(insertReply, replyCount);
-					
-					let buffNerfDiv = $('<div>').attr('id', c.mpcNo).addClass('buffNerfDiv');
-					let buffDiv = $('<div>').addClass('buffDiv');
-					
-					let myBnSet = '';
-					data.myBn.forEach(bn =>{
-						if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'B'){
-							myBnSet = 'myBn';
-						}
-					});
-					let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
-					let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
-					buffBtn.append(bnIcon);
-						
-					/* 숫자 포맷팅 */
-					let buffCount = $('<p>').addClass('contentBlack').text(c.buffCount);
-					buffDiv.append(buffBtn, buffCount);
-					
-					let nerfDiv = $('<div>').addClass('nerfDiv');
-					myBnSet = '';	
-					data.myBn.forEach(bn =>{
-						if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
-							myBnSet = 'myBn';
-						}
-					});
-					let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
-					bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
-					nerfBtn.append(bnIcon);
-					
-					/* 숫자 포맷팅 */
-					let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
-					nerfDiv.append(nerfBtn, nerfCount);
-					
-					buffNerfDiv.append(buffDiv, nerfDiv);
-					dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
+/* 페이지 들어오면 */
+$.ajax({
+    type: "POST",
+    url: "${path}/matchprediction/newComment",
+    success: function(data) {
+    	$('.commentSort').find('.newComment').addClass('fw-bolder');
+    	$('.commentSort').find('.popComment').removeClass('fw-bolder');
+		$('.replyBestAllDiv:last').nextAll().remove();
 		
-					detailDiv.append(dateBuffDiv);
-					
-					
-					/* 대댓글 입력form */
-					let replyDiv = $('<div>').addClass('replyDiv');
-					let replyForm = $('<form>').attr({
-					    id: c.mpcNo,
-					    class: 'replyForm',
-					    method: 'post',
-					    onsubmit: 'return fn_insertComment(${nowWeek}, event);'
-					});
-					
-					let insertCommentDiv = $('<div>').addClass('insertCommentDiv');
-					let commentDiv = $('<div>').addClass('commentDiv');
+		fn_newCommentDiv(data);
+		$(".pageBar").html(data.pageBar);
+    },
+    error: function(err){
+    	console.log("응답 실패", err);
+    }
+});
 	
-					let textarea = $('<textarea>').attr({
-					    type: 'text',
-					    class: 'insertComment contentBlack fs-20',
-					    style: 'resize: none;'
-					});
-					commentDiv.append(textarea);
-	
-					let countBtnDiv = $('<div>').addClass('countBtnDiv');
-					let countBtn = $('<div>').addClass('countBtn');
-					let letterSpan = $('<span>').attr('id', 'letterSpan').addClass('contentBlack fs-20').text('0/150');
-					countBtn.append(letterSpan);
-	
-					let iconBtn = $('<div>').addClass('iconBtn');
-					let emoDiv = $('<div>').addClass('emoDiv');
-					let emoIcon = $('<ion-icon>').attr('name', 'happy-outline');
-					let emo = $('<div>').addClass('emo');
-					let emoSort = $('<ul>').addClass('emoSort');
-	
-					data.myEmo.forEach(emo =>{
-						let li = $('<li>');
-						let emoBtn = $('<button>').addClass('emoBtn').attr({
-							type: 'button'
-						})
-						let emoImg = $('<img>').attr({
-							id: emo.emoticon.emoNo,
-							src: '${path}/resources/images/emoticon' + emo.emoticon.emoFilename,
-							height: '65px'
-						})
-						li.append(emoBtn, emoImg);
-					    emoSort.append(li);
-					});
-					emo.append(emoSort);
-					emoDiv.append(emoIcon, emo);
-	
-					let commentBtn = $('<button>').addClass('commentBtn content').text('등록');
-					iconBtn.append(emoDiv, commentBtn);
-					countBtnDiv.append(countBtn, iconBtn);
-					replyForm.append(insertCommentDiv, countBtnDiv);
-					replyDiv.append(replyForm);
-	
-					detailDiv.append(replyDiv);
-					
-					commentList.append(profileDiv, detailDiv);
-					let hr = $('<hr>').addClass('hr-1Black hr-op');
-					
-					
-					$('.mpCommentListDiv').append(commentList);
-					$('.mpCommentListDiv').append(hr);
+
+/* 최신순 */
+function fn_newCommentDiv(data){
+	data.newComment.forEach(c =>{
+		
+		if(c.mpcRefNo == 0){
+			let commentList = $('<div>').addClass('commentList');
+			let profileDiv = $('<div>');
+			let profileImg = $('<img>').attr({
+				src : '${path}/resources/upload/profile' + c.mpcWriter.profile
+			}).css({
+				width: '70px',
+				height: '70px',
+				borderRadius: '70px'
+			})
+			profileDiv.append(profileImg);
+			
+			let detailDiv = $('<div>').addClass('detailDiv');
+			let commentDetail = $('<div>').addClass('commentDetail');
+			let commentInfo = $('<div>').addClass('commentInfo');
+			
+			let nickname = $('<p>').addClass('contentBlack fs-20 nickname').text(c.mpcWriter.nickname);
+			let tierImg = $('<img>').attr({
+			    src: '${path}/resources/images/tier/' + c.mpcWriter.tier.tierRulesNo.tierRulesImage,
+			    class: 'tierImg'
+			});
+			commentInfo.append(nickname, tierImg);
+			
+			let optionDiv = $('<div>').addClass('optionDiv');
+			let moreButton = $('<button>').addClass('moreIconBtn');
+			let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
+			    name: 'ellipsis-horizontal',
+			    style: 'font-size: 28px;'
+			});
+			moreButton.append(ionIcon);
+			
+			let optionUl = $('<ul>').addClass('optionUl');
+			let li = $('<li>').attr('id', c.mpcNo);
+			
+			if (c.mpcWriter.email == memberEmail || memberAuth == '관리자') {
+			    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
+			    let hr = $('<hr>').addClass('hr-1Black hr-op');
+			    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
+			    
+			    li.append(upBtn, hr, delBtn);
+			} else{
+				let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
+				  
+				li.append(repBtn);
+			}
+			optionUl.append(li);
+			optionDiv.append(moreButton, optionUl);
+			
+			commentDetail.append(commentInfo, optionDiv);
+			detailDiv.append(commentDetail);
+			
+			
+			let contentDiv = $('<div>');
+			let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(c.mpcContent);
+			contentDiv.append(commentContent)
+			if (c.mpcEmoNo != null) {
+			    let emoticonImg = $('<img>').addClass('emoticon').attr({
+			        src: '${path}/resources/images/emoticon/' + c.mpcEmoNo.emoFilename,
+			        width: '100px',
+			        height: '100px'
+			    });
+			    contentDiv.append(emoticonImg);
+			}
+			detailDiv.append(contentDiv);
+			
+			
+			let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
+			let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
+			let dateSpan = $('<span>').addClass('dateSpan');
+			
+			/* 날짜 포맷팅 */
+			if (c.mpcUpDate == null) {
+				dateSpan.text(c.mpcDate);
+			} else {
+				dateSpan.text('최근 수정일 ' + c.mpcUpDate);
+			}
+			insertReplyDiv.append(dateSpan);
+			
+			let insertReply = $('<p>').attr('id', c.mpcNo).addClass('insertReply').text('답글쓰기').on('click', insertReplyHandler);
+			let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
+			insertReplyDiv.append(insertReply, replyCount);
+			
+			let buffNerfDiv = $('<div>').attr('id', c.mpcNo).addClass('buffNerfDiv');
+			let buffDiv = $('<div>').addClass('buffDiv');
+			
+			let myBnSet = '';
+			data.myBn.forEach(bn =>{
+				if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'B'){
+					myBnSet = 'myBn';
+				}
+			});
+			let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
+			let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
+			buffBtn.append(bnIcon);
+				
+			/* 숫자 포맷팅 */
+			let buffCount = $('<p>').addClass('contentBlack').text(c.buffCount);
+			buffDiv.append(buffBtn, buffCount);
+			
+			let nerfDiv = $('<div>').addClass('nerfDiv');
+			myBnSet = '';	
+			data.myBn.forEach(bn =>{
+				if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
+					myBnSet = 'myBn';
+				}
+			});
+			let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
+			bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
+			nerfBtn.append(bnIcon);
+			
+			/* 숫자 포맷팅 */
+			let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
+			nerfDiv.append(nerfBtn, nerfCount);
+			
+			buffNerfDiv.append(buffDiv, nerfDiv);
+			dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
+
+			detailDiv.append(dateBuffDiv);
+			
+			
+			/* 대댓글 입력form */
+			let replyDiv = $('<div>').addClass('replyDiv');
+			let replyForm = $('<form>').attr({
+			    id: c.mpcNo,
+			    class: 'replyForm',
+			    method: 'post',
+			    onsubmit: 'return fn_insertComment(${nowWeek}, event);'
+			});
+			
+			let insertCommentDiv = $('<div>').addClass('insertCommentDiv');
+			let commentDiv = $('<div>').addClass('commentDiv');
+
+			let textarea = $('<textarea>').attr({
+			    type: 'text',
+			    class: 'insertComment contentBlack fs-20',
+			    style: 'resize: none;'
+			});
+			commentDiv.append(textarea);
+
+			let countBtnDiv = $('<div>').addClass('countBtnDiv');
+			let countBtn = $('<div>').addClass('countBtn');
+			let letterSpan = $('<span>').attr('id', 'letterSpan').addClass('contentBlack fs-20').text('0/150');
+			countBtn.append(letterSpan);
+
+			let iconBtn = $('<div>').addClass('iconBtn');
+			let emoDiv = $('<div>').addClass('emoDiv');
+			let emoIcon = $('<ion-icon>').attr('name', 'happy-outline');
+			let emo = $('<div>').addClass('emo');
+			let emoSort = $('<ul>').addClass('emoSort');
+
+			data.myEmo.forEach(emo =>{
+				let li = $('<li>');
+				let emoBtn = $('<button>').addClass('emoBtn').attr({
+					type: 'button'
+				})
+				let emoImg = $('<img>').attr({
+					id: emo.emoticon.emoNo,
+					src: '${path}/resources/images/emoticon' + emo.emoticon.emoFilename,
+					height: '65px'
+				})
+				li.append(emoBtn, emoImg);
+			    emoSort.append(li);
+			});
+			emo.append(emoSort);
+			emoDiv.append(emoIcon, emo);
+
+			let commentBtn = $('<button>').addClass('commentBtn content').text('등록');
+			iconBtn.append(emoDiv, commentBtn);
+			countBtnDiv.append(countBtn, iconBtn);
+			replyForm.append(insertCommentDiv, countBtnDiv);
+			replyDiv.append(replyForm);
+
+			detailDiv.append(replyDiv);
+			
+			commentList.append(profileDiv, detailDiv);
+			let hr = $('<hr>').addClass('hr-1Black hr-op');
+			
+			
+			$('.mpCommentListDiv').append(commentList);
+			$('.mpCommentListDiv').append(hr);
+		}
+		
+		/* 대댓글 */
+		data.newComment.forEach(r =>{
+			if(r.mpcRefNo != 0 && c.mpcNo == r.mpcRefNo){
+				let replyAllDiv = $('<div>').addClass('replyAllDiv');
+				let commentList = $('<div>').addClass('commentList');
+				
+				let div1 = $('<div>').css('width', '80px');
+				let div2 = $('<div>');
+				
+				let img = $('<img>').attr('src', '${path}/resources/upload/profile/' + r.mpcWriter.profile).css({
+				    width: '70px',
+				    height: '70px',
+				    borderRadius: '70px'
+				});
+				div2.append(img);
+				commentList.append(div1, div2);
+				
+				let detaildetailDiv = $('<div>').addClass('detaildetailDiv');
+				let commentDetail = $('<div>').addClass('commentDetail');
+				let commentInfo = $('<div>').addClass('commentInfo');
+				
+				let nicknameP = $('<p>').addClass('contentBlack fs-20 nickname').text(r.mpcWriter.nickname);
+				let tierImg = $('<img>').attr('src', '${path}/resources/images/tier/' + r.mpcWriter.tier.tierRulesNo.tierRulesImage).addClass('tierImg');
+				commentInfo.append(nicknameP, tierImg);
+				commentDetail.append(commentInfo);
+				detaildetailDiv.append(commentDetail);
+				
+				let optionDiv = $('<div>').addClass('optionDiv');
+				let moreButton = $('<button>').addClass('moreIconBtn');
+				let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
+				    name: 'ellipsis-horizontal',
+				    style: 'font-size: 28px;'
+				});
+				moreButton.append(ionIcon);
+				
+				let optionUl = $('<ul>').addClass('optionUl');
+				let li = $('<li>').attr('id', r.mpcNo);
+				
+				if (r.mpcWriter.email == memberEmail || memberAuth == '관리자') {
+				    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
+				    let hr = $('<hr>').addClass('hr-1Black hr-op');
+				    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
+				    
+				    li.append(upBtn, hr, delBtn);
+				} else{
+					let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
+					  
+					li.append(repBtn);
+				}
+				optionUl.append(li);
+				optionDiv.append(moreButton, optionUl);
+				commentDetail.append(commentInfo, optionDiv);
+				
+				
+				
+				let contentDiv = $('<div>');
+				let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(r.mpcContent);
+				contentDiv.append(commentContent)
+				if (r.mpcEmoNo != null) {
+				    let emoticonImg = $('<img>').addClass('emoticon').attr({
+				        src: '${path}/resources/images/emoticon/' + r.mpcEmoNo.emoFilename,
+				        width: '100px',
+				        height: '100px'
+				    });
+				    contentDiv.append(emoticonImg);
 				}
 				
-				/* 대댓글 */
-				data.newComment.forEach(r =>{
-					if(r.mpcRefNo != 0 && c.mpcNo == r.mpcRefNo){
-						let replyAllDiv = $('<div>').addClass('replyAllDiv');
-						let commentList = $('<div>').addClass('commentList');
-						
-						let div1 = $('<div>').css('width', '80px');
-						let div2 = $('<div>');
-						
-						let img = $('<img>').attr('src', '${path}/resources/upload/profile/' + r.mpcWriter.profile).css({
-						    width: '70px',
-						    height: '70px',
-						    borderRadius: '70px'
-						});
-						div2.append(img);
-						commentList.append(div1, div2);
-						
-						let detaildetailDiv = $('<div>').addClass('detaildetailDiv');
-						let commentDetail = $('<div>').addClass('commentDetail');
-						let commentInfo = $('<div>').addClass('commentInfo');
-						
-						let nicknameP = $('<p>').addClass('contentBlack fs-20 nickname').text(r.mpcWriter.nickname);
-						let tierImg = $('<img>').attr('src', '${path}/resources/images/tier/' + r.mpcWriter.tier.tierRulesNo.tierRulesImage).addClass('tierImg');
-						commentInfo.append(nicknameP, tierImg);
-						commentDetail.append(commentInfo);
-						detaildetailDiv.append(commentDetail);
-						
-						let optionDiv = $('<div>').addClass('optionDiv');
-						let moreButton = $('<button>').addClass('moreIconBtn');
-						let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
-						    name: 'ellipsis-horizontal',
-						    style: 'font-size: 28px;'
-						});
-						moreButton.append(ionIcon);
-						
-						let optionUl = $('<ul>').addClass('optionUl');
-						let li = $('<li>').attr('id', r.mpcNo);
-						
-						if (r.mpcWriter.email == memberEmail || memberAuth == '관리자') {
-						    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
-						    let hr = $('<hr>').addClass('hr-1Black hr-op');
-						    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
-						    
-						    li.append(upBtn, hr, delBtn);
-						} else{
-							let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
-							  
-							li.append(repBtn);
-						}
-						optionUl.append(li);
-						optionDiv.append(moreButton, optionUl);
-						commentDetail.append(commentInfo, optionDiv);
-						
-						
-						
-						let contentDiv = $('<div>');
-						let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(r.mpcContent);
-						contentDiv.append(commentContent)
-						if (r.mpcEmoNo != null) {
-						    let emoticonImg = $('<img>').addClass('emoticon').attr({
-						        src: '${path}/resources/images/emoticon/' + r.mpcEmoNo.emoFilename,
-						        width: '100px',
-						        height: '100px'
-						    });
-						    contentDiv.append(emoticonImg);
-						}
-						
-						let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
-						let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
-						let dateSpan = $('<span>').addClass('dateSpan');
-						
-						/* 날짜 포맷팅 */
-						if (r.mpcUpDate == null) {
-							dateSpan.text(r.mpcDate);
-						} else {
-							dateSpan.text('최근 수정일 ' + r.mpcUpDate);
-						}
-						insertReplyDiv.append(dateSpan);
-						
-						let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
-						insertReplyDiv.append(replyCount);
-						
-						let buffNerfDiv = $('<div>').attr('id', r.mpcNo).addClass('buffNerfDiv');
-						let buffDiv = $('<div>').addClass('buffDiv');
-						
-						let myBnSet = '';
-						data.myBn.forEach(bn =>{
-							if(bn.bnMpcNo == r.mpcNo && bn.bnBn == 'B'){
-								myBnSet = 'myBn';
-							}
-						});
-						let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
-						let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
-						buffBtn.append(bnIcon);
-							
-						/* 숫자 포맷팅 */
-						let buffCount = $('<p>').addClass('contentBlack').text(r.buffCount);
-						buffDiv.append(buffBtn, buffCount);
-						
-						let nerfDiv = $('<div>').addClass('nerfDiv');
-						myBnSet = '';	
-						data.myBn.forEach(bn =>{
-							if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
-								myBnSet = 'myBn';
-							}
-						});
-						let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
-						bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
-						nerfBtn.append(bnIcon);
-						
-						/* 숫자 포맷팅 */
-						let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
-						nerfDiv.append(nerfBtn, nerfCount);
-						
-						buffNerfDiv.append(buffDiv, nerfDiv);
-						dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
-			
-						detaildetailDiv.append(commentDetail, contentDiv, dateBuffDiv);
-						
-						let hr = $('<hr>').addClass('hr-1Black hr-op');
-						
-						commentList.append(detaildetailDiv);
-						replyAllDiv.append(commentList);
-						$('.mpCommentListDiv').append(replyAllDiv, hr);
+				let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
+				let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
+				let dateSpan = $('<span>').addClass('dateSpan');
+				
+				/* 날짜 포맷팅 */
+				if (r.mpcUpDate == null) {
+					dateSpan.text(r.mpcDate);
+				} else {
+					dateSpan.text('최근 수정일 ' + r.mpcUpDate);
+				}
+				insertReplyDiv.append(dateSpan);
+				
+				let buffNerfDiv = $('<div>').attr('id', r.mpcNo).addClass('buffNerfDiv');
+				let buffDiv = $('<div>').addClass('buffDiv');
+				
+				let myBnSet = '';
+				data.myBn.forEach(bn =>{
+					if(bn.bnMpcNo == r.mpcNo && bn.bnBn == 'B'){
+						myBnSet = 'myBn';
 					}
-				})
-			});		
-			
-			
-			$(".pageBar").html(data.pageBar);
-	    },
-	    error: function(err){
-	    	console.log("응답 실패", err);
-	    }
+				});
+				let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
+				let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
+				buffBtn.append(bnIcon);
+					
+				/* 숫자 포맷팅 */
+				let buffCount = $('<p>').addClass('contentBlack').text(r.buffCount);
+				buffDiv.append(buffBtn, buffCount);
+				
+				let nerfDiv = $('<div>').addClass('nerfDiv');
+				myBnSet = '';	
+				data.myBn.forEach(bn =>{
+					if(bn.bnMpcNo == r.mpcNo && bn.bnBn == 'N'){
+						myBnSet = 'myBn';
+					}
+				});
+				let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
+				bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
+				nerfBtn.append(bnIcon);
+				
+				/* 숫자 포맷팅 */
+				let nerfCount = $('<p>').addClass('contentBlack').text(r.nerfCount);
+				nerfDiv.append(nerfBtn, nerfCount);
+				
+				buffNerfDiv.append(buffDiv, nerfDiv);
+				dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
+	
+				detaildetailDiv.append(commentDetail, contentDiv, dateBuffDiv);
+				
+				let hr = $('<hr>').addClass('hr-1Black hr-op');
+				
+				commentList.append(detaildetailDiv);
+				replyAllDiv.append(commentList);
+				$('.mpCommentListDiv').append(replyAllDiv, hr);
+			}
+		})
 	});
 	
+	return $('.mpCommentListDiv');
+}
+
+/* 인기순 */
+function fn_popCommentDiv(data){
+	data.popComment.forEach(c =>{
+		
+		if(c.mpcRefNo == 0){
+			let commentList = $('<div>').addClass('commentList');
+			let profileDiv = $('<div>');
+			let profileImg = $('<img>').attr({
+				src : '${path}/resources/upload/profile' + c.mpcWriter.profile
+			}).css({
+				width: '70px',
+				height: '70px',
+				borderRadius: '70px'
+			})
+			profileDiv.append(profileImg);
+			
+			let detailDiv = $('<div>').addClass('detailDiv');
+			let commentDetail = $('<div>').addClass('commentDetail');
+			let commentInfo = $('<div>').addClass('commentInfo');
+			
+			let nickname = $('<p>').addClass('contentBlack fs-20 nickname').text(c.mpcWriter.nickname);
+			let tierImg = $('<img>').attr({
+			    src: '${path}/resources/images/tier/' + c.mpcWriter.tier.tierRulesNo.tierRulesImage,
+			    class: 'tierImg'
+			});
+			commentInfo.append(nickname, tierImg);
+			
+			let optionDiv = $('<div>').addClass('optionDiv');
+			let moreButton = $('<button>').addClass('moreIconBtn');
+			let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
+			    name: 'ellipsis-horizontal',
+			    style: 'font-size: 28px;'
+			});
+			moreButton.append(ionIcon);
+			
+			let optionUl = $('<ul>').addClass('optionUl');
+			let li = $('<li>').attr('id', c.mpcNo);
+			
+			if (c.mpcWriter.email == memberEmail || memberAuth == '관리자') {
+			    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
+			    let hr = $('<hr>').addClass('hr-1Black hr-op');
+			    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
+			    
+			    li.append(upBtn, hr, delBtn);
+			} else{
+				let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
+				  
+				li.append(repBtn);
+			}
+			optionUl.append(li);
+			optionDiv.append(moreButton, optionUl);
+			
+			commentDetail.append(commentInfo, optionDiv);
+			detailDiv.append(commentDetail);
+			
+			
+			let contentDiv = $('<div>');
+			let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(c.mpcContent);
+			contentDiv.append(commentContent)
+			if (c.mpcEmoNo != null) {
+			    let emoticonImg = $('<img>').addClass('emoticon').attr({
+			        src: '${path}/resources/images/emoticon/' + c.mpcEmoNo.emoFilename,
+			        width: '100px',
+			        height: '100px'
+			    });
+			    contentDiv.append(emoticonImg);
+			}
+			detailDiv.append(contentDiv);
+			
+			
+			let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
+			let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
+			let dateSpan = $('<span>').addClass('dateSpan');
+			
+			/* 날짜 포맷팅 */
+			if (c.mpcUpDate == null) {
+				dateSpan.text(c.mpcDate);
+			} else {
+				dateSpan.text('최근 수정일 ' + c.mpcUpDate);
+			}
+			insertReplyDiv.append(dateSpan);
+			
+			let insertReply = $('<p>').attr('id', c.mpcNo).addClass('insertReply').text('답글쓰기').on('click', insertReplyHandler);
+			let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
+			insertReplyDiv.append(insertReply, replyCount);
+			
+			let buffNerfDiv = $('<div>').attr('id', c.mpcNo).addClass('buffNerfDiv');
+			let buffDiv = $('<div>').addClass('buffDiv');
+			
+			let myBnSet = '';
+			data.myBn.forEach(bn =>{
+				if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'B'){
+					myBnSet = 'myBn';
+				}
+			});
+			let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
+			let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
+			buffBtn.append(bnIcon);
+				
+			/* 숫자 포맷팅 */
+			let buffCount = $('<p>').addClass('contentBlack').text(c.buffCount);
+			buffDiv.append(buffBtn, buffCount);
+			
+			let nerfDiv = $('<div>').addClass('nerfDiv');
+			myBnSet = '';	
+			data.myBn.forEach(bn =>{
+				if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
+					myBnSet = 'myBn';
+				}
+			});
+			let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
+			bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
+			nerfBtn.append(bnIcon);
+			
+			/* 숫자 포맷팅 */
+			let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
+			nerfDiv.append(nerfBtn, nerfCount);
+			
+			buffNerfDiv.append(buffDiv, nerfDiv);
+			dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
+
+			detailDiv.append(dateBuffDiv);
+			
+			
+			/* 대댓글 입력form */
+			let replyDiv = $('<div>').addClass('replyDiv');
+			let replyForm = $('<form>').attr({
+			    id: c.mpcNo,
+			    class: 'replyForm',
+			    method: 'post',
+			    onsubmit: 'return fn_insertComment(${nowWeek}, event);'
+			});
+			
+			let insertCommentDiv = $('<div>').addClass('insertCommentDiv');
+			let commentDiv = $('<div>').addClass('commentDiv');
+
+			let textarea = $('<textarea>').attr({
+			    type: 'text',
+			    class: 'insertComment contentBlack fs-20',
+			    style: 'resize: none;'
+			});
+			commentDiv.append(textarea);
+
+			let countBtnDiv = $('<div>').addClass('countBtnDiv');
+			let countBtn = $('<div>').addClass('countBtn');
+			let letterSpan = $('<span>').attr('id', 'letterSpan').addClass('contentBlack fs-20').text('0/150');
+			countBtn.append(letterSpan);
+
+			let iconBtn = $('<div>').addClass('iconBtn');
+			let emoDiv = $('<div>').addClass('emoDiv');
+			let emoIcon = $('<ion-icon>').attr('name', 'happy-outline');
+			let emo = $('<div>').addClass('emo');
+			let emoSort = $('<ul>').addClass('emoSort');
+
+			data.myEmo.forEach(emo =>{
+				let li = $('<li>');
+				let emoBtn = $('<button>').addClass('emoBtn').attr({
+					type: 'button'
+				})
+				let emoImg = $('<img>').attr({
+					id: emo.emoticon.emoNo,
+					src: '${path}/resources/images/emoticon' + emo.emoticon.emoFilename,
+					height: '65px'
+				})
+				li.append(emoBtn, emoImg);
+			    emoSort.append(li);
+			});
+			emo.append(emoSort);
+			emoDiv.append(emoIcon, emo);
+
+			let commentBtn = $('<button>').addClass('commentBtn content').text('등록');
+			iconBtn.append(emoDiv, commentBtn);
+			countBtnDiv.append(countBtn, iconBtn);
+			replyForm.append(insertCommentDiv, countBtnDiv);
+			replyDiv.append(replyForm);
+
+			detailDiv.append(replyDiv);
+			
+			commentList.append(profileDiv, detailDiv);
+			let hr = $('<hr>').addClass('hr-1Black hr-op');
+			
+			
+			$('.mpCommentListDiv').append(commentList);
+			$('.mpCommentListDiv').append(hr);
+		}
+		
+		/* 대댓글 */
+		data.popComment.forEach(r =>{
+			if(r.mpcRefNo != 0 && c.mpcNo == r.mpcRefNo){
+				let replyAllDiv = $('<div>').addClass('replyAllDiv');
+				let commentList = $('<div>').addClass('commentList');
+				
+				let div1 = $('<div>').css('width', '80px');
+				let div2 = $('<div>');
+				
+				let img = $('<img>').attr('src', '${path}/resources/upload/profile/' + r.mpcWriter.profile).css({
+				    width: '70px',
+				    height: '70px',
+				    borderRadius: '70px'
+				});
+				div2.append(img);
+				commentList.append(div1, div2);
+				
+				let detaildetailDiv = $('<div>').addClass('detaildetailDiv');
+				let commentDetail = $('<div>').addClass('commentDetail');
+				let commentInfo = $('<div>').addClass('commentInfo');
+				
+				let nicknameP = $('<p>').addClass('contentBlack fs-20 nickname').text(r.mpcWriter.nickname);
+				let tierImg = $('<img>').attr('src', '${path}/resources/images/tier/' + r.mpcWriter.tier.tierRulesNo.tierRulesImage).addClass('tierImg');
+				commentInfo.append(nicknameP, tierImg);
+				commentDetail.append(commentInfo);
+				detaildetailDiv.append(commentDetail);
+				
+				let optionDiv = $('<div>').addClass('optionDiv');
+				let moreButton = $('<button>').addClass('moreIconBtn');
+				let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
+				    name: 'ellipsis-horizontal',
+				    style: 'font-size: 28px;'
+				});
+				moreButton.append(ionIcon);
+				
+				let optionUl = $('<ul>').addClass('optionUl');
+				let li = $('<li>').attr('id', r.mpcNo);
+				
+				if (r.mpcWriter.email == memberEmail || memberAuth == '관리자') {
+				    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
+				    let hr = $('<hr>').addClass('hr-1Black hr-op');
+				    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
+				    
+				    li.append(upBtn, hr, delBtn);
+				} else{
+					let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
+					  
+					li.append(repBtn);
+				}
+				optionUl.append(li);
+				optionDiv.append(moreButton, optionUl);
+				commentDetail.append(commentInfo, optionDiv);
+				
+				
+				
+				let contentDiv = $('<div>');
+				let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(r.mpcContent);
+				contentDiv.append(commentContent)
+				if (r.mpcEmoNo != null) {
+				    let emoticonImg = $('<img>').addClass('emoticon').attr({
+				        src: '${path}/resources/images/emoticon/' + r.mpcEmoNo.emoFilename,
+				        width: '100px',
+				        height: '100px'
+				    });
+				    contentDiv.append(emoticonImg);
+				}
+				
+				let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
+				let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
+				let dateSpan = $('<span>').addClass('dateSpan');
+				
+				/* 날짜 포맷팅 */
+				if (r.mpcUpDate == null) {
+					dateSpan.text(r.mpcDate);
+				} else {
+					dateSpan.text('최근 수정일 ' + r.mpcUpDate);
+				}
+				insertReplyDiv.append(dateSpan);
+				
+				let buffNerfDiv = $('<div>').attr('id', r.mpcNo).addClass('buffNerfDiv');
+				let buffDiv = $('<div>').addClass('buffDiv');
+				
+				let myBnSet = '';
+				data.myBn.forEach(bn =>{
+					if(bn.bnMpcNo == r.mpcNo && bn.bnBn == 'B'){
+						myBnSet = 'myBn';
+					}
+				});
+				let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
+				let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
+				buffBtn.append(bnIcon);
+					
+				/* 숫자 포맷팅 */
+				let buffCount = $('<p>').addClass('contentBlack').text(r.buffCount);
+				buffDiv.append(buffBtn, buffCount);
+				
+				let nerfDiv = $('<div>').addClass('nerfDiv');
+				myBnSet = '';	
+				data.myBn.forEach(bn =>{
+					if(bn.bnMpcNo == r.mpcNo && bn.bnBn == 'N'){
+						myBnSet = 'myBn';
+					}
+				});
+				let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
+				bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
+				nerfBtn.append(bnIcon);
+				
+				/* 숫자 포맷팅 */
+				let nerfCount = $('<p>').addClass('contentBlack').text(r.nerfCount);
+				nerfDiv.append(nerfBtn, nerfCount);
+				
+				buffNerfDiv.append(buffDiv, nerfDiv);
+				dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
+	
+				detaildetailDiv.append(commentDetail, contentDiv, dateBuffDiv);
+				
+				let hr = $('<hr>').addClass('hr-1Black hr-op');
+				
+				commentList.append(detaildetailDiv);
+				replyAllDiv.append(commentList);
+				$('.mpCommentListDiv').append(replyAllDiv, hr);
+			}
+		})
+	});
+	
+	return $('.mpCommentListDiv');
+}
 	
 /* 댓글 정렬 및 페이징 ajax(최신순, 인기순) */
 $(document).on("click", ".newComment", function(e){
@@ -1960,318 +2278,8 @@ $(document).on("click", ".newComment", function(e){
 	    	$('.commentSort').find('.newComment').addClass('fw-bolder');
 	    	$('.commentSort').find('.popComment').removeClass('fw-bolder');
 			$('.replyBestAllDiv:last').nextAll().remove();
-			data.newComment.forEach(c =>{
-				
-				if(c.mpcRefNo == 0){
-					let commentList = $('<div>').addClass('commentList');
-					let profileDiv = $('<div>');
-					let profileImg = $('<img>').attr({
-						src : '${path}/resources/upload/profile' + c.mpcWriter.profile
-					}).css({
-						width: '70px',
-						height: '70px',
-						borderRadius: '70px'
-					})
-					profileDiv.append(profileImg);
-					
-					let detailDiv = $('<div>').addClass('detailDiv');
-					let commentDetail = $('<div>').addClass('commentDetail');
-					let commentInfo = $('<div>').addClass('commentInfo');
-					
-					let nickname = $('<p>').addClass('contentBlack fs-20 nickname').text(c.mpcWriter.nickname);
-					let tierImg = $('<img>').attr({
-					    src: '${path}/resources/images/tier/' + c.mpcWriter.tier.tierRulesNo.tierRulesImage,
-					    class: 'tierImg'
-					});
-					commentInfo.append(nickname, tierImg);
-					
-					let optionDiv = $('<div>').addClass('optionDiv');
-					let moreButton = $('<button>').addClass('moreIconBtn');
-					let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
-					    name: 'ellipsis-horizontal',
-					    style: 'font-size: 28px;'
-					});
-					moreButton.append(ionIcon);
-					
-					let optionUl = $('<ul>').addClass('optionUl');
-					let li = $('<li>').attr('id', c.mpcNo);
-					
-					if (c.mpcWriter.email == memberEmail || memberAuth == '관리자') {
-					    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
-					    let hr = $('<hr>').addClass('hr-1Black hr-op');
-					    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
-					    
-					    li.append(upBtn, hr, delBtn);
-					} else{
-						let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
-						  
-						li.append(repBtn);
-					}
-					optionUl.append(li);
-					optionDiv.append(moreButton, optionUl);
-					
-					commentDetail.append(commentInfo, optionDiv);
-					detailDiv.append(commentDetail);
-					
-					
-					let contentDiv = $('<div>');
-					let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(c.mpcContent);
-					contentDiv.append(commentContent)
-					if (c.mpcEmoNo != null) {
-					    let emoticonImg = $('<img>').addClass('emoticon').attr({
-					        src: '${path}/resources/images/emoticon/' + c.mpcEmoNo.emoFilename,
-					        width: '100px',
-					        height: '100px'
-					    });
-					    contentDiv.append(emoticonImg);
-					}
-					detailDiv.append(contentDiv);
-					
-					
-					let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
-					let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
-					let dateSpan = $('<span>').addClass('dateSpan');
-					
-					/* 날짜 포맷팅 */
-					if (c.mpcUpDate == null) {
-						dateSpan.text(c.mpcDate);
-					} else {
-						dateSpan.text('최근 수정일 ' + c.mpcUpDate);
-					}
-					insertReplyDiv.append(dateSpan);
-					
-					let insertReply = $('<p>').attr('id', c.mpcNo).addClass('insertReply').text('답글쓰기').on('click', insertReplyHandler);
-					let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
-					insertReplyDiv.append(insertReply, replyCount);
-					
-					let buffNerfDiv = $('<div>').attr('id', c.mpcNo).addClass('buffNerfDiv');
-					let buffDiv = $('<div>').addClass('buffDiv');
-					
-					let myBnSet = '';
-					data.myBn.forEach(bn =>{
-						if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'B'){
-							myBnSet = 'myBn';
-						}
-					});
-					let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
-					let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
-					buffBtn.append(bnIcon);
-						
-					/* 숫자 포맷팅 */
-					let buffCount = $('<p>').addClass('contentBlack').text(c.buffCount);
-					buffDiv.append(buffBtn, buffCount);
-					
-					let nerfDiv = $('<div>').addClass('nerfDiv');
-					myBnSet = '';	
-					data.myBn.forEach(bn =>{
-						if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
-							myBnSet = 'myBn';
-						}
-					});
-					let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
-					bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
-					nerfBtn.append(bnIcon);
-					
-					/* 숫자 포맷팅 */
-					let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
-					nerfDiv.append(nerfBtn, nerfCount);
-					
-					buffNerfDiv.append(buffDiv, nerfDiv);
-					dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
-		
-					detailDiv.append(dateBuffDiv);
-					
-					
-					/* 대댓글 입력form */
-					let replyDiv = $('<div>').addClass('replyDiv');
-					let replyForm = $('<form>').attr({
-					    id: c.mpcNo,
-					    class: 'replyForm',
-					    method: 'post',
-					    onsubmit: 'return fn_insertComment(${nowWeek}, event);'
-					});
-					
-					let insertCommentDiv = $('<div>').addClass('insertCommentDiv');
-					let commentDiv = $('<div>').addClass('commentDiv');
-	
-					let textarea = $('<textarea>').attr({
-					    type: 'text',
-					    class: 'insertComment contentBlack fs-20',
-					    style: 'resize: none;'
-					});
-					commentDiv.append(textarea);
-	
-					let countBtnDiv = $('<div>').addClass('countBtnDiv');
-					let countBtn = $('<div>').addClass('countBtn');
-					let letterSpan = $('<span>').attr('id', 'letterSpan').addClass('contentBlack fs-20').text('0/150');
-					countBtn.append(letterSpan);
-	
-					let iconBtn = $('<div>').addClass('iconBtn');
-					let emoDiv = $('<div>').addClass('emoDiv');
-					let emoIcon = $('<ion-icon>').attr('name', 'happy-outline');
-					let emo = $('<div>').addClass('emo');
-					let emoSort = $('<ul>').addClass('emoSort');
-	
-					data.myEmo.forEach(emo =>{
-						let li = $('<li>');
-						let emoBtn = $('<button>').addClass('emoBtn').attr({
-							type: 'button'
-						})
-						let emoImg = $('<img>').attr({
-							id: emo.emoticon.emoNo,
-							src: '${path}/resources/images/emoticon' + emo.emoticon.emoFilename,
-							height: '65px'
-						})
-						li.append(emoBtn, emoImg);
-					    emoSort.append(li);
-					});
-					emo.append(emoSort);
-					emoDiv.append(emoIcon, emo);
-	
-					let commentBtn = $('<button>').addClass('commentBtn content').text('등록');
-					iconBtn.append(emoDiv, commentBtn);
-					countBtnDiv.append(countBtn, iconBtn);
-					replyForm.append(insertCommentDiv, countBtnDiv);
-					replyDiv.append(replyForm);
-	
-					detailDiv.append(replyDiv);
-					
-					commentList.append(profileDiv, detailDiv);
-					let hr = $('<hr>').addClass('hr-1Black hr-op');
-					
-					
-					$('.mpCommentListDiv').append(commentList);
-					$('.mpCommentListDiv').append(hr);
-				}
-				
-				/* 대댓글 */
-				data.newComment.forEach(r =>{
-					if(r.mpcRefNo != 0 && c.mpcNo == r.mpcRefNo){
-						let replyAllDiv = $('<div>').addClass('replyAllDiv');
-						let commentList = $('<div>').addClass('commentList');
-						
-						let div1 = $('<div>').css('width', '80px');
-						let div2 = $('<div>');
-						
-						let img = $('<img>').attr('src', '${path}/resources/upload/profile/' + r.mpcWriter.profile).css({
-						    width: '70px',
-						    height: '70px',
-						    borderRadius: '70px'
-						});
-						div2.append(img);
-						commentList.append(div1, div2);
-						
-						let detaildetailDiv = $('<div>').addClass('detaildetailDiv');
-						let commentDetail = $('<div>').addClass('commentDetail');
-						let commentInfo = $('<div>').addClass('commentInfo');
-						
-						let nicknameP = $('<p>').addClass('contentBlack fs-20 nickname').text(r.mpcWriter.nickname);
-						let tierImg = $('<img>').attr('src', '${path}/resources/images/tier/' + r.mpcWriter.tier.tierRulesNo.tierRulesImage).addClass('tierImg');
-						commentInfo.append(nicknameP, tierImg);
-						commentDetail.append(commentInfo);
-						detaildetailDiv.append(commentDetail);
-						
-						let optionDiv = $('<div>').addClass('optionDiv');
-						let moreButton = $('<button>').addClass('moreIconBtn');
-						let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
-						    name: 'ellipsis-horizontal',
-						    style: 'font-size: 28px;'
-						});
-						moreButton.append(ionIcon);
-						
-						let optionUl = $('<ul>').addClass('optionUl');
-						let li = $('<li>').attr('id', r.mpcNo);
-						
-						if (r.mpcWriter.email == memberEmail || memberAuth == '관리자') {
-						    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
-						    let hr = $('<hr>').addClass('hr-1Black hr-op');
-						    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
-						    
-						    li.append(upBtn, hr, delBtn);
-						} else{
-							let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
-							  
-							li.append(repBtn);
-						}
-						optionUl.append(li);
-						optionDiv.append(moreButton, optionUl);
-						commentDetail.append(commentInfo, optionDiv);
-						
-						
-						
-						let contentDiv = $('<div>');
-						let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(r.mpcContent);
-						contentDiv.append(commentContent)
-						if (r.mpcEmoNo != null) {
-						    let emoticonImg = $('<img>').addClass('emoticon').attr({
-						        src: '${path}/resources/images/emoticon/' + r.mpcEmoNo.emoFilename,
-						        width: '100px',
-						        height: '100px'
-						    });
-						    contentDiv.append(emoticonImg);
-						}
-						
-						let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
-						let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
-						let dateSpan = $('<span>').addClass('dateSpan');
-						
-						/* 날짜 포맷팅 */
-						if (r.mpcUpDate == null) {
-							dateSpan.text(r.mpcDate);
-						} else {
-							dateSpan.text('최근 수정일 ' + r.mpcUpDate);
-						}
-						insertReplyDiv.append(dateSpan);
-						
-						let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
-						insertReplyDiv.append(replyCount);
-						
-						let buffNerfDiv = $('<div>').attr('id', r.mpcNo).addClass('buffNerfDiv');
-						let buffDiv = $('<div>').addClass('buffDiv');
-						
-						let myBnSet = '';
-						data.myBn.forEach(bn =>{
-							if(bn.bnMpcNo == r.mpcNo && bn.bnBn == 'B'){
-								myBnSet = 'myBn';
-							}
-						});
-						let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
-						let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
-						buffBtn.append(bnIcon);
-							
-						/* 숫자 포맷팅 */
-						let buffCount = $('<p>').addClass('contentBlack').text(r.buffCount);
-						buffDiv.append(buffBtn, buffCount);
-						
-						let nerfDiv = $('<div>').addClass('nerfDiv');
-						myBnSet = '';	
-						data.myBn.forEach(bn =>{
-							if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
-								myBnSet = 'myBn';
-							}
-						});
-						let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
-						bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
-						nerfBtn.append(bnIcon);
-						
-						/* 숫자 포맷팅 */
-						let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
-						nerfDiv.append(nerfBtn, nerfCount);
-						
-						buffNerfDiv.append(buffDiv, nerfDiv);
-						dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
 			
-						detaildetailDiv.append(commentDetail, contentDiv, dateBuffDiv);
-						
-						let hr = $('<hr>').addClass('hr-1Black hr-op');
-						
-						commentList.append(detaildetailDiv);
-						replyAllDiv.append(commentList);
-						$('.mpCommentListDiv').append(replyAllDiv, hr);
-					}
-				})
-			});		
-			
+			fn_newCommentDiv(data);
 			
 			$(".pageBar").html(data.pageBar);
 	    },
@@ -2289,317 +2297,8 @@ $(document).on("click", ".popComment", function(e){
 	    	$('.commentSort').find('.newComment').removeClass('fw-bolder');
 	    	$('.commentSort').find('.popComment').addClass('fw-bolder');
 			$('.replyBestAllDiv:last').nextAll().remove();
-	    	data.popComment.forEach(c =>{
-				if(c.mpcRefNo == 0){
-					let commentList = $('<div>').addClass('commentList');
-					let profileDiv = $('<div>');
-					let profileImg = $('<img>').attr({
-						src : '${path}/resources/upload/profile' + c.mpcWriter.profile
-					}).css({
-						width: '70px',
-						height: '70px',
-						borderRadius: '70px'
-					})
-					profileDiv.append(profileImg);
-					
-					let detailDiv = $('<div>').addClass('detailDiv');
-					let commentDetail = $('<div>').addClass('commentDetail');
-					let commentInfo = $('<div>').addClass('commentInfo');
-					
-					let nickname = $('<p>').addClass('contentBlack fs-20 nickname').text(c.mpcWriter.nickname);
-					let tierImg = $('<img>').attr({
-					    src: '${path}/resources/images/tier/' + c.mpcWriter.tier.tierRulesNo.tierRulesImage,
-					    class: 'tierImg'
-					});
-					commentInfo.append(nickname, tierImg);
-					
-					let optionDiv = $('<div>').addClass('optionDiv');
-					let moreButton = $('<button>').addClass('moreIconBtn');
-					let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
-					    name: 'ellipsis-horizontal',
-					    style: 'font-size: 28px;'
-					});
-					moreButton.append(ionIcon);
-					
-					let optionUl = $('<ul>').addClass('optionUl');
-					let li = $('<li>').attr('id', c.mpcNo);
-					
-					if (c.mpcWriter.email == memberEmail || memberAuth == '관리자') {
-					    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
-					    let hr = $('<hr>').addClass('hr-1Black hr-op');
-					    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
-					    
-					    li.append(upBtn, hr, delBtn);
-					} else{
-						let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
-						  
-						li.append(repBtn);
-					}
-					optionUl.append(li);
-					optionDiv.append(moreButton, optionUl);
-					
-					commentDetail.append(commentInfo, optionDiv);
-					detailDiv.append(commentDetail);
-					
-					
-					let contentDiv = $('<div>');
-					let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(c.mpcContent);
-					contentDiv.append(commentContent)
-					if (c.mpcEmoNo != null) {
-					    let emoticonImg = $('<img>').addClass('emoticon').attr({
-					        src: '${path}/resources/images/emoticon/' + c.mpcEmoNo.emoFilename,
-					        width: '100px',
-					        height: '100px'
-					    });
-					    contentDiv.append(emoticonImg);
-					}
-					detailDiv.append(contentDiv);
-					
-					
-					let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
-					let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
-					let dateSpan = $('<span>').addClass('dateSpan');
-					
-					/* 날짜 포맷팅 */
-					if (c.mpcUpDate == null) {
-						dateSpan.text(c.mpcDate);
-					} else {
-						dateSpan.text('최근 수정일 ' + c.mpcUpDate);
-					}
-					insertReplyDiv.append(dateSpan);
-					
-					let insertReply = $('<p>').attr('id', c.mpcNo).addClass('insertReply').text('답글쓰기').on('click', insertReplyHandler);
-					let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
-					insertReplyDiv.append(insertReply, replyCount);
-					
-					let buffNerfDiv = $('<div>').attr('id', c.mpcNo).addClass('buffNerfDiv');
-					let buffDiv = $('<div>').addClass('buffDiv');
-					
-					let myBnSet = '';
-					data.myBn.forEach(bn =>{
-						if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'B'){
-							myBnSet = 'myBn';
-						}
-					});
-					let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
-					let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
-					buffBtn.append(bnIcon);
-						
-					/* 숫자 포맷팅 */
-					let buffCount = $('<p>').addClass('contentBlack').text(c.buffCount);
-					buffDiv.append(buffBtn, buffCount);
-					
-					let nerfDiv = $('<div>').addClass('nerfDiv');
-					myBnSet = '';	
-					data.myBn.forEach(bn =>{
-						if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
-							myBnSet = 'myBn';
-						}
-					});
-					let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
-					bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
-					nerfBtn.append(bnIcon);
-					
-					/* 숫자 포맷팅 */
-					let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
-					nerfDiv.append(nerfBtn, nerfCount);
-					
-					buffNerfDiv.append(buffDiv, nerfDiv);
-					dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
-		
-					detailDiv.append(dateBuffDiv);
-					
-					
-					/* 대댓글 입력form */
-					let replyDiv = $('<div>').addClass('replyDiv');
-					let replyForm = $('<form>').attr({
-					    id: c.mpcNo,
-					    class: 'replyForm',
-					    method: 'post',
-					    onsubmit: 'return fn_insertComment(${nowWeek}, event);'
-					});
-					
-					let insertCommentDiv = $('<div>').addClass('insertCommentDiv');
-					let commentDiv = $('<div>').addClass('commentDiv');
-	
-					let textarea = $('<textarea>').attr({
-					    type: 'text',
-					    class: 'insertComment contentBlack fs-20',
-					    style: 'resize: none;'
-					});
-					commentDiv.append(textarea);
-	
-					let countBtnDiv = $('<div>').addClass('countBtnDiv');
-					let countBtn = $('<div>').addClass('countBtn');
-					let letterSpan = $('<span>').attr('id', 'letterSpan').addClass('contentBlack fs-20').text('0/150');
-					countBtn.append(letterSpan);
-	
-					let iconBtn = $('<div>').addClass('iconBtn');
-					let emoDiv = $('<div>').addClass('emoDiv');
-					let emoIcon = $('<ion-icon>').attr('name', 'happy-outline');
-					let emo = $('<div>').addClass('emo');
-					let emoSort = $('<ul>').addClass('emoSort');
-	
-					data.myEmo.forEach(emo =>{
-						let li = $('<li>');
-						let emoBtn = $('<button>').addClass('emoBtn').attr({
-							type: 'button'
-						})
-						let emoImg = $('<img>').attr({
-							id: emo.emoticon.emoNo,
-							src: '${path}/resources/images/emoticon' + emo.emoticon.emoFilename,
-							height: '65px'
-						})
-						li.append(emoBtn, emoImg);
-					    emoSort.append(li);
-					});
-					emo.append(emoSort);
-					emoDiv.append(emoIcon, emo);
-	
-					let commentBtn = $('<button>').addClass('commentBtn content').text('등록');
-					iconBtn.append(emoDiv, commentBtn);
-					countBtnDiv.append(countBtn, iconBtn);
-					replyForm.append(insertCommentDiv, countBtnDiv);
-					replyDiv.append(replyForm);
-	
-					detailDiv.append(replyDiv);
-					
-					commentList.append(profileDiv, detailDiv);
-					let hr = $('<hr>').addClass('hr-1Black hr-op');
-					
-					
-					$('.mpCommentListDiv').append(commentList);
-					$('.mpCommentListDiv').append(hr);
-				}
-				
-				/* 대댓글 */
-				data.popComment.forEach(r =>{
-					if(r.mpcRefNo != 0 && c.mpcNo == r.mpcRefNo){
-						let replyAllDiv = $('<div>').addClass('replyAllDiv');
-						let commentList = $('<div>').addClass('commentList');
-						
-						let div1 = $('<div>').css('width', '80px');
-						let div2 = $('<div>');
-						
-						let img = $('<img>').attr('src', '${path}/resources/upload/profile/' + r.mpcWriter.profile).css({
-						    width: '70px',
-						    height: '70px',
-						    borderRadius: '70px'
-						});
-						div2.append(img);
-						commentList.append(div1, div2);
-						
-						let detaildetailDiv = $('<div>').addClass('detaildetailDiv');
-						let commentDetail = $('<div>').addClass('commentDetail');
-						let commentInfo = $('<div>').addClass('commentInfo');
-						
-						let nicknameP = $('<p>').addClass('contentBlack fs-20 nickname').text(r.mpcWriter.nickname);
-						let tierImg = $('<img>').attr('src', '${path}/resources/images/tier/' + r.mpcWriter.tier.tierRulesNo.tierRulesImage).addClass('tierImg');
-						commentInfo.append(nicknameP, tierImg);
-						commentDetail.append(commentInfo);
-						detaildetailDiv.append(commentDetail);
-						
-						let optionDiv = $('<div>').addClass('optionDiv');
-						let moreButton = $('<button>').addClass('moreIconBtn');
-						let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
-						    name: 'ellipsis-horizontal',
-						    style: 'font-size: 28px;'
-						});
-						moreButton.append(ionIcon);
-						
-						let optionUl = $('<ul>').addClass('optionUl');
-						let li = $('<li>').attr('id', r.mpcNo);
-						
-						if (r.mpcWriter.email == memberEmail || memberAuth == '관리자') {
-						    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
-						    let hr = $('<hr>').addClass('hr-1Black hr-op');
-						    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
-						    
-						    li.append(upBtn, hr, delBtn);
-						} else{
-							let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
-							  
-							li.append(repBtn);
-						}
-						optionUl.append(li);
-						optionDiv.append(moreButton, optionUl);
-						commentDetail.append(commentInfo, optionDiv);
-						
-						
-						
-						let contentDiv = $('<div>');
-						let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(r.mpcContent);
-						contentDiv.append(commentContent)
-						if (r.mpcEmoNo != null) {
-						    let emoticonImg = $('<img>').addClass('emoticon').attr({
-						        src: '${path}/resources/images/emoticon/' + r.mpcEmoNo.emoFilename,
-						        width: '100px',
-						        height: '100px'
-						    });
-						    contentDiv.append(emoticonImg);
-						}
-						
-						let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
-						let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
-						let dateSpan = $('<span>').addClass('dateSpan');
-						
-						/* 날짜 포맷팅 */
-						if (r.mpcUpDate == null) {
-							dateSpan.text(r.mpcDate);
-						} else {
-							dateSpan.text('최근 수정일 ' + r.mpcUpDate);
-						}
-						insertReplyDiv.append(dateSpan);
-						
-						let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
-						insertReplyDiv.append(replyCount);
-						
-						let buffNerfDiv = $('<div>').attr('id', r.mpcNo).addClass('buffNerfDiv');
-						let buffDiv = $('<div>').addClass('buffDiv');
-						
-						let myBnSet = '';
-						data.myBn.forEach(bn =>{
-							if(bn.bnMpcNo == r.mpcNo && bn.bnBn == 'B'){
-								myBnSet = 'myBn';
-							}
-						});
-						let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
-						let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
-						buffBtn.append(bnIcon);
-							
-						/* 숫자 포맷팅 */
-						let buffCount = $('<p>').addClass('contentBlack').text(r.buffCount);
-						buffDiv.append(buffBtn, buffCount);
-						
-						let nerfDiv = $('<div>').addClass('nerfDiv');
-						myBnSet = '';	
-						data.myBn.forEach(bn =>{
-							if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
-								myBnSet = 'myBn';
-							}
-						});
-						let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
-						bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
-						nerfBtn.append(bnIcon);
-						
-						/* 숫자 포맷팅 */
-						let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
-						nerfDiv.append(nerfBtn, nerfCount);
-						
-						buffNerfDiv.append(buffDiv, nerfDiv);
-						dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
-			
-						detaildetailDiv.append(commentDetail, contentDiv, dateBuffDiv);
-						
-						let hr = $('<hr>').addClass('hr-1Black hr-op');
-						
-						commentList.append(detaildetailDiv);
-						replyAllDiv.append(commentList);
-						$('.mpCommentListDiv').append(replyAllDiv, hr);
-					}
-				})
-			});		
-			
+	    		
+			fn_popCommentDiv(data);
 			
 			$(".pageBar").html(data.pageBar);
 	    },
@@ -2614,322 +2313,15 @@ const fn_newComment = (no) =>{
 	$.ajax({
 	    type: "POST",
 	    url: "${path}/matchprediction/newComment",
+	    data: {
+	    	'cPage' : no
+	    },
 	    success: function(data) {
 	    	$('.commentSort').find('.newComment').addClass('fw-bolder');
 	    	$('.commentSort').find('.popComment').removeClass('fw-bolder');
 			$('.replyBestAllDiv:last').nextAll().remove();
-			data.newComment.forEach(c =>{
-				
-				if(c.mpcRefNo == 0){
-					let commentList = $('<div>').addClass('commentList');
-					let profileDiv = $('<div>');
-					let profileImg = $('<img>').attr({
-						src : '${path}/resources/upload/profile' + c.mpcWriter.profile
-					}).css({
-						width: '70px',
-						height: '70px',
-						borderRadius: '70px'
-					})
-					profileDiv.append(profileImg);
 					
-					let detailDiv = $('<div>').addClass('detailDiv');
-					let commentDetail = $('<div>').addClass('commentDetail');
-					let commentInfo = $('<div>').addClass('commentInfo');
-					
-					let nickname = $('<p>').addClass('contentBlack fs-20 nickname').text(c.mpcWriter.nickname);
-					let tierImg = $('<img>').attr({
-					    src: '${path}/resources/images/tier/' + c.mpcWriter.tier.tierRulesNo.tierRulesImage,
-					    class: 'tierImg'
-					});
-					commentInfo.append(nickname, tierImg);
-					
-					let optionDiv = $('<div>').addClass('optionDiv');
-					let moreButton = $('<button>').addClass('moreIconBtn');
-					let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
-					    name: 'ellipsis-horizontal',
-					    style: 'font-size: 28px;'
-					});
-					moreButton.append(ionIcon);
-					
-					let optionUl = $('<ul>').addClass('optionUl');
-					let li = $('<li>').attr('id', c.mpcNo);
-					
-					if (c.mpcWriter.email == memberEmail || memberAuth == '관리자') {
-					    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
-					    let hr = $('<hr>').addClass('hr-1Black hr-op');
-					    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
-					    
-					    li.append(upBtn, hr, delBtn);
-					} else{
-						let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
-						  
-						li.append(repBtn);
-					}
-					optionUl.append(li);
-					optionDiv.append(moreButton, optionUl);
-					
-					commentDetail.append(commentInfo, optionDiv);
-					detailDiv.append(commentDetail);
-					
-					
-					let contentDiv = $('<div>');
-					let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(c.mpcContent);
-					contentDiv.append(commentContent)
-					if (c.mpcEmoNo != null) {
-					    let emoticonImg = $('<img>').addClass('emoticon').attr({
-					        src: '${path}/resources/images/emoticon/' + c.mpcEmoNo.emoFilename,
-					        width: '100px',
-					        height: '100px'
-					    });
-					    contentDiv.append(emoticonImg);
-					}
-					detailDiv.append(contentDiv);
-					
-					
-					let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
-					let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
-					let dateSpan = $('<span>').addClass('dateSpan');
-					
-					/* 날짜 포맷팅 */
-					if (c.mpcUpDate == null) {
-						dateSpan.text(c.mpcDate);
-					} else {
-						dateSpan.text('최근 수정일 ' + c.mpcUpDate);
-					}
-					insertReplyDiv.append(dateSpan);
-					
-					let insertReply = $('<p>').attr('id', c.mpcNo).addClass('insertReply').text('답글쓰기').on('click', insertReplyHandler);
-					let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
-					insertReplyDiv.append(insertReply, replyCount);
-					
-					let buffNerfDiv = $('<div>').attr('id', c.mpcNo).addClass('buffNerfDiv');
-					let buffDiv = $('<div>').addClass('buffDiv');
-					
-					let myBnSet = '';
-					data.myBn.forEach(bn =>{
-						if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'B'){
-							myBnSet = 'myBn';
-						}
-					});
-					let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
-					let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
-					buffBtn.append(bnIcon);
-						
-					/* 숫자 포맷팅 */
-					let buffCount = $('<p>').addClass('contentBlack').text(c.buffCount);
-					buffDiv.append(buffBtn, buffCount);
-					
-					let nerfDiv = $('<div>').addClass('nerfDiv');
-					myBnSet = '';	
-					data.myBn.forEach(bn =>{
-						if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
-							myBnSet = 'myBn';
-						}
-					});
-					let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
-					bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
-					nerfBtn.append(bnIcon);
-					
-					/* 숫자 포맷팅 */
-					let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
-					nerfDiv.append(nerfBtn, nerfCount);
-					
-					buffNerfDiv.append(buffDiv, nerfDiv);
-					dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
-		
-					detailDiv.append(dateBuffDiv);
-					
-					
-					/* 대댓글 입력form */
-					let replyDiv = $('<div>').addClass('replyDiv');
-					let replyForm = $('<form>').attr({
-					    id: c.mpcNo,
-					    class: 'replyForm',
-					    method: 'post',
-					    onsubmit: 'return fn_insertComment(${nowWeek}, event);'
-					});
-					
-					let insertCommentDiv = $('<div>').addClass('insertCommentDiv');
-					let commentDiv = $('<div>').addClass('commentDiv');
-	
-					let textarea = $('<textarea>').attr({
-					    type: 'text',
-					    class: 'insertComment contentBlack fs-20',
-					    style: 'resize: none;'
-					});
-					commentDiv.append(textarea);
-	
-					let countBtnDiv = $('<div>').addClass('countBtnDiv');
-					let countBtn = $('<div>').addClass('countBtn');
-					let letterSpan = $('<span>').attr('id', 'letterSpan').addClass('contentBlack fs-20').text('0/150');
-					countBtn.append(letterSpan);
-	
-					let iconBtn = $('<div>').addClass('iconBtn');
-					let emoDiv = $('<div>').addClass('emoDiv');
-					let emoIcon = $('<ion-icon>').attr('name', 'happy-outline');
-					let emo = $('<div>').addClass('emo');
-					let emoSort = $('<ul>').addClass('emoSort');
-	
-					data.myEmo.forEach(emo =>{
-						let li = $('<li>');
-						let emoBtn = $('<button>').addClass('emoBtn').attr({
-							type: 'button'
-						})
-						let emoImg = $('<img>').attr({
-							id: emo.emoticon.emoNo,
-							src: '${path}/resources/images/emoticon' + emo.emoticon.emoFilename,
-							height: '65px'
-						})
-						li.append(emoBtn, emoImg);
-					    emoSort.append(li);
-					});
-					emo.append(emoSort);
-					emoDiv.append(emoIcon, emo);
-	
-					let commentBtn = $('<button>').addClass('commentBtn content').text('등록');
-					iconBtn.append(emoDiv, commentBtn);
-					countBtnDiv.append(countBtn, iconBtn);
-					replyForm.append(insertCommentDiv, countBtnDiv);
-					replyDiv.append(replyForm);
-	
-					detailDiv.append(replyDiv);
-					
-					commentList.append(profileDiv, detailDiv);
-					let hr = $('<hr>').addClass('hr-1Black hr-op');
-					
-					
-					$('.mpCommentListDiv').append(commentList);
-					$('.mpCommentListDiv').append(hr);
-				}
-				
-				/* 대댓글 */
-				data.newComment.forEach(r =>{
-					if(r.mpcRefNo != 0 && c.mpcNo == r.mpcRefNo){
-						let replyAllDiv = $('<div>').addClass('replyAllDiv');
-						let commentList = $('<div>').addClass('commentList');
-						
-						let div1 = $('<div>').css('width', '80px');
-						let div2 = $('<div>');
-						
-						let img = $('<img>').attr('src', '${path}/resources/upload/profile/' + r.mpcWriter.profile).css({
-						    width: '70px',
-						    height: '70px',
-						    borderRadius: '70px'
-						});
-						div2.append(img);
-						commentList.append(div1, div2);
-						
-						let detaildetailDiv = $('<div>').addClass('detaildetailDiv');
-						let commentDetail = $('<div>').addClass('commentDetail');
-						let commentInfo = $('<div>').addClass('commentInfo');
-						
-						let nicknameP = $('<p>').addClass('contentBlack fs-20 nickname').text(r.mpcWriter.nickname);
-						let tierImg = $('<img>').attr('src', '${path}/resources/images/tier/' + r.mpcWriter.tier.tierRulesNo.tierRulesImage).addClass('tierImg');
-						commentInfo.append(nicknameP, tierImg);
-						commentDetail.append(commentInfo);
-						detaildetailDiv.append(commentDetail);
-						
-						let optionDiv = $('<div>').addClass('optionDiv');
-						let moreButton = $('<button>').addClass('moreIconBtn');
-						let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
-						    name: 'ellipsis-horizontal',
-						    style: 'font-size: 28px;'
-						});
-						moreButton.append(ionIcon);
-						
-						let optionUl = $('<ul>').addClass('optionUl');
-						let li = $('<li>').attr('id', r.mpcNo);
-						
-						if (r.mpcWriter.email == memberEmail || memberAuth == '관리자') {
-						    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
-						    let hr = $('<hr>').addClass('hr-1Black hr-op');
-						    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
-						    
-						    li.append(upBtn, hr, delBtn);
-						} else{
-							let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
-							  
-							li.append(repBtn);
-						}
-						optionUl.append(li);
-						optionDiv.append(moreButton, optionUl);
-						commentDetail.append(commentInfo, optionDiv);
-						
-						
-						
-						let contentDiv = $('<div>');
-						let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(r.mpcContent);
-						contentDiv.append(commentContent)
-						if (r.mpcEmoNo != null) {
-						    let emoticonImg = $('<img>').addClass('emoticon').attr({
-						        src: '${path}/resources/images/emoticon/' + r.mpcEmoNo.emoFilename,
-						        width: '100px',
-						        height: '100px'
-						    });
-						    contentDiv.append(emoticonImg);
-						}
-						
-						let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
-						let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
-						let dateSpan = $('<span>').addClass('dateSpan');
-						
-						/* 날짜 포맷팅 */
-						if (r.mpcUpDate == null) {
-							dateSpan.text(r.mpcDate);
-						} else {
-							dateSpan.text('최근 수정일 ' + r.mpcUpDate);
-						}
-						insertReplyDiv.append(dateSpan);
-						
-						let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
-						insertReplyDiv.append(replyCount);
-						
-						let buffNerfDiv = $('<div>').attr('id', r.mpcNo).addClass('buffNerfDiv');
-						let buffDiv = $('<div>').addClass('buffDiv');
-						
-						let myBnSet = '';
-						data.myBn.forEach(bn =>{
-							if(bn.bnMpcNo == r.mpcNo && bn.bnBn == 'B'){
-								myBnSet = 'myBn';
-							}
-						});
-						let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
-						let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
-						buffBtn.append(bnIcon);
-							
-						/* 숫자 포맷팅 */
-						let buffCount = $('<p>').addClass('contentBlack').text(r.buffCount);
-						buffDiv.append(buffBtn, buffCount);
-						
-						let nerfDiv = $('<div>').addClass('nerfDiv');
-						myBnSet = '';	
-						data.myBn.forEach(bn =>{
-							if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
-								myBnSet = 'myBn';
-							}
-						});
-						let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
-						bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
-						nerfBtn.append(bnIcon);
-						
-						/* 숫자 포맷팅 */
-						let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
-						nerfDiv.append(nerfBtn, nerfCount);
-						
-						buffNerfDiv.append(buffDiv, nerfDiv);
-						dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
-			
-						detaildetailDiv.append(commentDetail, contentDiv, dateBuffDiv);
-						
-						let hr = $('<hr>').addClass('hr-1Black hr-op');
-						
-						commentList.append(detaildetailDiv);
-						replyAllDiv.append(commentList);
-						$('.mpCommentListDiv').append(replyAllDiv, hr);
-					}
-				})
-			});		
-			
+			fn_newCommentDiv(data);
 			
 			$(".pageBar").html(data.pageBar);
 	    },
@@ -2943,321 +2335,15 @@ const fn_popComment = (no) =>{
 	$.ajax({
 	    type: "POST",
 	    url: "${path}/matchprediction/popComment",
+	    data: {
+	    	'cPage' : no
+	    },
 	    success: function(data) {
 	    	$('.commentSort').find('.newComment').removeClass('fw-bolder');
 	    	$('.commentSort').find('.popComment').addClass('fw-bolder');
 			$('.replyBestAllDiv:last').nextAll().remove();
-	    	data.popComment.forEach(c =>{
-				if(c.mpcRefNo == 0){
-					let commentList = $('<div>').addClass('commentList');
-					let profileDiv = $('<div>');
-					let profileImg = $('<img>').attr({
-						src : '${path}/resources/upload/profile' + c.mpcWriter.profile
-					}).css({
-						width: '70px',
-						height: '70px',
-						borderRadius: '70px'
-					})
-					profileDiv.append(profileImg);
-					
-					let detailDiv = $('<div>').addClass('detailDiv');
-					let commentDetail = $('<div>').addClass('commentDetail');
-					let commentInfo = $('<div>').addClass('commentInfo');
-					
-					let nickname = $('<p>').addClass('contentBlack fs-20 nickname').text(c.mpcWriter.nickname);
-					let tierImg = $('<img>').attr({
-					    src: '${path}/resources/images/tier/' + c.mpcWriter.tier.tierRulesNo.tierRulesImage,
-					    class: 'tierImg'
-					});
-					commentInfo.append(nickname, tierImg);
-					
-					let optionDiv = $('<div>').addClass('optionDiv');
-					let moreButton = $('<button>').addClass('moreIconBtn');
-					let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
-					    name: 'ellipsis-horizontal',
-					    style: 'font-size: 28px;'
-					});
-					moreButton.append(ionIcon);
-					
-					let optionUl = $('<ul>').addClass('optionUl');
-					let li = $('<li>').attr('id', c.mpcNo);
-					
-					if (c.mpcWriter.email == memberEmail || memberAuth == '관리자') {
-					    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
-					    let hr = $('<hr>').addClass('hr-1Black hr-op');
-					    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
-					    
-					    li.append(upBtn, hr, delBtn);
-					} else{
-						let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
-						  
-						li.append(repBtn);
-					}
-					optionUl.append(li);
-					optionDiv.append(moreButton, optionUl);
-					
-					commentDetail.append(commentInfo, optionDiv);
-					detailDiv.append(commentDetail);
-					
-					
-					let contentDiv = $('<div>');
-					let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(c.mpcContent);
-					contentDiv.append(commentContent)
-					if (c.mpcEmoNo != null) {
-					    let emoticonImg = $('<img>').addClass('emoticon').attr({
-					        src: '${path}/resources/images/emoticon/' + c.mpcEmoNo.emoFilename,
-					        width: '100px',
-					        height: '100px'
-					    });
-					    contentDiv.append(emoticonImg);
-					}
-					detailDiv.append(contentDiv);
-					
-					
-					let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
-					let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
-					let dateSpan = $('<span>').addClass('dateSpan');
-					
-					/* 날짜 포맷팅 */
-					if (c.mpcUpDate == null) {
-						dateSpan.text(c.mpcDate);
-					} else {
-						dateSpan.text('최근 수정일 ' + c.mpcUpDate);
-					}
-					insertReplyDiv.append(dateSpan);
-					
-					let insertReply = $('<p>').attr('id', c.mpcNo).addClass('insertReply').text('답글쓰기').on('click', insertReplyHandler);
-					let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
-					insertReplyDiv.append(insertReply, replyCount);
-					
-					let buffNerfDiv = $('<div>').attr('id', c.mpcNo).addClass('buffNerfDiv');
-					let buffDiv = $('<div>').addClass('buffDiv');
-					
-					let myBnSet = '';
-					data.myBn.forEach(bn =>{
-						if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'B'){
-							myBnSet = 'myBn';
-						}
-					});
-					let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
-					let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
-					buffBtn.append(bnIcon);
-						
-					/* 숫자 포맷팅 */
-					let buffCount = $('<p>').addClass('contentBlack').text(c.buffCount);
-					buffDiv.append(buffBtn, buffCount);
-					
-					let nerfDiv = $('<div>').addClass('nerfDiv');
-					myBnSet = '';	
-					data.myBn.forEach(bn =>{
-						if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
-							myBnSet = 'myBn';
-						}
-					});
-					let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
-					bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
-					nerfBtn.append(bnIcon);
-					
-					/* 숫자 포맷팅 */
-					let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
-					nerfDiv.append(nerfBtn, nerfCount);
-					
-					buffNerfDiv.append(buffDiv, nerfDiv);
-					dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
-		
-					detailDiv.append(dateBuffDiv);
-					
-					
-					/* 대댓글 입력form */
-					let replyDiv = $('<div>').addClass('replyDiv');
-					let replyForm = $('<form>').attr({
-					    id: c.mpcNo,
-					    class: 'replyForm',
-					    method: 'post',
-					    onsubmit: 'return fn_insertComment(${nowWeek}, event);'
-					});
-					
-					let insertCommentDiv = $('<div>').addClass('insertCommentDiv');
-					let commentDiv = $('<div>').addClass('commentDiv');
-	
-					let textarea = $('<textarea>').attr({
-					    type: 'text',
-					    class: 'insertComment contentBlack fs-20',
-					    style: 'resize: none;'
-					});
-					commentDiv.append(textarea);
-	
-					let countBtnDiv = $('<div>').addClass('countBtnDiv');
-					let countBtn = $('<div>').addClass('countBtn');
-					let letterSpan = $('<span>').attr('id', 'letterSpan').addClass('contentBlack fs-20').text('0/150');
-					countBtn.append(letterSpan);
-	
-					let iconBtn = $('<div>').addClass('iconBtn');
-					let emoDiv = $('<div>').addClass('emoDiv');
-					let emoIcon = $('<ion-icon>').attr('name', 'happy-outline');
-					let emo = $('<div>').addClass('emo');
-					let emoSort = $('<ul>').addClass('emoSort');
-	
-					data.myEmo.forEach(emo =>{
-						let li = $('<li>');
-						let emoBtn = $('<button>').addClass('emoBtn').attr({
-							type: 'button'
-						})
-						let emoImg = $('<img>').attr({
-							id: emo.emoticon.emoNo,
-							src: '${path}/resources/images/emoticon' + emo.emoticon.emoFilename,
-							height: '65px'
-						})
-						li.append(emoBtn, emoImg);
-					    emoSort.append(li);
-					});
-					emo.append(emoSort);
-					emoDiv.append(emoIcon, emo);
-	
-					let commentBtn = $('<button>').addClass('commentBtn content').text('등록');
-					iconBtn.append(emoDiv, commentBtn);
-					countBtnDiv.append(countBtn, iconBtn);
-					replyForm.append(insertCommentDiv, countBtnDiv);
-					replyDiv.append(replyForm);
-	
-					detailDiv.append(replyDiv);
-					
-					commentList.append(profileDiv, detailDiv);
-					let hr = $('<hr>').addClass('hr-1Black hr-op');
-					
-					
-					$('.mpCommentListDiv').append(commentList);
-					$('.mpCommentListDiv').append(hr);
-				}
-				
-				/* 대댓글 */
-				data.popComment.forEach(r =>{
-					if(r.mpcRefNo != 0 && c.mpcNo == r.mpcRefNo){
-						let replyAllDiv = $('<div>').addClass('replyAllDiv');
-						let commentList = $('<div>').addClass('commentList');
-						
-						let div1 = $('<div>').css('width', '80px');
-						let div2 = $('<div>');
-						
-						let img = $('<img>').attr('src', '${path}/resources/upload/profile/' + r.mpcWriter.profile).css({
-						    width: '70px',
-						    height: '70px',
-						    borderRadius: '70px'
-						});
-						div2.append(img);
-						commentList.append(div1, div2);
-						
-						let detaildetailDiv = $('<div>').addClass('detaildetailDiv');
-						let commentDetail = $('<div>').addClass('commentDetail');
-						let commentInfo = $('<div>').addClass('commentInfo');
-						
-						let nicknameP = $('<p>').addClass('contentBlack fs-20 nickname').text(r.mpcWriter.nickname);
-						let tierImg = $('<img>').attr('src', '${path}/resources/images/tier/' + r.mpcWriter.tier.tierRulesNo.tierRulesImage).addClass('tierImg');
-						commentInfo.append(nicknameP, tierImg);
-						commentDetail.append(commentInfo);
-						detaildetailDiv.append(commentDetail);
-						
-						let optionDiv = $('<div>').addClass('optionDiv');
-						let moreButton = $('<button>').addClass('moreIconBtn');
-						let ionIcon = $('<ion-icon>').addClass('moreIcon').attr({
-						    name: 'ellipsis-horizontal',
-						    style: 'font-size: 28px;'
-						});
-						moreButton.append(ionIcon);
-						
-						let optionUl = $('<ul>').addClass('optionUl');
-						let li = $('<li>').attr('id', r.mpcNo);
-						
-						if (r.mpcWriter.email == memberEmail || memberAuth == '관리자') {
-						    let upBtn = $('<button>').addClass('upBtn').html('<ion-icon class="optionIcon" name="create-outline"></ion-icon>수정');
-						    let hr = $('<hr>').addClass('hr-1Black hr-op');
-						    let delBtn = $('<button>').addClass('delBtn').html('<ion-icon class="optionIcon" name="trash-bin-outline"></ion-icon>삭제');
-						    
-						    li.append(upBtn, hr, delBtn);
-						} else{
-							let repBtn = $('<button>').addClass('repBtn').html('<ion-icon class="optionIcon" name="remove-circle-outline"></ion-icon>신고');
-							  
-							li.append(repBtn);
-						}
-						optionUl.append(li);
-						optionDiv.append(moreButton, optionUl);
-						commentDetail.append(commentInfo, optionDiv);
-						
-						
-						
-						let contentDiv = $('<div>');
-						let commentContent = $('<p>').addClass('contentBlack fs-20 commentContent').text(r.mpcContent);
-						contentDiv.append(commentContent)
-						if (r.mpcEmoNo != null) {
-						    let emoticonImg = $('<img>').addClass('emoticon').attr({
-						        src: '${path}/resources/images/emoticon/' + r.mpcEmoNo.emoFilename,
-						        width: '100px',
-						        height: '100px'
-						    });
-						    contentDiv.append(emoticonImg);
-						}
-						
-						let dateBuffDiv = $('<div>').addClass('dateBuffDiv');
-						let insertReplyDiv = $('<div>').addClass('insertReplyDiv');
-						let dateSpan = $('<span>').addClass('dateSpan');
-						
-						/* 날짜 포맷팅 */
-						if (r.mpcUpDate == null) {
-							dateSpan.text(r.mpcDate);
-						} else {
-							dateSpan.text('최근 수정일 ' + r.mpcUpDate);
-						}
-						insertReplyDiv.append(dateSpan);
-						
-						let replyCount = $('<p>').addClass('replyCount insertReply').text('답글보기');
-						insertReplyDiv.append(replyCount);
-						
-						let buffNerfDiv = $('<div>').attr('id', r.mpcNo).addClass('buffNerfDiv');
-						let buffDiv = $('<div>').addClass('buffDiv');
-						
-						let myBnSet = '';
-						data.myBn.forEach(bn =>{
-							if(bn.bnMpcNo == r.mpcNo && bn.bnBn == 'B'){
-								myBnSet = 'myBn';
-							}
-						});
-						let buffBtn = $('<button>').addClass('buffBtn').addClass(myBnSet).text('버프');
-						let bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-up-circle-outline');
-						buffBtn.append(bnIcon);
-							
-						/* 숫자 포맷팅 */
-						let buffCount = $('<p>').addClass('contentBlack').text(r.buffCount);
-						buffDiv.append(buffBtn, buffCount);
-						
-						let nerfDiv = $('<div>').addClass('nerfDiv');
-						myBnSet = '';	
-						data.myBn.forEach(bn =>{
-							if(bn.bnMpcNo == c.mpcNo && bn.bnBn == 'N'){
-								myBnSet = 'myBn';
-							}
-						});
-						let nerfBtn = $('<button>').addClass('nerfBtn').addClass(myBnSet).text('너프');
-						bnIcon = $('<ion-icon>').addClass('bnIcon').attr('name', 'caret-down-circle-outline');
-						nerfBtn.append(bnIcon);
-						
-						/* 숫자 포맷팅 */
-						let nerfCount = $('<p>').addClass('contentBlack').text(c.nerfCount);
-						nerfDiv.append(nerfBtn, nerfCount);
-						
-						buffNerfDiv.append(buffDiv, nerfDiv);
-						dateBuffDiv.append(insertReplyDiv, buffNerfDiv);
-			
-						detaildetailDiv.append(commentDetail, contentDiv, dateBuffDiv);
-						
-						let hr = $('<hr>').addClass('hr-1Black hr-op');
-						
-						commentList.append(detaildetailDiv);
-						replyAllDiv.append(commentList);
-						$('.mpCommentListDiv').append(replyAllDiv, hr);
-					}
-				})
-			});		
-			
+	    	
+			fn_popCommentDiv(data);
 			
 			$(".pageBar").html(data.pageBar);
 	    },
