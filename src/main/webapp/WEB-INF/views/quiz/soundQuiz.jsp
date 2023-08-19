@@ -571,7 +571,7 @@ function nextQuestion() {
   		/* 포인트 지급 */
   		$.ajax({
   		    type: "POST",
-  		    url: "{path}/quiz/finish",
+  		    url: "${path}/quiz/finish",
   		    data: { email : '${loginMember.email}',
   		    	point : count*25},
   		    dataType: "json",
