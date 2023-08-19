@@ -52,15 +52,18 @@ $("nav").mouseleave(e=>{
 /*프로필 호버*/
 $(".myProfileLogo").mouseenter(e=>{
     $(".myProfileBox").css("display","flex");
+    $(".header_div").css("background-color","var(--lol-black)");
     }
 )
 
 $(".myProfileBox").mouseleave(e=>{
     $(".myProfileBox").css("display","none");
+    $(".header_div").css("background-color","");
     }	
 )
 $("nav").mouseenter(e=>{
     $(".myProfileBox").css("display","none");
+    $(".header_div").css("background-color","");
     }	
 )
 
