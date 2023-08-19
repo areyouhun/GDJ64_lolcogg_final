@@ -60,12 +60,12 @@ public class MemberController {
 		if (m == null) {
 			// EMAIL : 없음 - reject
 			model.addAttribute("msg", "존재하지 않는 아이디입니다.");
-			model.addAttribute("loc", "loginPage");
+			model.addAttribute("loc", "/member/loginPage");
 			return "common/msg";
 		} else if (m.getWithdrawDate() != null) {
 			// EMAIL : 탈퇴처리된 이메일 - reject
 			model.addAttribute("msg", "탈퇴/정지된 이메일입니다.");
-			model.addAttribute("loc", "loginPage");
+			model.addAttribute("loc", "/member/loginPage");
 			return "common/msg";
 		} else if (m != null && encoder.matches((String) param.get("password"), m.getPassword())) {
 			// PASSWORD : 비밀번호 체크 - pass
@@ -73,7 +73,7 @@ public class MemberController {
 		} else {
 			// PASSWORD : 비밀번호 체크 - reject
 			model.addAttribute("msg", "비밀번호 오류입니다.");
-			model.addAttribute("loc", "loginPage");
+			model.addAttribute("loc", "/member/loginPage");
 			return "common/msg";
 		}
 		return "redirect:/";
@@ -89,6 +89,7 @@ public class MemberController {
 
 	// 이메일인증(회원가입)
 	@PostMapping(value = "/api/mailcheck", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
 	public ResponseEntity<String> mailCheck(@RequestBody HashMap<String, Object> user) {
 		String email = (String) user.get("username");
 		String authNum = service.joinEmail(email);

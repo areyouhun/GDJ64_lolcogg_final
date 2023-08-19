@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/views/common/top.jsp"/>
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path}/resources/css/common.css">
-<link rel="stylesheet" href="${path}/resources/css/member.css">
+<link rel="stylesheet" href="${path}/resources/css/member/member.css">
 <!------------------------------------>
 <title>회원가입</title>
 </head>
@@ -198,7 +198,7 @@
 			</div>
 		</div>    
     </section>
-<img class="english" src="https://media3.giphy.com/media/l0Ex9w7OHj6M3ieK4/200w.webp?cid=ecf05e47zmh2rpyt75g2cuqh3fddl9zalpfnw5sk9j9cz13p&rid=200w.webp" alt="english" width="20px" height="20px">
+<!-- <img class="english" src="https://media3.giphy.com/media/l0Ex9w7OHj6M3ieK4/200w.webp?cid=ecf05e47zmh2rpyt75g2cuqh3fddl9zalpfnw5sk9j9cz13p&rid=200w.webp" alt="english" width="20px" height="20px"> -->
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
