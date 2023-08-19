@@ -27,6 +27,8 @@ public interface MemberDao {
 	int insertPointToEmail(SqlSession session, Map pointOffer);
 	//추천인 코드 입력 관련 계정 포인트 지급 기록 작성
 	int insertPointHistoryByReferralCode(SqlSession session, Map PointHistoryByReferralCode);
+	//회원가입 입력 관련 계정 포인트 지급 기록 작성
+	int insertPointHistoryByLolcoggEnroll(SqlSession session, Map pointHistoryByReferralCode);
 	//추천인 코드 제공한 계정(암호화상태) 조회
 	String searchEmailByReferralCode(SqlSession session, String myReferralCode);
 	// 응원팀 이모티콘 제공
@@ -47,4 +49,5 @@ public interface MemberDao {
 	List<Member> memberList(SqlSession session, Map<String, Object> param);
 	//회원 수 조회
 	int memberListCount(SqlSession session);
+
 }

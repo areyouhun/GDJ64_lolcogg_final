@@ -168,7 +168,14 @@ public class MemberController {
 					pointOffer.get("point"));
 			result = service.insertPointHistoryByReferralCode(PointHistoryByReferralCode);
 		}
-
+		
+		// 회원가입 축하 포인트 지급 - 500포인트
+		Map pointOffer = Map.of("email", member.getEmail(), "point", 500);
+		// 포인트 지급 내역 저장
+		Map insertPointHistoryByLolcoggEnroll = Map.of("email", member.getEmail(), "phComment", "웰컴 포인트(회원가입 기념 포인트)",
+				"phPoint", pointOffer.get("point"));
+		result = service.insertPointHistoryByLolcoggEnroll(insertPointHistoryByLolcoggEnroll);
+		
 		// [ 이모티콘(응원팀 이모티콘 팩) 지급]
 		if (!param.get("abbr").equals("")) {
 			Map teamMapping1 = Map.of("DK", 1, "DRX", 2, "GEN", 3, "HLE", 4, "KDF", 5, "KT", 6, "LSB", 7, "NS", 8, "T1",

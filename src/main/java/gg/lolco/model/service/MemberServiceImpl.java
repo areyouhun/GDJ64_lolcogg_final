@@ -110,7 +110,12 @@ public class MemberServiceImpl implements MemberService {
 	public int insertPointHistoryByReferralCode(Map PointHistoryByReferralCode) {
 		return dao.insertPointHistoryByReferralCode(session, PointHistoryByReferralCode);
 	}
-
+	
+	@Override
+	public int insertPointHistoryByLolcoggEnroll(Map insertPointHistoryByLolcoggEnroll) {
+		return dao.insertPointHistoryByLolcoggEnroll(session, insertPointHistoryByLolcoggEnroll);
+	}
+	
 	@Override
 	public String searchEmailByReferralCode(String myReferralCode) {
 		return dao.searchEmailByReferralCode(session, myReferralCode);
