@@ -930,6 +930,9 @@
 		            html += '<div class="detailDiv">';
 		            html += '<div class="commentDetail">';
 		            html += '<div class="commentInfo">';
+		            if(c.cmCommentWriter.titleName!=null){
+		            html += '<span class="designation">['+c.cmCommentWriter.titleName+']</span>';
+		            }
 		            html += '<p class="contentBlack fs-20 nickname">' + c.cmCommentWriter.nickname + '</p>';
 		            html += '<img src="${path}/resources/images/tier/' + c.cmCommentWriter.tier.tierRulesNo.tierRulesImage + '" class="tierImg">';
 		            html += '</div>';
