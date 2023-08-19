@@ -29,7 +29,13 @@ public interface MatchPredictionService {
 	
 	int teamChoice(Map param);
 	
-	List<MatchPredictionComment> commentListAll(int week);
+	List<MatchPredictionComment> commentListAll(Map param);
+	
+	List<MatchPredictionComment> commentListAllPop(Map param);
+	
+	List<MatchPredictionComment> replyListAll();
+	
+	int commentCount();
 	
 	List<MatchPredictionComment> bestCommentList(int week);
 	

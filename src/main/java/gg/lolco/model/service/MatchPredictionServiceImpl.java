@@ -72,8 +72,23 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 	}
 
 	@Override
-	public List<MatchPredictionComment> commentListAll(int week) {
-		return dao.commentListAll(session, week);
+	public List<MatchPredictionComment> commentListAll(Map param) {
+		return dao.commentListAll(session, param);
+	}
+	
+	@Override
+	public List<MatchPredictionComment> commentListAllPop(Map param) {
+		return dao.commentListAllPop(session, param);
+	}
+
+	@Override
+	public List<MatchPredictionComment> replyListAll() {
+		return dao.replyListAll(session);
+	}
+
+	@Override
+	public int commentCount() {
+		return dao.commentCount(session);
 	}
 
 	@Override

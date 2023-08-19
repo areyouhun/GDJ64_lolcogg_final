@@ -859,6 +859,10 @@ button:active {
 	display: none;
 }
 
+.commentSort p{
+	cursor: pointer;
+} 
+
 /* 추가 div */
 .commentDiv{
 	width: 100%;

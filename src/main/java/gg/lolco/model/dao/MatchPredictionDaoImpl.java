@@ -3,6 +3,7 @@ package gg.lolco.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -66,8 +67,29 @@ public class MatchPredictionDaoImpl implements MatchPredictionDao {
 	}
 
 	@Override
-	public List<MatchPredictionComment> commentListAll(SqlSessionTemplate session, int week) {
-		return session.selectList("matchPrediction.commentListAll", week);
+	public List<MatchPredictionComment> commentListAll(SqlSessionTemplate session, Map param) {
+		int cPage = (int)param.get("cPage");
+		int numPerpage = (int)param.get("numPerpage");
+		RowBounds rb = new RowBounds((cPage - 1)* numPerpage, numPerpage);
+		return session.selectList("matchPrediction.commentListAll", null, rb);
+	}
+
+	@Override
+	public List<MatchPredictionComment> commentListAllPop(SqlSessionTemplate session, Map param) {
+		int cPage = (int)param.get("cPage");
+		int numPerpage = (int)param.get("numPerpage");
+		RowBounds rb = new RowBounds((cPage - 1)* numPerpage, numPerpage);
+		return session.selectList("matchPrediction.commentListAllPop", null, rb);
+	}
+
+	@Override
+	public List<MatchPredictionComment> replyListAll(SqlSessionTemplate session) {
+		return session.selectList("matchPrediction.replyListAll");
+	}
+
+	@Override
+	public int commentCount(SqlSessionTemplate session) {
+		return session.selectOne("matchPrediction.commentCount");
 	}
 
 	@Override
