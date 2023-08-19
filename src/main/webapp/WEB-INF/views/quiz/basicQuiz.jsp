@@ -139,6 +139,108 @@ const QUESTIONS = [
         answer: '와장창',
         img: 'Gnar.jpg',
     },
+    {
+        question: '다음 중 이미지와 일치하는 카이사 스킨 이름은?',
+        options: ['기동총격천사 카이사', '기동특공대 카이사', '프로젝트 카이사', '기동추적자 카이사'],
+        answer: '기동총격천사 카이사',
+        img: 'Kaisa.jpg',
+    },
+    {
+        question: '다음 중 이미지와 일치하는 아리 스킨 이름은?',
+        options: ['한복 아리', '한국 아리', '양반 아리', '메아리'],
+        answer: '한복 아리',
+        img: 'Ahri.jpg',
+    },
+    {
+        question: '다음 중 이미지에 나온 캐릭터의 이름은?',
+        options: ['우르프', '보노보노', '물개맨', '쥬래곤'],
+        answer: '우르프',
+        img: 'Urf.jpg',
+    },
+    {
+        question: '다음 중 이미지에 나온 챔피언이 아닌 것은?',
+        options: ['케넨', '레넥톤', '알리스타', '피즈'],
+        answer: '피즈',
+        img: 'Result.jpg',
+    },
+    {
+        question: '게임 플레이 중 전령이 등장하는 시간으로 옳은 것은?',
+        options: ['6:00', '7:00', '5:00', '6:30'],
+        answer: '6:00',
+        img: '전령.jpg',
+    },
+    {
+        question: '다음 중 이미지와 일치하는 다리우스 스킨 이름은?',
+        options: ['다리우스 경', '다리우스 왕', '하이 눈 다리우스', '미후왕 다리우스'],
+        answer: '다리우스 경',
+        img: 'Darius.jpg',
+    },
+    {
+        question: '다음 중 고교 스킨 시리즈 중 에코의 역할은?',
+        options: ['전학생', '양아치', '중2병', '킹카'],
+        answer: '전학생',
+        img: 'Ekko.jpg',
+    },
+    {
+        question: '다음 중 유미 스킬이 아닌 것은?',
+        options: ['너랑 유미랑!', '슈우우웅', '크레센도', '샤르르탄'],
+        answer: '크레센도',
+        img: 'Yummi.jpg',
+    },
+    {
+        question: '다음 중 이미지에 해당하는 정글 몬스터의 이름은?',
+        options: ['레드', '블루', '바론', '칼날부리'],
+        answer: '레드',
+        img: 'Red.png',
+    },
+    {
+        question: '다음 중 KDA 맴버인 챔피언은?',
+        options: ['이블린', '우르곳', '일라오이', '그라가스'],
+        answer: '이블린',
+        img: 'KDA.jpg',
+    },
+    {
+        question: '이미지에서 사용한 스킬 이름은?',
+        options: ['신비한 화살', '정조준 일격', '비장의 한발', '살상연희'],
+        answer: '신비한 화살',
+        img: 'Ezreal_Q.jpg',
+    },
+    {
+        question: '이미지에서 사용한 스킬 이름은?',
+        options: ['커튼 콜', '강제 관람', '속삭임', '정조준 일격'],
+        answer: '커튼 콜',
+        img: 'Jin_R.png',
+    },
+    {
+        question: '이미지에서 사용한 스킬 이름은?',
+        options: ['운명', '인생', '삶', '우연'],
+        answer: '운명',
+        img: 'Twisted_R.png',
+    },
+    {
+        question: '이미지에서 사용한 스킬 이름은?',
+        options: ['데마시아의 정의', '녹서스의 정의', '필트오버의 정의', '프렐요드의 정의'],
+        answer: '데마시의 정의',
+        img: 'Garen_R.png',
+    },
+    {
+        question: '다음 이미지와 일치하는 아이템은?',
+        options: ['모렐로노미콘', '모렐로미콘', '모렐노미콘', '모렐미콘'],
+        answer: '모렐로노미콘',
+        img: 'Item_5.png',
+    },
+    {
+        question: '이미지의 용을 처치하면 부여되는 효과 중 올바른 것은?',
+        options: ['재사용 대기시간 감소', '공격력 증가', '방어력/마법 저항력 증가', '주문력 증가'],
+        answer: '방어력/마법 저항력 증가',
+        img: 'Dragon.jpg',
+    },
+    {
+        question: '다음 중 일치하는 진의 스킨 이름은?',
+        options: ['암흑 우주 진', '암흑의 별 진', '별 수호자 진', '우주의 별 진'],
+        answer: '암흑 우주 진',
+        img: 'Jin.jpg',
+    },
 ];
 
 // 로그인 유무 체크
@@ -183,7 +285,7 @@ function loadQuiz(index) {
     $('.answer-list').empty();
 
     $('.question-title')
-        .append($('<p>').text('Q.' + QUESTION.question))
+        .append($('<p>').html('Q.' + QUESTION.question))
         .append($DIV.append($('<img>').attr('src','${path}/resources/images/quiz/basic_quiz/' + QUESTION_IMG)
             .css({
                 'width':QUESTION_IMG.includes('Item') ? '75px' : '400px',

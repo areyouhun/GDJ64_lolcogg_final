@@ -26,7 +26,7 @@
 						<div class="quiz-view">
 							<img class="cursor switch-btn" src="${path}/resources/images/game/leftClick.png" />
 							<div class="choice-thema">
-								<img class="percent" src="${path}/resources/images/quiz/garen-img.jpg" />
+								<img class="percent" src="${path}/resources/images/quiz/basic_quiz/basic_quiz_img.jpg" />
 							</div>
 							<img class="cursor switch-btn" src="${path}/resources/images/game/rightClick.png">
 						</div>
