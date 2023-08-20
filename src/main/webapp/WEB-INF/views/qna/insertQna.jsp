@@ -56,12 +56,6 @@
                         <div>
                             <p class="color-white content fs-20 tableTitle qnaPwdMargin"></p>
                         </div>
-                        <hr class="hr-1">
-                        <div class="insertqna">
-                            <p class="color-white content fs-20 tableTitle">비밀번호</p>
-                            <div class="qnaInputPwdDiv"><input type="password" name="qaPwd"
-                                    class="qnaInputPwd inputFont" placeholder="비밀번호 4자리"></div>
-                        </div>
                     </div>
                     <hr class="hr-3">
                     <div class="insertBtnDiv">
@@ -107,23 +101,6 @@ $("[name=qaFile]").change(e=>{
 	reader.readAsDataURL(f);
 	})
 })
-
-/* 비밀번호 글자 수 제한 */
-const regex = /^[0-9]{0,4}$/;
-$(document).on("keyup", ".qnaInputPwd", function(e) {
-	let pwd = $(e.target).val();
-    
-    // 글자수 제한
-    if (pwd.length > 4) {
-        $(e.target).val($(e.target).val().substring(0, 4));
-    } else {
-	    if(regex.test(pwd)){
-	    	
-	    } else{
-	    	$(e.target).val('');
-	    }
-    }
-});	
 
 /* 제목, 내용 글자 수 제한 */
 $(document).on("keyup", ".qaTitleDiv input", function(e) {
@@ -178,17 +155,8 @@ function check() {
 		alert("비밀번호를 입력해 주세요.");
 		$('input[name=qaPwd]').focus();
 		return false;
-	} else if($('input[name=qaPwd]').val().length < 4) {
-		alert("비밀번호는 4자리입니다.");
-		$('input[name=qaPwd]').focus();
-		return false;
 	} else return true;
 }
-
-/* const addFile=()=>{
-let maxFile = 5; // 첨부파일 최대 개수
-var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
-} */
 
 </script>
 <!-------------------------------------------->

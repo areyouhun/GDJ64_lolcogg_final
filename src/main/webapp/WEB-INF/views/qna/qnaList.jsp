@@ -42,7 +42,7 @@
 		                                	<c:if test="${loginMember.email == qna.qaWriter.email || loginMember.authority == '관리자' }">
 		                                    	<a href="${path }/qna/qnaView?no=${qna.qaNo}">${qna.qaTitle }</a>
 		                                    </c:if>
-		                                    <c:if test="${loginMember.email != qna.qaWriter.email }">
+		                                    <c:if test="${loginMember.email != qna.qaWriter.email && loginMember.authority != '관리자'}">
 		                                    	<span class='content qnaTitle'>${qna.qaTitle }</span>
 			                                    <img src="${path }/resources/images/qna/lock.png" style="width: 15px; height: 15px;">
 		                                    </c:if>
@@ -90,49 +90,17 @@
 <!-- Your own script tag or JavaScript file -->
 <script>
 	$(()=>{
-		if(location.href == 'http://localhost:7070/qna/qnaList'){
+		const url = location.href;
+		const urlSlice = url.slice(-7);
+		console.log(urlSlice);
+		if(urlSlice == 'qnaList'){
 			$('.qnaAll').addClass('qnaSpan');
 			$('.qnaMy').addClass('qnaSpanNo');
-		} else if(location.href != 'http://localhost:7070/qna/qnaList'){
+		} else {
 			$('.qnaMy').addClass('qnaSpan');
 			$('.qnaAll').addClass('qnaSpanNo');
 		}
 	});
-	
-	/* ajax 페이징처리 */
-	// $('.qnaTable') 데이터 목록 table 
-	// $('.qnaSort') 전체, 내가 쓴 글 
-	// 페이징바(div) 새로 만들기
-	
-	let totalData; // 총 데이터 수
-	let dataPerPage; // 한 페이지에 나타낼 글 수
-	let pageCount = 10; // 페이징에 나타낼 페이지 수
-	let cPage = 1; // 현재 페이지
-	let dataList; // 표시하려하는 데이터 리스트
-	
-	/* $(document).ready(function () {
-		//dataPerPage 선택값 가져오기
-		// dataPerPage = $(".qnaSort").val(); -> a태그(전체, 내가 쓴 글)
-		
-		$.ajax({ 
-			method: "GET",
-			url: "https://url/data?" + data,
-			dataType: "json",
-			success: function (d) {
-				//totalData(총 데이터 수) 구하기
-				totalData = d.data.length;
-				//데이터 대입
-				dataList=d.data;
-			}
-		});
-		 
-		//글 목록 표시 호출 (테이블 생성)
-		displayData(1, dataPerPage);
-		 
-		//페이징 표시 호출
-		paging(totalData, dataPerPage, pageCount, 1);
-	}); */
-	
 	
 	$(document).on("click", ".qnaTitle", function(e){
 		alert('본인이 작성한 글만 조회가능합니다.');
