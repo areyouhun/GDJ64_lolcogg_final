@@ -1057,13 +1057,20 @@ $(document).on("click", ".emoXIcon", function(e) {
  
 /* 답글 토글 */
 $(document).on("click", ".replyCount", function(e) {
-	const reply = $(e.target).parent().parent().parent().parent().next().next('.replyAllDiv');
+	const commentList = $(e.target).parents('.commentList');
+	
+	const reply = commentList.nextUntil('.commentList', '.replyAllDiv');
+	const replyHr = commentList.nextUntil('.commentList', '.hr-1Black');
+	const replyHrToggle = replyHr.not(':first');
 	reply.toggle(100);
+	replyHrToggle.toggle(100);
+	
 });
 
 /* 베스트 댓글 답글 토글 */
 $(document).on("click", ".replyCount", function(e) {
-	const reply = $(e.target).parent().parent().parent().parent().next().next('.replyBestAllDiv');
+	const reply = $(e.target).parents('.commentList').next().next('.replyBestAllDiv');
+	console.log(reply);
 	reply.toggle(100);
 });
 
