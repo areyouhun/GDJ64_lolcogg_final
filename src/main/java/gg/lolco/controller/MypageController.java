@@ -254,7 +254,7 @@ public class MypageController {
 	}
 	
 	// mypage/mypage.do
-	@RequestMapping("withdrawalEmail")
+	@RequestMapping("/withdrawalEmail")
 	@ResponseBody
 	public String WithdrawalEmail(@RequestParam Map<Object, String> param, SessionStatus status, HttpServletRequest request) {
 	    System.out.println("email:" + param.get("email"));
