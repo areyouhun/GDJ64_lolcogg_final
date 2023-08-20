@@ -162,7 +162,7 @@
 	    
 	    //비밀번호 찾기 step2
 	  	var inputCertification=$("#inputCertification");
-	    console.log(inputCertification);
+	    /* console.log(inputCertification); */
 	  	document.getElementById('certificationModalConfirmButton').addEventListener('click', () => {
 			    const user = {
 			        username: inputEamil
@@ -188,6 +188,7 @@
 	    	        if (json !== null) {
 	    	        	alert("입력하신 메일에 인증번호가 전송 되었습니다.\n" + inputEamil + "에서 메일을 확인하여 인증번호를 입력해주세요.");
 	    	            authNum = json;
+	    	            console.log("authNum");
 	    	            $("#certificationCheck").text("인증번호를 입력해주세요.");
 		    			document.querySelector("#passwordModalConfirmButton3").style.display = "inline-block";
 	    	        } else {

@@ -303,10 +303,10 @@
 		}
 		
 		// 중복&인증 여부 체크 
-		console.log(duplicatecheck_email); // 이메일 중복 여부
+		/*console.log(duplicatecheck_email); // 이메일 중복 여부
 		console.log(authResult); // 이메일 인증 여부
 		console.log(duplicatecheck_nickName); // 닉네임 중복 여부
-		console.log(check_myReferralCode); // 추천인 코드 확인
+		console.log(check_myReferralCode); // 추천인 코드 확인*/
 		if(!duplicatecheck_email){
 			alert("중복되지 않는 이메일을 이용해주세요.");
 		  	$("#email").focus();		  	
@@ -323,7 +323,7 @@
 			return false;
 		}
 		if (check_myReferralCode == false) {
-			console.log(check_myReferralCode);
+			/*console.log(check_myReferralCode);*/
 			alert("이용가능한 추천인 코드를 입력해주세요.");
 		  	$("#myReferralCode").focus();		  	
 			return false;

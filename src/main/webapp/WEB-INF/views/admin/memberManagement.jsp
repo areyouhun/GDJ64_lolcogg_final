@@ -251,7 +251,7 @@ function setupModal(showButtonId, modalBackgroundId, closeModalButtonId, confirm
     if (confirmButton) {
         confirmButton.addEventListener('click', () => {
             // 탈퇴 처리 또는 복구 처리
-            console.log("보내는 이메일 : " + email)
+           /*  console.log("보내는 이메일 : " + email) */
             const url = isWithdrawalModal ? '${path}/admin/withdrawalEmail' : '${path}/admin/restoreEmail';
             
             $.ajax({
