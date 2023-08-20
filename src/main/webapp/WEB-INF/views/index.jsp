@@ -10,6 +10,17 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param name="navBgColor" value=""/>
 </jsp:include>
+<style>
+	.bgImgMatch{
+	    background-image: linear-gradient(rgba(15, 15, 15, 0.87),
+	    rgba(15, 15, 15, 0.87)) ,url(${path}/resources/images/mainpage/main1.webp);
+	}
+	
+	.bgImgRank{
+	    background-image: linear-gradient(rgba(15, 15, 15, 0.85),
+	    rgba(15, 15, 15, 0.87)) ,url(${path}/resources/images/mainpage/main2.jpg);
+	}
+</style>
     <section>
         <div class="mainpage">
             <img class="banner-img" src="${path}/resources/images/mainpage/LeagueofLegends_LCK_Spring2023_Playoffs_Teams_Players.jpg">
