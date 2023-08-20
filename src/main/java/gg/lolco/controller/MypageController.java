@@ -252,6 +252,20 @@ public class MypageController {
 		return "redirect:/mypage/mypage.do";
 	}
 	
+	// mypage/mypage.do
+	@RequestMapping("/withdrawalEmail")
+	@ResponseBody
+	public String WithdrawalEmail(@RequestParam Map<Object, String> param, HttpServletRequest request) {
+		System.out.println("email:" + param.get("email"));
+		System.out.println("회원탈퇴처리");
+		int result = service.WithdrawalEmail(param);
+        HttpSession session = request.getSession(false);
+        if (session != null){
+            session.invalidate();
+        }
+		return "redirect:/";
+	}
+		
 	// 새로고침 1 : qna리스트 조회 - 내가 쓴 목록만 가져오는 것으로 버전업 필요!
 	@RequestMapping("/qnaList")
 	@ResponseBody

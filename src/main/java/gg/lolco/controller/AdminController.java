@@ -74,8 +74,8 @@ public class AdminController {
 		return "/admin/memberManagement";
 	}
 	
-	// mypage/mypage.do
-	@RequestMapping("withdrawalEmail")
+	// admin/mypage.do
+	@RequestMapping("/withdrawalEmail")
 	@ResponseBody
 	public String WithdrawalEmail(@RequestParam Map<Object, String> param, SessionStatus status) {
 		System.out.println("email:" + param.get("email"));
@@ -90,8 +90,8 @@ public class AdminController {
 		return "redirect:/";
 	}
 
-	// mypage/mypage.do, admin/memberManagement
-	@RequestMapping("restoreEmail")
+	// admin/mypage.do, admin/memberManagement
+	@RequestMapping("/restoreEmail")
 	@ResponseBody
 	public String restoreEmail(@RequestParam Map<Object, String> param, SessionStatus status) {
 		System.out.println("email:" + param.get("email"));
