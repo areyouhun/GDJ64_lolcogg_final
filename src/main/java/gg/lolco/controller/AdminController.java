@@ -74,7 +74,7 @@ public class AdminController {
 		return "/admin/memberManagement";
 	}
 	
-	// mypage/mypage.do
+	// admin/mypage.do
 	@RequestMapping("withdrawalEmail")
 	@ResponseBody
 	public String WithdrawalEmail(@RequestParam Map<Object, String> param, SessionStatus status) {
@@ -90,7 +90,7 @@ public class AdminController {
 		return "redirect:/";
 	}
 
-	// mypage/mypage.do, admin/memberManagement
+	// admin/mypage.do, admin/memberManagement
 	@RequestMapping("restoreEmail")
 	@ResponseBody
 	public String restoreEmail(@RequestParam Map<Object, String> param, SessionStatus status) {

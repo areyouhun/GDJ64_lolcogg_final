@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -252,6 +253,26 @@ public class MypageController {
 		return "redirect:/mypage/mypage.do";
 	}
 	
+	// mypage/mypage.do
+	@RequestMapping("withdrawalEmail")
+	@ResponseBody
+	public String WithdrawalEmail(@RequestParam Map<Object, String> param, SessionStatus status, HttpServletRequest request) {
+	    System.out.println("email:" + param.get("email"));
+	    System.out.println("회원탈퇴처리");
+	    int result = service.WithdrawalEmail(param);
+
+	    // 회원 탈퇴 처리 후 로그아웃
+	    if (result > 0) {
+	        // 로그아웃 처리를 원하는 경우, 아래 두 줄을 사용
+	        status.setComplete(); // 세션 종료
+	        // 직접 로그아웃 URL로 리다이렉트
+	        String logoutUrl = request.getContextPath() + "/logout";
+	        return "redirect:" + logoutUrl;
+	    } else {
+	        return "error"; // 에러 처리
+	    }
+	}
+		
 	// 새로고침 1 : qna리스트 조회 - 내가 쓴 목록만 가져오는 것으로 버전업 필요!
 	@RequestMapping("/qnaList")
 	@ResponseBody
