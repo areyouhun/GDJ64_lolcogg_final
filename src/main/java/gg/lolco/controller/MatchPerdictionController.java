@@ -63,6 +63,10 @@ public class MatchPerdictionController {
 		// 댓글 리스트
 //		List<MatchPredictionComment> commentList = service.commentListAll(null);
 //		m.addAttribute("commentList", commentList);
+		
+		// 대댓글 목록
+		List<MatchPredictionComment> reply = service.replyListAll();
+		m.addAttribute("commentList", reply);
 
 		// 베스트3 댓글
 		List<MatchPredictionComment> bestCommentList = service.bestCommentList(nowWeek);

@@ -452,7 +452,7 @@
                 최근 수정일 <fmt:formatDate value="${best.mpcUpDate }" pattern="yyyy.MM.dd HH:mm" />
                 </c:if>
                 </span>
-                <p id="${best.mpcNo }" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
+                <p id="${best.mpcNo }" class='insertReply' onclick='insertReplyHandler(event);'>답글쓰기</p>
                 <p class='replyCount insertReply'>답글보기</p>
               </div>
 
@@ -525,7 +525,8 @@
           </div>
         </div>
         <hr class="hr-1Black hr-op">
-
+        
+        
         <div class="replyBestAllDiv">
           <c:forEach var="reply" items="${commentList }">
             <c:if test="${reply.mpcRefNo != 0 && best.mpcNo == reply.mpcRefNo}">
@@ -1057,13 +1058,20 @@ $(document).on("click", ".emoXIcon", function(e) {
  
 /* 답글 토글 */
 $(document).on("click", ".replyCount", function(e) {
-	const reply = $(e.target).parent().parent().parent().parent().next().next('.replyAllDiv');
+	const commentList = $(e.target).parents('.commentList');
+	
+	const reply = commentList.nextUntil('.commentList', '.replyAllDiv');
+	const replyHr = commentList.nextUntil('.commentList', '.hr-1Black');
+	const replyHrToggle = replyHr.not(':first');
 	reply.toggle(100);
+	replyHrToggle.toggle(100);
+	
 });
 
 /* 베스트 댓글 답글 토글 */
 $(document).on("click", ".replyCount", function(e) {
-	const reply = $(e.target).parent().parent().parent().parent().next().next('.replyBestAllDiv');
+	const reply = $(e.target).parents('.commentList').next().next('.replyBestAllDiv');
+	console.log(reply);
 	reply.toggle(100);
 });
 
@@ -1340,8 +1348,6 @@ $(document).on("click", ".upBtn", function(e) {
 				    let d = new Date(data.mpcDate);
 				    return d.getFullYear() + '.' + ((d.getMonth() + 1) > 9 ? (d.getMonth() + 1).toString() : '0' + (d.getMonth() + 1)) + '.' + (d.getDate() > 9 ? d.getDate().toString() : '0' + d.getDate().toString());
 				}
-				
-				console.log(emoDelete);
 				
 				const mpcUpDate = data.mpcUpDate;
 				const newDate = new Date(mpcUpDate);
@@ -1795,9 +1801,10 @@ function fn_newCommentDiv(data){
 			let textarea = $('<textarea>').attr({
 			    type: 'text',
 			    class: 'insertComment contentBlack fs-20',
-			    style: 'resize: none;'
+			    style: 'resize: none'
 			});
 			commentDiv.append(textarea);
+			insertCommentDiv.append(commentDiv);
 
 			let countBtnDiv = $('<div>').addClass('countBtnDiv');
 			let countBtn = $('<div>').addClass('countBtn');
