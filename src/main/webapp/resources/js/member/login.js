@@ -62,29 +62,29 @@
     // 카카오 SDK 초기화
     Kakao.init('5e6bb71a42bd433b177e7105d219f644');
     const kakaologin=()=>{
-        console.log(Kakao.isInitialized()); 
+        /*console.log(Kakao.isInitialized()); */
          let email,nickname,image;
             Kakao.Auth.login({
                scope:'profile_nickname,account_email,profile_image',
                success:function(authObj){
-                  console.log(authObj);
+                  /*console.log(authObj);*/
                   Kakao.API.request({
                      url:'/v2/user/me',
                      success:function(res){
                         const kakao_account=res.kakao_account;
-                        console.log(kakao_account);
+                        /*console.log(kakao_account);*/
                         email=kakao_account.email;
                         nickname=kakao_account.profile.nickname;
                         image=kakao_account.profile.thumbnail_image_url;
-                        console.log(email,nickname,image);
+                        /*console.log(email,nickname,image);*/
                            $.ajax({
                               type:"get",
                               url:"../login/KakaoLoginCheck",
                               data:{"memberEmail":email,"memberNickname":nickname,"memberImage":image},
                               dataType:"text",
                               success: data=>{
-                                 console.log(data, typeof data);
-                                 console.log(data=='')
+                                 /*console.log(data, typeof data);
+                                 console.log(data=='')*/
                                     if(data==''){
                                          location.assign("../login/Kakaoenroll?memberEmail="+email+"&memberNickname="+nickname+"&memberImage="+image);
                                     }else{
@@ -107,6 +107,6 @@ const CLIENT_ID = "dNio2a8IwW1bwAeDTYAA";
 const redirectURI = "http://14.36.141.71:10005/GDJ64_lolcogg_final/login/naverLogin";
 const state ="1";
 const naverLogin=()=>{
-	console.log("여기오니?");
+	/*console.log("여기오니?");*/
 	location.assign("https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id="+CLIENT_ID+"&redirect_uri="+redirectURI+"&state="+state);
 }

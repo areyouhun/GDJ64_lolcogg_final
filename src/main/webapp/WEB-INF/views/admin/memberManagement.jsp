@@ -228,10 +228,10 @@ function setupModal(showButtonId, modalBackgroundId, closeModalButtonId, confirm
             modalBackground.style.display = 'flex';
             if (isWithdrawalModal) {
                 email = $(this).closest("tr").find(".m_title").eq(0).text(); // 회원 이메일 가져오기
-                $("#withdrawModal .modal-body p").text(`회원탈퇴 하시겠습니까?<br> 이메일 : `+email);
+                $("#withdrawModal .modal-body p").text(`회원탈퇴 하시겠습니까? 이메일 : `+email);
             } else {
                 email = $(this).closest("tr").find(".m_title").eq(0).text(); // 회원 이메일 가져오기
-                $("#restoreModal .modal-body p").text(`회원복구 하시겠습니까?<br> 이메일 :`+email);
+                $("#restoreModal .modal-body p").text(`회원복구 하시겠습니까? 이메일 :`+email);
             }
         });
     }
@@ -251,8 +251,8 @@ function setupModal(showButtonId, modalBackgroundId, closeModalButtonId, confirm
     if (confirmButton) {
         confirmButton.addEventListener('click', () => {
             // 탈퇴 처리 또는 복구 처리
-            console.log("보내는 이메일 : " + email)
-            const url = isWithdrawalModal ? '${path}/mypage/withdrawalEmail' : '${path}/mypage/restoreEmail';
+           /*  console.log("보내는 이메일 : " + email) */
+            const url = isWithdrawalModal ? '${path}/admin/withdrawalEmail' : '${path}/admin/restoreEmail';
             
             $.ajax({
                 type: 'POST',
