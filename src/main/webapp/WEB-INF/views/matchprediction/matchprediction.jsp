@@ -452,7 +452,7 @@
                 최근 수정일 <fmt:formatDate value="${best.mpcUpDate }" pattern="yyyy.MM.dd HH:mm" />
                 </c:if>
                 </span>
-                <p id="${best.mpcNo }" class='insertReply' onclick='insertReply(event);'>답글쓰기</p>
+                <p id="${best.mpcNo }" class='insertReply' onclick='insertReplyHandler(event);'>답글쓰기</p>
                 <p class='replyCount insertReply'>답글보기</p>
               </div>
 
@@ -1341,8 +1341,6 @@ $(document).on("click", ".upBtn", function(e) {
 				    return d.getFullYear() + '.' + ((d.getMonth() + 1) > 9 ? (d.getMonth() + 1).toString() : '0' + (d.getMonth() + 1)) + '.' + (d.getDate() > 9 ? d.getDate().toString() : '0' + d.getDate().toString());
 				}
 				
-				console.log(emoDelete);
-				
 				const mpcUpDate = data.mpcUpDate;
 				const newDate = new Date(mpcUpDate);
 				const mpcUpDateTime = new Intl.DateTimeFormat('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(newDate);
@@ -1795,9 +1793,10 @@ function fn_newCommentDiv(data){
 			let textarea = $('<textarea>').attr({
 			    type: 'text',
 			    class: 'insertComment contentBlack fs-20',
-			    style: 'resize: none;'
+			    style: 'resize: none'
 			});
 			commentDiv.append(textarea);
+			insertCommentDiv.append(commentDiv);
 
 			let countBtnDiv = $('<div>').addClass('countBtnDiv');
 			let countBtn = $('<div>').addClass('countBtn');
