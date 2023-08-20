@@ -1670,7 +1670,7 @@ function fn_newCommentDiv(data){
 			let commentList = $('<div>').addClass('commentList');
 			let profileDiv = $('<div>');
 			let profileImg = $('<img>').attr({
-				src : '${path}/resources/upload/profile' + c.mpcWriter.profile
+				src : '${path}/resources/upload/profile/' + c.mpcWriter.profile
 			}).css({
 				width: '70px',
 				height: '70px',
@@ -1824,7 +1824,7 @@ function fn_newCommentDiv(data){
 				})
 				let emoImg = $('<img>').attr({
 					id: emo.emoticon.emoNo,
-					src: '${path}/resources/images/emoticon' + emo.emoticon.emoFilename,
+					src: '${path}/resources/images/emoticon/' + emo.emoticon.emoFilename,
 					height: '65px'
 				})
 				li.append(emoBtn, emoImg);
@@ -2016,7 +2016,7 @@ function fn_popCommentDiv(data){
 			let commentList = $('<div>').addClass('commentList');
 			let profileDiv = $('<div>');
 			let profileImg = $('<img>').attr({
-				src : '${path}/resources/upload/profile' + c.mpcWriter.profile
+				src : '${path}/resources/upload/profile/' + c.mpcWriter.profile
 			}).css({
 				width: '70px',
 				height: '70px',
@@ -2169,7 +2169,7 @@ function fn_popCommentDiv(data){
 				})
 				let emoImg = $('<img>').attr({
 					id: emo.emoticon.emoNo,
-					src: '${path}/resources/images/emoticon' + emo.emoticon.emoFilename,
+					src: '${path}/resources/images/emoticon/' + emo.emoticon.emoFilename,
 					height: '65px'
 				})
 				li.append(emoBtn, emoImg);
