@@ -236,8 +236,8 @@ const fn_insertComment=()=>{
     				html += "<ion-icon class='moreIcon' name='ellipsis-horizontal' style='font-size: 28px;'></ion-icon>";
     				html += "</button>";
     				
-    				html += "<ul id='${c.qaCommentNo }' class='optionUl'><li>";
-    				html += "<label class='cDelBtn'><button id='${c.qaCommentNo}' class='cDelBtn'><ion-icon class='optionIcon cDelBtn' name='trash-bin-outline'></ion-icon>삭제</button></label>";
+    				html += "<ul id='" + item.qaCommentNo + "' class='optionUl'><li>";
+    				html += "<label class='cDelBtn'><button id='" + item.qaCommentNo + "' class='cDelBtn'><ion-icon class='optionIcon cDelBtn' name='trash-bin-outline'></ion-icon>삭제</button></label>";
     				html += "</li></ul></div></div>";
     				html += "<hr class='hr-1 hr-op'>";
     			});
@@ -266,16 +266,10 @@ $(document).on("click", ".moreIconBtn", function(e) {
     optionUl.toggle();
 });
 
-/* 댓글 수정 */
-$(document).on("click", ".cUpBtn", function(e) {
-	const qaNo = $(e.target).attr('id');
-	console.log($(e.target).closest("ul").attr('id'));
-});
-
 /* 댓글 삭제 */
 $(document).on("click", ".cDelBtn", function(e) {
+	e.stopPropagation(); 
 	$(e.target).parents('.optionUl').css('display', 'none');
-
 	const qaNo = $(e.target).parents('ul').attr('id');
 	const removeDiv = $(e.target).parents('.commentList');
 	const hr = $(e.target).parents('.commentList').next('hr');
@@ -399,7 +393,6 @@ $(document).on("click", "#updateQna", function(e) {
 				"margin-right":"10px", "border" : "1px solid white"
 			});
 			qaFileBoxDiv.append(img);
-			console.log(img);
 		});
 	}
 	
@@ -409,15 +402,6 @@ $(document).on("click", "#updateQna", function(e) {
 	tableTitleDiv.append(qaFileDiv);
 	tableTitleDiv.append($('<hr>').addClass('hr-1'));
 	
-	/* 비밀번호 */
-	let qaPwdDiv = $('<div>').addClass('insertqna');
-	let pwdP = $('<p>').addClass('color-white content fs-20 tableTitle').text('비밀번호');
-	let qaPwdInputDiv = $('<div>').addClass('qnaInputPwdDiv');
-	let qaPwdInput = $('<input>', { type: 'password', name: 'qaPwd', class: 'qnaInputPwd inputFont', placeholder: '비밀번호 4자리' });
-	qaPwdInputDiv.append(qaPwdInput);
-	qaPwdDiv.append(pwdP, qaPwdInputDiv);
-	
-	tableTitleDiv.append(qaPwdDiv);
 	form.append(tableTitleDiv);
 
 	$('.tableTitle').after(form);
@@ -444,12 +428,7 @@ $(document).on("click", ".updateOkBtn", function(e) {
 		alert("비밀번호를 입력해 주세요.");
 		$('input[name=qaPwd]').focus();
 		return false;
-	} else if($('input[name=qaPwd]').val().length < 4) {
-		alert("비밀번호는 4자리입니다.");
-		$('input[name=qaPwd]').focus();
-		return false;
 	} else {
-		//alert("수정이 완료되었습니다.");
 		return true;
 	}
 	
@@ -487,23 +466,6 @@ $(document).on("change", "[name=qaFile]", function(e) {
 	reader.readAsDataURL(f);
 	})
 })
-
-/* 비밀번호 글자 수 제한 */
-const regex = /^[0-9]{0,4}$/;
-$(document).on("keyup", ".qnaInputPwd", function(e) {
-	let pwd = $(e.target).val();
-    
-    // 글자수 제한
-    if (pwd.length > 4) {
-        $(e.target).val($(e.target).val().substring(0, 4));
-    } else {
-	    if(regex.test(pwd)){
-	    	
-	    } else{
-	    	$(e.target).val('');
-	    }
-    }
-});	
 
 /* 제목, 내용 글자 수 제한 */
 $(document).on("keyup", ".qaTitleDiv input", function(e) {
