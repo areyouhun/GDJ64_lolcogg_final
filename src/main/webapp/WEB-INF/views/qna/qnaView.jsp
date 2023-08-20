@@ -201,7 +201,7 @@ const fn_insertComment=()=>{
     	
     	$.ajax({
     		type: "POST",
-    		url: "/qna/insertComment",
+    		url: "${path}/qna/insertComment",
     		data:{
     			"qaCommentWriter": writer,
     			"qaCommentContent": content,
@@ -283,7 +283,7 @@ $(document).on("click", ".cDelBtn", function(e) {
 	if(confirm("정말 삭제하시겠습니까?")){
 		$.ajax({
 			type: "POST",
-			url: "/qna/deleteComment",
+			url: "${path}/qna/deleteComment",
 			data:{
 				"qaNo": qaNo
 			},
