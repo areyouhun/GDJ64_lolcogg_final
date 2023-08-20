@@ -113,9 +113,10 @@
     const title = this.title.value;
     const content = this.content1.value;
     const videoUrl = this.video.value;
-    console.log(title)
     
-    console.log(videoUrl)
+    
+    
+    
 
 
     if (category === '카테고리' || title === '') {
@@ -173,7 +174,7 @@
                     return response.json()
                 })
                 .then(data => {
-                	console.log(data);
+                	
                     var videoDiv = document.getElementsByClassName('insert-video')[0];
                     //유튜브 제목, 썸네일
                     videoDiv.innerHTML = '<h3>' + data.title + '</h3>' +
@@ -242,7 +243,7 @@
         });
         see1 = function () {
         	
-            console.log(editor.getHTML());
+            
         }
 
 

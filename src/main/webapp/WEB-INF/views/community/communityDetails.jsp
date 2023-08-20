@@ -724,7 +724,7 @@
 					boardNo : boardNo,
 				},
 				success : function(em) {
-					console.log(em)
+					
 					let html=' ';
 					if(em.size==0){
 						html+='<p class="content">보유한이모티콘이 없습니다.</p>';									
@@ -756,7 +756,7 @@
 					boardNo : boardNo,
 				},
 				success : function(em) {
-					console.log(em)
+					
 					let html=' ';
 					if(em.size==0){
 						html+='<p class="content">보유한이모티콘이 없습니다.</p>';									
@@ -781,7 +781,7 @@
 		var actions = true;
 		$(document).on('click', '.updateCm', function(e) {
 		    const cm = $(this).closest('.commentList').next().next();
-		    console.log(cm)
+		    
 		    if(actions) {				
 		        cm.css("display","flex");
 		    } else {
@@ -1098,7 +1098,7 @@
 	  
 	    
 	    if (commentRefNo != null) { // 대댓글 삭제일 경우
-	        console.log("대댓글");    
+	        
 	        if (confirm("정말 삭제하시겠습니까??")) {
 	            $.ajax({
 	                type: "post",

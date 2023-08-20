@@ -6,7 +6,7 @@
 <!-- Your own style tag or CSS file -->
 <link rel="stylesheet" href="${path }/resources/css/notice/notice.css">
 <!------------------------------------>
-<title>SAMPLE</title>
+<title>공지사항</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -88,7 +88,7 @@
 
 		$(".noticeType").each(function(e) {
 			const type = $(this).text().trim();
-			console.log($(this))
+			
 
 			switch (type) {
 			case '[커뮤니티]':

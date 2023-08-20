@@ -14,7 +14,7 @@
 <link rel="stylesheet"
 	href="${path }/resources/css/community/communityMain.css">
 <!------------------------------------>
-<title>게시글작성</title>
+<title>게시글수정</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp">
@@ -115,7 +115,7 @@
     const category = this.boardCategories.value;
     const title = this.title.value;
     const content = this.content1.value;
-    console.log(title)
+    
     
    
 
