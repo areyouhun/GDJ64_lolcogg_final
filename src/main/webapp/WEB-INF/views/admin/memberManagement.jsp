@@ -58,12 +58,14 @@
 								<div class="categories">
 									<a href="${path }/admin/matchpredictionCmList"><span>탈퇴 회원</span></a>
 								</div> --%>
-								<div class="categories" id="emailEncryption">
+								
+								<!-- 이메일 암호화 -->
+								<%-- <div class="categories" id="emailEncryption">
 									<a href="${path }/admin/emailEncryption"><span style="color:#D93829">[이메일 나타내기]</span></a>
 								</div>
 								<div class="categories" id="memberManagement">
 									<a href="${path }/admin/memberManagement"><span style="color:#D93829">[이메일 감추기]</span></a>
-								</div>
+								 </div>--%>
 							</div>
 							<table class="report-board content">
 								<tr>
@@ -274,7 +276,7 @@ function setupModal(showButtonId, modalBackgroundId, closeModalButtonId, confirm
     }
 }
 
-//이메일이 복호화되어있는 상태에서는 회원 탈퇴/복구 버튼 감추기 by url주소
+/* //이메일이 복호화되어있는 상태에서는 회원 탈퇴/복구 버튼 감추기 by url주소
 document.addEventListener("DOMContentLoaded", function() {
     var currentUrl = window.location.href;
 
@@ -295,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var memberManagement = document.getElementById("memberManagement");
         memberManagement.style.display = "none";
     }
-});
+}); */
 
 // console.log('${memberList}');
 </script>

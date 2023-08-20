@@ -91,6 +91,13 @@ public class LoginController {
 				.build();
 		int result = service.insertMember(member);
 
+		// 회원가입 축하 포인트 지급 - 1000포인트
+		Map pointOffer = Map.of("email", member.getEmail(), "point", 1000);
+		// 포인트 지급 내역 저장
+		Map insertPointHistoryByLolcoggEnroll = Map.of("email", member.getEmail(), "phComment", "웰컴 포인트(회원가입 기념 포인트)",
+				"phPoint", pointOffer.get("point"));
+		result = service.insertPointHistoryByLolcoggEnroll(insertPointHistoryByLolcoggEnroll);
+
 		// EMAIL : param-DB 매칭
 		Member m = service.selectMemberById(param);
 		model.addAttribute("loginMember", m);
@@ -183,6 +190,14 @@ public class LoginController {
 	//		      		.hasDragon(default)//mybatis에서 입력
 							.build();
 					int result = service.insertMember(member);
+					
+					// 회원가입 축하 포인트 지급 - 3000포인트
+					Map pointOffer = Map.of("email", member.getEmail(), "point", 3000);
+					result = service.insertPointToEmail(pointOffer);
+					// 포인트 지급 내역 저장
+					Map insertPointHistoryByLolcoggEnroll = Map.of("email", member.getEmail(), "phComment", "웰컴 포인트(회원가입 기념 포인트)",
+							"phPoint", pointOffer.get("point"));
+					result = service.insertPointHistoryByLolcoggEnroll(insertPointHistoryByLolcoggEnroll);
 					
 					Member m2 = service.selectMemberById(param);
 					model.addAttribute("loginMember", m2);

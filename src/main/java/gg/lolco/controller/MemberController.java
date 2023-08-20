@@ -169,8 +169,9 @@ public class MemberController {
 			result = service.insertPointHistoryByReferralCode(PointHistoryByReferralCode);
 		}
 		
-		// 회원가입 축하 포인트 지급 - 500포인트
-		Map pointOffer = Map.of("email", member.getEmail(), "point", 500);
+		// 회원가입 축하 포인트 지급 - 3000포인트
+		Map pointOffer = Map.of("email", member.getEmail(), "point", 3000);
+		result = service.insertPointToEmail(pointOffer);
 		// 포인트 지급 내역 저장
 		Map insertPointHistoryByLolcoggEnroll = Map.of("email", member.getEmail(), "phComment", "웰컴 포인트(회원가입 기념 포인트)",
 				"phPoint", pointOffer.get("point"));

@@ -51,21 +51,7 @@ public class AdminController {
 	
 	@GetMapping("/memberManagement")
 	public String memberManagement(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "8") int numPerpage, Model model) {
-		
-		// SANGJUN
-		List<Member> memberList = memberService.memberList(Map.of("cPage", cPage, "numPerpage", numPerpage));
-		int totalData = memberService.memberListCount();
-		model.addAttribute("memberList", memberList);
-		model.addAttribute("totalData", totalData);
-		model.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "memberManagement","fn_paging"));
-		return "/admin/memberManagement";
-	}
-	
-	//이메일 나타내기
-	@GetMapping("/emailEncryption")
-	public String emailEncryption(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
-			@RequestParam(value = "numPerpage", defaultValue = "8") int numPerpage, Model model) {
+			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage, Model model) {
 		
 		// SANGJUN
 		List<Member> memberList = memberService.memberList(Map.of("cPage", cPage, "numPerpage", numPerpage));
@@ -83,6 +69,28 @@ public class AdminController {
 		model.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "memberManagement","fn_paging"));
 		return "/admin/memberManagement";
 	}
+	
+//	//이메일 나타내기
+//	@GetMapping("/emailEncryption")
+//	public String emailEncryption(@RequestParam(value = "cPage", defaultValue = "1") int cPage,
+//			@RequestParam(value = "numPerpage", defaultValue = "10") int numPerpage, Model model) {
+//		
+//		// SANGJUN
+//		List<Member> memberList = memberService.memberList(Map.of("cPage", cPage, "numPerpage", numPerpage));
+//		for(Member member: memberList) {
+//			try {
+//				member.setEmail(AESEncryptor.decrypt(member.getEmail()));
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		int totalData = memberService.memberListCount();
+//		model.addAttribute("memberList", memberList);
+//		model.addAttribute("totalData", totalData);
+//		model.addAttribute("pageBar", PageFactory.getPage(cPage, numPerpage, totalData, "memberManagement","fn_paging"));
+//		return "/admin/memberManagement";
+//	}
 	
 	@GetMapping("/storeManagement")
 	public String storeManagement(Model model) {
