@@ -75,7 +75,7 @@ public class AdminController {
 	}
 	
 	// admin/mypage.do
-	@RequestMapping("withdrawalEmail")
+	@RequestMapping("/withdrawalEmail")
 	@ResponseBody
 	public String WithdrawalEmail(@RequestParam Map<Object, String> param, SessionStatus status) {
 		System.out.println("email:" + param.get("email"));
@@ -91,7 +91,7 @@ public class AdminController {
 	}
 
 	// admin/mypage.do, admin/memberManagement
-	@RequestMapping("restoreEmail")
+	@RequestMapping("/restoreEmail")
 	@ResponseBody
 	public String restoreEmail(@RequestParam Map<Object, String> param, SessionStatus status) {
 		System.out.println("email:" + param.get("email"));
