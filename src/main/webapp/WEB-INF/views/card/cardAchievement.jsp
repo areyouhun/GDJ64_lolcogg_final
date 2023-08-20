@@ -247,8 +247,7 @@
 
 	                function handleCompensationButtonClick(e) {
 	                    const ach = this.closest(".achievement_List_div").firstElementChild.value;
-	                    console.log(ach)
-	                    console.log(extractedText)
+	                    
 	                    if (confirm("정말 보상을 받으시겠습니까?")) {
 	                    	$.ajax({
 	                    		  url: `${path}/card/achievementCompensation`,
