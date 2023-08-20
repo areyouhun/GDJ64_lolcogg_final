@@ -256,27 +256,6 @@ public class MypageController {
 		return "redirect:/mypage/mypage.do";
 	}
 	
-	// mypage/mypage.do
-	@RequestMapping("withdrawalEmail")
-	@ResponseBody
-	public String WithdrawalEmail(@RequestParam Map<Object, String> param, SessionStatus status) {
-		System.out.println("email:" + param.get("email"));
-		System.out.println("회원탈퇴처리");
-		int result = service.WithdrawalEmail(param);
-		if(!status.isComplete()) status.setComplete();
-		return "redirect:/";
-	}
-
-	// mypage/mypage.do, admin/memberManagement
-	@RequestMapping("restoreEmail")
-	@ResponseBody
-	public String restoreEmail(@RequestParam Map<Object, String> param, SessionStatus status) {
-		System.out.println("email:" + param.get("email"));
-		System.out.println("회원복구처리");
-		int result = service.restoreEmail(param);
-		return "redirect:/";
-	}
-	
 	// 새로고침 1 : qna리스트 조회 - 내가 쓴 목록만 가져오는 것으로 버전업 필요!
 	@RequestMapping("/qnaList")
 	@ResponseBody
