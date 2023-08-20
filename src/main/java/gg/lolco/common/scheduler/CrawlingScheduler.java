@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -64,15 +65,15 @@ public class CrawlingScheduler {
         LocalDate stopSchedulerDate = LocalDate.of(2023, 8, 27);
         
         commuService.deleteDate();
-        champPredictCompare();
-
+        
         try {
 	    	if(!currentDate.isAfter(stopSchedulerDate)) {
 	    		getPlayerData();
+	    		getMatchSchedule();
 	    		getMatchData();
 	    		getTeamRanking();
 	    		getRegionalMatch();
-	    		getMatchSchedule();
+	    		champPredictCompare();
 	    		log.debug("크롤링 완료");
 	    	}
         }catch(IOException e) {
@@ -541,7 +542,7 @@ public class CrawlingScheduler {
 								}
 								if(matchWriter != null) matchWriter.close();
 								if(runeWriter != null) runeWriter.close();
-								System.out.println(fileName + " 업데이트 되었습니다.");
+								log.debug(fileName + " 업데이트 되었습니다.");
 							}
 						}
 					}
@@ -551,7 +552,7 @@ public class CrawlingScheduler {
 	}
 	
 	private void getMatchSchedule() throws IOException {
-		List<Map<String, String>> matchData = new ArrayList<>();
+		List<Map<String, String>> matchData = new LinkedList<>();
 
 		List<String> matchTypeLink = List.of(
 				"LCK%20Spring%202023/", "LCK%20Spring%20Playoffs%202023/", "LCK%20Summer%202023/",
@@ -564,7 +565,7 @@ public class CrawlingScheduler {
 			if(!(tableRow.size() == 0)) {
 				int tableRowSize = tableRow.select(".text-left a").size();
 				
-				for(int i=0; i<tableRowSize; i++) {
+				for(int i=tableRowSize-1; i>=0; i--) {
 					if(tableRow.select("a").get(i).attr("href").contains("page-preview")) {
 						Map<String, String> saveMap = new HashMap<>();
 						
@@ -621,8 +622,6 @@ public class CrawlingScheduler {
 			saveMap.put("gameWins", games.substring(0, matchs.indexOf("-")));
 			saveMap.put("gameDefeats", games.substring(matchs.indexOf("-") + 2));
 			
-			System.out.println(saveMap);
-			
 			teamRankingList.add(saveMap);
 		} service.updateTeamRanking(teamRankingList);
 	}
@@ -645,10 +644,8 @@ public class CrawlingScheduler {
 			if(!(homeTeamName.equals("TBD") && awayTeamName.equals("TBD"))) {
 				saveMap.put("homeTeamName", homeTeamName);
 				saveMap.put("awayTeamName", awayTeamName);
+				saveMap.put("matchDate", match);
 				regionalMatchMap.add(saveMap);
-			}else {
-//				System.out.println("아직 선발전 팀이 정해지지 않았습니다.");
-				return;
 			}
 		} service.updateRegionalMatch(regionalMatchMap);
 	}
@@ -660,10 +657,10 @@ public class CrawlingScheduler {
 
 	    List<Map<String, Object>> matchResultList = predictService.selectMatchData();
 
-	    for (Map<String, Object> matchResult : matchResultList) {
+	    for(Map<String, Object> matchResult : matchResultList) {
 	        File file = new File(path + String.valueOf(matchResult.get("MS_FILE_NAME")));
 
-	        if (!file.exists()) {
+	        if(!file.exists()) {
 	            log.warn("File not found: {}", file);
 	            continue;
 	        }
@@ -677,7 +674,7 @@ public class CrawlingScheduler {
 	        
 	        List<Integer> list = predictService.selectYesterDayPredict();
 	        
-	        for (int no : list) {
+	        for(int no : list) {
 	            noList.add(no);
 
 	            List<String> banpickList = predictService.selectMemberPredict(no).stream()
