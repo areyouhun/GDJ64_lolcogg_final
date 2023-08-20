@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-@import url('common.css');
-
 /* 문의등록 테이블 */
 .qnaTable {
     width: 100%;
