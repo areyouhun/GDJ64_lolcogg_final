@@ -90,10 +90,13 @@
 <!-- Your own script tag or JavaScript file -->
 <script>
 	$(()=>{
-		if(location.href == 'http://localhost:7070/qna/qnaList'){
+		const url = location.href;
+		const urlSlice = url.slice(-7);
+		console.log(urlSlice);
+		if(urlSlice == 'qnaList'){
 			$('.qnaAll').addClass('qnaSpan');
 			$('.qnaMy').addClass('qnaSpanNo');
-		} else if(location.href != 'http://localhost:7070/qna/qnaList'){
+		} else {
 			$('.qnaMy').addClass('qnaSpan');
 			$('.qnaAll').addClass('qnaSpanNo');
 		}
