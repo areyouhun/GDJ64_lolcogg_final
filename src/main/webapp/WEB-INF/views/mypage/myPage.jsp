@@ -896,7 +896,6 @@ function rowClicked(row) {
 		    }
 		})
 	});
-	console.log('${loginMember}');
 </script>
 <!-------------------------------------------->
 </body>
