@@ -12,7 +12,7 @@ function prevMonth() {
 		year -= 1;
 		month = 12;
 	}
-	printCalendar(year, month);
+    animateCalendar(year, month);
 }
 
 function nextMonth() {
@@ -23,7 +23,14 @@ function nextMonth() {
 		year += 1;
 		month = 1;
 	}
-	printCalendar(year, month);
+    animateCalendar(year, month);
+}
+
+function animateCalendar(year, month) {
+    $('#calendarBody table').fadeOut(300, function() {
+        printCalendar(year, month);
+        $('#calendarBody table').hide().fadeIn(300);
+    });
 }
 
 function printCalendar(year, month) {

@@ -56,7 +56,7 @@
 				    </div>
 				
 				    <div id="calendarBody">
-						<table>
+						<table id="calendarTable" class="flipIn">
 						</table>
 					</div>
 				</div>

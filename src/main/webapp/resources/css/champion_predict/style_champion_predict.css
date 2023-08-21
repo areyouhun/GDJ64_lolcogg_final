@@ -185,6 +185,7 @@
     pointer-events: none;
 }
 
+.retry-btn,
 .return-btn,
 .submit-btn,
 .choice-btn {
@@ -192,6 +193,7 @@
     justify-content: center;
 }
 
+.retry-btn button,
 .return-btn button,
 .submit-btn button,
 .choice-btn button {
@@ -210,6 +212,12 @@
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.btn-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .choice-btn button:hover {
@@ -296,4 +304,13 @@
 
 .match-red-team {
     color: red;
+}
+
+.answer-text {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-family: "EF_MACHO";
+    font-size: 2rem;
+    margin: 20px 0px;
 }

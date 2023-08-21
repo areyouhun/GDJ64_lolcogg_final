@@ -70,8 +70,8 @@
                                 </c:if>
                                 <c:if test="${not empty match.msAway}">
 	                                <div class="match-team">
+                                        <span class="away-team">${match.msAway}</span>
 	                                    <img src="${path}/resources/images/logo/${match.msAway}_small.png" alt="어웨이팀">
-	                                    <span class="away-team">${match.msAway}</span>
 	                                </div>
 	                            </c:if>
                             </div>
