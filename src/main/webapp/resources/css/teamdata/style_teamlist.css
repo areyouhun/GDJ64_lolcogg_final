@@ -1,4 +1,4 @@
-img {
+.teamlist img {
     display: block;
     width: 100%;
 }
@@ -53,7 +53,7 @@ img {
 }
 
 .img-absolute {
-    width: 60%;
+    width: 60% !important;
     position: absolute;
     top: -35px;
     right: -18px;

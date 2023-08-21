@@ -31,13 +31,14 @@ import com.opencsv.exceptions.CsvException;
 
 import gg.lolco.model.service.ChampPredictService;
 import gg.lolco.model.service.CommunityService;
+import gg.lolco.model.service.MemberService;
 import gg.lolco.model.service.SchedulerService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
 public class CrawlingScheduler {
-	
+	private final MemberService memberService;
 	private final SchedulerService service;
 	private final CommunityService commuService;
 	private final ChampPredictService predictService;
@@ -51,11 +52,18 @@ public class CrawlingScheduler {
 			"Liiv SANDBOX", "LSB", "Kwangdong Freecs", "KDF");
 	
 	public CrawlingScheduler(SchedulerService service, ServletContext context
-			,CommunityService commuService, ChampPredictService predictService) {
+			,CommunityService commuService, ChampPredictService predictService, 
+			MemberService memberService) {
 		this.service = service;
 		this.context = context;
 		this.commuService = commuService;
 		this.predictService = predictService;
+		this.memberService = memberService;
+	}
+	
+	@Scheduled(cron = "0 0 0 * * ?")
+	public void updateUserStatus() {
+		memberService.updateStatus();
 	}
 	
 	@Scheduled(cron = "0 0 1 * * ?")
