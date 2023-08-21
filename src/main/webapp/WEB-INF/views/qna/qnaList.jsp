@@ -91,9 +91,7 @@
 <script>
 	$(()=>{
 		const url = location.href;
-		const urlSlice = url.slice(-7);
-		console.log(urlSlice);
-		if(urlSlice == 'qnaList'){
+		if(url.indexOf('qnaList') != -1){
 			$('.qnaAll').addClass('qnaSpan');
 			$('.qnaMy').addClass('qnaSpanNo');
 		} else {

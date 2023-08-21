@@ -23,7 +23,7 @@
 </style>
     <section>
         <div class="mainpage">
-            <img class="banner-img" src="${path}/resources/images/mainpage/LeagueofLegends_LCK_Spring2023_Playoffs_Teams_Players.jpg">
+			<img class="banner-img" src="${path}/resources/images/mainpage/LeagueofLegends_LCK_Spring2023_Playoffs_Teams_Players.jpg">
         </div>
         <div class="center-1280 background-img bgImgMatch mainpage mainHeight centerSort">
             <div class="width-1280 mainMargin">
