@@ -65,8 +65,13 @@
                         <div class="choice-btn">
                             <button>챔피언 선택</button>
                         </div>
-                        <div class="return-btn">
-                            <button>돌아가기</button>
+                        <div class="btn-area">
+                            <div class="return-btn">
+                                <button>돌아가기</button>
+                            </div>
+                            <div class="retry-btn">
+                                <button>다시하기</button>
+                            </div>
                         </div>
                         <div class="champion-area"></div>
                     </div>
@@ -83,29 +88,18 @@
 <script>
     $(function() {
         $('.return-btn').hide();
-
-        function sendPost(url, params) {
-            const $FORM = $('<form>').attr({
-                method: 'post',
-                action: url
-            }).appendTo('body');
-            
-            $.each(params, function(key, value) {
-                $('<input>').attr({
-                    type: 'hidden',
-                    name: key,
-                    value: value
-                }).appendTo($FORM);
-            });
-            $FORM.submit();
-        }
-
+        $('.retry-btn').hide();
 
         $('.return-btn button').click(function() {
-            location.href = '${path}/champion_predict/predict_home';
+            location.replace('${path}/champion_predict/predict_home');
+        });
+
+        $('.retry-btn button').click(function() {
+            location.replace('${path}/champion_predict/predict_experience');
         });
 
         let banpickArray = [];
+        let answerArray;
 
         $.get('${champInfoPath}')
             .then((data) => {
@@ -130,7 +124,16 @@
                     korName: value.name
                 }));
 
+                const RANDOM_CHAMP_ARR = shuffleArray(CHAMP_NAME_ARR).slice(0, 10);
+
                 CHAMP_NAME_ARR.sort((a, b) => a.korName.localeCompare(b.korName));
+
+                const NO_BAN_DIV = $('<div>').addClass('champions no-ban-champ').attr('champion', ' ');
+                const NO_BAN_IMG = $('<img>').addClass('champion-img').attr('src', '${path}/resources/images/champion_predict/ban-img.png');
+                    
+                NO_BAN_DIV.append(NO_BAN_IMG).append('노 밴');
+
+                $('.champion-area').append(NO_BAN_DIV);
 
                 for(let name of CHAMP_NAME_ARR) {
                     const $DIV = $('<div>').addClass('champions').attr('champion', name.engName);
@@ -139,42 +142,59 @@
                     $('.champion-area').append($DIV);
                 }
 
+                let choiceChampion;
+
                 $('.champions').on('click', function(e) {
                     $('.champions').removeClass('choice');
                     $(this).addClass('choice');
+                    choiceChampion = $(this)
                 });
 
                 let timer = 30;
                 let currentTeam = 'blue';
-
                 let intervalTimer = setInterval(() => {
                     if(timer > 0) {
                         $('#timer').text(timer--);
-                        
-                        $('.choice-btn').on('click', function(e) {
-                            const CHAMPION = $('.choice');
-
-                            championVoice(CHAMPION.text());
-
-                            timer = 30;
-                            let slots;
-
-                            if(CHAMPION.length) {
-                                CHAMPION.addClass('select');
-
-                                if(currentTeam === 'blue') {
-                                    slots = $('.blue-player:not(.selected)').first();
-                                    currentTeam = 'red';
-                                }else {
-                                    slots = $('.red-player:not(.selected)').last();
-                                    currentTeam = 'blue';
-                                }
-                                banpickRender(slots, CHAMPION.text(), CHAMPION.attr('champion'))
-                                $('.champions').removeClass('choice');
-                            }
-                        });
                     }else {
                         timer = 30;
+                    }
+
+                    if($('.selected').length === 10) {
+                        clearInterval(intervalTimer);
+                        $('.choice-btn').hide();
+                        $('.return-btn').show();
+                        $('.retry-btn').show();
+                        let selectArr = $('.select');
+
+                        for(let banpick of selectArr) {
+                            banpickArray.push(banpick.getAttribute('champion'));
+                        }
+
+                        answerArray = RANDOM_CHAMP_ARR.filter((x) => banpickArray.includes(x.engName));
+
+                        $('.champion-area').empty();
+                        $('#timer').text('맞춘 챔피언 수 : ' + answerArray.length);
+                        $('.champion-area').before($('<div>').addClass('answer-text').text('정답'));
+
+                        for(let answer of RANDOM_CHAMP_ARR) {
+                            const $DIV = $('<div>').addClass('champions').attr('champion', answer.engName);
+                            const $IMG = $('<img>').addClass('champion-img').attr('src', '${champImgPath}' + answer.engName + '.png');
+                            $DIV.append($IMG).append(answer.korName);
+                            $('.champion-area').append($DIV);
+                        }
+                    }
+                }, 1000);
+
+                $('.choice-btn').on('click', function(e) {
+                    const CHAMPION = $('.choice');
+
+                    timer = 30;
+                    let slots;
+
+                    championVoice(CHAMPION.text());
+
+                    if(CHAMPION.length) {
+                        CHAMPION.addClass('select');
 
                         if(currentTeam === 'blue') {
                             slots = $('.blue-player:not(.selected)').first();
@@ -184,22 +204,28 @@
                             currentTeam = 'blue';
                         }
 
-                        noBanpickRender(slots);
+                        if(CHAMPION.text() === '노 밴') {
+                            noBanpickRender(slots);
+                            return;
+                        }
+
+                        banpickRender(slots, CHAMPION.text(), CHAMPION.attr('champion'))
                         $('.champions').removeClass('choice');
                     }
+                });
 
-                    if($('.selected').length === 10) {
-                        clearInterval(intervalTimer);
-                        $('.choice-btn').hide();
-                        $('.return-btn').show();
-                        $('#timer').text('종료');
-                        let selectArr = $('.select');
-
-                        for(let banpick of selectArr) {
-                            banpickArray.push(banpick.getAttribute('champion'));
-                        }
+                if(timer === 1) {
+                    if(currentTeam === 'blue') {
+                        slots = $('.blue-player:not(.selected)').first();
+                        currentTeam = 'red';
+                    }else {
+                        slots = $('.red-player:not(.selected)').last();
+                        currentTeam = 'blue';
                     }
-                }, 1000);
+
+                    noBanpickRender(slots);
+                    $('.champions').removeClass('choice');
+                }
             });
     });
 
@@ -208,6 +234,14 @@
         bgm.volume = 0.75;
         bgm.play();
         bgm.loop = true;
+    }
+
+    function shuffleArray(array) {
+        for(let i=array.length-1; i>0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
     function championVoice(name) {
@@ -252,6 +286,7 @@
                 'margin-top':'50px'
             }));
 
+        $('.no-ban-champ').removeClass('select');
         slots.addClass('selected').append($DIV);
     }
 </script>
